@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop" 
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+            http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
+            http://www.springframework.org/schema/aop 
+            http://www.springframework.org/schema/aop/spring-aop-4.1.xsd">
+    
+    <bean id="spvcontrollerManager" class="com.jacada.jad.supervisor.model.DefaultSupervisorManager" scope="session" lazy-init="true">
+		<aop:scoped-proxy/>
+		<property name="spvController"  ref="spvController"/> 
+		<property name="usersManager"  ref="usersManager"/> 
+		<property name="taskManager" ref="taskManager"/>
+		<property name="chatManager" ref="contactListManager"/>
+		<property name="sessionManager" ref="sessionManagerAdmin"></property>
+		<property name="groupsFilter" ref="groupsFilter"></property>
+	</bean>
+	<bean id="spvController" class="com.jacada.jad.supervisor.dao.JpaSpvControllerDao" scope="singleton">
+		<property name="usersManager"  ref="usersManager"/>
+		<property name="settingsDao" ref="settingsDao" />
+	</bean>
+  	<bean id="supervisorManager" class="SYSTEM.global.managers.SupervisedAgentManager" scope="session" lazy-init="true" init-method="init">
+		<aop:scoped-proxy/>
+		<property name="ctiManager" ref="ctiManager"/>
+		<property name="spvControllerDao"  ref="spvController"/> 
+		<property name="usersManager"  ref="usersManager"/>
+		<property name="featuresManager" ref="featuresManager"></property>
+	</bean>
+	<bean id="groupsFilter" class="USER.rap.filter.DefaultGroupsFilter" />
+</beans>       

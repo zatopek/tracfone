@@ -1,0 +1,84 @@
+<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+<%@ taglib uri="http://www.jacada.com/taglibs/jacada" prefix="jacada"%>
+<%@ page import="com.jacada.jad.featuresManager.FeaturesManager"%>
+<%@ page import="com.jacada.jad.featuresManager.FeatureName"%>
+<%@page import="org.springframework.web.context.support.WebApplicationContextUtils"%>
+<%@page import="org.springframework.web.context.WebApplicationContext"%>
+<%@ page import="com.jacada.jad.rap.provider.Authorization"%>
+<%@ page import="com.jacada.jad.rap.entities.RAPConstants.Privileges"%>
+<%
+	ServletContext servletContext = session.getServletContext();
+	WebApplicationContext context = WebApplicationContextUtils .getWebApplicationContext(servletContext);
+	FeaturesManager featureManager = (FeaturesManager) context.getBean("featuresManager");
+	Authorization authorization = (Authorization)context.getBean(Authorization.AUTHORIZATION_BEAN);
+	//including timeline only when enabled
+  	if (featureManager.isEnabled(FeatureName.Timeline)&& authorization.isPrivileged(Privileges.TimelineFeature.getPrivilege())) { %>
+
+	<script>
+      Timeline_ajax_url="${pageContext.request.contextPath}/SYSTEM/resources/js/simile-timeline-2.3.1/timeline_ajax/simile-ajax-api.js";
+      Timeline_urlPrefix="${pageContext.request.contextPath}/SYSTEM/resources/js/simile-timeline-2.3.1/timeline_js/";       
+      Timeline_parameters='bundle=true';
+    </script>
+    <script src="${pageContext.request.contextPath}/SYSTEM/resources/js/simile-timeline-2.3.1/timeline_js/timeline-api.js"    
+      type="text/javascript">
+    </script>
+     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/SYSTEM/resources/css/timeline.css" />
+  
+    <script type="text/javascript" src="<%=request.getContextPath()%>/SYSTEM/resources/js/jad.js"></script> 
+     <script type="text/javascript" src="<%=request.getContextPath()%>/SYSTEM/resources/js/prototype.js"></script>
+      <script language="JavaScript" type="text/javascript" src="<%=request.getContextPath()%>/SYSTEM/resources/js/timelineAPI.js"></script>
+      <script language="JavaScript" type="text/javascript" src="<%=request.getContextPath()%>/SYSTEM/resources/js/timelineManager.js"></script>    
+     
+  	<script type="text/javascript">
+	// Override the method SimileAjax.Graphics.createMessageBubble
+	// because of security warning when running in SSL mode in IE7.
+	// Similie has an open ticket about this issue (TIMELINE-52).
+	SimileAjax.Graphics.createMessageBubble=function(H){var G=H.createElement("div");
+		// Set the url to the default value
+		var prefix = SimileAjax.urlPrefix;
+		// For IE7 only - change the url prefix to absolute
+		if(SimileAjax.Platform.browser.isIE &&  SimileAjax.Platform.browser.majorVersion >= 7) {
+			prefix = document.location.protocol + "//" + document.location.hostname + SimileAjax.urlPrefix;
+		} 
+
+		// same code as the original from here, but using the prefix that was calculated above:
+		if(SimileAjax.Graphics.pngIsTranslucent){var I=H.createElement("div");
+		I.style.height="33px";
+		I.style.background="url("+prefix+"images/message-top-left.png) top left no-repeat";
+		I.style.paddingLeft="44px";
+		G.appendChild(I);
+		var C=H.createElement("div");
+		C.style.height="33px";
+		C.style.background="url("+prefix+"images/message-top-right.png) top right no-repeat";
+		I.appendChild(C);
+		var F=H.createElement("div");
+		F.style.background="url("+prefix+"images/message-left.png) top left repeat-y";
+		F.style.paddingLeft="44px";
+		G.appendChild(F);
+		var A=H.createElement("div");
+		A.style.background="url("+prefix+"images/message-right.png) top right repeat-y";
+		A.style.paddingRight="44px";
+		F.appendChild(A);
+		var D=H.createElement("div");
+		A.appendChild(D);
+		var B=H.createElement("div");
+		B.style.height="55px";
+		B.style.background="url("+prefix+"images/message-bottom-left.png) bottom left no-repeat";
+		B.style.paddingLeft="44px";
+		G.appendChild(B);
+		var E=H.createElement("div");
+		E.style.height="55px";
+		E.style.background="url("+prefix+"images/message-bottom-right.png) bottom right no-repeat";
+		B.appendChild(E);
+		}else{G.style.border="2px solid #7777AA";
+		G.style.padding="20px";
+		G.style.background="white";
+		SimileAjax.Graphics.setOpacity(G,90);
+		var D=H.createElement("div");
+		G.appendChild(D);
+		}return{containerDiv:G,contentDiv:D};
+	};
+	
+	</script>
+     
+<% } %>

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"  
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+        xmlns:tx="http://www.springframework.org/schema/tx"
+        xmlns:aop="http://www.springframework.org/schema/aop"
+        xsi:schemaLocation="http://www.springframework.org/schema/beans    
+        http://www.springframework.org/schema/beans/spring-beans.xsd    
+        http://www.springframework.org/schema/tx    
+        http://www.springframework.org/schema/tx/spring-tx.xsd 
+		http://www.springframework.org/schema/aop 
+		http://www.springframework.org/schema/aop/spring-aop-4.1.xsd">
+          
+    <bean id="historyProvider" class="com.jacada.jad.im.dao.InstantMesssgingHistotyDAOImpl" lazy-init="true"/>
+    
+    <bean id="historyManager" class="com.jacada.jad.im.web.MessageHistoryManager" scope="session" lazy-init="true">
+    	<aop:scoped-proxy/>
+    	<property name="historyDAO" ref="historyProvider"/>
+    	<property name="imsessionComparators" ref="IMSessionComparators"></property>
+    </bean>
+    
+    <bean id="imHistoryAuditingHelper" class="com.jacada.jad.im.web.HistoryAuditingHelper" scope="session" lazy-init="true">
+		<aop:scoped-proxy/>
+	    <property name="auditingManager" ref="auditingManager"/>
+	    <property name="configuration" ref="auditingConfiguration"/>
+    </bean>          
+
+    <bean id="instantMessagingDAO" class="com.jacada.jad.im.dao.InstantMessagingDAOImpl" lazy-init="true"/>
+
+    <bean id="contactListManager" init-method="init" destroy-method="destroy" class="com.jacada.jad.im.web.ContactListManager" scope="session" lazy-init="true">
+		<aop:scoped-proxy/>
+        <property name="IMContactListProvider" ref="IMContactListProvider" />
+        <property name="agentInformation" ref="agentInformation" />    
+        <property name="ctiManager" ref="ctiManager" />   
+        <property name="auditingHelper" ref="imHistoryAuditingHelper" /> 
+        <property name="sessionsInformationHolder" ref="sessionsInformationHolder"></property>
+        <property name="projectId" ref="projectId"></property>
+        <property name="sessionManager" ref="sessionManagerAdmin"></property>
+        <property name="expertsInfoProvider" ref="expertsInfoProvider"></property>
+        <property name="supersInfoProvider" ref="usersManager"></property>
+        <property name="peersInfoProvider" ref="peersInfoProvider"></property>
+    </bean>   
+    
+    <bean id="IMSessionComparators" class="com.jacada.spring.types.MapWrapper" scope="session" lazy-init="true">
+		<aop:scoped-proxy />
+		<property name="content">
+			<map>
+				<entry key="initiator" value-ref="initiatorComparator"/>					
+				<entry key="recipient" value-ref="recipientComparator" />
+				<entry key="startDate" value-ref="startDateComparator"/>
+				<entry key="length" value-ref="lengthComparator"/>
+			</map>
+		</property>
+	</bean>
+	
+	<bean id="initiatorComparator" class="com.jacada.jad.im.web.sort.IMSessionInitiatorComparator" scope="session" lazy-init="true">
+		<aop:scoped-proxy />
+		<property name="dir" value="ASC" />
+	</bean>
+	
+	<bean id="recipientComparator" class="com.jacada.jad.im.web.sort.IMSessionRecipientComparator" scope="session" lazy-init="true">
+		<aop:scoped-proxy />
+		<property name="dir" value="ASC" />
+	</bean>
+	
+	<bean id="startDateComparator" class="com.jacada.jad.im.web.sort.IMSessionStartDateComparator" scope="session" lazy-init="true">
+		<aop:scoped-proxy />
+		<property name="dir" value="ASC" />
+	</bean>
+	
+	<bean id="lengthComparator" class="com.jacada.jad.im.web.sort.IMSessionLengthComparator" scope="session" lazy-init="true">
+		<aop:scoped-proxy />
+		<property name="dir" value="ASC" />
+	</bean>
+</beans>  

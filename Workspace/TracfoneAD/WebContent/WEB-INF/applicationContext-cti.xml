@@ -1,0 +1,336 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop" xsi:schemaLocation=" http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.1.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.1.xsd">
+
+
+	<bean id="ctiManager" class="SYSTEM.global.managers.CTIManager" scope="session" lazy-init="true">
+		<aop:scoped-proxy/>
+		<property name="sessionInformation" ref="sessionInformation"/>
+		<property name="agentInformation" ref="agentInformation"/>
+		<property name="openMediaInformation" ref="openMediaInformation"/>
+		<property name="voiceInformation" ref="voiceInformation"/>
+		<property name="scriptInformation" ref="scriptInformation"/>
+		<property name="voiceOperationProxy" ref="voiceOperationProxy"/>
+		<property name="openMediaOperationProxy" ref="openMediaOperationProxy"/>
+		<property name="mediaOperationProxy" ref="mediaOperationProxy"/>
+		<property name="ctiBehaviorHandler" ref="ctiBehaviorHandler"/>
+		<property name="ctiNotificationManager" ref="ctiNotificationManager"/>
+		<property name="dialListManager" ref="dialListManager"/>
+		<property name="ctiEventHandler" ref="ctiEventHandler"/>
+			
+		<property name="callTimers" ref="callTimers"/>	
+		<property name="urlParameters" ref="urlParameters" />
+		<property name="dba" ref="dba" />
+		<property name="gatewayProviderWrapper" ref="spi-CTIGateway" />
+			
+		<property name="slaBehavior" ref="SLABehavior"/>
+		<property name="urlCalculator" ref="urlCalculator" />
+		<property name="serviceLocator" ref="serviceLocator" />
+		<!-- 
+		<property name="smtEngine" ref="smtRecordingEngine" />
+		 -->
+	</bean>
+
+	<!-- exposed cti service - to be used by ctigateway -->
+	<alias name="ctiManager" alias="CTISessionVoiceServices"/>
+	<alias name="ctiManager" alias="com.jacada.jad.services.interfaces.cti.ICTISessionVoiceServices"/>
+
+	<bean id="scriptManager" class="SYSTEM.global.managers.ScriptManager" scope="session" lazy-init="true">
+		<aop:scoped-proxy/>
+		<property name="sessionInformation" ref="sessionInformation"/>
+		<property name="agentInformation" ref="agentInformation"/>
+		<property name="voiceInformation" ref="voiceInformation"/>
+		<property name="scriptInformation" ref="scriptInformation"/>
+		<property name="callScriptBehaviorHandler" ref="callScriptBehaviorHandler"/>
+		<property name="jimWorkflowManager" ref="jimWorkflowManager"/>
+		<property name="ctiNotificationManager" ref="ctiNotificationManager"/>
+
+	<property name="sessionIdProvider" ref="sessionIdProvider" />
+		<property name="urlParameters" ref="urlParameters" />
+
+	</bean>
+
+
+	<bean id="sessionInformation" class="com.jacada.jad.cti.agent.SessionInformation" scope="session" lazy-init="true">		
+		<aop:scoped-proxy/>
+		<property name="urlCalculator" ref="urlCalculator"/>
+	</bean>
+
+	<bean id="voiceInformation" class="com.jacada.jad.cti.agent.VoiceInformation" scope="session" lazy-init="true">
+		<aop:scoped-proxy/>
+		<property name="sessionInformation">
+			<ref bean="sessionInformation"/>
+		</property>
+		
+	</bean>
+	<bean id="openMediaInformation" class="com.jacada.jad.cti.agent.OpenMediaInformation" scope="session" lazy-init="true">
+		<aop:scoped-proxy/>
+		<property name="sessionInformation">
+			<ref bean="sessionInformation"/>
+		
+		
+		</property>
+		<property name="customItemHandler">
+			<ref bean="customItemHandler"/>
+		</property>
+	</bean>
+
+	<bean id="scriptInformation" class="com.jacada.jad.cti.agent.ScriptInformation" scope="session" lazy-init="true">
+		<aop:scoped-proxy/>
+	</bean>
+	
+	<bean id="callScriptBehaviorHandler" class="USER.global.managers.CallScriptBehaviorHandler" scope="session" lazy-init="false" init-method="addNotifications">
+		<aop:scoped-proxy/>
+		<property name="sessionInformation" ref="sessionInformation"/>
+		<property name="ctiNotificationManager" ref="ctiNotificationManager"/>
+	</bean>
+
+	<bean id="agentInformation" class="com.jacada.jad.cti.agent.AgentInformation" scope="session" lazy-init="true">
+		<aop:scoped-proxy/>
+		<property name="sessionInformation">
+			<ref bean="sessionInformation"/>
+		</property>
+		<property name="uiManager">
+			<ref bean="uiManager"/>
+		</property>
+		<property name="busyReasonCodeDao">
+			<ref bean="busyReasonCodeDao" />
+		</property>
+		<property name="dialListNumberDao">
+			<ref bean="dialListNumberDao"/>
+		</property>
+		<property name="ctiBehaviorHandler" ref="ctiBehaviorHandler"/>
+		<property name="authorization" ref="authorization"/>
+	</bean>
+
+	<bean id="dialListNumberDao" class="com.jacada.jad.cti.dao.impl.DialListNumberDaoJPAImpl"></bean>
+	
+	<bean id="uiManager" class="com.jacada.jad.cti.client.UIManager" scope="session" lazy-init="true">
+		<aop:scoped-proxy/>
+		<property name="sessionInformation">
+			<ref bean="sessionInformation"/>
+		</property>
+		<property name="agentInformation">
+			<ref bean="agentInformation"/>
+		</property>
+		<property name="voiceOperationProxy" ref="voiceOperationProxy">
+		</property>
+		<property name="openMediaInformation" ref="openMediaInformation">
+		</property>
+		<property name="voiceInformation" ref="voiceInformation"/>
+		<property name="openMediaOperationProxy" ref="openMediaOperationProxy">
+		</property>
+
+	</bean>
+
+
+	<bean id="VoiceCommandDispatcher" class="com.jacada.jad.cti.command.VoiceCommandDispatcher" scope="session" lazy-init="true">
+		<property name="sessionInformation" ref="sessionInformation"/><aop:scoped-proxy/>
+		<property name="agentInformation" ref="agentInformation"/>
+		<property name="voiceInformation" ref="voiceInformation"/>
+		
+		<property name="ctiNotificationManager" ref="ctiNotificationManager"/>		
+			
+		<property name="ctiEventTimerMgr" ref="ctiEventTimerMgr"/>		
+			
+
+	</bean>
+
+	<bean id="OpenMediaCommandDispatcher" class="com.jacada.jad.cti.command.OpenMediaCommandDispatcher" scope="session" lazy-init="true">
+		<property name="sessionInformation" ref="sessionInformation"/><aop:scoped-proxy/>
+		<property name="agentInformation" ref="agentInformation"/>
+		<property name="voiceInformation" ref="voiceInformation"/>
+		
+		<property name="ctiNotificationManager" ref="ctiNotificationManager"/>		
+			
+		<property name="ctiEventTimerMgr" ref="ctiEventTimerMgr"/>	
+
+	</bean>
+	<bean id="voiceOperationProxy" class="com.jacada.jad.cti.agent.VoiceOperationProxy" scope="session" lazy-init="true">
+        <aop:scoped-proxy/>
+        <!-- init-method=&quot;init&quot; - was replaced by calls to this method in the code -->
+		
+		<property name="agentInformation" ref="agentInformation"/>
+		<property name="sessionInformation" ref="sessionInformation"/>
+		<property name="voiceInformation" ref="voiceInformation"/>
+		<property name="ctiBehaviorHandler" ref="ctiBehaviorHandler"/>
+		<property name="ctiNotificationManager" ref="ctiNotificationManager">
+		</property>
+		<property name="commandDispatcher" ref="VoiceCommandDispatcher">
+		</property>
+		<property name="openMediaInformation" ref="openMediaInformation">
+		</property>
+		<property name="ctiEventTimerMgr" ref="ctiEventTimerMgr"/>
+		<property name="externalService" ref="externalServiceForCti"/>
+		<property name="modifyCTIBehaviorFactory" ref="modifyCTIBehaviorFactory"/>
+		<!--  
+			&lt;property name=&quot;stateMachine&quot; ref=&quot;manualStateMachine&quot;&gt;&lt;/property&gt;
+			&lt;property name=&quot;stateMachineHeirarchy&quot;
+			ref=&quot;manualStateMachineHeirarchy&quot;&gt;
+			&lt;/property&gt;
+		-->
+
+	</bean>
+	<!--  
+		&lt;bean id=&quot;manualStateMachine&quot;
+		class=&quot;com.jacada.jad.cti.voice.state.manual.StateMachine&quot;
+		scope=&quot;session&quot;&gt;
+		&lt;aop:scoped-proxy /&gt;
+		&lt;property name=&quot;voiceInformation&quot; ref=&quot;voiceInformation&quot;&gt;&lt;/property&gt;
+		&lt;property name=&quot;agentInformation&quot; ref=&quot;agentInformation&quot;&gt;&lt;/property&gt;
+		&lt;property name=&quot;sessionInformation&quot; ref=&quot;sessionInformation&quot;&gt;&lt;/property&gt;
+		&lt;property name=&quot;operationProxy&quot; ref=&quot;voiceOperationProxy&quot;&gt;&lt;/property&gt;
+		&lt;property name=&quot;ctiBehaviorHandler&quot;
+		ref=&quot;ctiBehaviorHandler&quot;&gt;
+		&lt;/property&gt;
+		&lt;property name=&quot;openMediaInformation&quot;
+		ref=&quot;openMediaInformation&quot;&gt;
+		&lt;/property&gt;
+		&lt;property name=&quot;partyManager&quot; ref=&quot;partyManager&quot;&gt;&lt;/property&gt;
+		
+		&lt;/bean&gt;
+	-->
+	<!-- 
+		&lt;bean id=&quot;partyManager&quot;
+		class=&quot;com.jacada.jad.cti.party.PartyManager&quot; scope=&quot;session&quot;&gt;
+		&lt;aop:scoped-proxy /&gt;
+		&lt;property name=&quot;stateMachine&quot; ref=&quot;manualStateMachine&quot;&gt;&lt;/property&gt;
+		&lt;/bean&gt;
+	-->
+
+
+	<!-- 
+		&lt;bean id=&quot;manualStateMachineHeirarchy&quot;
+		class=&quot;com.jacada.jad.cti.voice.state.manual.StateMachineHeirarchy&quot;
+		scope=&quot;session&quot;&gt;
+		&lt;aop:scoped-proxy /&gt;
+		&lt;/bean&gt;
+	-->
+
+	<bean id="openMediaOperationProxy" class="com.jacada.jad.cti.agent.OpenMediaOperationProxy" scope="session" lazy-init="true">
+		<aop:scoped-proxy/>
+
+		<property name="agentInformation" ref="agentInformation"/>
+		<property name="sessionInformation" ref="sessionInformation"/>
+		<property name="voiceInformation" ref="voiceInformation"/>
+		<property name="ctiNotificationManager" ref="ctiNotificationManager">
+		</property>
+		<property name="openMediaInformation" ref="openMediaInformation">
+		</property>
+		<property name="commandDispatcher" ref="OpenMediaCommandDispatcher">
+		</property>
+		<property name="ctiBehaviorHandler" ref="ctiBehaviorHandler"/>
+		<property name="ctiEventTimerMgr" ref="ctiEventTimerMgr"/>
+	</bean>
+	
+	<bean id="mediaOperationProxy" class="com.jacada.jad.cti.media.DefaultMediaOperationProxy" scope="session" lazy-init="true">
+		<aop:scoped-proxy/>
+		<property name="agentInformation" ref="agentInformation"/>
+		<property name="sessionInformation" ref="sessionInformation"/>
+		<property name="ctiNotificationManager" ref="ctiNotificationManager"/>
+		<property name="commandDispatcher" ref="mediaCommandDispatcher"/>
+		<property name="ctiBehaviorHandler" ref="ctiBehaviorHandler"/>
+		<property name="ctiEventTimerMgr" ref="ctiEventTimerMgr"/>
+		<property name="processContainer" ref="processContainer"/>
+		<property name="mediaStateModel" ref="mediaStateModel"/>
+        <property name="destroyedAction" ref="destroyMediaStateMultiAction"/>
+	</bean>
+	<bean id="mediaCommandDispatcher" class="com.jacada.jad.cti.command.DefaultMediaCommandDispatcher" scope="session" lazy-init="true">
+		<property name="sessionInformation" ref="sessionInformation"/><aop:scoped-proxy/>
+		<property name="agentInformation" ref="agentInformation"/>
+		<property name="voiceInformation" ref="voiceInformation"/>
+		
+		<property name="ctiNotificationManager" ref="ctiNotificationManager"/>		
+			
+		<property name="ctiEventTimerMgr" ref="ctiEventTimerMgr"/>	
+
+	</bean>
+	<bean id="mediaControllerLogic" class="USER.media.UserMediaControllerLogic" scope="singleton">
+		<property name="mediaOperationProxy" ref="mediaOperationProxy"/>
+		<property name="voiceCommandDispatcher" ref="VoiceCommandDispatcher"/>
+	</bean>
+
+	<bean id="ctiBehaviorHandler" class="USER.global.managers.CTIBehaviorHandler" scope="session"
+			init-method="init" lazy-init="true">
+        <aop:scoped-proxy/>
+        <property name="voiceInformation" ref="voiceInformation"/>
+		<property name="sessionInformation" ref="sessionInformation"/>
+		<property name="agentInformation" ref="agentInformation"/>
+		<property name="ctiNotificationManager" ref="ctiNotificationManager"/>
+		<property name="openMediaInformation" ref="openMediaInformation"/>
+		<property name="slaBehavior" ref="SLABehavior"/>
+		<property name="callScopeListener" ref="callScopeListener"/>
+		<property name="voiceOperationProxy" ref="voiceOperationProxy"/>
+	</bean>
+
+	<bean id="ctiNotificationManager" class="com.jacada.jad.cti.CTINotificationManager" scope="session" lazy-init="true">
+		<aop:scoped-proxy/>
+	</bean>
+
+	<bean id="ctiEventHandler" class="com.jacada.jad.cti.events.CTIEventHandler" scope="session" lazy-init="true">
+        <aop:scoped-proxy/>
+        <property name="voiceOperationProxy" ref="voiceOperationProxy"/>
+		<property name="openMediaOperationProxy" ref="openMediaOperationProxy"/>
+		<property name="openMediaInformation" ref="openMediaInformation"/>
+		<property name="mediaOperationProxy" ref="mediaOperationProxy"/>
+	</bean>
+	<alias name="ctiEventHandler" alias="com.jacada.jad.cti.events.CTIEventHandler"/>
+	<alias name="ctiEventHandler" alias="com.jacada.jad.services.interfaces.cti.gateway.ICTIEventCBHandler"/>
+
+	<bean id="ctiEventTimerMgr" class="com.jacada.jad.cti.event.EventTimerManager" scope="session" lazy-init="true">
+		<property name="voiceOperationProxy" ref="voiceOperationProxy"/>
+		<property name="openMediaOperationProxy" ref="openMediaOperationProxy"/>
+		<!-- 
+		&lt;property name=&quot;timer&quot; ref=&quot;ctiEventTimer&quot;&gt;&lt;/property&gt;
+		 -->
+	<aop:scoped-proxy/>  	
+	</bean>
+	<bean id="callTimers" class="SYSTEM.global.managers.CTIVoiceTimersInformation" scope="session" lazy-init="true">
+	    <aop:scoped-proxy/>	
+		
+	</bean>
+	<bean id="ctiEventTimer" class="java.util.Timer" scope="prototype">
+	
+	</bean>
+	<bean id="customItemHandler" class="USER.global.managers.CustomItemHandler" scope="session" lazy-init="true">
+		<property name="ctiNotificationManager" ref="ctiNotificationManager"/>
+	</bean>
+	
+	<bean id="busyReasonCodeDao"
+		class="com.jacada.jad.cti.dao.impl.BusyReasonCodeDaoJPAImpl" >	
+	</bean>
+
+	<bean id="SLABehavior" 
+		class="USER.global.managers.CustomSLABehavior" scope="session" lazy-init="true">
+		<property name="sessionInformation">
+			<ref bean="sessionInformation" />
+		</property>
+	</bean>
+
+	<bean id="externalServiceForCti" class="com.jacada.jad.cti.ExternalServiceForCTIImpl" scope="session" lazy-init="true">
+	<aop:scoped-proxy/>  
+		<property name="desktopTransferMgr" ref="desktopTransferMgr"/>
+		<property name="smartPad" ref="smartPadManager"/>
+	</bean>
+	
+	<bean id="transferDataDao" class="com.jacada.jad.desktoptransfer.dao.impl.TransferredDataDaoJpaImpl">
+	</bean>
+
+	<bean id="desktopTransferMgr" class="com.jacada.jad.desktoptransfer.DesktopTransferManagerImpl" scope="session" lazy-init="true">
+	<aop:scoped-proxy/>  
+		<property name="transferDataDao" ref="transferDataDao"/>
+		<property name="ctiNotificationManager" ref="ctiNotificationManager"/>
+	</bean>
+	
+	<bean id="noneOperation" class="com.jacada.jad.cti.modifyCTIBehavior.modifyOperation.None" scope="session" lazy-init="true"></bean>
+	<bean id="ignoreIncomingCallOperation" class="com.jacada.jad.cti.modifyCTIBehavior.modifyOperation.IgnoreIncomingCall" scope="session" lazy-init="true"></bean>
+	
+	<bean id="modifyCTIBehaviorFactory" class="com.jacada.jad.cti.modifyCTIBehavior.ModifyCTIBehaviorFactory" scope="session" lazy-init="true">
+		<property name="operations">
+			<map>
+				<entry key="None" value-ref="noneOperation" />
+				<entry key="IgnoreIncomingCall" value-ref="ignoreIncomingCallOperation"/>
+			</map>
+		</property>
+	</bean>
+
+</beans>

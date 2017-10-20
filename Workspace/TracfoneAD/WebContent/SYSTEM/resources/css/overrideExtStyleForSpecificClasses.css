@@ -1,0 +1,5 @@
+.overrideExtjsStyling {}
+.overrideExtjsStyling strong {font-weight: bold;}
+.overrideExtjsStyling em {font-style: italic;}
+.overrideExtjsStyling ul{list-style-type:disc; margin: auto auto auto 40px;}
+.overrideExtjsStyling ol {list-style-type:decimal; margin: auto auto auto 40px;}

@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop" 
+	   xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+            http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
+            http://www.springframework.org/schema/aop 
+            http://www.springframework.org/schema/aop/spring-aop-4.1.xsd
+			http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.1.xsd">
+
+	<import resource="USER/applicationContext-search.xml" />
+	<import resource="USER/applicationContext-reporting.xml" />
+	
+	<bean id="userManagers" class="com.jacada.spring.types.MapWrapper" scope="session" lazy-init="true">
+		<aop:scoped-proxy/>
+		<property name="content">
+			<map>
+				<entry key="USER.global.managers.ExtensionManager" value-ref="extensionManager"/>
+			</map>
+		</property>		
+	</bean>
+
+	<bean id="extensionManager" class="USER.global.managers.ExtensionManager" scope="session" lazy-init="true">
+		<aop:scoped-proxy/>
+		<property name="dispositionManager" ref="dispositionManager"></property>
+		<property name="dispositionEventListener" ref="callReasonDipositionEventListener"></property>
+		
+	</bean>
+	
+	<bean id="extendedSystemManagers" class="com.jacada.spring.types.MapWrapper" scope="session" lazy-init="true">
+		<aop:scoped-proxy/>
+		<property name="content">
+			<map>		
+			</map>
+		</property>
+	</bean>
+	
+	<!-- Auditing - add project level auditors here -->
+	<bean id="auditors" class="com.jacada.spring.types.MapWrapper" lazy-init="true">
+		<property name="content">
+			<map>
+				<entry key="DBAuditor" value-ref="dbAuditor"/>							
+			</map>
+		</property>		
+	</bean>
+	
+	<!-- IM - extend XMPP client provider logic here -->
+	<bean id="IMContactListProvider" class="com.jacada.jad.im.xmpp.XMPPClientProvider" scope="session" lazy-init="true" init-method="init" destroy-method="destroy">
+		<aop:scoped-proxy/>
+        <property name="instantMessagingDAO" ref="instantMessagingDAO"/>
+        <property name="searchServiceName" value="search"/>
+        <property name="packetReplyTimout" value="10000"/>
+        <property name="rapDao" ref="rapDao"/>
+        <property name="expertsInfoProvider" ref="expertsInfoProvider"/>
+    </bean>
+    
+    <bean id="managedSession" class="com.jacada.session.jad.WorkspaceManagedSessionImpl" scope="session" lazy-init="true" init-method="init">
+		<property name="sessionManager" ref="sessionManager"/>
+		<property name="sessions" ref="sessionsInformationHolder"/> 
+		<property name="dba" ref="dba"/>
+		<property name="ctiManager" ref="ctiManager"/>
+        <property name="serviceLocator" ref="noCallbackServiceLocator"/>
+        <property name="commandExecutors">
+        	<map>	
+			</map>
+        </property>	
+        <property name="groupsProvider" ref="groupsProvider"/>
+	</bean>
+	
+	<!-- cti bean for holding the CTIControllerLogic, can be changed to hold user&apos;s CTIControllerLogic implementation -->
+	<bean id="ctiControllerLogic" class="SYSTEM.portlets.CTI.DefaultCTIControllerLogic" scope="session" lazy-init="true">
+        <aop:scoped-proxy/>
+        <property name="globalAppHandler" ref="globalAppHandler"/>
+        <property name="scriptHandler" ref="callScriptBehaviorHandler"/>
+        <property name="dialListManager" ref="dialListManager"/>
+        <property name="ctiManager" ref="ctiManager"/>
+    </bean>
+
+    <!--
+        User&apos;s scheduller. Define your jobs and triggers and register them here
+    -->
+    <bean id="scheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean" parent="systemScheduler">
+        <property name="jobDetails">
+            <list merge="true">
+                <!--&lt;ref bean=&quot;sampleJobDetails&quot;/&gt;-->
+            </list>
+        </property>
+        <property name="triggers">
+            <list merge="true">
+                <!--&lt;ref bean=&quot;sampleTrigger&quot;/&gt;-->
+            </list>
+        </property>
+        <property name="globalJobListeners">
+            <list merge="true">
+
+            </list>
+        </property>
+        <property name="globalTriggerListeners">
+            <list merge="true">
+
+            </list>
+        </property>
+        <property name="schedulerListeners">
+            <list merge="true">
+
+            </list>
+        </property>
+    </bean>
+	<!-- bpm bean for holding the bpm logic, can be changed to hold user&apos;s BPMConnector implementation 
+	keep in mind this is in singleton scope so if you need to add logic, make sure it is aware of the singelton scope-->
+	<bean id="bpmConnector" class="USER.services.bpm.BPMConnectorImpl" scope="singleton">
+	</bean>
+	
+	<!-- bpm bean for holding the bpm task data, can be changed to hold user&apos;s BPMTask implementation -->
+	<bean id="BPMTaskBean" class="USER.services.bpm.BPMTaskImpl" scope="prototype">
+		<property name="agentInfo" ref="agentInformation"/>
+	</bean>
+	
+	<!-- Task Manager beans -->
+	<bean id="taskAuditHandler" class="USER.taskmanager.TaskAuditHandler" />
+	<bean id="teamMembersProvider" class="USER.taskmanager.DefaultTeamMembersProvider">
+		<property name="usersManager" ref="usersManager"/>
+		<property name="groupsFilter" ref="groupsFilter"></property>
+	</bean>
+	
+</beans>

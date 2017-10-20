@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop" 
+	   xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+            http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
+            http://www.springframework.org/schema/aop 
+            http://www.springframework.org/schema/aop/spring-aop-4.1.xsd
+			http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.1.xsd">
+
+ 		
+ 		
+ 			
+	<!-- 
+	List of all available reports.
+	The list holds references to implementations of the JasperReportDetails interface.
+	To add additional reports, implement JasperReportDetails, and add a reference to it in this list.
+	-->
+	<util:list id="reports" list-class="java.util.ArrayList" value-type="com.jacada.jad.reporting.jasper.interfaces.JasperReportDetailsProvider"> 
+		<ref bean="interactionsReportDetailsProvider"/>
+		<ref bean="tabsReportDetailsProvider"/>
+	</util:list>
+		
+ 			
+ 	
+ 	<!-- 
+ 		Interactions Report.
+ 		Bean definition of the JasperReportDetials implementation for the Interaction Statistics report.
+ 		The following properties are configurable:
+ 		1. Title - it's recommended to change the title by changing the value of the localization key in the resource bundle properties file.
+ 		2. Display Name - the display name of the report in the client side.  It's recommended to change the value in the resource bundle properties file.
+ 		3. Logo path - change the path t othe logo image embedded in the report. The path should be to a resource in the project's classpath.
+ 		4. Evaluators - Map of PerformanceEvalutors implementations, used to style the report and highlight poor performance and excellent performance.
+ 		                If changes are required, it's recommended to change the actual map (see below)
+ 		5. User parameters - a map of user-defined parameter to be passed to the report design.
+ 		                If changes are required, it's recommended to change the actual map (see below).
+ 		                Note: by default there is no reference to any of these parameters in the report design. 
+ 		                If you wish to use the user-defined parameters you are obliged to change the report design, which  is not recommended.
+ 		6. Do not change the urls of the mater report and sub report.                	                	
+ 	-->
+ 	<bean id="interactionsReportDetailsProvider" class="com.jacada.jad.reporting.jasper.InteractionsReportDetailsProvider" lazy-init="true" parent="groupBasedReportDetailsProvider">
+ 		<property name ="masterReportUrl" value = "/USER/resources/reporting/MasterReport.jrxml"/>
+ 		<property name="subReportsUrls">
+        	<map>	
+        		<entry key="subReport" value="/USER/resources/reporting/InteractionsReport.jrxml"></entry>
+			</map>
+        </property>
+		<property name="title" value="application.reporting.interactionsReport.title"/>
+		<property name="reportName" value="interactionsReport"/>	
+        <property name="reportDisplayName" value="application.javascript.reporting.interactionsReport.displayName"/>
+        <property name="logoPath" value="/USER/resources/themes/Jacada/images/logo_jacada.gif"/>
+        <property name="evaluators" ref="interactionsReportEvaluators"/>		
+        <property name="userParameters" ref="interactionReportUserParams"/>
+        <property name="queryExecutor" ref="interactionsQueryExecutor"/>      
+ 	</bean>
+ 	
+ 	
+ 	<!-- Evaluators map for interactions report -->
+ 	<util:map id="interactionsReportEvaluators" key-type="java.lang.String" value-type="com.jacada.jad.reporting.jasper.utils.PerformanceEvaluator">
+ 		<entry key="sla_callTime" value-ref="belowAvgEvaluator"/>
+ 		<entry key="sla_acwTime" value-ref="belowAvgEvaluator"/> 
+ 		<entry key="sla_callCount" value-ref="callCountEvaluator"/> 
+ 		<entry key="sla_transferCount" value-ref="belowAvgEvaluator"/>  
+ 	</util:map>
+ 	
+ 	
+ 	<!-- User defined parameters -->
+ 	<!--Interactions Report -->
+ 	<util:map id="interactionReportUserParams" key-type="java.lang.String" value-type="java.lang.Object"> 
+ 	</util:map>
+ 
+ 		
+ 	
+ 	<!-- 
+ 		Tabs usage Report
+ 		Bean definition of the JasperReportDetials implementation for the Tab Usage Statistics report.
+ 		The following properties are configurable:
+ 		1. Title - it's recommended to change the title by changing the value of the localization key in the resource bundle properties file.
+ 		2. Display Name - the display name of the report in the client side.  It's recommended to change the value in the resource bundle properties file.
+ 		3. Logo path - change the path to the logo image embedded in the report. The path should be to a resource in the project's classpath.
+ 		4. Evaluators - Map of PerformanceEvalutors implementations, used to style the report and highlight poor performance and excellent performance.
+ 		                If changes are required, it's recommended to change the actual map (see below)
+ 		5. User parameters - a map of user-defined parameter to be passed to the report design.
+ 		                If changes are required, it's recommended to change the actual map (see below).
+ 		                Note: by default there is no reference to any of these parameters in the report design. 
+ 		                If you wish to use the user-defined parameters you are obliged to change the report design, which  is not recommended.
+ 		6. Do not change the urls of the mater report and sub report.                	                	
+ 	-->
+ 	<bean id="tabsReportDetailsProvider" class="com.jacada.jad.reporting.jasper.TabsReportDetailsProvider" lazy-init="true" parent="groupBasedReportDetailsProvider">
+ 		<property name ="masterReportUrl" value = "/USER/resources/reporting/MasterReport.jrxml"/>
+ 		<property name="subReportsUrls">
+        	<map>	
+        		<entry key="subReport" value="/USER/resources/reporting/TabsReport.jrxml"></entry>
+			</map>
+        </property>	
+        <property name="title" value="application.reporting.tabsReport.title"/>	
+        <property name="reportName" value="tabsReport"/>	
+        <property name="reportDisplayName" value="application.javascript.reporting.tabsReport.displayName"/>
+        <property name="logoPath" value="/USER/resources/themes/Jacada/images/logo_jacada.gif"/>
+        <property name="evaluators" ref="tabsReportEvaluators"/>
+        <property name="userParameters" ref="tabsReportUserParams"/>
+        <property name="queryExecutor" ref="tabsQueryExecutor"/>  	
+ 	</bean>
+ 	
+ 	
+ 	<!-- Evaluators map for tabs report -->
+ 	<util:map id="tabsReportEvaluators" key-type="java.lang.String" value-type="com.jacada.jad.reporting.jasper.utils.PerformanceEvaluator"> 
+ 	</util:map>
+ 	
+ 	<!--  User defined parameters for the Tabs Usage Report -->
+ 	<util:map id="tabsReportUserParams" key-type="java.lang.String" value-type="java.lang.Object"> 
+ 	</util:map>
+ 	
+		
+ 	
+ 	<!--  Evaluators -->
+ 	
+ 	<bean id="aboveAvgEvaluator" class="com.jacada.jad.reporting.jasper.utils.AboveAvgPerformanceEvaluator" lazy-init="true">
+ 		 <property name="coefficient" value="0.1"/>	
+ 	</bean>
+ 	
+ 	<!-- Specific evaluator for call count, which have a higher variance  -->
+ 	<bean id="callCountEvaluator" class="com.jacada.jad.reporting.jasper.utils.AboveAvgPerformanceEvaluator" lazy-init="true">
+ 		 <property name="coefficient" value="0.5"/>	
+ 	</bean>
+ 	
+ 	<bean id="belowAvgEvaluator" class="com.jacada.jad.reporting.jasper.utils.BelowAvgPerformanceEvaluator" lazy-init="true">
+ 		 <property name="coefficient" value="0.1"/>	
+ 	</bean>
+ 	
+ 	
+ 	<!--  Default implementation of the DispositionEventListner that audits the call reason -->
+ 	<bean id="callReasonDipositionEventListener" class="com.jacada.jad.reporting.model.CallReasonDispositionEventListener" lazy-init="true" scope="session">
+ 		<property name="auditingManager" ref="auditingManager"/>
+ 		<property name="dispositionDao" ref="dispositionDao"/>
+ 	</bean>
+ 	
+	
+</beans>

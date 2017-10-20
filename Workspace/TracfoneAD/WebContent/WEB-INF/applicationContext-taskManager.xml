@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
+http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.1.xsd">
+
+ 	<bean id="taskManagerDAO" class="com.jacada.jad.taskmanager.dao.TaskManagerDAOImpl" />
+ 	
+    <bean id="taskManager" class="com.jacada.jad.taskmanager.TaskManagerImpl" init-method="init">
+	   <property name="taskManagerDAO" ref="taskManagerDAO"/>
+	   <property name="taskBecameDueHandler" ref="taskBecameDueHandler"/>
+	   <property name="globalAppHandler" ref="globalAppHandler" />
+	   <property name="ctiManager" ref="ctiManager"/>
+	   <property name="rapDao" ref="rapDao"/>
+	   <property name="localeBean" ref="LocaleBean" />
+	   <property name="bmpManager" ref="BPMService" />
+	   <property name="usersManager" ref="usersManager"/>
+	   <property name="settingsDao" ref="settingsDao"/>
+	   <property name="auditingManager" ref="applicationAuditingManager"/>
+	   <property name="taskAuditListener" ref="taskAuditHandler"/>
+	   <property name="teamMembersProvider" ref="teamMembersProvider"/>
+	</bean>
+ 	
+ 	<!-- Core implementation for the TaskBecameDueListener -->
+ 	<bean id="taskBecameDueHandler" class="com.jacada.jad.taskmanager.events.TaskBecameDueHandler">
+		<property name="taskManager" ref="taskManager" />
+	</bean>
+	
+</beans>

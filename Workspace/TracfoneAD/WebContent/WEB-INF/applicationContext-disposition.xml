@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:util="http://www.springframework.org/schema/util"	
+	xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
+http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.1.xsd">
+
+	<!--  this bean is eagerly loaded because it registers to ctinotification on startup -->
+	<bean id="dispositionManager" class="com.jacada.jad.agentDisposition.DispositionManagerImpl" scope="session" init-method="init" lazy-init="false">
+		<aop:scoped-proxy/>
+		<property name="settingsDao" ref="settingsDao" />
+		<property name="dispositionDao" ref="dispositionDao" />
+		<property name="notificationManager" ref="ctiNotificationManager" />
+		<property name="voiceOperationProxy" ref="voiceOperationProxy" />
+	</bean>
+	
+	<bean id="dispositionDao" class="com.jacada.jad.agentDisposition.dao.impl.DispositionDaoImpl" lazy-init="true"/>
+   	
+</beans>

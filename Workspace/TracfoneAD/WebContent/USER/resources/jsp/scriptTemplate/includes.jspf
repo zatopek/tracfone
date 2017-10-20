@@ -1,0 +1,4 @@
+<!-- Place User level includes here -->  
+        <link href="<%=request.getContextPath()%>/USER/resources/css/override.css" type="text/css" rel="stylesheet">
+        <script src="<%=request.getContextPath()%>/USER/resources/js/override.js"></script>
+        <script language="JavaScript" type="text/javascript" src="<%=request.getContextPath()%>/USER/resources/js/override.js"></script>

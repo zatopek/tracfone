@@ -1,0 +1,82 @@
+.navbarfolder          { color:blue; }
+.navbarfolderselected  { color:red;  }
+.navbarfolderdisabled  { color:green;}
+
+.navbarlink            { color:blue; }
+.navbarlinkselected    { color:red;font-size: 13px; font-family:Arial,Verdana; }
+.navbarlinkunselected    { color:#15428b;font-size: 13px; font-family:Arial,Verdana;}
+.navbarlinkdefault    { color:#15428b;font-size: 13px; cursor: hand; font-family:Arial,Verdana;}
+.navbarlinkdisabled    { color:green;}
+
+
+.navbarlink1 { 	background-image: url(../../resources/images/leaf.gif); BACKGROUND-POSITION: 20px ;   text-indent: 40px; background-repeat: no-repeat; }
+.navbarlink1selected { background-image: url(../../resources/images/leaf.gif); BACKGROUND-POSITION: 20px ;  text-indent: 40px; background-repeat: no-repeat;   }
+.navbarlink1disabled { background-image: url(../../resources/images/leaf.gif); BACKGROUND-POSITION: 20px ;   text-indent: 40px; background-repeat: no-repeat;   }
+
+.navbarlink2 { 	background-image: url(../../resources/images/leaf.gif); BACKGROUND-POSITION: 40px ;   text-indent: 60px; background-repeat: no-repeat;   }
+.navbarlink2selected { background-image: url(../../resources/images/leaf.gif); BACKGROUND-POSITION: 40px ;  text-indent: 60px; background-repeat: no-repeat;   }
+.navbarlink2disabled { background-image: url(../../resources/images/leaf.gif); BACKGROUND-POSITION: 40px ;   text-indent: 60px; background-repeat: no-repeat;   }
+
+.navbarlink3 { 	background-image: url(../../resources/images/leaf.gif); BACKGROUND-POSITION: 60px ;   text-indent: 80px; background-repeat: no-repeat;   }
+.navbarlink3selected { background-image: url(../../resources/images/leaf.gif); BACKGROUND-POSITION: 60px ;  text-indent: 80px; background-repeat: no-repeat;   }
+.navbarlink3disabled { background-image: url(../../resources/images/leaf.gif); BACKGROUND-POSITION: 60px ;   text-indent: 80px; background-repeat: no-repeat;   }
+
+.navbarlink4 { 	background-image: url(../../resources/images/leaf.gif); BACKGROUND-POSITION: 80px ;   text-indent: 100px; background-repeat: no-repeat;   }
+.navbarlink4selected { background-image: url(../../resources/images/leaf.gif); BACKGROUND-POSITION: 80px ;  text-indent: 100px; background-repeat: no-repeat;   }
+.navbarlink4disabled { background-image: url(../../resources/images/leaf.gif); BACKGROUND-POSITION: 80px ;   text-indent: 100px; background-repeat: no-repeat;   }
+
+.navbarlink5 { 	background-image: url(../../resources/images/leaf.gif); BACKGROUND-POSITION: 100px ;   text-indent: 120px; background-repeat: no-repeat;   }
+.navbarlink5selected { background-image: url(../../resources/images/leaf.gif); BACKGROUND-POSITION: 100px ;  text-indent: 120px; background-repeat: no-repeat;   }
+.navbarlink5disabled { background-image: url(../../resources/images/leaf.gif); BACKGROUND-POSITION: 100px ;   text-indent: 120px; background-repeat: no-repeat;   }
+
+
+
+.navbarfolder1 { 	background-image: url(../../resources/images/folderClosed.gif); BACKGROUND-POSITION: 20px ;   text-indent: 40px; background-repeat: no-repeat;   }
+.navbarfolder1selected { background-image: url(../../resources/images/folderClosed.gif); BACKGROUND-POSITION: 20px ;  text-indent: 40px; background-repeat: no-repeat;   }
+.navbarfolder1disabled { background-image: url(../../resources/images/folderClosed.gif); BACKGROUND-POSITION: 20px ;   text-indent: 40px; background-repeat: no-repeat;   }
+
+.navbarfolder2 { 	background-image: url(../../resources/images/folderClosed.gif); BACKGROUND-POSITION: 40px ;   text-indent: 60px; background-repeat: no-repeat;   }
+.navbarfolder2selected { background-image: url(../../resources/images/folderClosed.gif); BACKGROUND-POSITION: 40px ;  text-indent: 60px; background-repeat: no-repeat;   }
+.navbarfolder2disabled { background-image: url(../../resources/images/folderClosed.gif); BACKGROUND-POSITION: 40px ;   text-indent: 60px; background-repeat: no-repeat;   }
+
+.navbarfolder3 { 	background-image: url(../../resources/images/folderClosed.gif); BACKGROUND-POSITION: 60px ;   text-indent: 80px; background-repeat: no-repeat;   }
+.navbarfolder3selected { background-image: url(../../resources/images/folderClosed.gif); BACKGROUND-POSITION: 60px ;  text-indent: 80px; background-repeat: no-repeat;   }
+.navbarfolder3disabled { background-image: url(../../resources/images/folderClosed.gif); BACKGROUND-POSITION: 60px ;   text-indent: 80px; background-repeat: no-repeat;   }
+
+.navbarfolder4 { 	background-image: url(../../resources/images/folderClosed.gif); BACKGROUND-POSITION: 80px ;   text-indent: 100px; background-repeat: no-repeat;   }
+.navbarfolder4selected { background-image: url(../../resources/images/folderClosed.gif); BACKGROUND-POSITION: 80px ;  text-indent: 100px; background-repeat: no-repeat;   }
+.navbarfolder4disabled { background-image: url(../../resources/images/folderClosed.gif); BACKGROUND-POSITION: 80px ;   text-indent: 100px; background-repeat: no-repeat;   }
+
+.navbarfolder5 { 	background-image: url(../../resources/images/folderClosed.gif); BACKGROUND-POSITION: 100px ;   text-indent: 120px; background-repeat: no-repeat;   }
+.navbarfolder5selected { background-image: url(../../resources/images/folderClosed.gif); BACKGROUND-POSITION: 100px ;  text-indent: 120px; background-repeat: no-repeat;   }
+.navbarfolder5disabled { background-image: url(../../resources/images/folderClosed.gif); BACKGROUND-POSITION: 100px ;   text-indent: 120px; background-repeat: no-repeat;   }
+
+
+
+.navbaropenfolder1 { 	background-image: url(../../resources/images/folderOpen.gif); BACKGROUND-POSITION: 20px ;   text-indent: 40px; background-repeat: no-repeat;   }
+.navbaropenfolder1selected { background-image: url(../../resources/images/folderOpen.gif); BACKGROUND-POSITION: 20px ;  text-indent: 40px; background-repeat: no-repeat;   }
+.navbaropenfolder1disabled { background-image: url(../../resources/images/folderOpen.gif); BACKGROUND-POSITION: 20px ;   text-indent: 40px; background-repeat: no-repeat;   }
+
+.navbaropenfolder2 { 	background-image: url(../../resources/images/folderOpen.gif); BACKGROUND-POSITION: 40px ;   text-indent: 60px; background-repeat: no-repeat;   }
+.navbaropenfolder2selected { background-image: url(../../resources/images/folderOpen.gif); BACKGROUND-POSITION: 40px ;  text-indent: 60px; background-repeat: no-repeat;   }
+.navbaropenfolder2disabled { background-image: url(../../resources/images/folderOpen.gif); BACKGROUND-POSITION: 40px ;   text-indent: 60px; background-repeat: no-repeat;   }
+
+.navbaropenfolder3 { 	background-image: url(../../resources/images/folderOpen.gif); BACKGROUND-POSITION: 60px ;   text-indent: 80px; background-repeat: no-repeat;   }
+.navbaropenfolder3selected { background-image: url(../../resources/images/folderOpen.gif); BACKGROUND-POSITION: 60px ;  text-indent: 80px; background-repeat: no-repeat;   }
+.navbaropenfolder3disabled { background-image: url(../../resources/images/folderOpen.gif); BACKGROUND-POSITION: 60px ;   text-indent: 80px; background-repeat: no-repeat;   }
+
+.navbaropenfolder4 { 	background-image: url(../../resources/images/folderOpen.gif); BACKGROUND-POSITION: 80px ;   text-indent: 100px; background-repeat: no-repeat;   }
+.navbaropenfolder4selected {background-image:  url(../../resources/images/folderOpen.gif); BACKGROUND-POSITION: 80px ;  text-indent: 100px; background-repeat: no-repeat;   }
+.navbaropenfolder4disabled { background-image: url(../../resources/images/folderOpen.gif); BACKGROUND-POSITION: 80px ;   text-indent: 100px; background-repeat: no-repeat;   }
+
+.navbaropenfolder5 { 	background-image: url(../../resources/images/folderOpen.gif); BACKGROUND-POSITION: 100px ;   text-indent: 120px; background-repeat: no-repeat;   }
+.navbaropenfolder5selected { background-image: url(../../resources/images/folderOpen.gif); BACKGROUND-POSITION: 100px ;  text-indent: 120px; background-repeat: no-repeat;   }
+.navbaropenfolder5disabled { background-image: url(../../resources/images/folderOpen.gif); BACKGROUND-POSITION: 100px ;   text-indent: 120px; background-repeat: no-repeat;   }
+
+
+.navtabs { }
+.navtabs .over { FONT-SIZE: 12px; font-weight: bold; font-family: Verdana; BACKGROUND-IMAGE: url(../../resources/images/Tab-on.gif); COLOR: #000000; BACKGROUND-REPEAT: no-repeat; BACKGROUND-COLOR: #797d7f; cursor:hand; }
+.navtabs .curr { FONT-SIZE: 12px; font-weight: bold; font-family: Verdana; BACKGROUND-IMAGE: url(../../resources/images/Tab-on.gif); COLOR: #000000; BACKGROUND-REPEAT: no-repeat; BACKGROUND-COLOR: #797d7f }
+.navtabs .def  { FONT-SIZE: 12px; font-weight: bold; font-family: Verdana; BACKGROUND-IMAGE: url(../../resources/images/Tab.gif); COLOR: #000000; BACKGROUND-REPEAT: no-repeat; BACKGROUND-COLOR: #797d7f }
+.navtabs .hint { FONT-SIZE: 12px; font-weight: bold; font-family: Verdana; COLOR: #000000; BACKGROUND-COLOR: #fcfcfe }
+.navtabs .main { BACKGROUND-COLOR: white; }

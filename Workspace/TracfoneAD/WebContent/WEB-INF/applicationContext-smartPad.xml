@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
+http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.1.xsd">
+
+ 	<bean id="smartPadDAO" class="com.jacada.jad.smartPad.dao.SmartPadDAOImpl" lazy-init="true"/>
+ 	
+	<bean id="smartPadProjectSettings" class="com.jacada.jad.smartPad.SmartPadProjectSettingsImpl" init-method="init" lazy-init="true">
+		<property name="settingsDao" ref="settingsDao" />
+		<property name="resourcesManager" ref="resourcesManager" />
+		<property name="projectId" ref="projectId" />
+	</bean>
+ 	 
+    <bean id="smartPadManager" class="com.jacada.jad.smartPad.SmartPadManagerImpl" init-method="init" scope="session" lazy-init="true">
+		<aop:scoped-proxy />
+		<property name="smartPadProjectSettings" ref="smartPadProjectSettings"></property>
+		<property name="smartPadDAO" ref="smartPadDAO"/>
+		<property name="sessionInformation" ref="sessionInformation" />
+    	<property name="agentInformation" ref="agentInformation"/>
+		<property name="voiceInformation" ref="voiceInformation"/>
+		<property name="ctiNotificationManager" ref="ctiNotificationManager" />
+	</bean>
+	
+</beans>

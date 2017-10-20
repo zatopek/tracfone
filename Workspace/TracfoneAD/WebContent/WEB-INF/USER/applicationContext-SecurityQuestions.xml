@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+		
+	<bean id="securityQuestionDAO" class="com.jacada.tracfoneAD.securityQuestions.dao.SecurityQuestionsDaoFactoryBean" scope="session" lazy-init="true">
+		<aop:scoped-proxy/>
+		<property name="dao" 
+		ref="securityQuestionsDao"/>
+		<property name="stub" 
+		ref="securityQuestionsDaoStub"/>
+	</bean>
+	<bean id="securityQuestionsDao" class="com.jacada.tracfoneAD.securityQuestions.dao.DefaultSecurityQuestionsDao" scope="singleton" >
+	</bean>
+	<bean id="securityQuestionsDaoStub" class="com.jacada.tracfoneAD.securityQuestions.dao.SecurityQuestionsDaoStub" scope="singleton" >
+	</bean>
+	<bean id="securityQuestionsManager" class="com.jacada.tracfoneAD.securityQuestions.model.DefaultSecurityQuestionsManager" scope="singleton" >
+		<property name="securityQuestionDAO" 
+		ref="securityQuestionDAO"/>
+	</bean>
+	
+</beans>

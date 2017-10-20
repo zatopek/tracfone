@@ -1,0 +1,892 @@
+.baseColor{
+	background-color:#F1F1F1;
+}
+
+body{ 
+    FONT-FAMILY:    Tahoma;
+    FONT-SIZE:      10px;
+    color:          #000000;
+    overflow: hidden;
+}
+
+.x-tool-img{
+	margin-left: -2px;
+	background-color: transparent;
+}
+
+.x-tool .x-tool-img{
+	opacity: .7;
+	background-repeat: no-repeat;
+}
+
+
+.x-column-header-inner {
+  padding: 4px 5px 3px 10px;
+  border-bottom: 1px solid silver;
+}
+
+.x-menu-body{
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 4px;
+	-ms-border-radius: 4px;
+	-o-border-radius: 4px;
+	border-top-left-radius: 4px;
+	border-top-right-radius: 4px;
+	border-bottom-left-radius: 4px;
+	border-bottom-right-radius: 4px;
+	border-style: none;
+	background-color: #46627A
+}
+
+.x-menu-item-text{
+	color: white;
+}
+
+.x-menu-item-active {
+  background-image: none;
+  background-color: #6C7F8F;
+  border-style: none;
+}
+
+.x-nlg .x-menu-item-active {
+  background: #6C7F8F repeat-x left top;
+}
+
+.x-menu-icon-separator{
+	visibility: hidden;
+}
+.x-menu-item-separator {
+	border-style: none;
+}
+
+.x-htmleditor-iframe {
+  display: block;
+  overflow: auto;
+  height: 100%;
+  width: 100%;
+}
+
+.x-panel-header-default{
+	background: #D91D00;
+	border-style: none;
+}
+ .x-panel-header-default-horizontal{
+	padding: 6px 8px 6px 9px;
+}
+
+.x-panel-header-default-horizontal .x-tool-after-title {
+  margin: -1px;
+} 
+
+.x-panel-header-default .x-tool-img{
+	background-color: transparent;
+}
+
+.x-border-layout-ct {
+	background-color:#F1F1F1;
+}
+
+.x-toolbar-separator{
+	border-style: none;
+	background-color: silver;
+	width: 1px;
+}
+
+.x-btn-default-toolbar-medium{
+	background-image: none;
+	border-style: none;
+	background-color: transparent;
+}
+
+.x-nlg .x-btn-default-toolbar-medium{
+	background-image: none;
+	border-style: none;
+	background-color: transparent;
+}
+
+.x-nlg .x-btn-default-small{
+	background-image: none;
+	border-style: none;
+	background-color: transparent;
+}
+
+.x-btn-default-toolbar-medium-over{
+	background-image: none;
+	background-color: #EEEEEE;
+	opacity: 0.6;
+}
+
+.x-nlg .x-btn-default-toolbar-medium-over{
+	background-image: none;
+	background-color: #EEEEEE;
+	opacity: 0.6;
+}
+
+.x-btn-default-toolbar-small{
+	background-image: none;
+	border-style: none;
+	background-color: transparent;
+}
+
+.actionButton.x-btn-default-toolbar-small{
+	background-color:#46627A !important;
+}
+.actionButton .x-btn-inner {
+	color: white;
+}
+.actionButton.x-btn-default-toolbar-small-over{
+	background-color:#324657 !important;
+}	
+.x-nlg .x-btn-default-toolbar-small{
+	background-image: none;
+	border-style: none;
+	background-color: transparent;
+}
+
+.x-btn-default-toolbar-small-over{
+	background-image: none;
+	background-color: #EEEEEE;
+}
+
+.x-nlg .x-btn-default-toolbar-small-over{
+	background-image: none;
+	background-color: #EEEEEE
+}
+
+.x-btn-default-toolbar-medium .x-btn-split-right {
+	background-image: url(images/buttons/default-toolbar-small-s-arrow.png);
+	padding-right: 23px;
+}
+
+.x-tree-node-text{
+	font-size: 12px;
+	padding-left: 4px;
+	cursor: pointer;
+}
+
+.x-form-item-label{
+	font:  12px/13px helvetica,arial,verdana,sans-serif;
+	margin: 0px;
+}
+
+.x-form-display-field{
+	font: normal 13px/13px helvetica,arial,verdana,sans-serif;
+	margin-top: 2px;
+}
+
+.x-panel-body-default{
+	border-color: silver;
+	border-top: 0px;
+}
+
+#workspace-menu{
+	background-image: none !important;
+	background-color: #F1F1F1;
+	margin-top: 10px;
+}
+
+.x-tip-default {
+  border-style: none;
+  background-color: #D91000;
+}
+
+.x-tip-body-default{
+  color: white;
+}
+
+.x-menu {
+  border-style: none;
+}
+
+#ctiBar-body{
+	background-image: none !important;
+	background-color: #F1F1F1;
+	border-style: none;
+	padding-top: 5px;
+}
+
+.cti-tbseparator.x-toolbar-separator{
+	height: 60px !important
+}
+
+.statusLabel{
+	font-size: 11px;
+	color: gray;
+}
+
+.x-toolbar-default{
+	background-color: #F1F1F1;
+	border-style: none;
+}
+
+.cti-disconnect-msg          {color: red; font-size: 11px;}
+.cti-disconnect-msg-hide     {visibility: hidden;}
+.cti-disconnect-msg-in-manual-mode 		{color: #000000; white-space: nowrap; text-overflow:ellipsis; overflow:hidden;}
+.cti-disconnect-msg-in-manual-mode-hide {visibility: hidden;}
+
+.cti-error-status {
+	color: red; 
+	white-space: nowrap;
+	font-size: 11px;
+	text-overflow:ellipsis;
+}
+
+.cti-mandatory-message {
+	color: red; 
+	font-size: 13px;
+	font-weight: bold;
+	text-overflow:ellipsis;
+}
+
+.ctiLabel {	
+	font-weight: bold;
+}
+.cti-busy-reasons { 
+	font-size: 11px;
+	text-align: center;
+}
+.hiddenButton .x-item-disabled {
+    visibility: hidden;
+}
+.hiddenButton{
+    visibility: hidden;
+}
+#readyBtn.x-btn-default-small{
+	background-color:#EA735F !important;
+}
+#readyBtn.x-btn-default-small-over{
+	background-color:#313132 !important;
+}
+.future-busy-border {
+	border-style: solid  !important;
+	border-color: #88C057 !important;
+	border-width: 3px !important;
+}
+#busyBtn.x-btn-default-small{
+	background-color:#88C057 !important;
+}
+#busyBtn.x-btn-default-small-over{
+	background-color:#313132 !important;
+}
+.future-ready-border {
+	border-style: solid !important;
+	border-color: #EA735F !important;
+	border-width: 3px !important;
+}
+
+/*Main Navigation*/
+.contextNavigation {
+    padding: 0px;
+    cursor: pointer;
+    background: #46627A;
+}
+.contextNavigation .x-grid-cell {
+    background: #46627A;
+    color: white;
+}
+
+.contextNavigation .x-grid-row-selected .x-grid-cell {
+    font-weight: bold;
+    background-image: url(images/navigation/selected_item.png);
+	background-repeat: repeat-y;
+	background-color: #6C7F8F;
+}
+
+.contextNavigation .x-grid-row-over .x-grid-cell {
+    background-image: url(images/navigation/selected_item.png);
+	background-repeat: repeat-y;
+	background-color: #6C7F8F;
+}
+
+.x-tree-icon{
+	width: 18px;
+}
+.contextNavigation .x-tree-icon-leaf {
+	display: none !important;
+}
+
+/* .contextNavigation .x-grid-row-before-focused .x-grid-td {
+  border-style: none;
+}
+
+.contextNavigation .x-grid-row-focused .x-grid-td {
+	border-style: none;
+}
+
+.contextNavigation .x-grid-body .x-grid-table-focused-first {
+  border-style: none;
+}	
+
+.contextNavigation .x-grid-body {
+  border-style: none;
+} */
+
+
+/* #contextContentPanel{
+	padding:5px;
+	background-color:#EEEEEE;
+} */
+
+#contextContentPanel{
+	padding:0px;
+}
+
+.logoutBtn .x-btn-inner {
+	color: #57b1ef;
+	cursor: pointer;
+}
+
+.attachmentStyle {
+	color: #000000;
+	cursor: pointer;
+}
+
+.attachmentMouseOver{
+	text-decoration: underline;
+}
+
+.textAlertColor{
+	color: #FF0000;
+}
+
+.textSuccessColor{
+	color:#0099FF;
+}
+
+.chatIcon {background-image: url(images/toolbar/chat.gif); height: 28px; width: 32px; background-position:center ;background-color: transparent; background-repeat:no-repeat;}
+.dialPadIcon {background-image: url(images/toolbar/dialpad.gif); height: 28px; width: 28px; background-position:center ;background-color: transparent; background-repeat:no-repeat; }
+.jobAssignmentIcon {background-image: url(images/toolbar/jobAssignment.gif); height: 28px; width: 28px; background-position:center ;background-color: transparent; background-repeat:no-repeat; }
+.agentTasksIcon {background-image: url(images/toolbar/agentTasks.gif); height: 28px; width: 28px; background-position:center ;background-color: transparent; background-repeat:no-repeat;}
+.agentDispositionIcon {background-image: url(images/toolbar/agentDisposition.gif); height: 28px; width: 28px; background-position:center ;background-color: transparent; background-repeat:no-repeat; }
+.helpOnHandIcon {background-image: url(images/toolbar/helpOnHand.gif); height: 28px; width: 28px; background-position:center ;background-color: transparent; background-repeat:no-repeat; }
+.customerSearchIcon {background-image: url(images/toolbar/customerSearch.gif); height: 28px; width: 28px; background-position:center ;background-color: transparent; background-repeat:no-repeat; }
+.documentSearchIcon {background-image: url(images/toolbar/documentSearch.gif); height: 28px; width: 28px; background-position:center ;background-color: transparent; background-repeat:no-repeat; }
+
+.corporate-logo {
+	BACKGROUND-IMAGE: url(images/logo.png);
+	BACKGROUND-REPEAT: no-repeat;
+	border-style: none;
+	background-color: transparent;
+	margin-left: 20px;
+	margin-top: 5px;
+}
+
+
+/*channel icons*/
+.email-icon               { display: inline;}
+.email-icon .enabled      { cursor:default; BACKGROUND-IMAGE: url(images/email.gif);BACKGROUND-REPEAT: no-repeat; width: 20px; height: 0px; margin: 0px; padding: 2px 10px 0px 5px;  }
+.email-icon .disabled     { BACKGROUND-IMAGE: url(images/email_dis.gif);BACKGROUND-REPEAT: no-repeat; width: 20px; height: 0px; margin: 0px; padding: 2px 10px 0px 5px; }
+.email-icon-enabled      { cursor:default; BACKGROUND-IMAGE: url(images/email.gif);BACKGROUND-REPEAT: no-repeat; width: 20px; height: 0px; margin: 0px; padding: 2px 10px 0px 5px;  }
+
+.multimedia-icon               { display: inline;}
+.multimedia-icon .enabled      { cursor:default; BACKGROUND-IMAGE: url(images/fax.gif);BACKGROUND-REPEAT: no-repeat; width: 20px; height: 0px; margin: 0px; padding: 2px 10px 0px 5px; }
+.multimedia-icon .disabled     { BACKGROUND-IMAGE: url(images/fax_dis.gif);BACKGROUND-REPEAT: no-repeat; width: 20px; height: 0px; margin: 0px; padding: 2px 10px 0px 5px; }
+.multimedia-icon-enabled      { cursor:default; BACKGROUND-IMAGE: url(images/fax.gif);BACKGROUND-REPEAT: no-repeat; width: 20px; height: 0px; margin: 0px; padding: 2px 10px 0px 5px; }
+
+.voice-icon               { display: inline;}
+.voice-icon .enabled      { cursor:default; BACKGROUND-IMAGE: url(images/phone.gif);BACKGROUND-REPEAT: no-repeat; width: 10px; height: 0px; margin: 0px; padding: 2px 20px 0px 5px; border-right: 1px solid #8FB8BC;}
+.voice-icon .disabled     { BACKGROUND-IMAGE: url(images/phone_dis.gif);BACKGROUND-REPEAT: no-repeat; width: 20px; height: 0px; margin: 0px; padding: 2px 20px 0px 5px; border-right: 1px solid #8FB8BC;}
+.voice-icon-enabled      { cursor:default; BACKGROUND-IMAGE: url(images/phone.gif);BACKGROUND-REPEAT: no-repeat; width: 10px; height: 0px; margin: 0px; padding: 2px 20px 0px 5px; border-right: 1px solid #8FB8BC;}
+
+.wsInfoTitle {font-weight: bold; line-height: 1.5; text-decoration: underline;}
+.wsInfoLabel {font-weight: bold; line-height: 1.5;}
+.wsInfoValue {}
+
+.custom-section-property-value{
+	padding-left: 5px;
+	font-size: 11px;
+	white-space: nowrap;
+}
+.custom-section-property-key{
+	font-size: 11px;
+	font-weight: bold; 
+	white-space: nowrap;
+}
+.cti-btn .x-btn-inner {
+    font-size: 10px;
+}
+/* context menu icons */
+.voiceMenuIcon .x-menu-group-icon { background-image: url(images/voice/voiceNodeIcon.png);}
+.voiceMenuIconSelected .x-menu-group-icon { background-image: url(images/voice/contextVoiceSelected.png);}
+.workitemMenuIcon .x-menu-group-icon { background-image: url(images/workItem/workitemNodeIcon.png);}
+.workitemMenuIconSelected .x-menu-group-icon { background-image: url(images/workItem/contextWorkItemSelected.png);}
+.tasksMenuIcon .x-menu-group-icon { background-image: url(images/humantask/tasksNodeIcon.png);}
+.tasksMenuIconSelected .x-menu-group-icon { background-image: url(images/humantask/contextTasksSelected.png);}
+.emailMenuIcon .x-menu-group-icon { background-image: url(images/email/emailNodeIcon.png);}
+.emailMenuIconSelected .x-menu-group-icon { background-image: url(images/email/contextEmailSelected.png);}
+.chatMenuIcon .x-menu-group-icon { background-image: url(images/chat/chatNodeIcon.png);}
+.chatMenuIconSelected .x-menu-group-icon { background-image: url(images/chat/contextChatSelected.png);}
+
+.voiceContext-small { background-image: url(images/voice/contextVoice.png);;background-repeat: no-repeat; background-position:left;padding-left:7px;}
+.workitemContext-small { background-image: url(images/workItem/contextWorkItem.png);;background-repeat: no-repeat; background-position:left;padding-left:7px;}
+.tasksContext-small { background-image: url(images/humantask/contextTasks.png);;background-repeat: no-repeat; background-position:left;padding-left:7px;}
+.emailContext-small { background-image: url(images/email/contextEmail.png);;background-repeat: no-repeat; background-position:left;padding-left:7px;}
+.chatContext-small { background-image: url(images/chat/contextChat.png);;background-repeat: no-repeat; background-position:left;padding-left:7px;}
+
+/* context group icons */
+.generalNodeIcon { display: none !important;}
+.x-grid-tree-node-expanded .generalNodeIcon { display: none !important;}
+.voiceNodeIcon { background-image: url(images/voice/voiceNodeIcon.png);background-repeat: no-repeat; background-position:left;}
+.x-grid-tree-node-expanded .voiceNodeIcon { background-image: url(images/voice/voiceNodeIcon.png);}
+.workitemNodeIcon { background-image: url(images/workItem/workitemNodeIcon.png);}
+.x-grid-tree-node-expanded .workitemNodeIcon { background-image: url(images/workItem/workitemNodeIcon.png);}
+.tasksNodeIcon { background-image: url(images/humantask/tasksNodeIcon.png);}
+.x-grid-tree-node-expanded .tasksNodeIcon { background-image: url(images/humantask/tasksNodeIcon.png);}
+.emailNodeIcon { background-image: url(images/email/emailNodeIcon.png);background-repeat: no-repeat; background-position:left;}
+.x-grid-tree-node-expanded .emailNodeIcon { background-image: url(images/email/emailNodeIcon.png);}
+.chatNodeIcon { background-image: url(images/chat/chatNodeIcon.png);background-repeat: no-repeat;; background-position:left;}
+.x-grid-tree-node-expanded .chatNodeIcon { background-image: url(images/chat/chatNodeIcon.png);}
+.chatNodeIconBlink { background-image: url(images/chat/contextChatBlink.png);background-repeat: no-repeat;}
+.x-grid-tree-node-expanded .chatNodeIconBlink { background-image: url(images/chat/contextChatBlink.png);}
+
+/* Agent history icons */
+td.chatNodeIcon .x-grid-cell-inner {
+    padding-left: 20px;
+}
+td.voiceNodeIcon .x-grid-cell-inner {
+    padding-left: 20px;
+}
+td.emailNodeIcon .x-grid-cell-inner {
+    padding-left: 20px;
+}
+
+/* CTI Buttons Icons */
+.conversations{background-image: url(images/navigation/menu.png); margin-top: 10px; }
+.conversations-over{background-image: url(images/navigation/menu_h.png);}
+.incomingCallNotifIcon { background-image: url(images/voice/voiceNotification.png);}
+.incomingCallNotifIconBlink { background-image: url(images/voice/voiceNotificationBlink.png); !important}
+
+.readyBtnIcon { background-image: url(images/voice/ready.png);}
+.busyBtnIcon { background-image: url(images/voice/busy.png);}
+.sendDTMFBtnIcon { background-image: url(images/voice/DTMF.png);}
+.startBtnIcon { background-image: url(images/voice/start.png);}
+.endBtnIcon { background-image: url(images/voice/end24.png);}
+.endPopupBtnIcon { background-image: url(images/voice/end24.png);}
+.endEndMenuBtnIcon { background-image: url(images/voice/end16.png);}
+.holdBtnIcon { background-image: url(images/voice/hold.png);}
+.holdOffBtnIcon { background-image: url(images/voice/holdOff.png);}
+.transferBtnIcon { background-image: url(images/voice/transfer.png);}
+.warmTransferToggleToSuperBtnIcon { background-image: url(images/voice/returnToSuper.png);}
+.completeTransferBtnIcon { background-image: url(images/voice/completeTransfer.png);}
+.consultBtnIcon { background-image: url(images/voice/consult.png);}
+.consultToggleToSuperBtnIcon { background-image: url(images/voice/returnToSuper.png);}
+.joinBtnIcon { background-image: url(images/voice/join.png);}
+.dialBtnIcon.x-btn-default-toolbar-medium { background-image: url(images/voice/dialer.png); background-repeat: no-repeat;; }
+.dialBtnIcon.x-btn-default-toolbar-medium-over{background-image: url(images/voice/dialer_h.png); background-repeat: no-repeat; }
+
+.resyncBtnIcon {background-image: url(images/voice/resync.png);}
+.addressBookBtnIcon.x-btn-default-toolbar-medium{ background-image: url(images/voice/addressBook.png); background-repeat: no-repeat;}
+.addressBookBtnIcon.x-btn-default-toolbar-medium-over{background-image: url(images/voice/addressBook_h.png); background-repeat: no-repeat;}
+
+.transferStandardBtnIcon {background-image: url(images/voice/transferStandard.png);}
+.transferConnectBtnIcon {background-image: url(images/voice/transferConnect.png);}
+.handshakeTransferBtnIcon { background-image: url(images/voice/handshakeTransfer.png);}
+.warmTransferBtnIcon { background-image: url(images/voice/warmTransfer.png);}
+.coldTransferBtnIcon { background-image: url(images/voice/coldTransfer.png);}
+
+.completeBtnIcon { background-image: url(images/voice/complete.png);}
+.returnBtnIcon { background-image: url(images/voice/return.png);}
+.softReturnBtnIcon { background-image: url(images/voice/softReturn.png);}
+.consultJoinBtnIcon { background-image: url(images/voice/consultJoin.png);}
+.consultTransferBtnIcon { background-image: url(images/voice/consultTransfer.png);}
+.closeContextBtnIcon { background-image: url(images/voice/close24.png);}
+
+/* Work Item buttons icons*/
+.workItemNotifBtnIcon { background-image: url(images/workItem/workItemNotification.png);}
+.workItemNotifBtnIconBlink { background-image: url(images/workItem/workItemNotificationBlink.png);}
+
+.endOpenMediaBtnIcon { background-image: url(images/workItem/endOpenMedia24.png);}
+.endOpenMediaMenuBtnIcon { background-image: url(images/workItem/endOpenMedia16.png);}
+
+/*Attachments Icons*/
+.deleteAttachmentBtnIcon { background-image: url(images/email/delete_attachment.png);}
+.attachmentsBtnIcon { background-image: url(images/email/paperclip.png);}
+
+/* Email Icons*/
+.incomingEmailNotifIcon { background-image: url(images/email/emailNotification.png); !important}
+.incomingEmailNotifIconBlink { background-image: url(images/email/emailNotificationBlink.png); !important}
+.emailForwardBtnIcon { background-image: url(images/email/mail_forward.png);}
+.emailReplyBtnIcon { background-image: url(images/email/mail_reply.png);}
+.emailReplyAllBtnIcon { background-image: url(images/email/mail_replyAll.png);}
+.emailSendBtnIcon { background-image: url(images/email/mail_out.png);}
+
+/* Chat Icons*/
+.incomingChatNotifIcon { background-image: url(images/chat/chatNotification.png); !important}
+.incomingChatNotifIconBlink { background-image: url(images/chat/chatNotificationBlink.png); !important}
+.endChatIcon { background-image: url(images/chat/endChat.png);}
+
+/* Human Task Buttons Icons */
+.saveTaskIcon { background-image: url(images/humantask/saveTask.png);}
+.saveTask24Icon { background-image: url(images/humantask/saveTask24.png);}
+.releaseIcon { background-image: url(images/humantask/ReleaseTask.png);}
+.claimIcon { background-image: url(images/humantask/StartTask.png);}
+.completeIcon { background-image: url(images/humantask/CompleteTask.png);}
+.assignIcon { background-image: url(images/humantask/TaskAssign.png);}
+.complete24Icon { background-image: url(images/humantask/CompleteTask24.png);}
+.closeIcon { background-image: url(images/humantask/close24.png);}
+.noteDeleteIcon { background-image: url(images/humantask/note_delete.png);}
+.noteAddIcon { background-image: url(images/humantask/note_add.png);}
+
+.task-input-field-label {
+	font-weight: bold;
+}
+.task-input-group-label {
+	font-weight: bold;
+	font-size: 12px;
+}
+
+.x-field-label-cell{
+	vertical-align: middle;
+}
+
+.task-output-field-label {
+	font-weight: bold;
+}
+.task-output-field-required {
+	font-weight: bold;
+	color: red;
+}
+.task-output-group-label {
+	font-weight: bold;
+	font-size: 12px;
+}
+
+/* Integration with Interaction */
+.interaction-name{
+	font-weight: bold; 
+}
+
+.interaction-description{
+}
+
+.interaction-search-item {
+	text-decoration: none;
+}
+
+.emailActionLink{
+	text-decoration: none;
+	font-size: 12px;
+	color: black;
+	font-weight: bold;
+	white-space: nowrap;
+}
+
+.emailActionLink:HOVER {
+	text-decoration: underline;
+	cursor: pointer;
+}
+
+.x-window-body-default{
+	border-color: transparent;
+}
+.x-tab-bar-default{
+	background-color: transparent;
+}
+.x-tab-default{
+	background-color: #D91D00;
+}
+.x-tab-default-over{
+	background-color: #C81000;
+}
+.x-tab-default-active{
+	background-color: #C81000;
+}
+.x-tab-default-active .x-tab-inner{
+	color: white;
+}
+.x-window-default{
+	border-style: none;
+}
+
+.x-window-header-default {
+	border-width: 3px;
+	background-color: #46627A;
+	/* border-style: none; */
+	border-color: #46627A;
+}
+
+.x-window-header-default-top{
+  -moz-border-radius-topleft: 0px;
+  -webkit-border-top-left-radius: 0px;
+  border-top-left-radius: 0px;
+  -moz-border-radius-topright: 0px;
+  -webkit-border-top-right-radius: 0px;
+  border-top-right-radius: 0px;
+}
+
+.x-window-header-default .x-tool-img{
+	background-color: transparent;
+}
+
+/* popup notification start */
+/* .ux-notification-light .x-window-header {
+	background-color: transparent;
+} */
+
+body .ux-notification-light {
+	background-image: url('images/email/fader.png');
+}
+
+.ux-notification-light .x-window-body {
+	text-align: center;
+	padding: 15px 5px 20px 5px;
+	background-color: transparent;
+	border: 1px solid silver;
+}
+
+.popupActionLink{
+	text-decoration: none;
+	font-size: 12px;
+	color: black;
+}
+
+.popupActionLink:HOVER {
+	text-decoration: underline;
+	cursor: pointer;
+}
+
+/* popup notification end */
+
+.chat-customer-name{
+	color: blue;
+	font-weight: bold;
+}
+.chat-agent-name{
+	color: green;
+	font-weight: bold;
+}
+.chat-system-name{
+	color: red;
+	font-weight: bold;
+}
+.chat-time-msg{
+	color: gray;
+}
+
+/* ******************************************************/
+/*	Common classes for login/logout/welcome/about        /*
+/* ******************************************************/
+.logo-panel{
+	background-color:#CFCFCF;
+	background-image: url('images/logo_dialogs.png');
+    background-repeat: no-repeat;
+    background-position-y: 40px;
+	background-position-x: 300px;
+	height: 149px;
+}
+
+.loginErrorMsg{
+	font-size: 16px;
+	color: #D91D00;
+	background-color: transparent;
+	text-align: center !important;
+}
+.form-panel{
+	background-color:#46627A;
+	padding-top: 25px;
+}
+
+.form-panel-main-title{
+	font-size: 35px;
+	color: white;
+	background-color: transparent;
+	text-align: center;
+}
+
+.form-panel-sub-title{
+	font-size: 23px;
+	color: white;
+	background-color: transparent;
+	text-align: center;
+}
+
+.form-error-sub-title{
+	font-size: 20px;
+	color: white;
+	border-style: none;
+	background-color: transparent;
+	text-align: left;
+}
+
+.form-error-msg{
+	font-size: 16px;
+	color: #D91D00;
+	border-style: none;
+	background-color: transparent;
+	text-align: left !important;
+}
+
+.form-panel-sub-title-welcome{
+	font-size: 23px;
+	color: white;
+	background-color: transparent;
+	text-align: left;
+}
+
+.x-btn-default-small {
+	background-color: #D91D00 !important;
+	background-image: none;
+	border-style: none;
+	border-style: none;
+	-webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -ms-border-radius: 4px;
+  -o-border-radius: 4px;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px;
+}
+
+.x-btn-default-small-over {
+	background-color:#C81000 !important;
+}
+
+.actionButton.x-btn-default-small-over {
+	background-color:#324657 !important;
+}
+.actionButton.x-btn-default-small {
+	background-color:#46627A !important;
+}
+
+.btn-login{
+	width: 318px;
+	height: 44px;
+	background-color:#D91D00 !important;
+}
+.btn-login.x-btn-default-small-over{
+	background-color:#D81000 !important;
+}
+.btn-login .x-btn-inner {
+  	font-size: 17px;
+}
+
+.btn-ok-big{
+	width: 157px;
+	height: 44px;
+	background-color:#D91D00 !important;
+}
+.btn-ok-big.x-btn-default-small-over{
+	background-color:#D81000 !important;
+}
+.btn-ok-big .x-btn-inner {
+  	font-size: 17px;
+}
+.btn-cancel-big{
+	width: 147px;
+	height: 44px;
+	background-color:#BFC7DB !important;
+}
+.btn-cancel-big.x-btn-default-small-over{
+	background-color:#94A1C3 !important;
+}
+.btn-cancel-big .x-btn-inner {
+	font-size: 17px;
+	color: black;
+}
+
+.x-form-trigger-wrap{
+	background-color: white;	
+}
+
+.x-trigger-cell{
+	position: relative;
+	left: -4px;
+	border-top-right-radius: 5px;
+	  border-bottom-right-radius: 5px;
+	  vertical-align: middle;
+}
+
+.login-form-field-user .x-form-text{
+	height: 44px;
+	width: 318px;
+	font-size: 17px;
+	color: #313132;
+	border-style: none;
+ -webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	-ms-border-radius: 5px;
+	-o-border-radius: 5px;
+	 border-top-left-radius: 5px;
+	  border-top-right-radius: 5px;
+	  border-bottom-left-radius: 5px;
+	  border-bottom-right-radius: 5px;
+	  background-image: url(images/user.png);
+	background-repeat: no-repeat;
+	background-position-x: 295px;
+	background-position-y: 12px;
+}
+
+.login-form-field-password .x-form-text{
+	height: 44px;
+	width: 318px;
+	font-size: 17px;
+	color: #313132;
+	border-style: none;
+    -webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	-ms-border-radius: 5px;
+	-o-border-radius: 5px;
+	 border-top-left-radius: 5px;
+	  border-top-right-radius: 5px;
+	  border-bottom-left-radius: 5px;
+	  border-bottom-right-radius: 5px;
+	  background-image: url(images/password.png);
+	background-repeat: no-repeat;
+	background-position-x: 295px;
+	background-position-y: 12px;
+}
+/* Welcome messages grid */
+#welcomeMessageBoard-body{
+	background-color: transparent;
+}
+#welcomeMessageBoard .x-grid-row-over .x-grid-td{
+	background-color: transparent;
+}
+#welcomeMessageBoard .x-grid-row-selected .x-grid-td{
+	background-color: transparent;
+}
+#welcomeMessageBoard .x-grid-row-alt .x-grid-td{
+	background-color: transparent;
+}
+
+.x-grid-row-over .x-grid-td{
+	background-color: #d4d4d4;
+}
+.x-grid-row-selected .x-grid-td {
+  background-color: #d4d4d4;
+}
+.x-toolbar-footer{
+	background-color: #F1F1F1 !important;
+}
+/*directory search*/
+.directorySearchBtnIcon { background-image: url(images/directory/directorySearch.png);}
+
+.searchResults-empty{
+	text-align: center;
+	padding-top: 20px;
+	color: red;
+}
+.x-grid-cell-inner a:link{ 
+ color: #57b1ef; 
+ text-decoration: underline; 
+}
+
+.x-grid-cell-inner a:visited{ 
+ color: #57b1ef; 
+ text-decoration: underline; 
+}
+
+.x-grid-cell-inner a:active { 
+ color: #57b1ef; 
+ text-decoration: underline; 
+}
+
+.x-grid-cell-inner a:hover { 
+ color: #57b1ef; 
+ text-decoration: underline; 
+}
+/*workspace dialogs*/
+.workspaceDialog {
+	z-index: 20000 !important;
+}

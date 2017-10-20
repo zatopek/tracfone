@@ -1,0 +1,35 @@
+
+.say
+{
+/* background-color: #ACDDEE; */
+	color:#15428b;
+font-size: 14px;
+font-family:arial;
+}
+
+.instructions
+{
+/* background-color: #ACDDEE; */
+color:#000000;
+font-size: 14;
+font-family:Arial;
+}
+
+.branch
+{
+color:#990000;
+font-size: 14px;
+font-family:Arial;
+}
+
+.validationError
+{
+/*background-color: #ACDDEE; */
+color:red;
+font-size: 14;
+font-family:arial;
+font-weight: bold;
+}
+
+.selectedForm                                     {  border: 1px solid #000000; background-color: beige; }
+.notSelectedForm                                  {   }

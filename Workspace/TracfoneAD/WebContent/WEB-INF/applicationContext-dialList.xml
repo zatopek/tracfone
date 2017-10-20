@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
+http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.1.xsd">
+
+ 	<bean id="recentlyDialedDao" class="com.jacada.jad.dialList.dao.impl.RecentlyDialedNumbersDaoImpl" lazy-init="true"/>
+	<bean id="dialListNumberDao" class="com.jacada.jad.cti.dao.impl.DialListNumberDaoJPAImpl" lazy-init="true"/>
+    <bean id="dialListManager" class="com.jacada.jad.dialList.model.DefaultDialListManager" scope="session" lazy-init="true">
+		<aop:scoped-proxy />
+		<property name="ctiBehaviorHandler" ref="ctiBehaviorHandler"></property>
+		<property name="usersManager" ref="usersManager"/>
+		<property name="authorization" ref="authorization" />
+    	<property name="recentlyDialedDao" ref="recentlyDialedDao"/>
+		<property name="dialListNumberDao" ref="dialListNumberDao"/>
+		<property name="voiceInformation" ref="voiceInformation"/>
+	</bean>
+	
+</beans>

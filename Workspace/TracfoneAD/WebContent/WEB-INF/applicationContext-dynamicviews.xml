@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop" 
+	   xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+            http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
+            http://www.springframework.org/schema/aop 
+            http://www.springframework.org/schema/aop/spring-aop-4.1.xsd
+			http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.1.xsd">
+
+	<bean id="mmLicenseFilter" class="com.jacada.jad.mm.filter.MMLicenseManagerFilter">
+        <property name="licenseManager" ref="licenseManager"/>
+        <property name="dynamicViewsSupported" ref="dynamicViewsSupported"/>
+    </bean>
+
+
+
+    <bean id="restTemplate" class="org.springframework.web.client.RestTemplate" scope="prototype">
+    </bean>
+
+    <bean id="mmIntegrationManager" class="com.jacada.jad.mm.manager.MMIntegrationManager" scope="session" lazy-init="true">
+        <property name="licenseManager" ref="licenseManager"/>
+        <property name="sessionIdProvider" ref="sessionIdProvider"/>
+        <property name="authorization" ref="authorization"/>
+        <property name="dynamicViewService" ref="dynamicViewService"/>
+        <property name="dynamicViewUser" ref="dynamicViewUser"/>
+        <property name="dynamicViewPassword" ref="dynamicViewPassword"/>
+        <property name="dynamicViewsSupported" ref="dynamicViewsSupported"/>
+    </bean>
+
+    <bean id="dynamicViewUser" class="com.jacada.jad.configuration.settings.SettingsProvider"  lazy-init="true">
+    	<property name="settingsDao" ref="settingsDao" />
+    	<property name="settingName" value="dynamicViewsUser" />
+    	<property name="settingType" value="com.jacada.jad.mm.settings.DynamicViewSetting" />
+    </bean>
+
+    <bean id="dynamicViewPassword" class="com.jacada.jad.configuration.settings.DecryptedSettingsProvider"  lazy-init="true">
+    	<property name="settingsDao" ref="settingsDao" />
+    	<property name="settingName" value="dynamicViewsPassword" />
+    	<property name="ciphering" ref="ciphering" />
+    	<property name="settingType" value="com.jacada.jad.mm.settings.DynamicViewSetting" />
+    </bean>
+    
+    <bean id="environmentVarsManager"	class="com.jacada.jad.dv.environmentVariables.EnvironmentVarsManagerImpl" scope="session" lazy-init="true">
+    	<property name="configuration" ref="environmentVarsConfiguration"/>
+    </bean>
+    
+    <bean id ="environmentVarsConfiguration" class="com.jacada.jad.dv.environmentVariables.EnvironmentVarsConfigurationImpl" init-method="init">
+    	<property name="resourceManager" ref="resourcesManager"/>
+    </bean>
+    
+    <bean id="DVLocalizationManager" class="com.jacada.jad.dv.localization.DefaultDVLocalizationManager" scope="session" lazy-init="true">
+		<aop:scoped-proxy/>
+    	<property name="resourceManager" ref="resourcesManager"/>
+    	<property name="sharedDataImpl" ref="sharedDataImpl"/>
+    </bean>
+    
+    <bean id="dashboardPropertiesCTIObserver" class="com.jacada.jad.dv.dashboardProperties.DashboardPropertiesCTIObserver" scope="session" init-method="init" lazy-init="false">
+		<property name="notificationManager" ref="ctiNotificationManager" />
+	</bean>
+</beans>

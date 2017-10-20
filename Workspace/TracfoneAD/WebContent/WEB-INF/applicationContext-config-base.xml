@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:task="http://www.springframework.org/schema/task"
+       xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
+http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.1.xsd
+ http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.1.xsd 
+ http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.1.xsd">
+
+	<mvc:annotation-driven />
+	<context:component-scan base-package="com.jacada, USER" scoped-proxy="targetClass"/>
+	<context:annotation-config/>
+	
+    <bean id="propertyConfigurer" class="com.jacada.jad.core.JacadaPropertyPlaceholderConfigurer">
+        <property name="fileName" value="JacadaConfiguration.properties"/>         
+    </bean>
+    
+    <bean id="dynamicViewsSupported" class="java.lang.Boolean">
+    	<constructor-arg value="${dynamicviews.installed}"/>
+    </bean>
+
+	<bean id="ciphering" class="com.jacada.crypto.CryptoCipheringImpl">
+		<property name="textEncoding" value="ASCII"/>
+		<property name="cipherProvider">
+			<bean class="com.jacada.crypto.CipherProviderImpl" init-method="init">
+				<property name="keyAlgorithm" value="DES"/>
+				<property name="algorithm" value="DES/CBC/PKCS5Padding"/>
+				<property name="keyBytesProvider" ref="fromString"/>
+			</bean>
+		</property>		
+	</bean>
+	
+    <bean id="cipherStreamFactory" class="com.jacada.crypto.stream.CipherStreamFactory">
+        <property name="cipherProvider">
+            <bean class="com.jacada.crypto.CipherProviderImpl" init-method="init">
+                <property name="keyAlgorithm" value="DES"/>
+                <property name="algorithm" value="DES/CBC/PKCS5Padding"/>
+                <property name="keyBytesProvider" ref="fromString"/>
+            </bean>
+        </property>     
+    </bean>
+    
+    <bean id="fromString" class="com.jacada.crypto.SimpleKeyBytesProvider">
+        <property name="keyEncoding" value="ASCII"/>
+    </bean>
+    <bean id="fileStreamFactory" class="com.jacada.crypto.stream.FileStreamFactory">
+    </bean>
+    
+    <!-- MBeans definitions -->
+    <bean id="dba" class="com.jacada.jad.external.db.JFAPDataBaseAccess">
+  		<property name="dataSource" ref="serverDataSource" />
+  	</bean>
+        
+    <bean id="projectIdBean" class="com.jacada.jad.management.ProjectIdBean"/>
+    
+    <bean id="licenseManager" scope="singleton" class="com.jacada.license.LicenseManagerImpl" init-method="init">
+		<property name="licenseDataBase" ref="licenseDataBase" />
+		<property name="dataSource" ref="serverDataSource" />
+		<property name="serverCalc" ref="serverCalc" />
+	</bean>
+	<bean id="licenseDataBase" scope="singleton" class="com.jacada.license.LicenseDataBase" init-method="init" >
+		<property name="dataSource" ref="serverDataSource" />
+	</bean>
+	
+	<bean id="serverDataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+		<property name="jndiName" ref="dataSourceJndiName"/>
+  	</bean> 
+
+    <bean id="projectId" class="java.lang.String" factory-bean="projectIdBean" factory-method="getProjectId"/>
+    
+    <bean id="registeredNames" class="java.util.Vector"/>
+    
+    <bean id="webStreamFactory" class="com.jacada.crypto.stream.WebApplicationStreamFactory">
+    </bean><bean id="baseDao" abstract="true" class="com.jacada.config.dao.ConfigurationDaoJaxb" init-method="init">
+        <property name="streamFactory" ref="fileStreamFactory"/>
+        <property name="configRootPath" value=""/>
+    </bean>
+
+	<bean id="rssFeedDao" class="com.jacada.jad.rss.dao.impl.RSSFeedDaoImpl">
+  	</bean>
+  	
+	<bean id="cacheManager" class="com.jacada.jad.cache.CacheManager" factory-method="getInstance">
+		<property name="rssFeedDao" ref="rssFeedDao"/>
+	</bean>
+
+	<bean id="keyNames" class="global.management.MBeansKeyNames"> 
+			<property name="projectId" ref="projectId"/>
+	</bean>
+	<bean id="cacheMngKey" class="java.lang.String" factory-bean="keyNames" factory-method="getCacheManagerKey"/>
+	
+	<bean id="mbeans" class="java.util.HashMap">
+		<constructor-arg>
+			<map>
+				<entry key-ref="cacheMngKey" value-ref="cacheManager"/>
+  	 		</map>
+		</constructor-arg>		
+	</bean> 
+	
+	<!-- This exporter is used to register fusion Mbeans -->
+	<bean id="exporter" class="org.springframework.jmx.export.MBeanExporter" lazy-init="false">		
+		<property name="beans" ref="mbeans"/>
+		<property name="server" ref="mbeanServer"/>
+		<property name="namingStrategy" ref="namingStrategy"/>
+	</bean>
+	
+    <bean id="CacheBean" class="global.management.CacheBean" init-method="init" destroy-method="destroy">
+                <property name="projectId" ref="projectId"/>
+                <property name="cacheManager" ref="cacheManager"/>
+    </bean>	
+    
+    <bean id="globalAppHandler" class="SYSTEM.global.GlobalAppHandler" scope="session" lazy-init="true" >
+        <aop:scoped-proxy/>
+        <property name="sessionInformation">
+			<ref bean="sessionInformation"/>
+		</property>
+	</bean>
+	
+   <bean id="sessionDumpInstance" class="com.jacada.jad.logging.sessionDump.WorkspaceSessionDump" scope="prototype">
+   </bean>
+   
+  	<bean id="threadPoolExecutor" class="java.util.concurrent.ScheduledThreadPoolExecutor">
+		<constructor-arg value="5" />
+	</bean>
+	
+	<bean id="pushExecutor" class="com.jacada.session.jad.commands.PushExecutor"/>
+  
+    <bean id="ObjectMapHolder" class="com.jacada.jad.failover.ObjectMapHolder"/>
+    
+    
+    <bean id="sessionIdProvider" class="com.jacada.jad.core.SimpleSessionIdProvider" scope="session" lazy-init="true">
+    	<aop:scoped-proxy/>
+    </bean>
+    <bean id="urlParameters" class="com.jacada.jad.core.UrlParameters" scope="session" lazy-init="true">
+    	<aop:scoped-proxy/>
+    </bean>
+       
+    <bean id="themesManager" class="com.jacada.jad.personalization.ThemesManager" init-method="init">
+    	<property name="dba" ref="dba" />
+    </bean>
+    
+    <bean id="rapDao" class="com.jacada.jad.rap.dao.impl.RapDaoImpl">
+    </bean>
+    
+	<bean id="groupsProvider" class="com.jacada.jad.rap.provider.GroupsProviderImpl" scope="session" lazy-init="true" init-method="init">
+    	<aop:scoped-proxy/>
+        <property name="rapDao" ref="rapDao"/>
+        <property name="usersManager" ref="usersManager"/>
+    </bean>
+    
+	<bean id="settingsDao" class="com.jacada.jad.configuration.settings.SettingsDaoImpl" />
+	
+	<bean id="localesDao" class="com.jacada.jad.locale.dao.impl.LocalesDaoImpl" />
+	
+	<bean id="updateRssExecutor" class="com.jacada.jad.rss.project.executor.UpdateRssExecutor">
+		<property name="cacheManager" ref="cacheManager"></property>
+	</bean>
+	
+	<bean id="removeRssExecutor" class="com.jacada.jad.rss.project.executor.RemoveRssExecutor">
+		<property name="cacheManager" ref="cacheManager"></property>
+	</bean>
+	
+	<bean id="managedProject" class="com.jacada.jad.project.WorkspaceManagedProject">
+		<property name="commandExecutors">
+        	<map>	
+        		<entry key="com.jacada.jad.project.commands.IndexAllDirectoriesCommand" value-ref="indexAllDirectoriesExecutor"></entry>
+        		<entry key="com.jacada.jad.project.commands.UpdateIndexInfoCommand" value-ref="updateIndexInfoExecutor"></entry>
+        		<entry key="com.jacada.jad.project.commands.UpdateRssCommand" value-ref="updateRssExecutor"></entry>
+        		<entry key="com.jacada.jad.project.commands.RemoveRssCommand" value-ref="removeRssExecutor"></entry>
+			</map>
+        </property>	
+        <property name="indexInfoDao" ref="indexInfoDao" />
+	</bean>
+	
+	 <bean id="projectManager" class="org.springframework.jmx.access.MBeanProxyFactoryBean" lazy-init="true">
+        <property name="objectName" ref="projectManagerObjectName" />
+        <property name="proxyInterface" value="com.jacada.project.admin.interfaces.ProjectManagerAdmin" />
+        <property name="server" ref="mbeanServer" />
+    </bean>
+    
+    <bean id="projectManagerObjectName" class="com.jacada.spring.management.ObjectNameFactoryBean">
+        <property name="objectNamingStrategy" ref="namingStrategy" />
+        <property name="jmxObjectName" value="JacadaDomain:componentName=ProjectManager,subName=ProjectManager" />
+    </bean>  
+    
+    <bean id="tabDao" class="com.jacada.jad.tabs.dao.TabsDaoImpl" />
+	    
+	<bean id="tabManager" class="com.jacada.jad.tabsConfiguration.TabManager" >
+		<property name="tabDao" ref="tabDao"/>
+		<property name="currentProjectId" ref="projectId"/>
+	</bean>  
+	
+	<!-- Configure the multipart resolver -->
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+    <!-- one of the properties available; the maximum file size in bytes -->
+    <property name="maxUploadSize" value="20000000"/>
+    </bean>
+
+    <bean id="ctiGatewayFileService" class="com.jacada.jad.services.fileupload.CTIGatewayFileService">
+        <property name="urlCalculator" ref="urlCalculator"/>
+    </bean>
+    
+    <bean id="projectRegister" class="com.jacada.jad.project.ProjectRegister" destroy-method="destroy">
+		 <property name="projectId" ref="projectId"/>
+		  <property name="projectManager" ref="projectManager"/>
+		   <property name="project" ref="managedProject"/>
+	</bean>
+
+</beans>

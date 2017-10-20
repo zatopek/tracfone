@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+	<xs:element name="portlets">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="portlet" maxOccurs="unbounded">
+          <xs:complexType>
+            <xs:attribute name="id" type="xs:string" use="required"/>
+            <xs:attribute name="title" type="xs:string" use="required"/>
+            <xs:attribute name="url" type="xs:string" use="required"/>
+            <xs:attribute name="role" type="xs:string"/>
+            <xs:attribute name="privilege" type="xs:string"/>  
+            <xs:attribute name="defaultHeight" type="xs:string" use="required"/>
+            <xs:attribute name="defaultWidth" type="xs:string" use="required"/>
+            <xs:attribute name="removable" type="xs:boolean"/>
+            <xs:attribute name="collapsible" type="xs:boolean"/>
+          </xs:complexType>
+        </xs:element>
+			</xs:sequence>
+			<xs:attribute name="enablePortletsRemove" type="xs:boolean" use="required"/>
+			<xs:attribute name="enablePortletsCollapse" type="xs:boolean" use="required"/>
+			<xs:attribute name="enablePortletsSplitters" type="xs:boolean" use="required"/>
+			<xs:attribute name="enableAreasSplitters" type="xs:boolean" use="required"/>
+			<xs:attribute name="enablePortletsDragDrop" type="xs:boolean" use="required"/>
+			<xs:attribute name="enableTabsDragDrop" type="xs:boolean" use="required"/>
+			<xs:attribute name="enablePageVerticalScroll" type="xs:boolean" use="required"/>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

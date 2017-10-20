@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- NOTE: Jacada recommends updating this file using the Project Configuration 
+	dialog only -->
+<Environments>
+	<Training>
+		<configuration description="The url of Jacada WorkFlow server."	displayName="WORKFLOW_SERVER_URL" name="WORKFLOW_SERVER_URL" value="CurrentInstance" />
+	</Training>
+	<QA>
+		<configuration description="The url of Jacada WorkFlow server."	displayName="WORKFLOW_SERVER_URL" name="WORKFLOW_SERVER_URL" value="CurrentInstance" />
+	</QA>
+	<Production>
+		<configuration description="The url of Jacada WorkFlow server."	displayName="WORKFLOW_SERVER_URL" name="WORKFLOW_SERVER_URL" value="CurrentInstance" />
+	</Production>
+	<UAT>
+		<configuration description="The url of Jacada WorkFlow server."	displayName="WORKFLOW_SERVER_URL" name="WORKFLOW_SERVER_URL" value="CurrentInstance" />
+	</UAT>
+	<SystemTest>
+		<configuration description="The url of Jacada WorkFlow server."	displayName="WORKFLOW_SERVER_URL" name="WORKFLOW_SERVER_URL" value="CurrentInstance" />
+	</SystemTest>
+	<Development>
+		<configuration description="The url of Jacada WorkFlow server."	displayName="WORKFLOW_SERVER_URL" name="WORKFLOW_SERVER_URL" value="http://localhost:8080" />
+	</Development>
+	<Common>
+		<configuration description="The url of Jacada WorkFlow server."	displayName="WORKFLOW_SERVER_URL" name="WORKFLOW_SERVER_URL" value="http://localhost:8080" />
+	</Common>
+	<preProduction>
+		<configuration description="The url of Jacada WorkFlow server."	displayName="WORKFLOW_SERVER_URL" name="WORKFLOW_SERVER_URL" value="CurrentInstance" />
+	</preProduction>
+</Environments>

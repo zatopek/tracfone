@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:util="http://www.springframework.org/schema/util"	
+	xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
+http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.1.xsd">
+
+
+	<bean id="searchManager" class="com.jacada.jad.search.impl.SearchManagerImpl" scope="session" lazy-init="true">
+		<aop:scoped-proxy/>
+		<property name="bridges" ref="bridgesList" />
+		<property name="settingsDao" ref="settingsDao" />
+		<property name="combineSearchBridge" ref="combineSearchBridge"></property>
+		<property name="localeManager" ref="localeManager" />
+	</bean>
+	
+	<bean id="combineSearchBridge" class="com.jacada.jad.search.impl.CombineSearchBridge" scope="session" lazy-init="true">
+		<aop:scoped-proxy/>
+		<property name="bridges" ref="bridgesList" />
+		<property name="settingsDao" ref="settingsDao" />
+		<property name="localeManager" ref="localeManager" />
+	</bean>
+	
+	<bean id="internalIndexingSearchBridge" class="com.jacada.jad.search.impl.InternalSearchBridge" scope="session" lazy-init="true" >
+		<aop:scoped-proxy/>
+		<property name="localeManager" ref="localeManager" />
+		<property name="projectId" ref="projectId" />
+		<property name="searchableDocumentsDao" ref="searchDao" />
+	</bean>
+	
+	
+	<bean id="searchDao" class="com.jacada.jad.search.impl.SearchableDocumentsDaoImpl" init-method="init" destroy-method="destroy" lazy-init="true">		
+		<property name="globalIndexPath" value="indexes" />
+		<property name="bridge" ref="luceneBridge" />
+		<property name="analyzers" ref="analyzersMap" />
+		<property name="settingsDao" ref="settingsDao" />
+		<property name="projectId" ref="projectId"/>	
+		<property name="localeManager" ref="localeManager" />	
+	</bean>
+	
+	
+	<bean id="directoriesProvider" class="com.jacada.jad.search.impl.DaoSearchDirectoriesProvider" lazy-init="true">
+	</bean>
+	
+	<bean id="luceneBridge" class="com.jacada.lucene.bridge.TikaBridge" lazy-init="true">
+	</bean>
+	
+	
+	
+	<bean id="indexer" class="com.jacada.jad.search.index.Indexer" init-method="init" lazy-init="true">
+		<property name="searchDirectoriesProvider" ref="directoriesProvider" />
+		<property name="luceneTemplate" ref="searchDao" />
+		<property name="indexingTrigger" ref="indexingTrigger" />
+		<property name="indexingListener" ref="indexingListener" />
+		<property name="indexingOnDemandTrigger" ref="indexingOnDemandTrigger" />
+		<property name="indexingOnDemandListener" ref="indexingOnDemandListener" />
+		<property name="scheduler" ref="systemScheduler" />
+		<property name="projectId" ref="projectId"/>
+		<property name="indexInfoDao" ref="indexInfoDao"/>
+	</bean>
+				
+	<bean id="indexingListener" class="org.springframework.scheduling.quartz.JobDetailFactoryBean" lazy-init="true">
+        <property name="jobClass" value="com.jacada.jad.search.job.IndexingJob"/>
+    </bean>
+
+	<bean id="indexingOnDemandListener" class="org.springframework.scheduling.quartz.JobDetailFactoryBean" lazy-init="true">
+        <property name="jobClass" value="com.jacada.jad.search.job.IndexingJob"/>
+    </bean>
+    
+    <bean id="indexingTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean" lazy-init="true">
+        <property name="jobDetail" ref="indexingListener" />   
+        <property name="cronExpression" value="0 0 0 1 1 ? 2200" /> 
+    </bean>
+    
+	 <bean id="indexingOnDemandTrigger" class="org.springframework.scheduling.quartz.SimpleTriggerFactoryBean" lazy-init="true">
+        <property name="jobDetail" ref="indexingOnDemandListener" />
+    </bean>
+    
+	<bean id="indexAllDirectoriesExecutor" class="com.jacada.jad.search.project.executor.IndexAllDirectoriesExecutor" lazy-init="true">
+		<property name="indexer" ref="indexer" />
+	</bean>	
+	 <bean id="updateIndexInfoExecutor" class="com.jacada.jad.search.project.executor.UpdateIndexInfoExecutor" lazy-init="true">
+    	<property name="indexer" ref="indexer" />
+	</bean>
+	
+	 <bean id="indexInfoDao" class="com.jacada.jad.search.impl.IndexInfoDaoImpl" lazy-init="true"/>
+   	
+   	<bean id="helpOnHandService" class="com.jacada.jad.search.help.impl.HelpOnHandServiceImpl" scope="session" lazy-init="true">
+        <aop:scoped-proxy/>
+       <property name="searchManager" ref="searchManager" />
+       <property name="settingsDao" ref="settingsDao" />
+       <property name="localeManager" ref="localeManager" />
+    </bean>
+   	
+</beans>

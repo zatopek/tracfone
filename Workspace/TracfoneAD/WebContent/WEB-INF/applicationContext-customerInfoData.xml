@@ -1,0 +1,1157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+            http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
+            http://www.springframework.org/schema/aop 
+            http://www.springframework.org/schema/aop/spring-aop-4.1.xsd
+			http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.1.xsd">
+
+	<!-- Customer info sample customers start -->
+	<!-- Customer 1 -->
+	<bean id="customerInfo1" class="USER.portlets.customerInfo.entity.CustomerInfo">
+		<property name="SSN" value="123-45-6789" />
+		<property name="firstName" value="Mary" />
+		<property name="lastName" value="Lohem" />
+		<property name="email" value="mlohem@gmail.com" />
+		<property name="language" value="English" />
+		<property name="telephoneHome" value="7705542342" />
+		<property name="telephoneOther" value="3001" />
+		<property name="residenceStreet1" value="1234 Wilman Way" />
+		<property name="residenceCity" value="Jacksonville" />
+		<property name="residenceState" value="FL" />
+		<property name="residencePostalcode" value="32202" />
+		<property name="residenceCounty" value="Fulton" />
+		<property name="shippingPostalcode" value="PO BOX 3435" />
+		<property name="agentInformation">
+			<bean class="USER.portlets.customerInfo.entity.AgentInformation">
+				<property name="name" value="John Feldman" />
+				<property name="email" value="jfeldman@insuremyself.com" />
+				<property name="number" value="1420" />
+				<property name="phone" value="678-343-2022" />
+				<property name="address" value="7 Terraces North, Atlanta GA 30338" />
+				<property name="paperLessAgent" value="Yes" />
+			</bean>
+		</property>
+		<property name="accounts">
+			<util:list>
+				<ref bean="utilityAccount1" />
+				<ref bean="utilityAccount5" />
+			</util:list>
+		</property>
+	</bean>
+	<!-- customer1 end -->
+	<!-- customer2 start -->
+	<bean id="customerInfo2" class="USER.portlets.customerInfo.entity.CustomerInfo">
+		<property name="SSN" value="322-31-4760" />
+		<property name="firstName" value="Joe" />
+		<property name="lastName" value="Smith" />
+		<property name="email" value="joes@gmail.com" />
+		<property name="language" value="English" />
+		<property name="telephoneHome" value="7701467683" />
+		<property name="telephoneOther" value="3002" />
+		<property name="residenceStreet1" value="200 Presidents Bd" />
+		<property name="residenceCity" value="Boston" />
+		<property name="residenceState" value="MA" />
+		<property name="residencePostalcode" value="90210" />
+		<property name="residenceCounty" value="Suffolk" />
+		<property name="shippingPostalcode" value="PO BOX 24" />
+		<property name="agentInformation">
+			<bean class="USER.portlets.customerInfo.entity.AgentInformation">
+				<property name="name" value="Bob Lester" />
+				<property name="email" value="blester@insuremyself.com" />
+				<property name="number" value="1421" />
+				<property name="phone" value="6783432031" />
+				<property name="address" value="7 Terraces North, Atlanta GA 30338" />
+				<property name="paperLessAgent" value="Yes" />
+			</bean>
+		</property>
+		<property name="accounts">
+			<util:list>
+				<ref bean="utilityAccount2" />
+				<ref bean="utilityAccount6" />
+			</util:list>
+		</property>
+	</bean>
+
+	<bean id="customerInfo3" class="USER.portlets.customerInfo.entity.CustomerInfo">
+		<property name="SSN" value="105-54-2218" />
+		<property name="firstName" value="William" />
+		<property name="lastName" value="Clinton" />
+		<property name="email" value="bclinton@gmail.com" />
+		<property name="language" value="English" />
+		<property name="telephoneHome" value="7705540907" />
+		<property name="telephoneOther" value="3003" />
+		<property name="residenceStreet1" value="1704 Virginia Ct." />
+		<property name="residenceCity" value="Scarsdale" />
+		<property name="residenceState" value="NY" />
+		<property name="residencePostalcode" value="36901" />
+		<property name="residenceCounty" value="Dutchess" />
+		<property name="shippingPostalcode" value="PO BOX 903" />
+		<property name="agentInformation">
+			<bean class="USER.portlets.customerInfo.entity.AgentInformation">
+				<property name="name" value="Roger Walters" />
+				<property name="email" value="rwalters@insuremyself.com" />
+				<property name="number" value="1422" />
+				<property name="phone" value="6783432045" />
+				<property name="address" value="7 Terraces North, Atlanta GA 30338" />
+				<property name="paperLessAgent" value="Yes" />
+			</bean>
+		</property>
+		<property name="accounts">
+			<util:list>
+				<ref bean="utilityAccount3" />
+				<ref bean="utilityAccount7" />
+			</util:list>
+		</property>
+	</bean>
+
+	<bean id="customerInfo4" class="USER.portlets.customerInfo.entity.CustomerInfo">
+		<property name="SSN" value="123-13-6776" />
+		<property name="firstName" value="Larry" />
+		<property name="lastName" value="O'Sullivan" />
+		<property name="email" value="losullivan@gmail.com" />
+		<property name="language" value="English" />
+		<property name="telephoneHome" value="7705548240" />
+		<property name="telephoneOther" value="3004" />
+		<property name="residenceStreet1" value="24 Prophets Ave." />
+		<property name="residenceCity" value="Salt Lake City" />
+		<property name="residenceState" value="UT" />
+		<property name="residencePostalcode" value="42109" />
+		<property name="residenceCounty" value="Hardrock" />
+		<property name="shippingPostalcode" value="PO BOX 298" />
+		<property name="agentInformation">
+			<bean class="USER.portlets.customerInfo.entity.AgentInformation">
+				<property name="name" value="Susan Davis" />
+				<property name="email" value="sdavis@insuremyself.com" />
+				<property name="number" value="1424" />
+				<property name="phone" value="6783432056" />
+				<property name="address" value="7 Terraces North, Atlanta GA 30338" />
+				<property name="paperLessAgent" value="Yes" />
+			</bean>
+		</property>
+		<property name="accounts">
+			<util:list>
+				<ref bean="utilityAccount4" />
+				<ref bean="utilityAccount8" />
+			</util:list>
+		</property>
+	</bean>
+	
+	<bean id="customerInfo5" class="USER.portlets.customerInfo.entity.CustomerInfo">
+		<property name="SSN" value="123-13-6755" />
+		<property name="firstName" value="Oren" />
+		<property name="lastName" value="Cohen" />
+		<property name="email" value="ocohen@jacada.com" />
+		<property name="language" value="English" />
+		<property name="telephoneHome" value="7705548240" />
+		<property name="telephoneOther" value="3015" />
+		<property name="residenceStreet1" value="24 Prophets Ave." />
+		<property name="residenceCity" value="Salt Lake City" />
+		<property name="residenceState" value="UT" />
+		<property name="residencePostalcode" value="42109" />
+		<property name="residenceCounty" value="Hardrock" />
+		<property name="shippingPostalcode" value="PO BOX 298" />
+		<property name="agentInformation">
+			<bean class="USER.portlets.customerInfo.entity.AgentInformation">
+				<property name="name" value="Susan Davis" />
+				<property name="email" value="sdavis@insuremyself.com" />
+				<property name="number" value="1424" />
+				<property name="phone" value="6783432056" />
+				<property name="address" value="7 Terraces North, Atlanta GA 30338" />
+				<property name="paperLessAgent" value="Yes" />
+			</bean>
+		</property>
+		<property name="accounts">
+			<util:list>
+				<ref bean="utilityAccount4" />
+				<ref bean="utilityAccount8" />
+			</util:list>
+		</property>
+	</bean>
+	
+	<bean id="customerInfo6" class="USER.portlets.customerInfo.entity.CustomerInfo">
+		<property name="SSN" value="123-13-6766" />
+		<property name="firstName" value="Dekel" />
+		<property name="lastName" value="Yaacov" />
+		<property name="email" value="dyaacov@jacada.com" />
+		<property name="language" value="English" />
+		<property name="telephoneHome" value="7705548240" />
+		<property name="telephoneOther" value="3016" />
+		<property name="residenceStreet1" value="24 Prophets Ave." />
+		<property name="residenceCity" value="Salt Lake City" />
+		<property name="residenceState" value="UT" />
+		<property name="residencePostalcode" value="42109" />
+		<property name="residenceCounty" value="Hardrock" />
+		<property name="shippingPostalcode" value="PO BOX 298" />
+		<property name="agentInformation">
+			<bean class="USER.portlets.customerInfo.entity.AgentInformation">
+				<property name="name" value="Susan Davis" />
+				<property name="email" value="sdavis@insuremyself.com" />
+				<property name="number" value="1424" />
+				<property name="phone" value="6783432056" />
+				<property name="address" value="7 Terraces North, Atlanta GA 30338" />
+				<property name="paperLessAgent" value="Yes" />
+			</bean>
+		</property>
+		<property name="accounts">
+			<util:list>
+				<ref bean="utilityAccount4" />
+				<ref bean="utilityAccount8" />
+			</util:list>
+		</property>
+	</bean>
+	
+	<bean id="customerInfo7" class="USER.portlets.customerInfo.entity.CustomerInfo">
+		<property name="SSN" value="123-13-6777" />
+		<property name="firstName" value="Hana" />
+		<property name="lastName" value="Fish" />
+		<property name="email" value="hfish@jacada.com" />
+		<property name="language" value="English" />
+		<property name="telephoneHome" value="7705548240" />
+		<property name="telephoneOther" value="3017" />
+		<property name="residenceStreet1" value="24 Prophets Ave." />
+		<property name="residenceCity" value="Salt Lake City" />
+		<property name="residenceState" value="UT" />
+		<property name="residencePostalcode" value="42109" />
+		<property name="residenceCounty" value="Hardrock" />
+		<property name="shippingPostalcode" value="PO BOX 298" />
+		<property name="agentInformation">
+			<bean class="USER.portlets.customerInfo.entity.AgentInformation">
+				<property name="name" value="Susan Davis" />
+				<property name="email" value="sdavis@insuremyself.com" />
+				<property name="number" value="1424" />
+				<property name="phone" value="6783432056" />
+				<property name="address" value="7 Terraces North, Atlanta GA 30338" />
+				<property name="paperLessAgent" value="Yes" />
+			</bean>
+		</property>
+		<property name="accounts">
+			<util:list>
+				<ref bean="utilityAccount4" />
+				<ref bean="utilityAccount8" />
+			</util:list>
+		</property>
+	</bean>
+	<!-- customer info sample customers end -->
+	
+	<!-- Customers Map by SSN -->
+	<util:map id="customersMap">
+		<entry key="123-45-6789" value-ref="customerInfo1" />
+		<entry key="322-31-4760" value-ref="customerInfo2" />
+		<entry key="105-54-2218" value-ref="customerInfo3" />
+		<entry key="123-13-6776" value-ref="customerInfo4" />
+		<entry key="123-13-6755" value-ref="customerInfo5" />
+		<entry key="123-13-6766" value-ref="customerInfo6" />
+		<entry key="123-13-6777" value-ref="customerInfo7" />
+	</util:map>
+
+	<!-- Utility Accounts -->
+	<!-- UtilityAccount1 start -->
+	<bean id="utilityAccount1" class="USER.portlets.utility.objects.Account">
+		<property name="accountId" value="854631" />
+		<property name="type" value="B" />
+		<property name="accountHolder" value="Mary Lohem" />
+		<property name="ssn" value="123-45-6789" />
+		<property name="relationship" value="Principal" />
+		<property name="status" value="Current" />
+		<property name="agentInfo" value="John Feldman" />
+		<property name="serviceAddress" value="14 Hammond Drive, Atlanta GA 30338" />
+		<property name="gasStatus" value="Connected, Public" />
+		<property name="electricityStatus" value="On" />
+		<property name="services" value="Budget Billing" />
+		<property name="appliances" value="Heat, Oven, Outdoor pool heating" />
+		<property name="meterIdentifier" value="A4443" />
+		<property name="meterLocationIdentifier" value="Frt, Left" />
+		<property name="meterAccessConstraints" value="Yard Access" />
+		<property name="accountBalance" value="336.31" />
+		<property name="pastDueBalance" value="68.98" />
+		<property name="agreement">
+			<bean class="USER.portlets.utility.objects.Agreement">
+				<property name="dateEntered" value="04/09/2013" />
+				<property name="monthlyPayment" value="100.68" />
+				<property name="status" value="S - Operator Cancelled" />
+				<property name="type" value="S4 - Negotiated" />
+				<property name="source" value="T - Telephone" />
+				<property name="condition" value="N - New" />
+				<property name="employee" value="50432" />
+				<property name="totalAmount" value="278.99" />
+				<property name="remarks" value="Cancel to enter new agrmt." />
+				<property name="amountToBringAgreementCurrent" value="100.68" />
+				<property name="amountBehindOnAgreement" value="100.68" />
+				<property name="requiredCurrentMonthlyPayment" value="100.68" />
+				<property name="latePaymentChargeDate" value="04/12/2013" />
+				<property name="nextCollectionActionDate" value="04/12/2013" />
+				<property name="incomeLevel" value="1" />
+				<property name="finalPayment" value="0.00" />
+				<property name="downPaymentAmount" value="100.68" />
+				<property name="downPaymentDueBy" value="04/12/2013" />
+				<property name="latePaymentCharge" value="0.00" />
+				<property name="currentAgreementDuration" value="0" />
+				<property name="numberOfAgreementsOnFile" value="2" />
+				<property name="noOfAnalysesOnFile" value="3" />
+				<property name="lastAnalysisDate" value="01/05/2013" />
+				<property name="scannedAgreement" value="link" />
+				<property name="signedAgreement" value="link" />
+				<property name="mustPostBefore" value="05/01/2013" />
+				<property name="agreementInactiveDate" value="05/01/2013" />
+			</bean>
+		</property>
+		<property name="payments">
+			<ref bean="payments1" />
+		</property>
+		<property name="interactions">
+			<ref bean="interactions1" />
+		</property>
+	</bean>
+	<!-- UtilityAccount1 end -->
+
+	<!-- UtilityAccount2 start -->
+	<bean id="utilityAccount2" class="USER.portlets.utility.objects.Account">
+		<property name="accountId" value="854632" />
+		<property name="type" value="A" />
+		<property name="accountHolder" value="Joe Smith" />
+		<property name="ssn" value="322-31-4760" />
+		<property name="relationship" value="Principal" />
+		<property name="status" value="Current" />
+		<property name="agentInfo" value="Bob Lester" />
+		<property name="serviceAddress" value="14 Hammond Drive, Atlanta GA 30338" />
+		<property name="gasStatus" value="Connected, Public" />
+		<property name="electricityStatus" value="On" />
+		<property name="services" value="Budget Billing" />
+		<property name="appliances" value="Heat, Oven" />
+		<property name="meterIdentifier" value="A5443" />
+		<property name="meterLocationIdentifier" value="Frt, Left" />
+		<property name="meterAccessConstraints" value="Yard Access" />
+		<property name="accountBalance" value="250.99" />
+		<property name="pastDueBalance" value="90.00" />
+		<property name="agreement">
+			<bean class="USER.portlets.utility.objects.Agreement">
+				<property name="dateEntered" value="04/09/2013" />
+				<property name="monthlyPayment" value="100.68" />
+				<property name="status" value="S - Operator Cancelled" />
+				<property name="type" value="S4 - Negotiated" />
+				<property name="source" value="T - Telephone" />
+				<property name="condition" value="N - New" />
+				<property name="employee" value="50432" />
+				<property name="totalAmount" value="278.99" />
+				<property name="remarks" value="Cancel to enter new agrmt." />
+				<property name="amountToBringAgreementCurrent" value="100.68" />
+				<property name="amountBehindOnAgreement" value="100.68" />
+				<property name="requiredCurrentMonthlyPayment" value="100.68" />
+				<property name="latePaymentChargeDate" value="04/12/2013" />
+				<property name="nextCollectionActionDate" value="04/12/2013" />
+				<property name="incomeLevel" value="1" />
+				<property name="finalPayment" value="0.00" />
+				<property name="downPaymentAmount" value="100.68" />
+				<property name="downPaymentDueBy" value="04/12/2013" />
+				<property name="latePaymentCharge" value="0.00" />
+				<property name="currentAgreementDuration" value="0" />
+				<property name="numberOfAgreementsOnFile" value="2" />
+				<property name="noOfAnalysesOnFile" value="3" />
+				<property name="lastAnalysisDate" value="01/05/2013" />
+				<property name="scannedAgreement" value="link" />
+				<property name="signedAgreement" value="link" />
+				<property name="mustPostBefore" value="05/01/2013" />
+				<property name="agreementInactiveDate" value="05/01/2013" />
+			</bean>
+		</property>
+		<property name="payments">
+			<ref bean="payments2" />
+		</property>
+		<property name="interactions">
+			<ref bean="interactions2" />
+		</property>
+	</bean>
+	<!-- UtilityAccount2 end -->
+
+	<!-- UtilityAccount3 start -->
+	<bean id="utilityAccount3" class="USER.portlets.utility.objects.Account">
+		<property name="accountId" value="854633" />
+		<property name="type" value="D" />
+		<property name="accountHolder" value="William Clinton" />
+		<property name="ssn" value="105-54-2218" />
+		<property name="relationship" value="Principal" />
+		<property name="status" value="Current" />
+		<property name="agentInfo" value="Roger Walters" />
+		<property name="serviceAddress" value="14 Hammond Drive, Atlanta GA 30338" />
+		<property name="gasStatus" value="Connected, Public" />
+		<property name="electricityStatus" value="On" />
+		<property name="services" value="Budget Billing" />
+		<property name="appliances" value="Heat, Outdoor pool heating" />
+		<property name="meterIdentifier" value="A6443" />
+		<property name="meterLocationIdentifier" value="Frt, Left" />
+		<property name="meterAccessConstraints" value="Yard Access" />
+		<property name="accountBalance" value="653.22" />
+		<property name="pastDueBalance" value="68.98" />
+		<property name="agreement">
+			<bean class="USER.portlets.utility.objects.Agreement">
+				<property name="dateEntered" value="04/09/2013" />
+				<property name="monthlyPayment" value="100.68" />
+				<property name="status" value="S - Operator Cancelled" />
+				<property name="type" value="S4 - Negotiated" />
+				<property name="source" value="T - Telephone" />
+				<property name="condition" value="N - New" />
+				<property name="employee" value="50432" />
+				<property name="totalAmount" value="278.99" />
+				<property name="remarks" value="Cancel to enter new agrmt." />
+				<property name="amountToBringAgreementCurrent" value="100.68" />
+				<property name="amountBehindOnAgreement" value="100.68" />
+				<property name="requiredCurrentMonthlyPayment" value="100.68" />
+				<property name="latePaymentChargeDate" value="04/12/2013" />
+				<property name="nextCollectionActionDate" value="04/12/2013" />
+				<property name="incomeLevel" value="1" />
+				<property name="finalPayment" value="0.00" />
+				<property name="downPaymentAmount" value="100.68" />
+				<property name="downPaymentDueBy" value="04/12/2013" />
+				<property name="latePaymentCharge" value="0.00" />
+				<property name="currentAgreementDuration" value="0" />
+				<property name="numberOfAgreementsOnFile" value="2" />
+				<property name="noOfAnalysesOnFile" value="3" />
+				<property name="lastAnalysisDate" value="01/05/2013" />
+				<property name="scannedAgreement" value="link" />
+				<property name="signedAgreement" value="link" />
+				<property name="mustPostBefore" value="05/01/2013" />
+				<property name="agreementInactiveDate" value="05/01/2013" />
+			</bean>
+		</property>
+		<property name="payments">
+			<ref bean="payments3" />
+		</property>
+		<property name="interactions">
+			<ref bean="interactions3" />
+		</property>
+	</bean>
+	<!-- UtilityAccount3 end -->
+
+	<!-- UtilityAccount4 start -->
+	<bean id="utilityAccount4" class="USER.portlets.utility.objects.Account">
+		<property name="accountId" value="854634" />
+		<property name="type" value="B" />
+		<property name="accountHolder" value="Larry O'Sullivan" />
+		<property name="ssn" value="123-13-6776" />
+		<property name="relationship" value="Principal" />
+		<property name="status" value="Current" />
+		<property name="agentInfo" value="Susan Davis" />
+		<property name="serviceAddress" value="14 Hammond Drive, Atlanta GA 30338" />
+		<property name="gasStatus" value="Connected, Public" />
+		<property name="electricityStatus" value="On" />
+		<property name="services" value="Budget Billing" />
+		<property name="appliances" value="Heat, Oven, Outdoor pool heating" />
+		<property name="meterIdentifier" value="A7443" />
+		<property name="meterLocationIdentifier" value="Frt, Left" />
+		<property name="meterAccessConstraints" value="Yard Access" />
+		<property name="accountBalance" value="321.4" />
+		<property name="pastDueBalance" value="68.98" />
+		<property name="agreement">
+			<bean class="USER.portlets.utility.objects.Agreement">
+				<property name="dateEntered" value="04/09/2013" />
+				<property name="monthlyPayment" value="100.68" />
+				<property name="status" value="S - Operator Cancelled" />
+				<property name="type" value="S4 - Negotiated" />
+				<property name="source" value="T - Telephone" />
+				<property name="condition" value="N - New" />
+				<property name="employee" value="50432" />
+				<property name="totalAmount" value="278.99" />
+				<property name="remarks" value="Cancel to enter new agrmt." />
+				<property name="amountToBringAgreementCurrent" value="100.68" />
+				<property name="amountBehindOnAgreement" value="100.68" />
+				<property name="requiredCurrentMonthlyPayment" value="100.68" />
+				<property name="latePaymentChargeDate" value="04/12/2013" />
+				<property name="nextCollectionActionDate" value="04/12/2013" />
+				<property name="incomeLevel" value="1" />
+				<property name="finalPayment" value="0.00" />
+				<property name="downPaymentAmount" value="100.68" />
+				<property name="downPaymentDueBy" value="04/12/2013" />
+				<property name="latePaymentCharge" value="0.00" />
+				<property name="currentAgreementDuration" value="0" />
+				<property name="numberOfAgreementsOnFile" value="2" />
+				<property name="noOfAnalysesOnFile" value="3" />
+				<property name="lastAnalysisDate" value="01/05/2013" />
+				<property name="scannedAgreement" value="link" />
+				<property name="signedAgreement" value="link" />
+				<property name="mustPostBefore" value="05/01/2013" />
+				<property name="agreementInactiveDate" value="05/01/2013" />
+			</bean>
+		</property>
+		<property name="payments">
+			<ref bean="payments4" />
+		</property>
+		<property name="interactions">
+			<ref bean="interactions4" />
+		</property>
+	</bean>
+	<!-- UtilityAccount4 end -->
+
+	<!-- UtilityAccount5 start -->
+	<bean id="utilityAccount5" class="USER.portlets.utility.objects.Account">
+		<property name="accountId" value="854635" />
+		<property name="type" value="D" />
+		<property name="accountHolder" value="Mary Lohem" />
+		<property name="ssn" value="123-45-6789" />
+		<property name="relationship" value="Principal" />
+		<property name="status" value="Current" />
+		<property name="agentInfo" value="John Feldman" />
+		<property name="serviceAddress" value="14 Hammond Drive, Atlanta GA 30338" />
+		<property name="gasStatus" value="Connected, Public" />
+		<property name="electricityStatus" value="On" />
+		<property name="services" value="Budget Billing" />
+		<property name="appliances" value="Heat, Oven, Outdoor pool heating" />
+		<property name="meterIdentifier" value="A4443" />
+		<property name="meterLocationIdentifier" value="Frt, Left" />
+		<property name="meterAccessConstraints" value="Yard Access" />
+		<property name="accountBalance" value="48.25" />
+		<property name="pastDueBalance" value="68.98" />
+		<property name="agreement">
+			<bean class="USER.portlets.utility.objects.Agreement">
+				<property name="dateEntered" value="04/09/2013" />
+				<property name="monthlyPayment" value="100.68" />
+				<property name="status" value="S - Operator Cancelled" />
+				<property name="type" value="S4 - Negotiated" />
+				<property name="source" value="T - Telephone" />
+				<property name="condition" value="N - New" />
+				<property name="employee" value="50432" />
+				<property name="totalAmount" value="278.99" />
+				<property name="remarks" value="Cancel to enter new agrmt." />
+				<property name="amountToBringAgreementCurrent" value="100.68" />
+				<property name="amountBehindOnAgreement" value="100.68" />
+				<property name="requiredCurrentMonthlyPayment" value="100.68" />
+				<property name="latePaymentChargeDate" value="04/12/2013" />
+				<property name="nextCollectionActionDate" value="04/12/2013" />
+				<property name="incomeLevel" value="1" />
+				<property name="finalPayment" value="0.00" />
+				<property name="downPaymentAmount" value="100.68" />
+				<property name="downPaymentDueBy" value="04/12/2013" />
+				<property name="latePaymentCharge" value="0.00" />
+				<property name="currentAgreementDuration" value="0" />
+				<property name="numberOfAgreementsOnFile" value="2" />
+				<property name="noOfAnalysesOnFile" value="3" />
+				<property name="lastAnalysisDate" value="01/05/2013" />
+				<property name="scannedAgreement" value="link" />
+				<property name="signedAgreement" value="link" />
+				<property name="mustPostBefore" value="05/01/2013" />
+				<property name="agreementInactiveDate" value="05/01/2013" />
+			</bean>
+		</property>
+		<property name="payments">
+			<ref bean="payments5" />
+		</property>
+		<property name="interactions">
+			<ref bean="interactions5" />
+		</property>
+	</bean>
+	<!-- UtilityAccount5 end -->
+
+	<!-- UtilityAccount6 start -->
+	<bean id="utilityAccount6" class="USER.portlets.utility.objects.Account">
+		<property name="accountId" value="854636" />
+		<property name="type" value="B" />
+		<property name="accountHolder" value="Joe Smith" />
+		<property name="ssn" value="322-31-4760" />
+		<property name="relationship" value="Principal" />
+		<property name="status" value="Current" />
+		<property name="agentInfo" value="Bob Lester" />
+		<property name="serviceAddress" value="14 Hammond Drive, Atlanta GA 30338" />
+		<property name="gasStatus" value="Connected, Public" />
+		<property name="electricityStatus" value="On" />
+		<property name="services" value="Budget Billing" />
+		<property name="appliances" value="Heat, Oven" />
+		<property name="meterIdentifier" value="A5443" />
+		<property name="meterLocationIdentifier" value="Frt, Left" />
+		<property name="meterAccessConstraints" value="Yard Access" />
+		<property name="accountBalance" value="250.99" />
+		<property name="pastDueBalance" value="90.00" />
+		<property name="agreement">
+			<bean class="USER.portlets.utility.objects.Agreement">
+				<property name="dateEntered" value="04/09/2013" />
+				<property name="monthlyPayment" value="100.68" />
+				<property name="status" value="S - Operator Cancelled" />
+				<property name="type" value="S4 - Negotiated" />
+				<property name="source" value="T - Telephone" />
+				<property name="condition" value="N - New" />
+				<property name="employee" value="50432" />
+				<property name="totalAmount" value="278.99" />
+				<property name="remarks" value="Cancel to enter new agrmt." />
+				<property name="amountToBringAgreementCurrent" value="100.68" />
+				<property name="amountBehindOnAgreement" value="100.68" />
+				<property name="requiredCurrentMonthlyPayment" value="100.68" />
+				<property name="latePaymentChargeDate" value="04/12/2013" />
+				<property name="nextCollectionActionDate" value="04/12/2013" />
+				<property name="incomeLevel" value="1" />
+				<property name="finalPayment" value="0.00" />
+				<property name="downPaymentAmount" value="100.68" />
+				<property name="downPaymentDueBy" value="04/12/2013" />
+				<property name="latePaymentCharge" value="0.00" />
+				<property name="currentAgreementDuration" value="0" />
+				<property name="numberOfAgreementsOnFile" value="2" />
+				<property name="noOfAnalysesOnFile" value="3" />
+				<property name="lastAnalysisDate" value="01/05/2013" />
+				<property name="scannedAgreement" value="link" />
+				<property name="signedAgreement" value="link" />
+				<property name="mustPostBefore" value="05/01/2013" />
+				<property name="agreementInactiveDate" value="05/01/2013" />
+			</bean>
+		</property>
+		<property name="payments">
+			<ref bean="payments6" />
+		</property>
+		<property name="interactions">
+			<ref bean="interactions6" />
+		</property>
+	</bean>
+	<!-- UtilityAccount6 end -->
+
+	<!-- UtilityAccount7 start -->
+	<bean id="utilityAccount7" class="USER.portlets.utility.objects.Account">
+		<property name="accountId" value="854637" />
+		<property name="type" value="C" />
+		<property name="accountHolder" value="William Clinton" />
+		<property name="ssn" value="105-54-2218" />
+		<property name="relationship" value="Principal" />
+		<property name="status" value="Current" />
+		<property name="agentInfo" value="Roger Walters" />
+		<property name="serviceAddress" value="14 Hammond Drive, Atlanta GA 30338" />
+		<property name="gasStatus" value="Connected, Public" />
+		<property name="electricityStatus" value="On" />
+		<property name="services" value="Budget Billing" />
+		<property name="appliances" value="Heat, Outdoor pool heating" />
+		<property name="meterIdentifier" value="A6443" />
+		<property name="meterLocationIdentifier" value="Frt, Left" />
+		<property name="meterAccessConstraints" value="Yard Access" />
+		<property name="accountBalance" value="278.28" />
+		<property name="pastDueBalance" value="68.98" />
+		<property name="agreement">
+			<bean class="USER.portlets.utility.objects.Agreement">
+				<property name="dateEntered" value="04/09/2013" />
+				<property name="monthlyPayment" value="100.68" />
+				<property name="status" value="S - Operator Cancelled" />
+				<property name="type" value="S4 - Negotiated" />
+				<property name="source" value="T - Telephone" />
+				<property name="condition" value="N - New" />
+				<property name="employee" value="50432" />
+				<property name="totalAmount" value="278.99" />
+				<property name="remarks" value="Cancel to enter new agrmt." />
+				<property name="amountToBringAgreementCurrent" value="100.68" />
+				<property name="amountBehindOnAgreement" value="100.68" />
+				<property name="requiredCurrentMonthlyPayment" value="100.68" />
+				<property name="latePaymentChargeDate" value="04/12/2013" />
+				<property name="nextCollectionActionDate" value="04/12/2013" />
+				<property name="incomeLevel" value="1" />
+				<property name="finalPayment" value="0.00" />
+				<property name="downPaymentAmount" value="100.68" />
+				<property name="downPaymentDueBy" value="04/12/2013" />
+				<property name="latePaymentCharge" value="0.00" />
+				<property name="currentAgreementDuration" value="0" />
+				<property name="numberOfAgreementsOnFile" value="2" />
+				<property name="noOfAnalysesOnFile" value="3" />
+				<property name="lastAnalysisDate" value="01/05/2013" />
+				<property name="scannedAgreement" value="link" />
+				<property name="signedAgreement" value="link" />
+				<property name="mustPostBefore" value="05/01/2013" />
+				<property name="agreementInactiveDate" value="05/01/2013" />
+			</bean>
+		</property>
+		<property name="payments">
+			<ref bean="payments7" />
+		</property>
+		<property name="interactions">
+			<ref bean="interactions7" />
+		</property>
+	</bean>
+	<!-- UtilityAccount7 end -->
+
+	<!-- UtilityAccount8 start -->
+	<bean id="utilityAccount8" class="USER.portlets.utility.objects.Account">
+		<property name="accountId" value="854638" />
+		<property name="type" value="A" />
+		<property name="accountHolder" value="Larry O'Sullivan" />
+		<property name="ssn" value="123-13-6776" />
+		<property name="relationship" value="Principal" />
+		<property name="status" value="Current" />
+		<property name="agentInfo" value="Susan Davis" />
+		<property name="serviceAddress" value="14 Hammond Drive, Atlanta GA 30338" />
+		<property name="gasStatus" value="Connected, Public" />
+		<property name="electricityStatus" value="On" />
+		<property name="services" value="Budget Billing" />
+		<property name="appliances" value="Heat, Oven, Outdoor pool heating" />
+		<property name="meterIdentifier" value="A7443" />
+		<property name="meterLocationIdentifier" value="Frt, Left" />
+		<property name="meterAccessConstraints" value="Yard Access" />
+		<property name="accountBalance" value="837.25" />
+		<property name="pastDueBalance" value="68.98" />
+		<property name="agreement">
+			<bean class="USER.portlets.utility.objects.Agreement">
+				<property name="dateEntered" value="04/09/2013" />
+				<property name="monthlyPayment" value="100.68" />
+				<property name="status" value="S - Operator Cancelled" />
+				<property name="type" value="S4 - Negotiated" />
+				<property name="source" value="T - Telephone" />
+				<property name="condition" value="N - New" />
+				<property name="employee" value="50432" />
+				<property name="totalAmount" value="278.99" />
+				<property name="remarks" value="Cancel to enter new agrmt." />
+				<property name="amountToBringAgreementCurrent" value="100.68" />
+				<property name="amountBehindOnAgreement" value="100.68" />
+				<property name="requiredCurrentMonthlyPayment" value="100.68" />
+				<property name="latePaymentChargeDate" value="04/12/2013" />
+				<property name="nextCollectionActionDate" value="04/12/2013" />
+				<property name="incomeLevel" value="1" />
+				<property name="finalPayment" value="0.00" />
+				<property name="downPaymentAmount" value="100.68" />
+				<property name="downPaymentDueBy" value="04/12/2013" />
+				<property name="latePaymentCharge" value="0.00" />
+				<property name="currentAgreementDuration" value="0" />
+				<property name="numberOfAgreementsOnFile" value="2" />
+				<property name="noOfAnalysesOnFile" value="3" />
+				<property name="lastAnalysisDate" value="01/05/2013" />
+				<property name="scannedAgreement" value="link" />
+				<property name="signedAgreement" value="link" />
+				<property name="mustPostBefore" value="05/01/2013" />
+				<property name="agreementInactiveDate" value="05/01/2013" />
+			</bean>
+		</property>
+		<property name="payments">
+			<ref bean="payments8" />
+		</property>
+		<property name="interactions">
+			<ref bean="interactions8" />
+		</property>
+	</bean>
+	<!-- UtilityAccount8 end -->
+
+
+	<!-- accounts collection start -->
+	<util:map id="accountsMap">
+		<entry key="854631" value-ref="utilityAccount1"/>
+		<entry key="854632" value-ref="utilityAccount2"/>
+		<entry key="854633" value-ref="utilityAccount3"/>
+		<entry key="854634" value-ref="utilityAccount4"/>
+		<entry key="854635" value-ref="utilityAccount5"/>
+		<entry key="854636" value-ref="utilityAccount6"/>
+		<entry key="854637" value-ref="utilityAccount7"/>
+		<entry key="854638" value-ref="utilityAccount8"/>
+	</util:map>
+	<!-- accounts collection end -->
+
+	<!-- payments start -->
+
+	<util:list id="payments1">
+		<bean class="USER.portlets.utility.objects.Payment">
+			<property name="accountId" value="854631" />
+			<property name="date" value="02/05/09" />
+			<property name="type" value="Total Billed Charges" />
+			<property name="amount" value="468.54" />
+			<property name="balance" value="0.00" />
+		</bean>
+		<bean class="USER.portlets.utility.objects.Payment">
+			<property name="accountId" value="854631" />
+			<property name="date" value="03/01/09" />
+			<property name="type" value="Rate Adjustment" />
+			<property name="amount" value="-123.65" />
+			<property name="balance" value="-12.65" />
+		</bean>
+		<bean class="USER.portlets.utility.objects.Payment">
+			<property name="accountId" value="854631" />
+			<property name="date" value="03/07/09" />
+			<property name="type" value="Total Billed Charges" />
+			<property name="amount" value="288.03" />
+			<property name="balance" value="0.00" />
+		</bean>
+		<bean class="USER.portlets.utility.objects.Payment">
+			<property name="accountId" value="854631" />
+			<property name="date" value="04/07/09" />
+			<property name="type" value="Total Billed Charges" />
+			<property name="amount" value="133.68" />
+			<property name="balance" value="100.68" />
+		</bean>
+	</util:list>
+	<util:list id="payments2">
+		<bean class="USER.portlets.utility.objects.Payment">
+			<property name="accountId" value="854632" />
+			<property name="date" value="02/05/09" />
+			<property name="type" value="Total Billed Charges" />
+			<property name="amount" value="578.55" />
+			<property name="balance" value="0.00" />
+		</bean>
+		<bean class="USER.portlets.utility.objects.Payment">
+			<property name="accountId" value="854632" />
+			<property name="date" value="03/01/09" />
+			<property name="type" value="Rate Adjustment" />
+			<property name="amount" value="112.65" />
+			<property name="balance" value="0.00" />
+		</bean>
+		<bean class="USER.portlets.utility.objects.Payment">
+			<property name="accountId" value="854632" />
+			<property name="date" value="03/07/09" />
+			<property name="type" value="Total Billed Charges" />
+			<property name="amount" value="288.03" />
+			<property name="balance" value="0.00" />
+		</bean>
+		<bean class="USER.portlets.utility.objects.Payment">
+			<property name="accountId" value="854632" />
+			<property name="date" value="04/07/09" />
+			<property name="type" value="Total Billed Charges" />
+			<property name="amount" value="558.46" />
+			<property name="balance" value="100.68" />
+		</bean>
+	</util:list>
+	<util:list id="payments3">
+		<bean class="USER.portlets.utility.objects.Payment">
+			<property name="accountId" value="854633" />
+			<property name="date" value="02/05/09" />
+			<property name="type" value="Total Billed Charges" />
+			<property name="amount" value="795.54" />
+			<property name="balance" value="0.00" />
+		</bean>
+		<bean class="USER.portlets.utility.objects.Payment">
+			<property name="accountId" value="854633" />
+			<property name="date" value="03/01/09" />
+			<property name="type" value="Rate Adjustment" />
+			<property name="amount" value="622.54" />
+			<property name="balance" value="-12.65" />
+		</bean>
+		<bean class="USER.portlets.utility.objects.Payment">
+			<property name="accountId" value="854633" />
+			<property name="date" value="03/07/09" />
+			<property name="type" value="Total Billed Charges" />
+			<property name="amount" value="437.5" />
+			<property name="balance" value="0.00" />
+		</bean>
+		<bean class="USER.portlets.utility.objects.Payment">
+			<property name="accountId" value="854633" />
+			<property name="date" value="04/07/09" />
+			<property name="type" value="Total Billed Charges" />
+			<property name="amount" value="849.33" />
+			<property name="balance" value="100.68" />
+		</bean>
+	</util:list>
+	<util:list id="payments4">
+		<bean class="USER.portlets.utility.objects.Payment">
+			<property name="accountId" value="854634" />
+			<property name="date" value="03/05/09" />
+			<property name="type" value="Total Billed Charges" />
+			<property name="amount" value="115.78" />
+			<property name="balance" value="0.00" />
+		</bean>
+		<bean class="USER.portlets.utility.objects.Payment">
+			<property name="accountId" value="854634" />
+			<property name="date" value="04/01/09" />
+			<property name="type" value="Rate Adjustment" />
+			<property name="amount" value="885.22" />
+			<property name="balance" value="-12.65" />
+		</bean>
+		<bean class="USER.portlets.utility.objects.Payment">
+			<property name="accountId" value="854634" />
+			<property name="date" value="06/07/09" />
+			<property name="type" value="Total Billed Charges" />
+			<property name="amount" value="445" />
+			<property name="balance" value="0.00" />
+		</bean>
+		<bean class="USER.portlets.utility.objects.Payment">
+			<property name="accountId" value="854634" />
+			<property name="date" value="04/07/09" />
+			<property name="type" value="Total Billed Charges" />
+			<property name="amount" value="678.22" />
+			<property name="balance" value="300.68" />
+		</bean>
+	</util:list>
+	<util:list id="payments5">
+		<bean class="USER.portlets.utility.objects.Payment">
+			<property name="accountId" value="854635" />
+			<property name="date" value="02/05/09" />
+			<property name="type" value="Total Billed Charges" />
+			<property name="amount" value="668.54" />
+			<property name="balance" value="0.00" />
+		</bean>
+		<bean class="USER.portlets.utility.objects.Payment">
+			<property name="accountId" value="854635" />
+			<property name="date" value="03/01/09" />
+			<property name="type" value="Rate Adjustment" />
+			<property name="amount" value="-223.65" />
+			<property name="balance" value="-12.65" />
+		</bean>
+		<bean class="USER.portlets.utility.objects.Payment">
+			<property name="accountId" value="854635" />
+			<property name="date" value="03/07/09" />
+			<property name="type" value="Total Billed Charges" />
+			<property name="amount" value="788.03" />
+			<property name="balance" value="0.00" />
+		</bean>
+		<bean class="USER.portlets.utility.objects.Payment">
+			<property name="accountId" value="854635" />
+			<property name="date" value="04/07/09" />
+			<property name="type" value="Total Billed Charges" />
+			<property name="amount" value="433.68" />
+			<property name="balance" value="100.68" />
+		</bean>
+	</util:list>
+	<util:list id="payments6">
+		<bean class="USER.portlets.utility.objects.Payment">
+			<property name="accountId" value="854636" />
+			<property name="date" value="02/05/09" />
+			<property name="type" value="Total Billed Charges" />
+			<property name="amount" value="178.55" />
+			<property name="balance" value="0.00" />
+		</bean>
+		<bean class="USER.portlets.utility.objects.Payment">
+			<property name="accountId" value="854636" />
+			<property name="date" value="03/01/09" />
+			<property name="type" value="Rate Adjustment" />
+			<property name="amount" value="612.65" />
+			<property name="balance" value="0.00" />
+		</bean>
+		<bean class="USER.portlets.utility.objects.Payment">
+			<property name="accountId" value="854636" />
+			<property name="date" value="03/07/09" />
+			<property name="type" value="Total Billed Charges" />
+			<property name="amount" value="228.03" />
+			<property name="balance" value="0.00" />
+		</bean>
+		<bean class="USER.portlets.utility.objects.Payment">
+			<property name="accountId" value="854636" />
+			<property name="date" value="04/07/09" />
+			<property name="type" value="Total Billed Charges" />
+			<property name="amount" value="658.46" />
+			<property name="balance" value="100.68" />
+		</bean>
+	</util:list>
+	<util:list id="payments7">
+		<bean class="USER.portlets.utility.objects.Payment">
+			<property name="accountId" value="854637" />
+			<property name="date" value="02/05/09" />
+			<property name="type" value="Total Billed Charges" />
+			<property name="amount" value="395.54" />
+			<property name="balance" value="0.00" />
+		</bean>
+		<bean class="USER.portlets.utility.objects.Payment">
+			<property name="accountId" value="854637" />
+			<property name="date" value="03/01/09" />
+			<property name="type" value="Rate Adjustment" />
+			<property name="amount" value="222.54" />
+			<property name="balance" value="-12.65" />
+		</bean>
+		<bean class="USER.portlets.utility.objects.Payment">
+			<property name="accountId" value="854637" />
+			<property name="date" value="03/07/09" />
+			<property name="type" value="Total Billed Charges" />
+			<property name="amount" value="837.5" />
+			<property name="balance" value="0.00" />
+		</bean>
+		<bean class="USER.portlets.utility.objects.Payment">
+			<property name="accountId" value="854637" />
+			<property name="date" value="04/07/09" />
+			<property name="type" value="Total Billed Charges" />
+			<property name="amount" value="449.33" />
+			<property name="balance" value="100.68" />
+		</bean>
+	</util:list>
+	<util:list id="payments8">
+		<bean class="USER.portlets.utility.objects.Payment">
+			<property name="accountId" value="854638" />
+			<property name="date" value="03/05/09" />
+			<property name="type" value="Total Billed Charges" />
+			<property name="amount" value="145.78" />
+			<property name="balance" value="0.00" />
+		</bean>
+		<bean class="USER.portlets.utility.objects.Payment">
+			<property name="accountId" value="854638" />
+			<property name="date" value="04/01/09" />
+			<property name="type" value="Rate Adjustment" />
+			<property name="amount" value="865.22" />
+			<property name="balance" value="-12.65" />
+		</bean>
+		<bean class="USER.portlets.utility.objects.Payment">
+			<property name="accountId" value="854638" />
+			<property name="date" value="06/07/09" />
+			<property name="type" value="Total Billed Charges" />
+			<property name="amount" value="245" />
+			<property name="balance" value="0.00" />
+		</bean>
+		<bean class="USER.portlets.utility.objects.Payment">
+			<property name="accountId" value="854638" />
+			<property name="date" value="04/07/09" />
+			<property name="type" value="Total Billed Charges" />
+			<property name="amount" value="578.22" />
+			<property name="balance" value="300.68" />
+		</bean>
+	</util:list>
+	<!-- payments end -->
+
+
+
+
+
+	<!-- interactions start -->
+	<util:list id="interactions1">
+		<bean class="USER.portlets.utility.objects.InteractionHistory">
+			<property name="accountId" value="854631" />
+			<property name="date" value="01/01/2013" />
+			<property name="type" value="New" />
+			<property name="comments" value="New Account/New Customer" />
+		</bean>
+		<bean class="USER.portlets.utility.objects.InteractionHistory">
+			<property name="accountId" value="854631" />
+			<property name="date" value="04/30/2013" />
+			<property name="type" value="Due" />
+			<property name="comments" value="Past Due Notice sent" />
+		</bean>
+		<bean class="USER.portlets.utility.objects.InteractionHistory">
+			<property name="accountId" value="854631" />
+			<property name="date" value="05/30/2013" />
+			<property name="type" value="NPD" />
+			<property name="comments"
+				value="Customer notified of Non Paid disconnect if full payment not received" />
+		</bean>
+	</util:list>
+	<util:list id="interactions2">
+		<bean class="USER.portlets.utility.objects.InteractionHistory">
+			<property name="accountId" value="854632" />
+			<property name="date" value="01/01/2013" />
+			<property name="type" value="New" />
+			<property name="comments" value="New Account/New Customer" />
+		</bean>
+		<bean class="USER.portlets.utility.objects.InteractionHistory">
+			<property name="accountId" value="854632" />
+			<property name="date" value="04/30/2013" />
+			<property name="type" value="Due" />
+			<property name="comments" value="Changes in rates sent" />
+		</bean>
+		<bean class="USER.portlets.utility.objects.InteractionHistory">
+			<property name="accountId" value="854632" />
+			<property name="date" value="05/30/2013" />
+			<property name="type" value="NPD" />
+			<property name="comments"
+				value="more information requested on current acccount policies" />
+		</bean>
+	</util:list>
+	<util:list id="interactions3">
+		<bean class="USER.portlets.utility.objects.InteractionHistory">
+			<property name="accountId" value="854633" />
+			<property name="date" value="01/01/2013" />
+			<property name="type" value="New" />
+			<property name="comments" value="New Account/New Customer" />
+		</bean>
+		<bean class="USER.portlets.utility.objects.InteractionHistory">
+			<property name="accountId" value="854633" />
+			<property name="date" value="04/30/2013" />
+			<property name="type" value="Due" />
+			<property name="comments" value="Bonus granted for joining new payment plan" />
+		</bean>
+		<bean class="USER.portlets.utility.objects.InteractionHistory">
+			<property name="accountId" value="854633" />
+			<property name="date" value="05/30/2013" />
+			<property name="type" value="NPD" />
+			<property name="comments" value="return to customer to offer new products" />
+		</bean>
+	</util:list>
+	<util:list id="interactions4">
+		<bean class="USER.portlets.utility.objects.InteractionHistory">
+			<property name="accountId" value="854634" />
+			<property name="date" value="01/01/2013" />
+			<property name="type" value="New" />
+			<property name="comments" value="New Account/New Customer" />
+		</bean>
+		<bean class="USER.portlets.utility.objects.InteractionHistory">
+			<property name="accountId" value="854634" />
+			<property name="date" value="04/30/2013" />
+			<property name="type" value="Due" />
+			<property name="comments"
+				value="Sent specific account charges for requested dates" />
+		</bean>
+		<bean class="USER.portlets.utility.objects.InteractionHistory">
+			<property name="accountId" value="854634" />
+			<property name="date" value="05/30/2013" />
+			<property name="type" value="NPD" />
+			<property name="comments"
+				value="Customer was Offered to extend the current plan" />
+		</bean>
+	</util:list>
+	<util:list id="interactions5">
+		<bean class="USER.portlets.utility.objects.InteractionHistory">
+			<property name="accountId" value="854635" />
+			<property name="date" value="01/01/2013" />
+			<property name="type" value="New" />
+			<property name="comments" value="New Account/New Customer" />
+		</bean>
+		<bean class="USER.portlets.utility.objects.InteractionHistory">
+			<property name="accountId" value="854635" />
+			<property name="date" value="04/30/2013" />
+			<property name="type" value="Due" />
+			<property name="comments" value="Notice for non paid plans" />
+		</bean>
+		<bean class="USER.portlets.utility.objects.InteractionHistory">
+			<property name="accountId" value="854635" />
+			<property name="date" value="05/30/2013" />
+			<property name="type" value="NPD" />
+			<property name="comments"
+				value="Customer requested to lower tax charges on his account" />
+		</bean>
+	</util:list>
+	<util:list id="interactions6">
+		<bean class="USER.portlets.utility.objects.InteractionHistory">
+			<property name="accountId" value="854636" />
+			<property name="date" value="01/01/2013" />
+			<property name="type" value="New" />
+			<property name="comments" value="New Account/New Customer" />
+		</bean>
+		<bean class="USER.portlets.utility.objects.InteractionHistory">
+			<property name="accountId" value="854636" />
+			<property name="date" value="04/30/2013" />
+			<property name="type" value="Due" />
+			<property name="comments"
+				value="Sent specific account charges for requested dates" />
+		</bean>
+		<bean class="USER.portlets.utility.objects.InteractionHistory">
+			<property name="accountId" value="854636" />
+			<property name="date" value="05/30/2013" />
+			<property name="type" value="NPD" />
+			<property name="comments"
+				value="Customer notified of Non Paid disconnect if full payment not received" />
+		</bean>
+	</util:list>
+	<util:list id="interactions7">
+		<bean class="USER.portlets.utility.objects.InteractionHistory">
+			<property name="accountId" value="854637" />
+			<property name="date" value="01/01/2013" />
+			<property name="type" value="New" />
+			<property name="comments" value="New Account/New Customer" />
+		</bean>
+		<bean class="USER.portlets.utility.objects.InteractionHistory">
+			<property name="accountId" value="854637" />
+			<property name="date" value="04/30/2013" />
+			<property name="type" value="Due" />
+			<property name="comments" value="Past Due Notice sent" />
+		</bean>
+		<bean class="USER.portlets.utility.objects.InteractionHistory">
+			<property name="accountId" value="854637" />
+			<property name="date" value="05/30/2013" />
+			<property name="type" value="NPD" />
+			<property name="comments"
+				value="Customer requested to lower tax charges on his account" />
+		</bean>
+	</util:list>
+	<util:list id="interactions8">
+		<bean class="USER.portlets.utility.objects.InteractionHistory">
+			<property name="accountId" value="854638" />
+			<property name="date" value="01/01/2013" />
+			<property name="type" value="New" />
+			<property name="comments" value="New Account/New Customer" />
+		</bean>
+		<bean class="USER.portlets.utility.objects.InteractionHistory">
+			<property name="accountId" value="854638" />
+			<property name="date" value="04/30/2013" />
+			<property name="type" value="Due" />
+			<property name="comments" value="Changes in rates sent" />
+		</bean>
+		<bean class="USER.portlets.utility.objects.InteractionHistory">
+			<property name="accountId" value="854638" />
+			<property name="date" value="05/30/2013" />
+			<property name="type" value="NPD" />
+			<property name="comments"
+				value="Customer notified of Non Paid disconnect if full payment not received" />
+		</bean>
+	</util:list>
+	<!-- interactions end -->
+
+</beans>

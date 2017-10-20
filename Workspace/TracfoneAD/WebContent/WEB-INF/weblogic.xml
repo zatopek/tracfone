@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<weblogic-web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.bea.com/ns/weblogic/90" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd http://www.bea.com/ns/weblogic/90 http://www.bea.com/ns/weblogic/90/weblogic-web-app.xsd">
+	
+	<!--
+	<session-descriptor>
+		<persistent-store-type>replicated_if_clustered</persistent-store-type>
+		<cookie-name>@NEW_COOKIE@</cookie-name>
+	</session-descriptor>
+	-->
+	<resource-env-description>
+		<resource-env-ref-name>JACADA_JDBC_DB_Reference</resource-env-ref-name>
+	   	<jndi-name>JACADA_JDBC_DB</jndi-name>
+	 </resource-env-description>
+	
+	<jsp-descriptor>        
+        <!--
+        <keepgenerated>true</keepgenerated>
+		<working-dir>c:/temp/bea</working-dir>
+		-->
+		<debug>true</debug>	
+		<!-- <page-check-seconds>-1</page-check-seconds> -->
+					
+        <!-- Comment the jspServlet param out to go back to weblogic's jspc 
+        <jsp-param>
+            <param-name>jspServlet</param-name>
+            <param-value>weblogic.servlet.WlwJSPServlet</param-value>
+        </jsp-param>-->
+       </jsp-descriptor>
+    
+  
+
+    <!-- <container-descriptor> -->
+    	<!-- <redirect-with-absolute-url>false</redirect-with-absolute-url>  -->
+    	<!-- <servlet-reload-check-secs>-1</servlet-reload-check-secs> -->
+		<!-- <resource-reload-check-secs>-1</resource-reload-check-secs>  -->    	    	    	
+    <!-- </container-descriptor> -->
+
+    <url-match-map>
+       weblogic.servlet.utils.SimpleApacheURLMatchMap
+    </url-match-map>
+    
+</weblogic-web-app>

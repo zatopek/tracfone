@@ -1,0 +1,377 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util" xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.1.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.1.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.1.xsd">
+
+	<!-- ============== States start ============== -->
+
+	<bean id="initializationState" class="com.jacada.sm.framework.state.DefaultState" lazy-init="true">
+		<property name="initialState" value="true" />
+	</bean>
+	<bean id="waitIncomingState" class="com.jacada.sm.framework.state.DefaultState" lazy-init="true">
+	</bean>
+	<bean id="emailWaitFantomState" class="com.jacada.sm.framework.state.DefaultState" lazy-init="true">
+	</bean>
+	<bean id="chatWaitFantomState" class="com.jacada.sm.framework.state.DefaultState" lazy-init="true">
+	</bean>
+	<bean id="waitRetrievedState" class="com.jacada.sm.framework.state.DefaultState" lazy-init="true">
+	</bean>
+	
+	<bean id="doneState" class="com.jacada.sm.framework.state.DefaultState" lazy-init="true">
+		<property name="terminationState" value="true" />
+		<property name="entryAction">
+			<bean id="doneStateEntryActionFactory" class="com.jacada.jad.cti.sm.actions.media.factory.ActionsFactoryBean"  lazy-init="true">
+				<aop:scoped-proxy/>
+				<property name="beanName" value="doneMediaStateMultiAction"/>
+			</bean>
+		</property>
+	</bean>
+	<!-- ============== States end ============== -->
+
+	<!-- ============== Conditions start ============== -->
+	<!-- ============== default Conditions start ============== -->
+	<bean id="incomingFantomCallEventCondition" class="com.jacada.jad.cti.sm.conditions.media.defaults.IncomingFantomCallEventCondition" lazy-init="true"/>
+	<bean id="unansweredEventCondition" class="com.jacada.jad.cti.sm.conditions.media.defaults.UnansweredEventCondition" lazy-init="true"/>
+	<bean id="incomingEmailEventCondition" class="com.jacada.jad.cti.sm.conditions.media.email.defaults.IncomingEmailEventCondition" lazy-init="true"/>
+	<bean id="retrieveClickedMediaEventCondition" class="com.jacada.jad.cti.sm.conditions.media.defaults.RetrieveClickedMediaEventCondition" lazy-init="true"/>
+	<bean id="incomingChatEventCondition" class="com.jacada.jad.cti.sm.conditions.media.chat.defaults.IncomingChatEventCondition" lazy-init="true"/>
+	<bean id="retrievedEmailEventCondition" class="com.jacada.jad.cti.sm.conditions.media.email.defaults.RetrievedEmailEventCondition" lazy-init="true"/>
+	<bean id="retrievedChatEventCondition" class="com.jacada.jad.cti.sm.conditions.media.chat.defaults.RetrievedChatEventCondition" lazy-init="true"/>
+	<bean id="retrievedVoiceEventCondition" class="com.jacada.jad.cti.sm.conditions.media.voice.defaults.RetrievedVoiceEventCondition" lazy-init="true"/>
+	<!-- ============== default Conditions end ============== -->
+	
+	<!--  This is an example how to create a different vendor/provider condition, the condition factory will return the correct one according to provider -->
+	<!-- ============== Cisco Conditions start ============== -->
+	<!-- 
+	<bean id="ciscoacceptedDoneCondition" class="com.jacada.jad.cti.sm.conditions.media.email.cisco.AcceptedDoneEmailCondition" lazy-init="true"/>
+	 -->
+	<!-- ============== Cisco Conditions end ============== -->
+	
+	<!-- ============== Conditions end ============== -->
+	
+	<!-- ============== Actions start ============== -->
+	<bean id="sendClientUIAction" class="com.jacada.jad.cti.sm.actions.media.SendClientUIAction" lazy-init="true">
+		<property name="sessionInformation" ref="sessionInformation"/>
+		<property name="ctiNotificationManager" ref="ctiNotificationManager"/>
+	</bean>
+    <bean id="doneMediaStateMultiAction" class="com.jacada.jad.cti.sm.actions.media.MultiAction" lazy-init="true">
+        <property name="actions">
+            <util:list>
+                <ref bean="filteredSendClientUIAction"/>
+                <ref bean="ignorePhantomCallAction"/>
+            </util:list>
+        </property>
+    </bean>
+
+	<bean id="filteredSendClientUIAction" class="com.jacada.jad.cti.sm.actions.media.FilteredSendClientUIAction" 
+		parent="sendClientUIAction" lazy-init="true">
+	</bean>
+	<bean id="closeMediaItemAction" class="com.jacada.jad.cti.sm.actions.media.CloseMediaItemAction" lazy-init="true">
+		<property name="commandDispatcher" ref="mediaCommandDispatcher"/>
+		<property name="notesService" ref="notesService"/>
+	</bean>
+	<bean id="retrieveMediaAction" class="com.jacada.jad.cti.sm.actions.media.RetrieveMediaAction" lazy-init="true">
+		<property name="commandDispatcher" ref="mediaCommandDispatcher"/>
+	</bean>
+	<bean id="selectContextGroupAction" class="com.jacada.jad.cti.sm.actions.media.SelectMediaContextAction" lazy-init="true">
+		<property name="sessionInformation" ref="sessionInformation"/>
+	</bean>
+    <bean id="dropPhantomCallAction" class="com.jacada.jad.cti.sm.actions.media.DropPhantomCallAction" lazy-init="true">
+        <property name="voiceCommandDispatcher" ref="VoiceCommandDispatcher"/>
+    </bean>
+    <bean id="ignorePhantomCallAction" class="com.jacada.jad.cti.sm.actions.media.IgnorePhantomCallAction" lazy-init="true">
+        <property name="voiceCommandDispatcher" ref="VoiceCommandDispatcher"/>
+    </bean>
+	<bean id="incomingWorkItemStateEntryAction" abstract="true" parent="sendClientUIAction">
+		<property name="commandDispatcher" ref="mediaCommandDispatcher"/>
+        <property name="voiceOperationProxy" ref="voiceOperationProxy"/>
+	</bean>
+
+    <bean id="scheduleKeepAliveAction" class="com.jacada.jad.cti.sm.actions.media.ScheduleKeepAliveAction">
+        <property name="commandDispatcher" ref="mediaCommandDispatcher"/>
+        <property name="sessionInformation" ref="sessionInformation"/>
+    </bean>
+
+    <bean id="closeRetrievedMediaItemAction" class="com.jacada.jad.cti.sm.actions.media.CloseRetrievedMediaItemAction" lazy-init="true">
+        <property name="commandDispatcher" ref="mediaCommandDispatcher"/>
+        <property name="notesService" ref="notesService"/>
+    </bean>
+
+    <bean id="destroyMediaStateMultiAction" class="com.jacada.jad.cti.sm.actions.media.MultiAction" lazy-init="true">
+        <property name="actions">
+            <util:list>
+                <ref bean="closeRetrievedMediaItemAction"/>
+                <ref bean="ignorePhantomCallAction"/>
+            </util:list>
+        </property>
+    </bean>
+	<!-- ============== Actions end ============== -->
+
+	<!-- ============== Transitions start ============== -->
+	<bean id="initializationWaitIncomingTransition" class="com.jacada.sm.framework.transition.DefaultTransition" lazy-init="true">
+		<property name="condition">
+			<bean id="initializationWaitIncomingConditionFactory" class="com.jacada.jad.cti.sm.conditions.media.factory.ConditionsFactoryBean"  lazy-init="true">
+				<aop:scoped-proxy/>
+				<property name="beanName" value="incomingFantomCallEventCondition"/>
+			</bean>
+		</property>
+		<property name="fromState" ref="initializationState" />
+		<property name="toState" ref="waitIncomingState" />
+	</bean>
+	<bean id="initializationEmailWaitFantomTransition" class="com.jacada.sm.framework.transition.DefaultTransition" lazy-init="true">
+		<property name="condition">
+			<bean id="initializationEmailWaitFantomConditionFactory" class="com.jacada.jad.cti.sm.conditions.media.factory.ConditionsFactoryBean"  lazy-init="true">
+				<aop:scoped-proxy/>
+				<property name="beanName" value="incomingEmailEventCondition"/>
+			</bean>
+		</property>
+		<property name="fromState" ref="initializationState" />
+		<property name="toState" ref="emailWaitFantomState" />
+	</bean>
+	<bean id="initializationWaitRetrievedEmailTransition" class="com.jacada.sm.framework.transition.DefaultTransition" lazy-init="true">
+		<property name="condition">
+			<bean id="initializationWaitRetrievedEmailConditionFactory" class="com.jacada.jad.cti.sm.conditions.media.factory.ConditionsFactoryBean"  lazy-init="true">
+				<aop:scoped-proxy/>
+				<property name="beanName" value="retrieveClickedMediaEventCondition"/>
+			</bean>
+		</property>
+		<property name="action">
+			<bean id="waitRetrievedActionFactory" class="com.jacada.jad.cti.sm.actions.media.factory.ActionsFactoryBean"  lazy-init="true">
+				<aop:scoped-proxy/>
+				<property name="beanName" value="retrieveMediaAction"/>
+			</bean>
+		</property>
+		<property name="fromState" ref="initializationState" />
+		<property name="toState" ref="waitRetrievedState" />
+	</bean>
+	<bean id="initializationChatWaitFantomTransition" class="com.jacada.sm.framework.transition.DefaultTransition" lazy-init="true">
+		<property name="condition">
+			<bean id="initializationChatWaitFantomConditionFactory" class="com.jacada.jad.cti.sm.conditions.media.factory.ConditionsFactoryBean"  lazy-init="true">
+				<aop:scoped-proxy/>
+				<property name="beanName" value="incomingChatEventCondition"/>
+			</bean>
+		</property>
+		<property name="fromState" ref="initializationState" />
+		<property name="toState" ref="chatWaitFantomState" />
+	</bean>
+	<util:list id="initializationStateTransitionsList">
+		<ref bean="initializationWaitIncomingTransition" />
+		<ref bean="initializationEmailWaitFantomTransition" />
+		<ref bean="initializationWaitRetrievedEmailTransition"/>
+		<ref bean="initializationChatWaitFantomTransition" />
+	</util:list>
+	
+	
+	<!-- waitIncomingState transitions -->
+	<bean id="waitIncomingDoneTransition" class="com.jacada.sm.framework.transition.DefaultTransition" lazy-init="true">
+		<property name="condition">
+			<bean id="waitIncomingDoneConditionFactory" class="com.jacada.jad.cti.sm.conditions.media.factory.ConditionsFactoryBean"  lazy-init="true">
+				<aop:scoped-proxy/>
+				<property name="beanName" value="unansweredEventCondition"/>
+			</bean>
+		</property>
+		<property name="fromState" ref="waitIncomingState" />
+		<property name="toState" ref="doneState" />
+	</bean>
+	<bean id="waitIncomingIncomingEmailTransition" class="com.jacada.sm.framework.transition.DefaultTransition" lazy-init="true">
+		<property name="condition">
+			<bean id="waitIncomingIncomingEmailConditionFactory" class="com.jacada.jad.cti.sm.conditions.media.factory.ConditionsFactoryBean"  lazy-init="true">
+				<aop:scoped-proxy/>
+				<property name="beanName" value="incomingEmailEventCondition"/>
+			</bean>
+		</property>
+		<property name="fromState" ref="waitIncomingState" />
+		<property name="toState" ref="incomingEmailState" />
+	</bean>
+    <!-- Waiting for incoming email, got AnsweredEmailEvent first -->
+    <bean id="waitAcceptedEmailTransition" class="com.jacada.sm.framework.transition.DefaultTransition" lazy-init="true">
+        <property name="condition">
+            <bean id="waitAcceptedEmailConditionFactory" class="com.jacada.jad.cti.sm.conditions.media.factory.ConditionsFactoryBean"  lazy-init="true">
+                <aop:scoped-proxy/>
+                <!-- Established -->
+                <property name="beanName" value="incomingAcceptedEmailCondition"/>
+            </bean>
+        </property>
+        <property name="action">
+            <bean class="com.jacada.jad.cti.sm.actions.media.factory.ActionsFactoryBean"  lazy-init="true">
+                <aop:scoped-proxy/>
+                <property name="beanName" value="scheduleKeepAliveAction"/>
+            </bean>
+        </property>
+        <property name="fromState" ref="waitIncomingState" />
+        <property name="toState" ref="acceptedEmailState"/>
+    </bean>
+
+    <bean id="waitIncomingIncomingChatTransition" class="com.jacada.sm.framework.transition.DefaultTransition" lazy-init="true">
+		<property name="condition">
+			<bean id="waitIncomingIncomingChatConditionFactory" class="com.jacada.jad.cti.sm.conditions.media.factory.ConditionsFactoryBean"  lazy-init="true">
+				<aop:scoped-proxy/>
+				<property name="beanName" value="incomingChatEventCondition"/>
+			</bean>
+		</property>
+		<property name="fromState" ref="waitIncomingState" />
+		<property name="toState" ref="incomingChatState" />
+	</bean>
+
+	<util:list id="waitIncomingStateTransitionsList">
+		<ref bean="waitIncomingDoneTransition" />
+        <ref bean="waitAcceptedEmailTransition"/>
+		<ref bean="waitIncomingIncomingEmailTransition"/>
+		<ref bean="waitIncomingIncomingChatTransition" />
+	</util:list>
+
+	<!-- emailWaitFantomState transitions -->
+	<bean id="emailWaitFantomDoneTransition" class="com.jacada.sm.framework.transition.DefaultTransition" lazy-init="true">
+		<property name="condition">
+			<bean id="emailWaitFantomDoneConditionFactory" class="com.jacada.jad.cti.sm.conditions.media.factory.ConditionsFactoryBean"  lazy-init="true">
+				<aop:scoped-proxy/>
+				<property name="beanName" value="unansweredEventCondition"/>
+			</bean>
+		</property>
+		<property name="fromState" ref="emailWaitFantomState" />
+		<property name="toState" ref="doneState" />
+	</bean>
+	
+	<bean id="emailWaitFantomIncomingEmailTransition" class="com.jacada.sm.framework.transition.DefaultTransition" lazy-init="true">
+		<property name="condition">
+			<bean id="emailWaitFantomIncomingEmailConditionFactory" class="com.jacada.jad.cti.sm.conditions.media.factory.ConditionsFactoryBean"  lazy-init="true">
+				<aop:scoped-proxy/>
+				<property name="beanName" value="incomingFantomCallEventCondition"/>
+			</bean>
+		</property>
+		<property name="fromState" ref="emailWaitFantomState" />
+		<property name="toState" ref="incomingEmailState" />
+	</bean>
+
+	<util:list id="emailWaitFantomStateTransitionsList">
+		<ref bean="emailWaitFantomIncomingEmailTransition" />
+		<ref bean="emailWaitFantomDoneTransition" />
+	</util:list>
+
+	<bean id="chatWaitFantomDoneTransition" class="com.jacada.sm.framework.transition.DefaultTransition" lazy-init="true">
+		<property name="condition">
+			<bean id="chatWaitFantomDoneConditionFactory" class="com.jacada.jad.cti.sm.conditions.media.factory.ConditionsFactoryBean"  lazy-init="true">
+				<aop:scoped-proxy/>
+				<property name="beanName" value="unansweredEventCondition"/>
+			</bean>
+		</property>
+		<property name="fromState" ref="chatWaitFantomState" />
+		<property name="toState" ref="doneState" />
+	</bean>
+	<bean id="chatWaitFantomIncomingChatTransition" class="com.jacada.sm.framework.transition.DefaultTransition" lazy-init="true">
+		<property name="condition">
+			<bean id="chatWaitFantomIncomingChatConditionFactory" class="com.jacada.jad.cti.sm.conditions.media.factory.ConditionsFactoryBean"  lazy-init="true">
+				<aop:scoped-proxy/>
+				<property name="beanName" value="incomingFantomCallEventCondition"/>
+				
+			</bean>
+		</property>
+		<property name="fromState" ref="chatWaitFantomState" />
+		<property name="toState" ref="incomingChatState" />
+	</bean>
+
+	<util:list id="chatWaitFantomStateTransitionsList">
+		<ref bean="chatWaitFantomIncomingChatTransition" />
+		<ref bean="chatWaitFantomDoneTransition" />
+	</util:list>
+	 
+	 <!-- Wait Retrieved Transitions -->
+	<bean id="waitRetrievedIncomingEmailTransition" class="com.jacada.sm.framework.transition.DefaultTransition" lazy-init="true">
+		<property name="condition">
+			<bean id="waitRetrievedIncomingEmailConditionFactory" class="com.jacada.jad.cti.sm.conditions.media.factory.ConditionsFactoryBean"  lazy-init="true">
+				<aop:scoped-proxy/>
+				<property name="beanName" value="retrievedEmailEventCondition"/>
+			</bean>
+		</property>
+        <property name="action">
+            <bean class="com.jacada.jad.cti.sm.actions.media.factory.ActionsFactoryBean"  lazy-init="true">
+                <aop:scoped-proxy/>
+                <property name="beanName" value="scheduleKeepAliveAction"/>
+            </bean>
+        </property>
+		<property name="fromState" ref="waitRetrievedState" />
+		<property name="toState" ref="acceptedEmailState" />
+	</bean>
+	
+	<bean id="waitRetrievedIncomingChatTransition" class="com.jacada.sm.framework.transition.DefaultTransition" lazy-init="true">
+		<property name="condition">
+			<bean id="waitRetrievedIncomingChatConditionFactory" class="com.jacada.jad.cti.sm.conditions.media.factory.ConditionsFactoryBean"  lazy-init="true">
+				<aop:scoped-proxy/>
+				<property name="beanName" value="retrievedChatEventCondition"/>
+			</bean>
+		</property>
+        <property name="action">
+            <bean class="com.jacada.jad.cti.sm.actions.media.factory.ActionsFactoryBean"  lazy-init="true">
+                <aop:scoped-proxy/>
+                <property name="beanName" value="scheduleKeepAliveAction"/>
+            </bean>
+        </property>
+		<property name="fromState" ref="waitRetrievedState" />
+		<property name="toState" ref="acceptedChatState" />
+	</bean>
+	
+	<bean id="waitRetrievedIncomingVoiceTransition" class="com.jacada.sm.framework.transition.DefaultTransition" lazy-init="true">
+		<property name="condition">
+			<bean id="waitRetrievedIncomingVoiceConditionFactory" class="com.jacada.jad.cti.sm.conditions.media.factory.ConditionsFactoryBean"  lazy-init="true">
+				<aop:scoped-proxy/>
+				<property name="beanName" value="retrievedVoiceEventCondition"/>
+			</bean>
+		</property>
+        <property name="action">
+            <bean class="com.jacada.jad.cti.sm.actions.media.factory.ActionsFactoryBean"  lazy-init="true">
+                <aop:scoped-proxy/>
+                <property name="beanName" value="scheduleKeepAliveAction"/>
+            </bean>
+        </property>
+		<property name="fromState" ref="waitRetrievedState" />
+		<property name="toState" ref="acceptedVoiceState" />
+	</bean>
+	
+	<util:list id="waitRetrievedStateTransitionList">
+		<ref bean="waitRetrievedIncomingEmailTransition"/>
+		<ref bean="waitRetrievedIncomingChatTransition"/>
+		<ref bean="waitRetrievedIncomingVoiceTransition"/>
+	</util:list>
+	
+	<!-- ============== Transitions end ============== -->
+	
+	<!-- ============== Complete state model =========
+		Includes all states from all media models, like chat, email, etc.
+	-->
+	<util:map id="stateModel">
+		<!-- Initial block states, this file -->
+		<entry key-ref="initializationState" value-ref="initializationStateTransitionsList" />
+		<entry key-ref="waitIncomingState" value-ref="waitIncomingStateTransitionsList" />
+		<entry key-ref="emailWaitFantomState" value-ref="emailWaitFantomStateTransitionsList" />
+		<entry key-ref="waitRetrievedState" value-ref="waitRetrievedStateTransitionList" />
+		<entry key-ref="chatWaitFantomState" value-ref="chatWaitFantomStateTransitionsList" />
+		<entry key-ref="doneState" value-ref="emptyTransitionsList" />
+		
+		<!-- Email block states, file applicationContext-sm-emailStateModel.xml -->
+		<entry key-ref="incomingEmailState" value-ref="incomingEmailStateTransitionsList" />
+        <entry key-ref="acceptedEmailState" value-ref="acceptedEmailStateTransitionsList" />
+		<entry key-ref="inReplyEmailState" value-ref="inReplyEmailStateTransitionsList" />
+		<entry key-ref="inReplyAllEmailState" value-ref="inReplyAllEmailStateTransitionsList" />
+		<entry key-ref="inForwardEmailState" value-ref="inForwardEmailStateTransitionsList" />
+		<entry key-ref="sendingEmailState" value-ref="sendingEmailStateTransitionsList" />
+		<entry key-ref="doneEmailState" value-ref="emptyTransitionsList" />
+
+		<!-- Chat block states, file applicationContext-sm-chatStateModel.xml -->
+		<entry key-ref="incomingChatState" value-ref="incomingChatStateTransitionsList" />
+		<entry key-ref="acceptedChatState" value-ref="acceptedChatStateTransitionsList" />
+		<entry key-ref="closedChatState" value-ref="closedChatStateTransitionsList" />
+		<entry key-ref="doneChatState" value-ref="emptyTransitionsList" />
+		
+		<!-- Chat block states, file applicationContext-sm-voiceStateModel.xml -->
+		<entry key-ref="acceptedVoiceState" value-ref="acceptedVoiceStateTransitionsList" />
+	</util:map>
+
+	<!-- ============== Email State Model ============== -->
+	<bean id="mediaStateModel" class="com.jacada.sm.framework.state.model.DefaultStateModel" lazy-init="true">
+		<constructor-arg>
+			<ref bean="stateModel"/>
+		</constructor-arg>
+	</bean>
+	<!-- ============== State Model end ============== -->
+
+</beans>

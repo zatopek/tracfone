@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "..\SYSTEM\resources\externalXMLValidators\spring-beans-2.0.dtd">
+
+<beans>
+
+	<!-- This bean is due to the Spring - XFire integration problem
+		When deploying both of them together, the Spring DispatherServlet 
+		default BeanNameUrlHandlerMapping is not present.
+	-->	
+	<bean class="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping" />
+	
+	<!-- server -->
+	<bean name="/InvocationService"
+		class="org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter">
+		<property name="service" ref="sp-Remote" />
+		<property name="serviceInterface"
+			value="com.jacada.service.server.IRemoteServiceProvider" />
+	</bean>
+	<bean id="sp-Remote" class="com.jacada.service.server.RemoteServiceProvider">
+		<property name="remoteServiceProvider" ref="httpInvokerProxy"></property>
+	</bean>
+
+
+</beans>

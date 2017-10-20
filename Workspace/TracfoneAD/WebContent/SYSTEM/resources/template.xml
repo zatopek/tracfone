@@ -1,0 +1,43 @@
+<template-definition>
+    <project-template id="@@projectname@@Id" type="urn:com-bea-ide:project.type:jad">	                
+    
+    <!-- removed: default-name="JADProject" -->
+        <display
+            location="importdialog,newdialog"
+            label="@@projectname@@"
+            description="Creates a new @@projectname@@ project."
+                        
+            priority="3"
+            categories="Jacada" />
+            
+	    <content type="archive" destination="project" source="@@projectname@@Template.zip" /> 
+             
+    </project-template>
+    
+    <application-template id="@@applicationTemplateName@@_application">
+        <display
+            location="newdialog"
+            label="@@applicationTemplateName@@ Application"
+            description="Creates a new @@applicationTemplateName@@ application containing a @@projectname@@ project."
+            priority="3"
+            categories="Jacada"/>
+
+        <content type="file" destination="libraries" source="jad-application.properties"/>
+
+        <content type="file" destination="libraries" source="commons-beanutils-bean-collections.jar"/>
+        <content type="file" destination="libraries" source="commons-beanutils-core.jar"/>
+        <content type="file" destination="libraries" source="commons-beanutils.jar"/>
+        <content type="file" destination="libraries" source="commons-collections-3.1.jar"/>
+        <content type="file" destination="libraries" source="commons-configuration-1.1.jar"/>
+        <content type="file" destination="libraries" source="commons-digester.jar"/>
+        <content type="file" destination="libraries" source="commons-lang-2.0.jar"/>
+       <content type="file" destination="libraries" source="commons-logging-1.1.jar"/>
+        <content type="file" destination="libraries" source="commons-logging-adapters-1.1.jar"/>
+        <content type="file" destination="libraries" source="commons-logging-api-1.1.jar"/>
+
+        <project-template-ref type="urn:com-bea-ide:project.type:jad" template="@@projectname@@Id"/>   
+    </application-template>
+
+
+</template-definition>
+

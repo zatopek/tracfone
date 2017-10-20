@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!-- The menus are localized. The names appearing in this xml are the localization keys -->
+<menus>
+    <!-- item name="application.javascript.menuBar.menu.favorites" privilege="MenuBarItemFavorites">
+        <item accessKey="application.javascript.menuBar.accessKey.manageFavorites" name="application.menuBar.item.manageFavorites" value="openFavoritesDialog();"/>
+    </item -->
+    
+
+    <item name="application.menuBar.menu.help" privilege="MenuBarItemHelp">
+        <item accessKey="application.javascript.menuBar.accessKey.workspaceInfo" name="application.menuBar.item.workspaceInfo" value="$W().workspaceInfo.open();"/>
+        <item accessKey="application.javascript.menuBar.accessKey.aboutJacadaWorkSpace" name="application.menuBar.item.aboutJacadaWorkSpace" value="Ext.create('Jacada.system.ui.help.AboutDialog').show();"/>
+    </item>
+    
+</menus>

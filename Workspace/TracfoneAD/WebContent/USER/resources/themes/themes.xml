@@ -1,0 +1,9 @@
+<?xml version="1.0" ?>
+	<!-- The themes are localized. The theme name in these tags contains the localization key. -->
+<themes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="..\..\..\SYSTEM\resources\xmlValidators\themes.xsd">
+	<theme name="classic" directory="USER/resources/themes/Jacada" ext3_style="ext-all.css" ext_style="ext-all.css" />
+	<theme name="neptune-red" directory="USER/resources/themes/NeptuneRed" ext3_style="xtheme-gray.css" ext_style="ext-all-neptune.css" />
+	<theme name="avaya" directory="USER/resources/themes/Avaya" ext3_style="xtheme-gray.css" ext_style="ext-all-neptune.css" />
+	<theme name="neptune-blue" directory="USER/resources/themes/NeptuneBlue" ext3_style="xtheme-gray.css" ext_style="ext-all-neptune.css" />
+    <theme name="gray" directory="USER/resources/themes/Gray" ext3_style="xtheme-gray.css" ext_style="ext-all-gray.css"  />
+</themes>

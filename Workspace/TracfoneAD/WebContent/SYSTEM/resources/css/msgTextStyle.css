@@ -1,0 +1,10 @@
+strong {
+    font-weight:bold;
+}
+em{
+    font-style:italic;
+}
+/* This style overrids the default extjs one. We did this in order to deal with big fonts. see WS-1711 */
+.x-grid3-row TD {
+	line-height: normal;
+}

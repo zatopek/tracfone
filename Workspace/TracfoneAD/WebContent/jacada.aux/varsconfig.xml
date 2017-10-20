@@ -1,0 +1,9 @@
+<?xml version="1.0" ?>
+<vars-config>
+
+    <category name="Common Call Local Variables" varsmanager="com.jacada.jad.variables.CommonCallLocalVarsManager"/>    
+    <category name="Common Session Local Variables" varsmanager="com.jacada.jad.variables.CommonSessionLocalVarsManager"/>    
+
+    <category name="Session Local Variables" varsmanager="com.jacada.jad.variables.SessionLocalVarsManager"/>
+    <category name="Call Local Variables" varsmanager="com.jacada.jad.variables.CallLocalVarsManager"/>    
+</vars-config>

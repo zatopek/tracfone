@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
+http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.1.xsd">
+
+
+	<bean id="sharedDataImpl" class="SYSTEM.global.SharedDataImpl" scope="session" lazy-init="true">
+		<aop:scoped-proxy />
+		<property name="systemManagers" ref="systemManagers" />
+		<property name="userManagers" ref="userManagers" />
+		<property name="extendedSystemManagers"
+			ref="extendedSystemManagers" />
+		<property name="dba" ref="dba"></property>
+		<property name="licenseManager" ref="licenseManager" />
+		<property name="ldapControl" ref="LDAPAccess"></property>
+		<property name="sessionIdProvider" ref="sessionIdProvider" />
+	</bean>
+
+	<bean id="systemManagers" class="com.jacada.spring.types.MapWrapper" scope="session" lazy-init="true">
+		<aop:scoped-proxy />
+		<property name="content">
+			<map>
+				<entry key="SYSTEM.global.managers.SecurityManager"
+					value-ref="securityManager" />
+				<entry key="SYSTEM.global.managers.LocaleManager"
+					value-ref="localeManager" />
+				<entry key="SYSTEM.global.managers.ScriptManager"
+					value-ref="scriptManager" />
+				<entry
+					key="SYSTEM.global.managers.JIMWorkflowManagerImpl"
+					value-ref="jimWorkflowManager" />
+				<entry key="SYSTEM.global.managers.CTIManager"
+					value-ref="ctiManager" />
+				<entry key="SYSTEM.global.managers.IntegrationManager"
+					value-ref="integrationManager" />
+				<entry key="SYSTEM.global.managers.PresentationManager"
+					value-ref="presentationManager" />
+				<entry key="SYSTEM.global.managers.AuditingManagerImpl"
+					value-ref="auditingManager" />
+				<entry key="SYSTEM.global.managers.SupervisedAgentManager"
+					value-ref="supervisorManager" />
+				<entry key="com.jacada.jad.mm.manager.MMIntegrationManager" 
+					value-ref="mmIntegrationManager"/>
+				<entry key="SYSTEM.global.managers.WorkspaceIntegrationManager" value-ref="workspaceIntegrationManager"/>
+			</map>
+		</property>
+	</bean>
+
+
+	<bean id="securityManager"
+		class="SYSTEM.global.managers.SecurityManager" scope="session"  lazy-init="true">
+		<aop:scoped-proxy />
+		<property name="dba" ref="dba" />
+		<property name="sessionIdProvider" ref="sessionIdProvider" />
+		<property name="urlParameters" ref="urlParameters" />
+		<property name="productInfo" ref="productInfo" />
+	</bean>
+	<bean id="presentationManager" class="SYSTEM.global.managers.PresentationManager" scope="session" lazy-init="true">
+		<aop:scoped-proxy />
+	</bean>
+	
+	<bean id="localeManager" class="SYSTEM.global.managers.LocaleManager" scope="session" lazy-init="true">
+		<aop:scoped-proxy />
+		<property name="projectId" ref="projectId" />
+		<property name="localesDao" ref="localesDao" />
+	</bean>
+	
+	<bean id="LocaleBean" class="SYSTEM.global.LocaleBean" scope="singleton">
+		<property name="JFAPDataBase" ref="dba" />
+	</bean>
+
+	<bean id="integrationManager"
+		class="SYSTEM.global.managers.IntegrationManager" scope="session"  lazy-init="true">
+		<property name="urlCalculator" ref="urlCalculator"></property>
+		<property name="serviceDAO" ref="winFuseServiceDAO"></property>
+	</bean>
+
+	<bean id="workspaceIntegrationManager" class="SYSTEM.global.managers.WorkspaceIntegrationManager" scope="session">
+		<property name="urlCalculator" ref="urlCalculator"/>
+	</bean>
+
+	<bean id="toolbarManager"
+		class="com.jacada.jad.toolbar.ToolbarManagerImpl" scope="singleton"
+		init-method="init" lazy-init="true">
+		<property name="sessionInformation" ref="sessionInformation"></property>
+		<property name="resourcesManager" ref="resourcesManager"></property>
+		<property name="featureManager" ref="featuresManager"></property>
+	</bean>
+
+	<bean id="winFuseServiceDAO"
+		class="com.jacada.jad.integration.dao.impl.WinFuseServiceDaoJpaImpl">
+	</bean>
+
+	<bean id="timelineService"
+		class="com.jacada.jad.timeline.TimelineServiceImpl"
+		scope="singleton">
+		<property name="sessionInformation" ref="sessionInformation"></property>
+	</bean>
+
+    <bean
+		class="org.springframework.beans.factory.config.CustomScopeConfigurer">
+		<property name="scopes">
+			<map>
+				<entry key="call">
+					<bean class="com.jacada.jad.callScope.CallScope">
+						<property name="repository">
+							<ref bean="callScopeAttributes" />
+						</property>
+					</bean>
+				</entry>
+			</map>
+		</property>
+	</bean>
+	
+	    <bean id="callScopeAttributes" class="com.jacada.jad.callScope.CallScopeAttributes" scope="session">
+        <aop:scoped-proxy/>
+    </bean>
+  	
+    <bean id="callScopeListener" class="com.jacada.jad.callScope.CallScopeListenerImpl" scope="session">
+        <aop:scoped-proxy/>
+       <property name="callAttributes" ref="callScopeAttributes"></property>
+	   <property name="ctiNotificationManager" ref="ctiNotificationManager"/>
+    </bean>
+  	
+	<bean id="productInfo" class="com.jacada.jad.core.ProductInfo" />
+	
+	<bean id="morpherRegistry" class="com.jacada.jad.core.MorpherRegistry" init-method="init"/>
+	
+   <bean id="sessionDumpQueueSettings" class="com.jacada.logging.sessionDump.SessionDumpQueueSettings" lazy-init="true">
+     <property name="queueSize" value="20"/>
+     </bean>
+		
+	<bean id="layoutDao" class="com.jacada.jad.layout.impl.LayoutDaoImpl" />
+</beans>

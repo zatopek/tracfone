@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report" pageWidth="842" pageHeight="595" orientation="Landscape" whenNoDataType="AllSectionsNoDetail" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" resourceBundle="UI_Texts" whenResourceMissingType="Key">
+	<import value="com.jacada.jad.reporting.jasper.utils.ReportingUtils"/>
+	<style name="GroupTitle" mode="Opaque" markup="none" fontSize="14" pdfFontName="Helvetica-Bold"/>
+	<style name="CallReasonColumnHeader" style="GroupTitle" mode="Opaque" backcolor="#CCFFFF" hAlign="Center" vAlign="Middle" fontSize="11"/>
+	<style name="DataColumnHeader" style="GroupTitle" mode="Opaque" backcolor="#4BACC6" hAlign="Center" vAlign="Middle" fontSize="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica">
+		<box leftPadding="1" rightPadding="1">
+			<pen lineWidth="0.5"/>
+			<topPen lineWidth="0.5"/>
+			<leftPen lineWidth="0.5"/>
+			<bottomPen lineWidth="1.5"/>
+			<rightPen lineWidth="0.5"/>
+		</box>
+	</style>
+	<style name="RowData" mode="Opaque" backcolor="#CCFFFF">
+		<box>
+			<pen lineWidth="0.5"/>
+			<topPen lineWidth="0.5"/>
+			<leftPen lineWidth="0.5"/>
+			<bottomPen lineWidth="0.5"/>
+			<rightPen lineWidth="0.5"/>
+		</box>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[($V{ROW_COUNT}.intValue() % 2 == 1) && ($V{ROW_COUNT}.intValue() >0)]]></conditionExpression>
+			<style mode="Opaque" backcolor="#FFFFFF"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{ROW_COUNT}.intValue() == 0]]></conditionExpression>
+			<style backcolor="#99FF99">
+				<box>
+					<bottomPen lineWidth="1.5"/>
+				</box>
+			</style>
+		</conditionalStyle>
+	</style>
+	<style name="RowHeader" style="RowData" pdfFontName="Helvetica-Bold">
+		<box leftPadding="2">
+			<pen lineWidth="0.0"/>
+			<topPen lineWidth="0.0"/>
+			<leftPen lineWidth="0.0"/>
+			<bottomPen lineWidth="0.0"/>
+			<rightPen lineWidth="0.0"/>
+		</box>
+	</style>
+	<style name="CallReasonTitle" style="GroupTitle" fontSize="12"/>
+	<parameter name="Title" class="java.lang.String"/>
+	<field name="timePercentage" class="java.lang.Float"/>
+	<field name="timeInTab" class="java.lang.Float"/>
+	<field name="tabId" class="java.lang.String"/>
+	<field name="callReason" class="java.lang.String"/>
+	<group name="callReason" keepTogether="true">
+		<groupExpression><![CDATA[$F{callReason}]]></groupExpression>
+		<groupHeader>
+			<band height="23">
+				<textField evaluationTime="Group" evaluationGroup="callReason" isBlankWhenNull="true">
+					<reportElement style="CallReasonTitle" x="0" y="0" width="300" height="20">
+						<printWhenExpression><![CDATA[$F{callReason}!=null]]></printWhenExpression>
+					</reportElement>
+					<textElement/>
+					<textFieldExpression class="java.lang.String"><![CDATA[$R{application.reporting.tabsReport.title.callReason}+" "+$F{callReason}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" evaluationTime="Group" evaluationGroup="callReason" isBlankWhenNull="true">
+					<reportElement style="GroupTitle" stretchType="RelativeToTallestObject" x="0" y="0" width="300" height="20">
+						<printWhenExpression><![CDATA[$F{callReason}==null]]></printWhenExpression>
+					</reportElement>
+					<textElement/>
+					<textFieldExpression class="java.lang.String"><![CDATA[$R{application.reporting.design.label.noData}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="115">
+				<crosstab>
+					<reportElement x="0" y="6" width="263" height="60"/>
+					<crosstabDataset>
+						<dataset resetType="Group" resetGroup="callReason"/>
+					</crosstabDataset>
+					<crosstabHeaderCell>
+						<cellContents mode="Opaque">
+							<box>
+								<pen lineWidth="1.0"/>
+							</box>
+							<line>
+								<reportElement x="0" y="0" width="112" height="28"/>
+							</line>
+						</cellContents>
+					</crosstabHeaderCell>
+					<rowGroup name="tabs" width="112">
+						<bucket>
+							<bucketExpression class="java.lang.String"><![CDATA[$F{tabId}]]></bucketExpression>
+						</bucket>
+						<crosstabRowHeader>
+							<cellContents>
+								<box>
+									<pen lineWidth="0.5"/>
+								</box>
+								<textField isStretchWithOverflow="true">
+									<reportElement style="RowHeader" stretchType="RelativeToTallestObject" x="0" y="0" width="112" height="30"/>
+									<textElement textAlignment="Left" verticalAlignment="Middle"/>
+									<textFieldExpression class="java.lang.String"><![CDATA[$V{tabs}]]></textFieldExpression>
+								</textField>
+							</cellContents>
+						</crosstabRowHeader>
+						<crosstabTotalRowHeader>
+							<cellContents/>
+						</crosstabTotalRowHeader>
+					</rowGroup>
+					<columnGroup name="CallReasonGroup" height="28" headerPosition="Center">
+						<bucket>
+							<bucketExpression class="java.lang.String"><![CDATA[$F{callReason}]]></bucketExpression>
+						</bucket>
+						<crosstabColumnHeader>
+							<cellContents>
+								<box>
+									<pen lineWidth="0.0"/>
+									<topPen lineWidth="0.0"/>
+									<leftPen lineWidth="0.0"/>
+									<bottomPen lineWidth="0.0"/>
+									<rightPen lineWidth="0.0"/>
+								</box>
+								<textField isStretchWithOverflow="true">
+									<reportElement style="DataColumnHeader" stretchType="RelativeToTallestObject" x="0" y="0" width="60" height="28"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle"/>
+									<textFieldExpression class="java.lang.String"><![CDATA[$R{application.reporting.tabsReport.column.title.tabTime}]]></textFieldExpression>
+								</textField>
+								<textField isStretchWithOverflow="true">
+									<reportElement style="DataColumnHeader" stretchType="RelativeToTallestObject" x="60" y="0" width="60" height="28"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle"/>
+									<textFieldExpression class="java.lang.String"><![CDATA[$R{application.reporting.tabsReport.column.title.percentage}]]></textFieldExpression>
+								</textField>
+							</cellContents>
+						</crosstabColumnHeader>
+						<crosstabTotalColumnHeader>
+							<cellContents/>
+						</crosstabTotalColumnHeader>
+					</columnGroup>
+					<measure name="percentageMeasure" class="java.lang.Float">
+						<measureExpression><![CDATA[$F{timePercentage}]]></measureExpression>
+					</measure>
+					<measure name="tabTimeMeasure" class="java.lang.Float">
+						<measureExpression><![CDATA[$F{timeInTab}]]></measureExpression>
+					</measure>
+					<crosstabCell width="120" height="30">
+						<cellContents backcolor="#FFFFFF" mode="Opaque">
+							<box>
+								<pen lineWidth="1.0"/>
+							</box>
+							<textField isStretchWithOverflow="true">
+								<reportElement style="RowData" stretchType="RelativeToTallestObject" x="0" y="0" width="60" height="30"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="10"/>
+								</textElement>
+								<textFieldExpression class="java.lang.String"><![CDATA[ReportingUtils.getTimeString(java.lang.Math.round($V{tabTimeMeasure}))]]></textFieldExpression>
+							</textField>
+							<textField isStretchWithOverflow="true" pattern="0%">
+								<reportElement style="RowData" stretchType="RelativeToTallestObject" x="60" y="0" width="60" height="30"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="10"/>
+								</textElement>
+								<textFieldExpression class="java.lang.Float"><![CDATA[$V{percentageMeasure}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabCell>
+				</crosstab>
+				<pie3DChart>
+					<chart isShowLegend="false">
+						<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="243" y="0" width="559" height="115"/>
+						<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="40"/>
+						<chartTitle/>
+						<chartSubtitle/>
+						<chartLegend position="Top"/>
+					</chart>
+					<pieDataset>
+						<dataset resetType="Group" resetGroup="callReason"/>
+						<keyExpression><![CDATA[$F{tabId}]]></keyExpression>
+						<valueExpression><![CDATA[$F{timeInTab}]]></valueExpression>
+					</pieDataset>
+					<pie3DPlot depthFactor="0.1" isCircular="true" labelFormat="{0}  {2}" legendLabelFormat="{0}  {1}">
+						<plot foregroundAlpha="0.7" labelRotation="0.0"/>
+						<itemLabel color="#000000" backgroundColor="#FFFFFF">
+							<font size="10"/>
+						</itemLabel>
+					</pie3DPlot>
+				</pie3DChart>
+			</band>
+		</groupFooter>
+	</group>
+	<title>
+		<band height="32">
+			<textField>
+				<reportElement style="GroupTitle" x="0" y="0" width="200" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$R{application.reporting.tabsReport.title.group}+" "+$P{Title}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+</jasperReport>

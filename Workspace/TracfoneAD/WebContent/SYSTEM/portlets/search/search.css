@@ -1,0 +1,4 @@
+.x-form-field-wrap .x-form-search-trigger{
+    background-image: url(search.gif);
+    cursor:pointer;
+}

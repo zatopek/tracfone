@@ -1,0 +1,11 @@
+<%@ page import="org.springframework.web.context.support.WebApplicationContextUtils"%>
+<%@ page import="org.springframework.context.ApplicationContext"%>
+<%@ taglib uri="http://www.jacada.com/taglibs/jacada" prefix="jacada"%> 
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/SYSTEM/resources/css/messaging.css">
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/SYSTEM/resources/css/helpOnHand.css">
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/SYSTEM/resources/css/taskManager.css">
+<link href="<%=request.getContextPath()%>/SYSTEM/resources/css/smartPad.css" rel="stylesheet" type="text/css"/>
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/USER/resources/css/override.css">
+	

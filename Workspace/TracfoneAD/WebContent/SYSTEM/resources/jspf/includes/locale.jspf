@@ -1,0 +1,17 @@
+<%@page import="org.springframework.context.ApplicationContext"%>
+<%@page import="org.springframework.web.context.support.WebApplicationContextUtils"%>
+<%@page import="SYSTEM.global.managers.LocaleManager"%>
+<%@page import="com.jacada.jad.logging.LogWrapper"%>
+
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%
+    ApplicationContext ctx = WebApplicationContextUtils.getWebApplicationContext(application);
+	LocaleManager localeManager = (LocaleManager)ctx.getBean("localeManager");
+	String applicationLocale = localeManager.getApplicationLocale();
+	String resourseBundleName = localeManager.getResourceBundleBaseName();
+	LogWrapper.debug("applicationLocale = " + applicationLocale);
+	LogWrapper.debug("resourseBundleName = " + resourseBundleName);
+    %>
+    
+    <fmt:setLocale value="<%=applicationLocale%>" scope="application" />
+	<fmt:setBundle basename="<%=resourseBundleName%>" scope="application" var="applicationMessages"/>

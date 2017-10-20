@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<processed-annotations>
+  <!-- Generated from Controller on Fri Oct 20 10:16:37 EDT 2017 -->
+  <type-name>Controller</type-name>
+  <annotated-element>
+    <element-name>globalApp</element-name>
+    <annotation>
+      <annotation-name>org.apache.beehive.netui.pageflow.annotations.Jpf.SharedFlowField</annotation-name>
+      <annotation-attribute>
+        <attribute-name>name</attribute-name>
+        <string-value>globalApp</string-value>
+      </annotation-attribute>
+    </annotation>
+  </annotated-element>
+</processed-annotations>

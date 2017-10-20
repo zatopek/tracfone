@@ -1,0 +1,13 @@
+<webappbnd:WebAppBinding xmi:version="2.0"
+	xmlns:xmi="http://www.omg.org/XMI" xmlns:webappbnd="webappbnd.xmi"
+	xmlns:webapplication="webapplication.xmi" xmi:id="WebAppBinding_1" 
+	virtualHostName="default_host">
+	<webapp href="WEB-INF/web.xml"/>
+
+	<resRefBindings xmi:id="ResourceRefBinding_JacadaDatabaseReference"
+		jndiName="JACADA_JDBC_DB">
+		<bindingResourceRef
+			href="WEB-INF/web.xml#JacadaDatabaseReference" />
+	</resRefBindings>
+
+</webappbnd:WebAppBinding>

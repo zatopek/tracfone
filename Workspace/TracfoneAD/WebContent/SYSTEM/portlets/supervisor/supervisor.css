@@ -1,0 +1,26 @@
+.summaryinfolabel {
+    color: #444;
+    display: block;
+    float: left;
+    font: normal 12px arial, sans-serif;
+    height: 20px;
+    margin-right: 6px;
+    padding-right: 18px; /* sliding doors padding */
+    text-decoration: none;
+}
+
+.summaryinfomainpanel {  
+    margin-left: 50px;
+    padding-top: 4px;
+/*    padding-bottom: 4px;*/
+}
+
+.summaryinfolabelPanel {  
+    margin-right: 10px;
+    marging-top: 5px;
+    padding-right: 10px; 
+}
+
+.summaryinfolabelValue {  
+    marging-top: 5px;
+}

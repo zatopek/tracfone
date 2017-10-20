@@ -1,0 +1,37 @@
+#modalControlDiv  {
+   position: absolute;
+   z-index: 0;
+   background-color: #ffffff;
+}
+
+#modalControlTitle{
+/*    background-color: #486CAE;*/
+    background: transparent url(../../../resources/js/extJS/resources/images/default/panel/white-top-bottom.gif) repeat-x 0 -1px;
+    z-index:0;
+    color:#15428b;
+    line-height: 15px;
+    font: bold 11px tahoma,arial,verdana,sans-serif;
+    height: 1.3em;
+    padding: 1px 2px 1px 10px;
+    border:1px solid #99bbe8;
+    position: relative;
+    z-index: 203;
+}
+#modalControlPage{
+    height: 100%;
+   z-index: 0;
+   overflow: auto;
+   border:1px solid #99bbe8;
+   font-size: 11px;
+   font-family: tahoma,arial,verdana,sans-serif;
+
+}
+.popupButton{
+   font-size: 11px;
+   font-family: tahoma,arial,verdana,sans-serif;
+}
+
+#modalControlTitle table { margin: 0; padding: 0; border: 0; }
+#modalControlTitle table td { margin: 0; padding: 0; border: 0; }
+#modalControlTitle table tr { margin: 0; padding: 0; border: 0; }
+

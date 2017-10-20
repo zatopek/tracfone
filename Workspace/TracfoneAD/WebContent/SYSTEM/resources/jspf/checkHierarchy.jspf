@@ -1,0 +1,28 @@
+<%@ page import="com.jacada.jad.logging.LogWrapper"%>
+<%@ page import="java.net.*"%>
+<%@ taglib uri="http://beehive.apache.org/netui/tags-html-1.0" prefix="netui"%>
+<%@ taglib uri="http://www.jacada.com/taglibs/jacada" prefix="jacada"%>
+
+
+<%
+    URL userResource = null;
+    String userPath = request.getServletPath().replaceAll("SYSTEM", "USER");
+   
+    ServletContext cntx = this.getServletConfig().getServletContext();
+    try{
+        userResource = cntx.getResource(userPath);  
+    }
+    catch (Exception e)
+    {     
+        LogWrapper.error(e);
+    }
+    finally
+    {
+         pageContext.setAttribute("userOverride", new Boolean(userResource != null));
+    }
+%>
+
+  <c:if test="<%=userResource != null%>"> 
+   <c:import url="<%=userPath%>"/>
+   <jacada:skip/>
+  </c:if>

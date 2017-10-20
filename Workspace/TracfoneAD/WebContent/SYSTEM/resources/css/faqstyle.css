@@ -1,0 +1,45 @@
+.faqGreeting {color: olive; text-align: center;}
+
+.faqGroupHeading {
+    color: green; 
+    font-weight: bold; 
+    font-family:verdana;
+    font-size: 14;}
+
+.faqHeading { 
+    font-weight: bold; 
+    font-family:verdana;
+    font-size: 16;}
+
+.faqQuestion {  
+    font-family:verdana;
+    font-size: 14;}
+
+.faqAnswer { 
+    color: green;  
+    font-family:verdana;
+    font-size: 14;}
+
+.faqAgentmessage { 
+    color: black;
+    font-weight: bold; 
+    font-family:verdana;
+    font-size: 14;}
+
+.faqOption {    
+    
+    font-family:verdana;
+    font-size: 14;}
+
+.faqTables { font-weight: bold;}
+
+.faqTable {
+	border-collapse:collapse;
+	border:1px solid #336699;
+	background-color:#336699;		
+	color:#FFFFFF;	
+	font-size: 9pt;	
+	font-weight:bold;
+}
+
+

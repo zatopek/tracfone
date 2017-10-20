@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.1.xsd">
+   
+	<bean class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+        <property name="mappings">
+            <props>
+                 <prop key="taskManager.json">taskManagerJsonController</prop>
+                <prop key="supervisorTaskManager.json">supervisorTaskViewJsonController</prop>
+            </props>                     
+        </property>
+    </bean>
+
+	 <bean id="taskManagerJsonController" class="com.jacada.jad.taskmanager.TaskManagerJsonController" >
+		<property name="taskManager" ref="taskManager" />
+    	<property name="methodNameResolver" ref="methodNameResolver" />
+    	
+	</bean>
+	<bean id="supervisorTaskViewJsonController" class="com.jacada.jad.supervisor.web.SupervisorTaskViewJsonController" >
+		<property name="taskManager" ref="taskManager" />
+		<property name="supervisorMgr" ref="spvcontrollerManager" />
+		<property name="methodNameResolver" ref="methodNameResolver"/>
+	</bean>
+	<bean name="viewResolver" class="org.springframework.web.servlet.view.XmlViewResolver" />
+	
+    
+	<bean name="methodNameResolver" class="org.springframework.web.servlet.mvc.multiaction.ParameterMethodNameResolver">
+		<property name="paramName" value="method"/>
+		<property name="defaultMethodName" value="load"/>
+	</bean>
+
+</beans>       

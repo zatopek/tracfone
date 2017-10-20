@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
+http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.1.xsd">    
+
+    <bean id="htManager" class="com.jacada.jad.ht.model.DefaultHTManager" lazy-init="true">
+        <property name="aeTaskOperationsDao" ref="aeTaskOperationsDao"/>
+        <property name="taskOperationsDao" ref="taskOperationsDao"/>
+        <property name="usersManager" ref="usersManager"/>
+        <property name="taskMetadataProvider" ref="taskMetadataProvider"/>
+    </bean>
+
+    <bean id="aeTaskOperationsDao" class="com.jacada.jad.ht.dao.WSAeTaskOperationsDao" scope="session" lazy-init="true">
+    	<aop:scoped-proxy/>
+        <property name="workflowServerURL" ref="workflowServerURL"/>
+    </bean>
+
+    <bean id="taskOperationsDao" class="com.jacada.jad.ht.dao.WSTaskOperationsDao" scope="session" lazy-init="true">
+    	<aop:scoped-proxy/>
+        <property name="workflowServerURL" ref="workflowServerURL"/>
+    </bean>
+
+    <bean id="workflowServerURL" class="com.jacada.jad.projectVariables.impl.ProjectVariableURLAware" lazy-init="true">
+        <constructor-arg ref="urlCalculator"/>
+        <property name="variable" value="WORKFLOW_SERVER_URL"/>
+    </bean>
+      
+    <bean id="taskLocationDao" class="com.jacada.jad.ht.dao.TaskLocationDaoImpl" lazy-init="true"/>
+     
+    <bean id="taskMetadataProvider" class="com.jacada.jad.ht.model.TaskMetadataProvider" lazy-init="true">
+        <constructor-arg ref="workflowServerURL"/>
+        <property name="taskLocationDao" ref="taskLocationDao" />
+        <property name="cacheManager" ref="ehcacheCacheManager" />
+    </bean>
+</beans>

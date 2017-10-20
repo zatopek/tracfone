@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.1.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.1.xsd">
+
+	<!-- ============== States start ============== -->
+
+	<bean id="inboundWIState" class="com.jacada.sm.framework.state.DefaultState" lazy-init="true">
+		<property name="initialState" value="true" />
+	</bean>
+	<bean id="inWorkWIState" class="com.jacada.sm.framework.state.DefaultState" lazy-init="true"/>
+	<bean id="finishedWIState" class="com.jacada.sm.framework.state.DefaultState" lazy-init="true">
+		<property name="terminationState" value="true" />
+	</bean>
+	<!-- ============== States end ============== -->
+
+	<!-- ============== Conditions start ============== -->
+	<bean id="inboundInWorkWICondition" class="com.jacada.jad.cti.sm.conditions.media.workitem.InboundInWorkWorkItemCondition" lazy-init="true"/>
+	<bean id="inboundFinishedWICondition" class="com.jacada.jad.cti.sm.conditions.media.workitem.InboundFinishedWorkItemCondition" lazy-init="true"/>
+	<bean id="inWorkFinishedWICondition" class="com.jacada.jad.cti.sm.conditions.media.workitem.InWorkFinishedWorkItemCondition" lazy-init="true"/>
+	<!-- ============== Conditions end ============== -->
+
+
+	<!-- ============== Actions start ============== -->
+	<!-- ============== Actions end ============== -->
+
+	<!-- ============== Transitions start ============== -->
+
+	<bean id="inboundInWorkWITransition" class="com.jacada.sm.framework.transition.DefaultTransition" lazy-init="true">
+		<property name="condition" ref="inboundInWorkWICondition" />
+		<property name="fromState" ref="inboundWIState" />
+		<property name="toState" ref="inWorkWIState" />
+	</bean>
+
+	<bean id="inboundFinishedWITransition" class="com.jacada.sm.framework.transition.DefaultTransition" lazy-init="true">
+		<property name="condition" ref="inboundFinishedWICondition" />
+		<property name="fromState" ref="inboundWIState" />
+		<property name="toState" ref="finishedWIState" />
+	</bean>
+
+	<util:list id="inboundWIStateTransitionsList">
+		<ref bean="inboundInWorkWITransition" />
+		<ref bean="inboundFinishedWITransition" />
+	</util:list>
+
+	<bean id="inWorkFinishedWITransition" class="com.jacada.sm.framework.transition.DefaultTransition" lazy-init="true">
+		<property name="condition" ref="inWorkFinishedWICondition" />
+		<property name="fromState" ref="inWorkWIState" />
+		<property name="toState" ref="finishedWIState" />
+	</bean>
+
+	<util:list id="inWorkWIStateTransitionsList">
+		<ref bean="inWorkFinishedWITransition" />
+	</util:list>
+
+	<!-- ============== Transitions end ============== -->
+
+	<!-- ============== Genesys Work Items State Model start ============== -->
+	<bean id="workItemStateModel" class="com.jacada.sm.framework.state.model.DefaultStateModel" lazy-init="true">
+		<constructor-arg>
+			<map>
+				<entry key-ref="inboundWIState" value-ref="inboundWIStateTransitionsList" />
+				<entry key-ref="inWorkWIState" value-ref="inWorkWIStateTransitionsList" />
+				<entry key-ref="finishedWIState" value-ref="emptyTransitionsList" />
+			</map>
+		</constructor-arg>
+	</bean>
+	<!-- ============== State Model end ============== -->
+
+</beans>

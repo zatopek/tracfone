@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report" pageWidth="842" pageHeight="595" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="30" bottomMargin="30" isSummaryWithPageHeaderAndFooter="true" resourceBundle="UI_Texts" whenResourceMissingType="Key">
+	<import value="com.jacada.jad.reporting.jasper.utils.ReportingUtils"/>
+	<style name="GroupTitle" mode="Opaque" markup="none" fontSize="14" pdfFontName="Helvetica-Bold"/>
+	<style name="DataColumnHeader" style="GroupTitle" mode="Opaque" backcolor="#4BACC6" hAlign="Center" vAlign="Middle" fontSize="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica">
+		<box leftPadding="1" rightPadding="1">
+			<pen lineWidth="0.5"/>
+			<topPen lineWidth="0.5"/>
+			<leftPen lineWidth="0.5"/>
+			<bottomPen lineWidth="1.5"/>
+			<rightPen lineWidth="0.5"/>
+		</box>
+	</style>
+	<style name="CallReasonColumnHeader" style="GroupTitle" mode="Opaque" backcolor="#CCFFFF" hAlign="Center" vAlign="Middle" fontSize="11"/>
+	<style name="RowData" mode="Opaque" backcolor="#CCFFFF" fill="Solid">
+		<box>
+			<pen lineWidth="0.5"/>
+			<topPen lineWidth="0.5"/>
+			<leftPen lineWidth="0.5"/>
+			<bottomPen lineWidth="0.5"/>
+			<rightPen lineWidth="0.5"/>
+		</box>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[($V{ROW_COUNT}.intValue() % 2 == 1) && ($V{ROW_COUNT}.intValue() >0)]]></conditionExpression>
+			<style mode="Opaque" backcolor="#FFFFFF"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[($V{ROW_COUNT}.intValue() == 0)]]></conditionExpression>
+			<style backcolor="#99FF99">
+				<box>
+					<bottomPen lineWidth="1.5"/>
+				</box>
+			</style>
+		</conditionalStyle>
+	</style>
+	<style name="RowHeader" style="RowData" pdfFontName="Helvetica-Bold">
+		<box leftPadding="0"/>
+	</style>
+	<style name="SLA_CallTime" style="RowData">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[($V{interactionsMeasure} > 0 ) &&
+($P{sla_callTime}.overPerform(ReportingUtils.getAverage($V{callTimeMeasure},$V{interactionsMeasure}),ReportingUtils.getAverage($V{callTimeMeasure_AgentNameGroup_ALL},$V{interactionsMeasure_AgentNameGroup_ALL})))]]></conditionExpression>
+			<style backcolor="#00FF00" fill="Solid" pdfFontName="Helvetica"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[($V{interactionsMeasure} > 0 ) &&
+($P{sla_callTime}.underPerform(ReportingUtils.getAverage($V{callTimeMeasure},$V{interactionsMeasure}),ReportingUtils.getAverage($V{callTimeMeasure_AgentNameGroup_ALL},$V{interactionsMeasure_AgentNameGroup_ALL})))]]></conditionExpression>
+			<style backcolor="#FF0000" pdfFontName="Helvetica"/>
+		</conditionalStyle>
+	</style>
+	<style name="SLA_ACWTime" style="RowData">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[($V{interactionsMeasure} > 0 ) &&
+($P{sla_acwTime}.overPerform(ReportingUtils.getAverage($V{acwTimeMeasure},$V{interactionsMeasure}),ReportingUtils.getAverage($V{acwTimeMeasure_AgentNameGroup_ALL},$V{interactionsMeasure_AgentNameGroup_ALL})))]]></conditionExpression>
+			<style backcolor="#00FF00"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[($V{interactionsMeasure} > 0 ) &&
+($P{sla_acwTime}.underPerform(ReportingUtils.getAverage($V{acwTimeMeasure},$V{interactionsMeasure}),ReportingUtils.getAverage($V{acwTimeMeasure_AgentNameGroup_ALL},$V{interactionsMeasure_AgentNameGroup_ALL})))]]></conditionExpression>
+			<style backcolor="#FF0000"/>
+		</conditionalStyle>
+	</style>
+	<style name="SLA_callCount" style="RowData">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[($V{interactionsMeasure} > 0 ) &&
+ $V{ROW_COUNT}>0 &&
+ ($P{sla_callCount}.overPerform(Float.valueOf($V{interactionsMeasure}),ReportingUtils.getAverage(Long.valueOf($V{interactionsMeasure_AgentNameGroup_ALL}),$V{totalAgents_AgentNameGroup_CallReasonGroup_ALL})))]]></conditionExpression>
+			<style backcolor="#00FF00"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[($V{interactionsMeasure} > 0 ) &&
+ $V{ROW_COUNT}>0 &&
+ ($P{sla_callCount}.underPerform(Float.valueOf($V{interactionsMeasure}),ReportingUtils.getAverage(Long.valueOf($V{interactionsMeasure_AgentNameGroup_ALL}),$V{totalAgents_AgentNameGroup_CallReasonGroup_ALL})))]]></conditionExpression>
+			<style backcolor="#FF0000"/>
+		</conditionalStyle>
+	</style>
+	<style name="SLA_transferCount" style="RowData">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[($V{interactionsMeasure} > 0 ) &&
+ $V{ROW_COUNT}>0 &&
+ ($P{sla_transferCount}.overPerform(ReportingUtils.getAverage($V{transfersMeasure}, $V{interactionsMeasure}),ReportingUtils.getAverage(Long.valueOf($V{transfersMeasure_AgentNameGroup_ALL}),$V{interactionsMeasure_AgentNameGroup_ALL})))]]></conditionExpression>
+			<style backcolor="#00FF00"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[($V{interactionsMeasure} > 0 ) &&
+ $V{ROW_COUNT}>0 &&
+ ($P{sla_transferCount}.underPerform(ReportingUtils.getAverage($V{transfersMeasure}, $V{interactionsMeasure}),ReportingUtils.getAverage(Long.valueOf($V{transfersMeasure_AgentNameGroup_ALL}),$V{interactionsMeasure_AgentNameGroup_ALL})))]]></conditionExpression>
+			<style backcolor="#FF0000"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="Title" class="java.lang.String"/>
+	<field name="agentDisplayName" class="java.lang.String"/>
+	<field name="callTime" class="java.lang.Long"/>
+	<field name="acwTime" class="java.lang.Long"/>
+	<field name="transfers" class="java.lang.Integer"/>
+	<field name="callReason" class="java.lang.String"/>
+	<field name="interactions" class="java.lang.Integer"/>
+	<title>
+		<band height="20">
+			<textField>
+				<reportElement style="GroupTitle" stretchType="RelativeToTallestObject" x="0" y="0" width="200" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$R{application.reporting.interactionsReport.title.group}+" "+$P{Title}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="20">
+			<textField isStretchWithOverflow="true" evaluationTime="Report">
+				<reportElement x="1" y="0" width="100" height="20">
+					<printWhenExpression><![CDATA[$F{callReason}!=null]]></printWhenExpression>
+				</reportElement>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{Title}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" evaluationTime="Report">
+				<reportElement style="GroupTitle" x="0" y="0" width="300" height="20">
+					<printWhenExpression><![CDATA[$F{callReason}==null]]></printWhenExpression>
+				</reportElement>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$R{application.reporting.design.label.noData}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<summary>
+		<band height="90">
+			<elementGroup>
+				<crosstab>
+					<reportElement style="GroupTitle" mode="Transparent" x="0" y="3" width="802" height="82"/>
+					<crosstabParameter name="sla_callTime" class="com.jacada.jad.reporting.jasper.utils.PerformanceEvaluator">
+						<parameterValueExpression><![CDATA[$P{REPORT_PARAMETERS_MAP}.get("sla_callTime")]]></parameterValueExpression>
+					</crosstabParameter>
+					<crosstabParameter name="sla_acwTime" class="com.jacada.jad.reporting.jasper.utils.PerformanceEvaluator">
+						<parameterValueExpression><![CDATA[$P{REPORT_PARAMETERS_MAP}.get("sla_acwTime")]]></parameterValueExpression>
+					</crosstabParameter>
+					<crosstabParameter name="sla_callCount" class="com.jacada.jad.reporting.jasper.utils.PerformanceEvaluator">
+						<parameterValueExpression><![CDATA[$P{REPORT_PARAMETERS_MAP}.get("sla_callCount")]]></parameterValueExpression>
+					</crosstabParameter>
+					<crosstabParameter name="sla_transferCount" class="com.jacada.jad.reporting.jasper.utils.PerformanceEvaluator">
+						<parameterValueExpression><![CDATA[$P{REPORT_PARAMETERS_MAP}.get("sla_transferCount")]]></parameterValueExpression>
+					</crosstabParameter>
+					<crosstabHeaderCell>
+						<cellContents backcolor="#FFFFFF" mode="Transparent">
+							<box>
+								<pen lineWidth="0.5"/>
+								<topPen lineWidth="0.5"/>
+								<leftPen lineWidth="0.5"/>
+								<bottomPen lineWidth="0.5"/>
+								<rightPen lineWidth="0.5"/>
+							</box>
+							<line>
+								<reportElement x="0" y="0" width="65" height="50"/>
+							</line>
+						</cellContents>
+					</crosstabHeaderCell>
+					<rowGroup name="AgentNameGroup" width="65" totalPosition="Start">
+						<bucket>
+							<bucketExpression class="java.lang.String"><![CDATA[$F{agentDisplayName}]]></bucketExpression>
+						</bucket>
+						<crosstabRowHeader>
+							<cellContents style="RowHeader">
+								<box leftPadding="0" rightPadding="0">
+									<pen lineWidth="0.5"/>
+									<rightPen lineWidth="1.5"/>
+								</box>
+								<textField isStretchWithOverflow="true">
+									<reportElement style="RowHeader" x="0" y="0" width="65" height="20"/>
+									<box leftPadding="2">
+										<rightPen lineWidth="1.5"/>
+									</box>
+									<textElement textAlignment="Left" verticalAlignment="Middle"/>
+									<textFieldExpression class="java.lang.String"><![CDATA[$V{AgentNameGroup}]]></textFieldExpression>
+								</textField>
+							</cellContents>
+						</crosstabRowHeader>
+						<crosstabTotalRowHeader>
+							<cellContents style="RowHeader">
+								<textField isStretchWithOverflow="true">
+									<reportElement style="RowHeader" x="0" y="0" width="65" height="20"/>
+									<box leftPadding="2">
+										<pen lineWidth="0.5"/>
+										<topPen lineWidth="0.5"/>
+										<leftPen lineWidth="0.5"/>
+										<bottomPen lineWidth="0.5"/>
+										<rightPen lineWidth="0.5"/>
+									</box>
+									<textElement/>
+									<textFieldExpression class="java.lang.String"><![CDATA[$R{application.reporting.interactionsReport.row.title.total}]]></textFieldExpression>
+								</textField>
+							</cellContents>
+						</crosstabTotalRowHeader>
+					</rowGroup>
+					<columnGroup name="CallReasonGroup" height="50" headerPosition="Center">
+						<bucket>
+							<bucketExpression class="java.lang.String"><![CDATA[$F{callReason}]]></bucketExpression>
+						</bucket>
+						<crosstabColumnHeader>
+							<cellContents>
+								<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+									<reportElement style="CallReasonColumnHeader" stretchType="RelativeToTallestObject" mode="Opaque" x="0" y="0" width="200" height="20"/>
+									<box>
+										<pen lineWidth="0.5"/>
+									</box>
+									<textElement/>
+									<textFieldExpression class="java.lang.String"><![CDATA[$V{CallReasonGroup}]]></textFieldExpression>
+								</textField>
+								<textField isStretchWithOverflow="true">
+									<reportElement style="DataColumnHeader" stretchType="RelativeToTallestObject" mode="Opaque" x="0" y="20" width="50" height="30"/>
+									<textElement/>
+									<textFieldExpression class="java.lang.String"><![CDATA[$R{application.reporting.interactionsReport.column.title.calls}]]></textFieldExpression>
+								</textField>
+								<textField isStretchWithOverflow="true">
+									<reportElement style="DataColumnHeader" stretchType="RelativeToTallestObject" mode="Opaque" x="50" y="20" width="50" height="30"/>
+									<textElement/>
+									<textFieldExpression class="java.lang.String"><![CDATA[$R{application.reporting.interactionsReport.column.title.callTime}]]></textFieldExpression>
+								</textField>
+								<textField isStretchWithOverflow="true">
+									<reportElement style="DataColumnHeader" stretchType="RelativeToTallestObject" x="100" y="20" width="50" height="30"/>
+									<textElement/>
+									<textFieldExpression class="java.lang.String"><![CDATA[$R{application.reporting.interactionsReport.column.title.acwTime}]]></textFieldExpression>
+								</textField>
+								<textField isStretchWithOverflow="true">
+									<reportElement style="DataColumnHeader" stretchType="RelativeToTallestObject" x="150" y="20" width="50" height="30"/>
+									<textElement/>
+									<textFieldExpression class="java.lang.String"><![CDATA[$R{application.reporting.interactionsReport.column.title.transfers}]]></textFieldExpression>
+								</textField>
+							</cellContents>
+						</crosstabColumnHeader>
+						<crosstabTotalColumnHeader>
+							<cellContents/>
+						</crosstabTotalColumnHeader>
+					</columnGroup>
+					<measure name="interactionsMeasure" class="java.lang.Integer" calculation="Sum">
+						<measureExpression><![CDATA[$F{interactions}]]></measureExpression>
+					</measure>
+					<measure name="transfersMeasure" class="java.lang.Integer" calculation="Sum">
+						<measureExpression><![CDATA[$F{transfers}]]></measureExpression>
+					</measure>
+					<measure name="callTimeMeasure" class="java.lang.Long" calculation="Sum">
+						<measureExpression><![CDATA[$F{callTime}]]></measureExpression>
+					</measure>
+					<measure name="acwTimeMeasure" class="java.lang.Long" calculation="Sum">
+						<measureExpression><![CDATA[$F{acwTime}]]></measureExpression>
+					</measure>
+					<measure name="totalAgents" class="java.lang.Integer" calculation="DistinctCount">
+						<measureExpression><![CDATA[$F{agentDisplayName}]]></measureExpression>
+					</measure>
+					<crosstabCell width="200" height="20">
+						<cellContents style="RowData">
+							<textField pattern="#0">
+								<reportElement style="SLA_callCount" stretchType="RelativeToBandHeight" x="0" y="0" width="50" height="20"/>
+								<box>
+									<leftPen lineWidth="1.0"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textFieldExpression class="java.lang.Integer"><![CDATA[$V{totalAgents}!=0 ?  $V{interactionsMeasure}/$V{totalAgents} : $V{interactionsMeasure}]]></textFieldExpression>
+							</textField>
+							<textField pattern="#0">
+								<reportElement style="SLA_CallTime" stretchType="RelativeToTallestObject" x="50" y="0" width="50" height="20"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textFieldExpression class="java.lang.String"><![CDATA[ReportingUtils.getAverageTimeString($V{callTimeMeasure}, $V{interactionsMeasure})]]></textFieldExpression>
+							</textField>
+							<textField pattern="#0">
+								<reportElement style="SLA_ACWTime" stretchType="RelativeToTallestObject" x="100" y="0" width="50" height="20"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textFieldExpression class="java.lang.String"><![CDATA[ReportingUtils.getAverageTimeString($V{acwTimeMeasure}, $V{interactionsMeasure})]]></textFieldExpression>
+							</textField>
+							<textField pattern="#0">
+								<reportElement style="SLA_transferCount" stretchType="RelativeToTallestObject" x="150" y="0" width="50" height="20"/>
+								<box>
+									<rightPen lineWidth="1.0"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textFieldExpression class="java.lang.Integer"><![CDATA[$V{totalAgents}!=0 ?  $V{transfersMeasure}/$V{totalAgents} : $V{transfersMeasure}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabCell>
+				</crosstab>
+			</elementGroup>
+		</band>
+	</summary>
+</jasperReport>

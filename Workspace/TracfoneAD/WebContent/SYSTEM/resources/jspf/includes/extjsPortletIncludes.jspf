@@ -1,0 +1,46 @@
+<%@ page import="org.springframework.web.context.support.WebApplicationContextUtils"%>
+<%@ page import="org.springframework.context.ApplicationContext"%>
+<%@ page import="com.jacada.jad.logging.LogWrapper"%>
+<%@page import="com.jacada.jad.toolbar.interfaces.ToolbarManager"%>
+<%@ taglib uri="http://www.jacada.com/taglibs/jacada" prefix="jacada"%> 
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="core"%>
+
+
+	<% 
+	ApplicationContext applicationContext = WebApplicationContextUtils.getWebApplicationContext(application);
+	%>
+	
+	
+	<%
+    	ToolbarManager mngr = (ToolbarManager)applicationContext.getBean("toolbarManager");
+     	String portletToolbarKey = (String)request.getAttribute(ToolbarManager.PORTLET_TOOLBAR_KEY);
+    	boolean notInToolbar = !mngr.isButtonInToolbar(portletToolbarKey);
+    	LogWrapper.debug("portlet " + portletToolbarKey + " is not in toolbar = " + notInToolbar);
+    %>	
+    <core:if test="<%=notInToolbar%>">
+	    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/SYSTEM/resources/js/extJS/resources/css/ext-all.css" />
+    	<script type="text/javascript" src="<%=request.getContextPath()%>/SYSTEM/resources/js/prototype.js"></script>
+	    <script type="text/javascript" src="${pageContext.request.contextPath}/SYSTEM/resources/js/extJS/adapter/prototype/ext-prototype-adapter.js"></script>
+    	<script type="text/javascript" src="<%=request.getContextPath()%>/SYSTEM/resources/js/extJS/adapter/ext/ext-base.js"></script>
+	    <script type="text/javascript" src="<%=request.getContextPath()%>/SYSTEM/resources/js/extJS/ext-all.js"></script>
+		<script type="text/javascript" src="<%=request.getContextPath()%>/SYSTEM/resources/js/jad.js"></script> 
+		<script type="text/javascript" src="<%=request.getContextPath()%>/SYSTEM/resources/js/JadWrapperToExtJs.js"> </script>
+	    <script type="text/javascript" src="<%=request.getContextPath()%>/SYSTEM/resources/js/Extjs-jad-utils.js"> </script>
+	    <script type="text/javascript" src="<%=request.getContextPath()%>/SYSTEM/resources/js/extJS-extensions/jacada/overrideToExtJS.js"> </script>
+		<script>
+			extPersonalizationInit(document, '${pageContext.request.contextPath}');
+		</script>
+    </core:if>
+   
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/USER/resources/css/override.css">
+   
+      
+    <script> 
+       function getLocalizationValue(key){
+			return $W().localeManager.getLocalizationValue(key);
+		}
+    </script>
+    <script language="JavaScript" type="text/javascript" src="<%=request.getContextPath()%>/SYSTEM/resources/js/common.js"></script>
+	<script language="JavaScript" type="text/javascript" src="<%=request.getContextPath()%>/USER/resources/js/override.js"></script>  		
+	 
+		

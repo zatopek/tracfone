@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans    
+		http://www.springframework.org/schema/beans/spring-beans.xsd    
+		http://www.springframework.org/schema/tx    
+		http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+	<bean id="transactionManager"
+		class="org.springframework.orm.jpa.JpaTransactionManager">
+		<property name="entityManagerFactory"
+			ref="entityManagerFactory" />
+	</bean>
+
+	<bean id="persistenceUnitManager"
+		class="com.jacada.spring.jpa.CustomPersistenceUnitManager">
+		<property name="persistenceXmlLocations">
+			<list>
+				<value>classpath*:META-INF/single-persistence.xml</value>
+			</list>
+		</property>
+		<property name="defaultDataSource" ref="serverDataSource"></property>
+	</bean>
+
+	<bean id="entityManagerFactory"
+		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean" depends-on="cacheProviderCacheManagerInjector">
+		<property name="persistenceUnitManager" ref="persistenceUnitManager"></property>
+		<property name="dataSource" ref="serverDataSource"></property>
+	</bean>
+
+	<bean
+		class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />
+	<bean
+		class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />
+	<tx:annotation-driven transaction-manager="transactionManager" />
+    
+    <bean id="sessionFactory" factory-bean="entityManagerFactory" factory-method="getSessionFactory" />
+
+</beans>

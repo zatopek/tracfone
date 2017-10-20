@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.1.xsd">
+		
+	  	<!-- JADService Beans -->
+	  	<bean id="com.jacada.jad.services.JacadaService" class="com.jacada.jad.services.JacadaService" scope="session" lazy-init="true"></bean>	
+		<alias name="com.jacada.jad.services.JacadaService" alias="JacadaService"/>
+		<alias name="com.jacada.jad.services.JacadaService" alias="com.jacada.jad.services.IJacadaService"/>
+		
+		<!-- USER JADService Beans -->
+	  	<bean id="USER.external.JacadaCustomService" class="USER.external.JacadaCustomService">
+	  		<property name="globalAppHandler">
+				<ref bean="globalAppHandler" />
+			</property>
+	  	</bean>	
+	  	<alias name="USER.external.JacadaCustomService" alias="JacadaCustomService"/>
+		<alias name="USER.external.JacadaCustomService" alias="USER.external.IJacadaCustomService"/>
+		
+		<!-- SessionService Beans 
+		<bean id="com.jacada.services.SessionService" class="com.jacada.services.SessionService"></bean>	
+		<alias name="com.jacada.services.SessionService" alias="SessionService"/>
+		<alias name="com.jacada.services.SessionService" alias="com.jacada.services.ISessionService"/>
+	   -->
+	   
+	  <bean id="urlProvider" class="com.jacada.service.client.providerinfo.SelfUrlAwareRemoteProviderInfo"></bean>
+	  
+	  <!-- JADWS Beans -->
+	  <bean id="annotatedJacadaService" class="com.jacada.jad.ws.JacadaServiceImpl">
+		<property name="serviceLocator" ref="noCallbackServiceLocator" />
+		<property name="urlProvider" ref="urlProvider" />
+	</bean>
+	
+	  <!-- 
+	 	This is a Jacada vesrion of org.codehaus.xfire.annotations.jsr181.Jsr181WebAnnotations
+	 	It is needed due to WebLogic bug - the version of JAX-WS is an old one in Weblogic 9.2
+	 
+	<bean id="webAnnotations"
+		class="com.jacada.xfire.annotations.jsr181.Jsr181WebAnnotations" />
+	 -->
+	<bean id="webAnnotations"
+		class="org.codehaus.xfire.annotations.jsr181.Jsr181WebAnnotations" />
+	 
+	<bean id="handlerMapping"
+		class="com.jacada.xfire.spring.remoting.Jsr181HandlerMapping">
+		<property name="typeMappingRegistry">
+			<ref bean="jaxwsTypeMappingRegistry" />
+		</property>
+		<property name="xfire">
+			<ref bean="xfire" />
+		</property>
+		<property name="webAnnotations">
+			<ref bean="webAnnotations" />
+		</property>
+	</bean>
+	  <bean
+		class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+		<property name="urlMap">
+			<map>
+				<entry key="/">
+					<ref bean="handlerMapping" />
+				</entry>
+			</map>
+		</property>
+	</bean>
+	<bean id="jaxwsTypeMappingRegistry" class="org.codehaus.xfire.jaxws.type.JAXWSTypeRegistry"
+    	init-method="createDefaultMappings" >
+  	</bean>
+
+	<import resource="classpath:org/codehaus/xfire/spring/xfire.xml" />
+	
+		 
+</beans>

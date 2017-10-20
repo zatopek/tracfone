@@ -1,0 +1,122 @@
+#messageFormDiv {
+	border: 1px solid gray;
+	padding: 5px;
+}
+
+#messageFormDiv td {
+	font-size: 10pt;
+	font-family: Verdana, sans-serif;
+	vertical-align: top;
+} 
+
+#messageFormDiv error {
+	font-size: 9pt;
+	font-family: Verdana, sans-serif;
+	color: red;
+}
+
+#messageFormDiv input,
+#messageFormDiv textarea
+{
+	font-size: 10pt;
+	font-family: Verdana, sans-serif;
+	border: 1px solid black;
+} 
+
+#tableFormDiv {
+	border: 1px solid gray;
+	padding: 5px;
+}
+
+#tableFormDiv,
+#tableFormDiv td {
+	font-size: 10pt;
+	font-family: Verdana, sans-serif;
+	vertical-align: top;
+}
+
+#tableFormDiv th {
+	background-color: #DDDDDD;
+	padding: 1px;
+}
+
+#tableFormDiv .contentColumnHeader {
+	width: 200px;
+}
+
+#tableFormDiv input
+{
+	font-size: 9pt;
+	font-family: Verdana, sans-serif;
+	border: 1px solid black;
+}
+
+#searchFormDiv {
+	border: 1px solid gray;
+	font-size: 10pt;
+	font-family: Verdana, sans-serif;
+	padding: 5px;
+}
+
+#searchFormDiv input,
+#searchFormDiv select
+{
+	font-size: 9pt;
+	font-family: Verdana, sans-serif;
+	border: 1px solid black;
+	margin-left: 2px;
+} 
+
+#searchFormDiv td {
+	font-size: 10pt;
+	font-family: Verdana, sans-serif;
+	vertical-align: top;
+}
+#usersFormSearchDiv input
+{
+	font-size: 10pt;
+	font-family: Verdana, sans-serif;
+	margin-left: 2px;
+	border: 1px solid black;
+}
+
+#usersFormSearchDiv td
+{
+	font-size: 10pt;
+	font-family: Verdana, sans-serif;
+	margin-left: 2px;
+}
+
+#usersFormDiv,
+#usersFormDiv td {
+	font-size: 10pt;
+	font-family: Verdana, sans-serif;
+	vertical-align: top;
+}
+
+#usersFormDiv th {
+	background-color: #DDDDDD;
+	padding: 1px;
+}
+
+#usersFormDiv input
+{
+	font-size: 10pt;
+	font-family: Verdana, sans-serif;
+	margin-left: 2px;
+	border: 1px solid black;
+}
+
+.error {
+	font-family: verdana, arial, helvetica, sans-serif;
+	font-size: 10px;
+	color: red;
+}
+
+div.crop    
+{
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 240px;                /* max width of text that will be shown */
+    overflow: hidden;
+}

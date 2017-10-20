@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util" xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.1.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.1.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.1.xsd">
+
+	<!-- ============== States start ============== -->
+	<bean id="acceptedVoiceState" class="com.jacada.sm.framework.state.DefaultState" lazy-init="true">
+		<property name="entryAction">
+			<bean id="acceptedVoiceStateEntryActionFactory" class="com.jacada.jad.cti.sm.actions.media.factory.ActionsFactoryBean" lazy-init="true">
+				<aop:scoped-proxy/>
+				<property name="beanName" value="acceptedVoiceStateMultiAction"/>
+			</bean>
+		</property>
+	</bean>
+
+    <bean id="doneVoiceState" class="com.jacada.sm.framework.state.DefaultState" lazy-init="true">
+        <property name="terminationState" value="true" />
+        <property name="entryAction">
+            <bean class="com.jacada.jad.cti.sm.actions.media.factory.ActionsFactoryBean"  lazy-init="true">
+                <aop:scoped-proxy/>
+                <property name="beanName" value="closeMediaItemAction"/>
+            </bean>
+        </property>
+    </bean>
+	<!-- ============== States end ============== -->
+
+	<!-- ============== Conditions start ============== -->
+	<bean id="acceptedAcceptedVoiceCondition" class="com.jacada.jad.cti.sm.conditions.media.voice.defaults.AcceptedAcceptedVoiceCondition" lazy-init="true"/>
+    <bean id="completeClickedVoiceEventCondition" class="com.jacada.jad.cti.sm.conditions.media.voice.defaults.CompleteClickedVoiceEventCondition" lazy-init="true"/>
+	<!-- ============== Conditions end ============== -->
+	
+	<!-- ============== Actions start ============== -->
+
+    <bean id="acceptedVoiceStateMultiAction" class="com.jacada.jad.cti.sm.actions.media.MultiAction" lazy-init="true">
+        <property name="actions">
+            <util:list>
+                <ref bean="sendVoiceToClientUIAction"/>
+                <ref bean="associateCustomerAction"/>
+            </util:list>
+        </property>
+    </bean>
+
+	<bean id="sendVoiceToClientUIAction" class="com.jacada.jad.cti.sm.actions.media.voice.SendVoiceToClientUIAction"
+			lazy-init="true" parent="sendClientUIAction">
+	</bean>
+	<bean id="associateCustomerAction" class="com.jacada.jad.cti.sm.actions.media.voice.AssociateCustomerAction"
+			lazy-init="true">
+		<property name="mediaCommandDispatcher" ref="mediaCommandDispatcher"/>
+		<property name="voiceOperationProxy" ref="voiceOperationProxy"/>
+	</bean>
+	<!-- ============== Actions end ============== -->
+
+	<!-- ============== Transitions start ============== -->
+
+	<bean id="acceptedAcceptedVoiceTransition" class="com.jacada.sm.framework.transition.DefaultTransition" lazy-init="true">
+		<property name="condition">
+			<bean id="acceptedAcceptedVoiceConditionFactory" class="com.jacada.jad.cti.sm.conditions.media.factory.ConditionsFactoryBean"  lazy-init="true">
+				<aop:scoped-proxy/>
+				<property name="beanName" value="acceptedAcceptedVoiceCondition"/>
+			</bean>
+		</property>
+		<property name="action">
+			<bean id="acceptedAcceptedActionFactory" class="com.jacada.jad.cti.sm.actions.media.factory.ActionsFactoryBean"  lazy-init="true">
+				<aop:scoped-proxy/>
+				<property name="beanName" value="selectContextGroupAction"/>
+			</bean>
+		</property>
+		<property name="fromState" ref="acceptedVoiceState" />
+		<property name="toState" ref="acceptedVoiceState" />
+	</bean>
+
+    <bean id="acceptedCompleteVoiceTransition" class="com.jacada.sm.framework.transition.DefaultTransition" lazy-init="true">
+        <property name="condition">
+            <bean class="com.jacada.jad.cti.sm.conditions.media.factory.ConditionsFactoryBean"  lazy-init="true">
+                <aop:scoped-proxy/>
+                <property name="beanName" value="completeClickedVoiceEventCondition"/>
+            </bean>
+        </property>
+        <!--
+        <property name="action">
+            <bean class="com.jacada.jad.cti.sm.actions.media.factory.ActionsFactoryBean"  lazy-init="true">
+                <aop:scoped-proxy/>
+                <property name="beanName" value="closeMediaItemAction"/>
+            </bean>
+        </property>
+        -->
+        <property name="fromState" ref="acceptedVoiceState" />
+        <property name="toState" ref="doneVoiceState" />
+    </bean>
+
+
+	<util:list id="acceptedVoiceStateTransitionsList">
+		<ref bean="acceptedAcceptedVoiceTransition"/>
+        <ref bean="acceptedCompleteVoiceTransition"/>
+	</util:list>
+
+ 
+ 	<!-- ============== Transitions end ============== -->
+
+	<!-- Actual state model is defined in applicationContext-sm-mediaStateModel.xml -->
+</beans>

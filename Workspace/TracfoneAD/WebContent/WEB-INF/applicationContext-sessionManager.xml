@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop" xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.1.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.1.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.1.xsd">
+
+	<bean id="sessionManager" class="org.springframework.jmx.access.MBeanProxyFactoryBean" lazy-init="true" >
+		<property name="objectName">
+			<bean class="com.jacada.spring.management.ObjectNameFactoryBean">
+				<property name="objectNamingStrategy" ref="namingStrategy" />
+				<property name="jmxObjectName" value="JacadaDomain:componentName=SessionManager" />
+			</bean>
+		</property>
+		<property name="proxyInterface"	value="com.jacada.session.SessionManager" />
+		<property name="server"	ref="mbeanServer" />
+	</bean>
+
+	<bean id="sessionManagerAdmin" class="org.springframework.jmx.access.MBeanProxyFactoryBean" lazy-init="true" >
+		<property name="objectName">
+			<bean class="com.jacada.spring.management.ObjectNameFactoryBean">
+				<property name="objectNamingStrategy" ref="namingStrategy" />
+				<property name="jmxObjectName" value="JacadaDomain:componentName=SessionManagerAdmin" />
+			</bean>
+		</property>
+		<property name="proxyInterface"	value="com.jacada.session.admin.SessionManagerAdmin" />
+		<property name="server"	ref="mbeanServer" />
+	</bean>
+	
+	<bean id="sessionManagerFacade" class="com.jacada.session.facade.SessionManagerFacadeImpl">
+		<property name="sessionManager" ref="sessionManagerAdmin" />
+	</bean>
+	
+	<bean id="sessionsInformationHolder" class="com.jacada.session.web.SessionsInformationHolder">
+		<property name="sessionManager" ref="sessionManager"/>
+	</bean>
+	
+	<bean id="sessionManagerService" class="com.jacada.spring.invoke.http.ConfigurableHttpInvokerProxyFactoryBean">
+		<property name="serviceInterface" value="com.jacada.session.SessionManager" />
+		<property name="serviceUrl" value="" />
+	</bean>	
+	
+</beans>

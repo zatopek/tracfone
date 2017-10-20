@@ -1,0 +1,10 @@
+<%@ taglib uri="http://beehive.apache.org/netui/tags-html-1.0" prefix="netui"%>
+
+    <p>
+      An error has occurred:
+    </p>
+    <blockquote>
+      <netui:label value="{request.errorMessage}" defaultValue="" />
+      <br/>
+      <netui:exceptions showMessage="true" />
+    </blockquote>

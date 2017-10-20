@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/tx
+		http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+    <bean id="userTransactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="entityManagerFactory" ref="userEntityManagerFactory"/>
+    </bean>
+
+    <bean id="userPersistenceUnitManager"
+          class="org.springframework.orm.jpa.persistenceunit.DefaultPersistenceUnitManager">
+        <property name="defaultDataSource" ref="userServerDataSource"/>
+        <property name="persistenceXmlLocations">
+            <list>
+                <value>classpath*:META-INF/user-persistence.xml</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="userEntityManagerFactory"
+          class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="persistenceUnitManager" ref="userPersistenceUnitManager"/>
+        <property name="persistenceUnitName" value="user"/>
+        <property name="dataSource" ref="userServerDataSource"/>
+    </bean>
+
+    <bean
+            class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/>
+    <bean
+            class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor"/>
+
+    <!--
+        Reference to user's datasource jndi name
+        Please note it will be different for Weblogic, Websphere and Tomcat.
+        For tomcat it will be java:comp/env/USER_JDBC_DB_Reference
+    -->
+    <bean id="userDataSourceJndiName" class="java.lang.String">
+        <constructor-arg type="java.lang.String"
+                         value="java:comp/env/USER_JDBC_DB_Reference"/>
+    </bean>
+
+    <bean id="userServerDataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+        <property name="jndiName" ref="userDataSourceJndiName"/>
+    </bean>
+
+    <tx:annotation-driven/>
+    <bean id="jpaUserTransactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="entityManagerFactory" ref="userEntityManagerFactory"/>
+        <qualifier value="userTxManager"/>
+    </bean>
+
+</beans>

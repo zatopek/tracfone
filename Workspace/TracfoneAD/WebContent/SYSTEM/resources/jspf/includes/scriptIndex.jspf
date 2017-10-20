@@ -1,0 +1,29 @@
+
+<%@page import="SYSTEM.global.SharedData"%>
+<%@page import="SYSTEM.global.managers.LocaleManager"%>
+<%@ page import="org.apache.beehive.netui.pageflow.PageFlowUtils" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+	<script type="text/javascript" src="<%=request.getContextPath()%>/SYSTEM/resources/js/jad.js"></script>  
+    <script type="text/javascript" src="<%=request.getContextPath()%>/SYSTEM/resources/js/prototype.js"></script>
+ 	<script src = "<%=request.getContextPath()%>/SYSTEM/resources/js/yahoo/js/LocaleManager.js" ></script>
+    
+    <!-- must use string and not run time expreesion because SetBundle cannot escept run time expression in its basename -->
+	<%
+	SharedData global = (SharedData)PageFlowUtils.getSharedFlow(SYSTEM.global.SharedData.class.getName(), request, request.getSession().getServletContext());
+	LocaleManager manager = global.getLocaleManager();
+	String locale = manager.getScriptLocale();
+	
+	%>
+	<fmt:setLocale value="<%=locale%>"/>
+	<fmt:setBundle basename="<%=manager.getResourceBundleBaseName()%>"/>
+	
+	<!-- Initilaizing LocaleManager -->
+	<script language="JavaScript" type="text/javascript">
+		var mng = $W().scriptLocaleManager;
+		var mngLocale = mng.getLocale();
+		if (mngLocale != "<%=locale%>") {
+			mng.setLocale("<%=locale%>");
+			mng.loadLocale();
+		}
+	</script>
+

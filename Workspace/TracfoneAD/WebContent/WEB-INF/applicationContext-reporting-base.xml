@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop" 
+	   xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+            http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
+            http://www.springframework.org/schema/aop 
+            http://www.springframework.org/schema/aop/spring-aop-4.1.xsd
+			http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.1.xsd">
+
+	<!-- Query executors -->
+ 	<bean id="interactionsQueryExecutor" class="com.jacada.jad.reporting.queryExecutor.InteractionsReportQueryExecutorImpl" lazy-init="true">
+ 		<property name="projectId" ref="projectId"></property>
+ 	</bean>
+ 	
+ 	<bean id="tabsQueryExecutor" class="com.jacada.jad.reporting.queryExecutor.TabsReportQueryExecutorImpl" lazy-init="true">
+ 		<property name="projectId" ref="projectId"></property>
+ 		<property name="dataSource" ref="serverDataSource" />
+ 	</bean>
+ 	
+ 	
+ 	<!-- Base Report Details -->	
+ 	<bean id="commonReportDetailsProvider" class="com.jacada.jad.reporting.jasper.CommonReportDetailsProvider" abstract="true" lazy-init="true">
+ 			<property name="localeManager" ref="localeManager" />
+ 			<property name="cacheCompiledReports" value="true"/>
+ 	</bean>
+ 	
+ 	<bean id="groupBasedReportDetailsProvider" class="com.jacada.jad.reporting.jasper.GrpupBasedReportDetailsProvider" abstract="true" lazy-init="true" parent="commonReportDetailsProvider" >
+ 			<property name="usersManager" ref="usersManager" />	
+ 	</bean>
+ 		
+	<bean id="reportsGenerationManager" class="com.jacada.jad.reporting.jasper.ReportsGenerationManagerJasperImpl" init-method="init" lazy-init="true">
+		<property name="availableReports" ref="reports"/>
+	</bean>
+	
+	<bean id="reportingManager" class="com.jacada.jad.reporting.model.DefaultReportingManager" scope="session" lazy-init="true" init-method="init">
+		<aop:scoped-proxy/>
+		<property name="reportsGenerationManager" ref="reportsGenerationManager"></property>
+		<property name="usersManager" ref="usersManager" />
+		<property name="authorization" ref="authorization"/>
+		<property name="sharedDataImpl" ref="sharedDataImpl"/>
+	</bean>
+	
+	<bean id="reportEventListener" class="com.jacada.jad.reporting.events.DefaultReportEventListener" scope="prototype" init-method="init">
+		<property name="sessionInformation" ref="sessionInformation"></property>
+	</bean>
+ 	
+	
+</beans>

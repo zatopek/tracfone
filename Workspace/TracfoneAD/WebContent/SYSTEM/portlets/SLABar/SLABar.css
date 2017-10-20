@@ -1,0 +1,61 @@
+body {
+	font-family:verdana;
+	font-size:9px;
+}
+
+h1 {
+	font-family:arial;
+	font-size:10pt;
+	font-weight:bold;
+}
+
+#mContainer {
+	width:100%;
+	height:12px;
+	padding:0px;
+}
+
+#gradient {
+	position:absolute;
+	top:0px;
+	left:0px;
+	width:100%;
+	height:12px;
+}
+
+#mask {
+	position:absolute;
+	font-size:1px;
+	width:100%;
+	height:12px;
+	left:0px;
+	top:0px;
+}
+
+#progressIndicator {
+	position:absolute;
+	top:0px;
+	left:0px;
+	width:100%;
+	height:12px;
+	font-family:Tahoma;
+	font-weight:bold;
+	color:#858585;
+	font-size:8pt;
+	text-align:center;
+	
+}
+
+.btn {
+	font-family:verdana;
+	font-size:9px;
+	border:1px solid #000000;
+	margin-top:5px;
+}
+
+pre {
+	background-color:#FAFAFA;
+	padding:5px;
+	font-family:verdana;
+	font-size:9px;
+}

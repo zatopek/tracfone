@@ -1,0 +1,58 @@
+<?xml version="1.0" ?>
+<control-tags xmlns="http://www.bea.com/2003/03/controls/">
+
+    <control-tag name="ManualConfiguration" >
+        <description>
+            Set up LDAP configuration manually. 
+            You can skip auto-configuration properties below.
+        </description>
+        <attribute name="Host" required="false">
+            <description>LDAP server host name</description>
+            <type>
+                <text/>
+            </type>
+        </attribute>
+        <attribute name="Port" required="false">
+            <description>LDAP server port</description>
+            <type>
+                <integer/>
+            </type>
+        </attribute>
+        <attribute name="UserName" required="false">
+            <description>LDAP login username</description>
+            <type>
+                <text/>
+            </type>
+        </attribute>
+        <attribute name="Password" required="false">
+            <description>LDAP login password</description>
+            <type>
+                <text/>
+            </type>
+        </attribute>
+        <attribute name="BaseFilter" required="false">
+            <description>LDAP base filter</description>
+            <type>
+                <text/>
+            </type>
+        </attribute>
+        <attribute name="UserBaseDN" required="false">
+            <description>User base dn for retrieving users</description>
+            <type>
+                <text/>
+            </type>
+        </attribute>
+        <attribute name="UserIdAttribute" required="false">
+            <description>LDAP attribute for userid</description>
+            <type>
+                <text/>
+            </type>
+        </attribute>
+        <attribute name="UserAttrNames" required="false">
+            <description>LDAP user attribute names</description>
+            <type>
+                <text/>
+            </type>
+        </attribute>
+    </control-tag>
+</control-tags>

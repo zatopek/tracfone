@@ -1,0 +1,5 @@
+<factorypath>
+    <factorypathentry kind="EXTJAR" id="C:\Program Files (x86)\Jacada\Jacada WorkSpace 7.1.1\\WorkSpace\3rdparty\apache-beehive\lib\common\velocity-dep-1.4.jar" enabled="true" runInBatchMode="false"/>
+    <factorypathentry kind="EXTJAR" id="C:\Program Files (x86)\Jacada\Jacada WorkSpace 7.1.1\\WorkSpace\3rdparty\apache-beehive\lib\controls\beehive-controls.jar" enabled="true" runInBatchMode="false"/>
+    <factorypathentry kind="EXTJAR" id="C:\Program Files (x86)\Jacada\Jacada WorkSpace 7.1.1\\WorkSpace\3rdparty\apache-beehive\lib\netui\beehive-netui-compiler.jar" enabled="true" runInBatchMode="false"/>
+</factorypath>

@@ -1,0 +1,501 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util" xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.1.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.1.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.1.xsd">
+
+	<!-- ============== States start ============== -->
+	<bean id="incomingEmailState" class="com.jacada.sm.framework.state.DefaultState" lazy-init="true">
+		<property name="entryAction">
+			<bean id="incomingEmailStateEntryActionFactory" class="com.jacada.jad.cti.sm.actions.media.factory.ActionsFactoryBean" lazy-init="true">
+				<aop:scoped-proxy/>
+				<property name="beanName" value="incomingEmailStateEntryAction"/>
+			</bean>
+		</property>
+	</bean>
+	<bean id="acceptedEmailState" class="com.jacada.sm.framework.state.DefaultState" lazy-init="true">
+        <property name="entryAction">
+            <bean id="acceptedEmailEntryActionFactory" class="com.jacada.jad.cti.sm.actions.media.factory.ActionsFactoryBean"  lazy-init="true">
+                <aop:scoped-proxy/>
+                <property name="beanName" value="acceptedEmailStateMultiAction"/>
+            </bean>
+        </property>
+        <!--
+        <property name="entryAction">
+            <bean id="acceptedEmailStateEntryActionFactory" class="com.jacada.jad.cti.sm.actions.media.factory.ActionsFactoryBean" lazy-init="true">
+				<aop:scoped-proxy/>
+				<property name="beanName" value="sendEmailToClientUIAction"/>
+			</bean>
+		</property>
+		-->
+	</bean>
+	<bean id="inReplyEmailState" class="com.jacada.sm.framework.state.DefaultState" lazy-init="true">
+		<property name="entryAction">
+			<bean id="inReplayEmailStateEntryActionFactory" class="com.jacada.jad.cti.sm.actions.media.factory.ActionsFactoryBean"  lazy-init="true">
+				<aop:scoped-proxy/>
+				<property name="beanName" value="filteredSendClientUIAction"/>
+			</bean>
+		</property>
+	</bean>
+	<bean id="inReplyAllEmailState" class="com.jacada.sm.framework.state.DefaultState" lazy-init="true">
+		<property name="entryAction">
+			<bean id="inReplayAllEmailStateEntryActionFactory" class="com.jacada.jad.cti.sm.actions.media.factory.ActionsFactoryBean"  lazy-init="true">
+				<aop:scoped-proxy/>
+				<property name="beanName" value="filteredSendClientUIAction"/>
+			</bean>
+		</property>
+	</bean>
+	<bean id="inForwardEmailState" class="com.jacada.sm.framework.state.DefaultState" lazy-init="true">
+		<property name="entryAction">
+			<bean id="inFormwardEmailStateEntryActionFactory" class="com.jacada.jad.cti.sm.actions.media.factory.ActionsFactoryBean"  lazy-init="true">
+				<aop:scoped-proxy/>
+				<property name="beanName" value="filteredSendClientUIAction"/>
+			</bean>
+		</property>
+	</bean>
+	<bean id="sendingEmailState" class="com.jacada.sm.framework.state.DefaultState" lazy-init="true">
+		<property name="entryAction">
+			<bean id="sendingEmailStateEntryActionFactory" class="com.jacada.jad.cti.sm.actions.media.factory.ActionsFactoryBean"  lazy-init="true">
+				<aop:scoped-proxy/>
+				<property name="beanName" value="filteredSendClientUIAction"/>
+			</bean>
+		</property>
+	</bean>
+	<bean id="doneEmailState" class="com.jacada.sm.framework.state.DefaultState" lazy-init="true">
+		<property name="terminationState" value="true" />
+		<property name="entryAction">
+			<bean id="doneEmailStateEntryActionFactory" class="com.jacada.jad.cti.sm.actions.media.factory.ActionsFactoryBean"  lazy-init="true">
+				<aop:scoped-proxy/>
+				<property name="beanName" value="doneMediaStateMultiAction"/>
+			</bean>
+		</property>
+	</bean>
+	<!-- ============== States end ============== -->
+
+	<!-- ============== Conditions start ============== -->
+	<!-- ============== default Conditions start ============== -->
+	<bean id="incomingIncomingEmailCondition" class="com.jacada.jad.cti.sm.conditions.media.email.defaults.AnswerClickedEmailEventCondition" lazy-init="true"/>
+	<bean id="incomingAcceptedEmailCondition" class="com.jacada.jad.cti.sm.conditions.media.email.defaults.IncomingAcceptedEmailCondition" lazy-init="true"/>
+	<bean id="replyClickedEmailEventCondition" class="com.jacada.jad.cti.sm.conditions.media.email.defaults.ReplyClickedEmailEventCondition" lazy-init="true"/>
+	<bean id="replyAllClickedEmailEventCondition" class="com.jacada.jad.cti.sm.conditions.media.email.defaults.ReplyAllClickedEmailEventCondition" lazy-init="true"/>
+	<bean id="forwardClickedEmailEventCondition" class="com.jacada.jad.cti.sm.conditions.media.email.defaults.ForwardClickedEmailEventCondition" lazy-init="true"/>
+	<bean id="closeEditClickedEmailEventCondition" class="com.jacada.jad.cti.sm.conditions.media.email.defaults.CloseEditClickedEmailEventCondition" lazy-init="true"/>
+	<bean id="completeClickedEmailEventCondition" class="com.jacada.jad.cti.sm.conditions.media.email.defaults.CompleteClickedEmailEventCondition" lazy-init="true"/>
+	<bean id="sendClickedEmailEventCondition" class="com.jacada.jad.cti.sm.conditions.media.email.defaults.SendClickedEmailEventCondition" lazy-init="true"/>
+	<bean id="emailDoneCondition" class="com.jacada.jad.cti.sm.conditions.media.email.defaults.EmailDoneCondition" lazy-init="true"/>
+	<!-- ============== default Conditions end ============== -->
+	
+	<!--  This is an example how to create a different vendor/provider condition, the condition factory will return the correct one according to provider -->
+	<!-- ============== Cisco Conditions start ============== -->
+	<bean id="ciscoacceptedDoneCondition" class="com.jacada.jad.cti.sm.conditions.media.email.cisco.AcceptedDoneEmailCondition" lazy-init="true"/>
+	<!-- ============== Cisco Conditions end ============== -->
+	
+	<!-- ============== Conditions end ============== -->
+	
+	<!-- ============== Actions start ============== -->
+	<bean id="incomingEmailStateEntryAction" class="com.jacada.jad.cti.sm.actions.media.email.IncomingEmailStateEntryAction"
+			lazy-init="true" parent="incomingWorkItemStateEntryAction">
+	</bean>
+
+    <bean id="acceptedEmailStateMultiAction" class="com.jacada.jad.cti.sm.actions.media.MultiAction" lazy-init="true">
+        <property name="actions">
+            <util:list>
+                <ref bean="sendEmailToClientUIAction"/>
+                <ref bean="dropPhantomCallAction"/>
+            </util:list>
+        </property>
+    </bean>
+
+	<bean id="sendEmailToClientUIAction" class="com.jacada.jad.cti.sm.actions.media.email.SendEmailToClientUIAction"
+			lazy-init="true" parent="sendClientUIAction">
+	</bean>
+	<bean id="sendEmailAction" class="com.jacada.jad.cti.sm.actions.media.email.SendEmailAction" lazy-init="true">
+		<property name="commandDispatcher" ref="mediaCommandDispatcher"/>
+		<property name="notesService" ref="notesService"/>
+	</bean>
+	<bean id="closeEditEmailAction" class="com.jacada.jad.cti.sm.actions.media.email.CloseEditEmailAction" lazy-init="true">
+		<property name="commandDispatcher" ref="mediaCommandDispatcher"/>
+	</bean>
+	<!-- ============== Actions end ============== -->
+
+	<!-- ============== Transitions start ============== -->
+	<bean id="incomingIncomingEmailTransition" class="com.jacada.sm.framework.transition.DefaultTransition" lazy-init="true">
+		<property name="condition">
+			<bean id="incomingIncomingEmailConditionFactory" class="com.jacada.jad.cti.sm.conditions.media.factory.ConditionsFactoryBean"  lazy-init="true">
+				<aop:scoped-proxy/>
+				<property name="beanName" value="incomingIncomingEmailCondition"/>
+			</bean>
+		</property>
+		<property name="fromState" ref="incomingEmailState" />
+		<property name="toState" ref="incomingEmailState" />
+	</bean>
+
+	<bean id="incomingAcceptedEmailTransition" class="com.jacada.sm.framework.transition.DefaultTransition" lazy-init="true">
+		<property name="condition">
+			<bean id="incomingAcceptedEmailConditionFactory" class="com.jacada.jad.cti.sm.conditions.media.factory.ConditionsFactoryBean"  lazy-init="true">
+				<aop:scoped-proxy/>
+				<property name="beanName" value="incomingAcceptedEmailCondition"/>
+			</bean>
+		</property>
+        <property name="action">
+            <bean class="com.jacada.jad.cti.sm.actions.media.factory.ActionsFactoryBean"  lazy-init="true">
+                <aop:scoped-proxy/>
+                <property name="beanName" value="scheduleKeepAliveAction"/>
+            </bean>
+        </property>
+		<property name="fromState" ref="incomingEmailState" />
+		<property name="toState" ref="acceptedEmailState" />
+	</bean>
+
+	<bean id="incomingDoneEmailTransition" class="com.jacada.sm.framework.transition.DefaultTransition" lazy-init="true">
+		<property name="condition">
+			<bean id="incomingDoneEmailConditionFactory" class="com.jacada.jad.cti.sm.conditions.media.factory.ConditionsFactoryBean"  lazy-init="true">
+				<aop:scoped-proxy/>
+				<property name="beanName" value="unansweredEventCondition"/>
+			</bean>
+		</property>
+		<property name="fromState" ref="incomingEmailState" />
+		<property name="toState" ref="doneState" />
+	</bean>
+
+	<util:list id="incomingEmailStateTransitionsList">
+        <ref bean="waitAcceptedEmailTransition"/>
+		<ref bean="incomingIncomingEmailTransition"/>
+		<ref bean="incomingAcceptedEmailTransition" />
+		<ref bean="incomingDoneEmailTransition" />
+	</util:list>
+
+	<bean id="acceptedCompleteEmailTransition" class="com.jacada.sm.framework.transition.DefaultTransition" lazy-init="true">
+		<property name="condition">
+			<bean id="acceptedCompleteEmailConditionFactory" class="com.jacada.jad.cti.sm.conditions.media.factory.ConditionsFactoryBean"  lazy-init="true">
+				<aop:scoped-proxy/>
+				<property name="beanName" value="completeClickedEmailEventCondition"/>
+			</bean>
+		</property>
+		<property name="action">
+			<bean id="acceptedCompleteEmailActionFactory" class="com.jacada.jad.cti.sm.actions.media.factory.ActionsFactoryBean"  lazy-init="true">
+				<aop:scoped-proxy/>
+				<property name="beanName" value="closeMediaItemAction"/>
+			</bean>
+		</property>
+		<property name="fromState" ref="acceptedEmailState" />
+		<property name="toState" ref="doneEmailState" />
+	</bean>
+
+	<bean id="acceptedInReplyEmailTransition" class="com.jacada.sm.framework.transition.DefaultTransition" lazy-init="true">
+		<property name="condition">
+			<bean id="acceptedInReplyEmailConditionFactory" class="com.jacada.jad.cti.sm.conditions.media.factory.ConditionsFactoryBean"  lazy-init="true">
+				<aop:scoped-proxy/>
+				<property name="beanName" value="replyClickedEmailEventCondition"/>
+			</bean>
+		</property>
+		<property name="fromState" ref="acceptedEmailState" />
+		<property name="toState" ref="inReplyEmailState" />
+	</bean>
+
+	<bean id="acceptedInReplyAllEmailTransition" class="com.jacada.sm.framework.transition.DefaultTransition" lazy-init="true">
+		<property name="condition">
+			<bean id="acceptedInReplyAllEmailConditionFactory" class="com.jacada.jad.cti.sm.conditions.media.factory.ConditionsFactoryBean"  lazy-init="true">
+				<aop:scoped-proxy/>
+				<property name="beanName" value="replyAllClickedEmailEventCondition"/>
+			</bean>
+		</property>
+		<property name="fromState" ref="acceptedEmailState" />
+		<property name="toState" ref="inReplyAllEmailState" />
+	</bean>
+
+	<bean id="acceptedInForwardEmailTransition" class="com.jacada.sm.framework.transition.DefaultTransition" lazy-init="true">
+		<property name="condition">
+			<bean id="acceptedInForwardEmailConditionFactory" class="com.jacada.jad.cti.sm.conditions.media.factory.ConditionsFactoryBean"  lazy-init="true">
+				<aop:scoped-proxy/>
+				<property name="beanName" value="forwardClickedEmailEventCondition"/>
+			</bean>
+		</property>
+		<property name="fromState" ref="acceptedEmailState" />
+		<property name="toState" ref="inForwardEmailState" />
+	</bean>
+
+	<bean id="acceptedAcceptedEmailTransition" class="com.jacada.sm.framework.transition.DefaultTransition" lazy-init="true">
+		<property name="condition">
+			<bean id="acceptedAcceptedEmailConditionFactory" class="com.jacada.jad.cti.sm.conditions.media.factory.ConditionsFactoryBean"  lazy-init="true">
+				<aop:scoped-proxy/>
+				<property name="beanName" value="retrieveClickedMediaEventCondition"/>
+			</bean>
+		</property>
+		<property name="action">
+			<bean id="acceptedAcceptedEmailActionFactory" class="com.jacada.jad.cti.sm.actions.media.factory.ActionsFactoryBean"  lazy-init="true">
+				<aop:scoped-proxy/>
+				<property name="beanName" value="selectContextGroupAction"/>
+			</bean>
+		</property>
+		<property name="fromState" ref="acceptedEmailState" />
+		<property name="toState" ref="acceptedEmailState" />
+	</bean>
+
+	<util:list id="acceptedEmailStateTransitionsList">
+		<ref bean="acceptedCompleteEmailTransition" />
+		<ref bean="acceptedInReplyEmailTransition" />
+		<ref bean="acceptedInReplyAllEmailTransition" />
+		<ref bean="acceptedInForwardEmailTransition" />
+		<ref bean="acceptedAcceptedEmailTransition" />
+	</util:list>
+
+	<bean id="inReplyAcceptedEmailTransition" class="com.jacada.sm.framework.transition.DefaultTransition" lazy-init="true">
+		<property name="condition">
+			<bean id="inReplyAcceptedEmailConditionFactory" class="com.jacada.jad.cti.sm.conditions.media.factory.ConditionsFactoryBean"  lazy-init="true">
+				<aop:scoped-proxy/>
+				<property name="beanName" value="closeEditClickedEmailEventCondition"/>
+			</bean>
+		</property>
+		<property name="action">
+			<bean id="inReplyAcceptedEmailActionFactory" class="com.jacada.jad.cti.sm.actions.media.factory.ActionsFactoryBean"  lazy-init="true">
+				<aop:scoped-proxy/>
+				<property name="beanName" value="closeEditEmailAction"/>
+			</bean>
+		</property>
+		<property name="fromState" ref="inReplyEmailState" />
+		<property name="toState" ref="acceptedEmailState" />
+	</bean>
+	
+	<bean id="inReplyDoneEmailTransition" class="com.jacada.sm.framework.transition.DefaultTransition" lazy-init="true">
+		<property name="condition">
+			<bean id="inReplyDoneEmailConditionFactory" class="com.jacada.jad.cti.sm.conditions.media.factory.ConditionsFactoryBean"  lazy-init="true">
+				<aop:scoped-proxy/>
+				<property name="beanName" value="completeClickedEmailEventCondition"/>
+			</bean>
+		</property>
+		<property name="action">
+			<bean id="inReplyDoneEmailActionFactory" class="com.jacada.jad.cti.sm.actions.media.factory.ActionsFactoryBean"  lazy-init="true">
+				<aop:scoped-proxy/>
+				<property name="beanName" value="closeMediaItemAction"/>
+			</bean>
+		</property>
+		<property name="fromState" ref="inReplyEmailState" />
+		<property name="toState" ref="doneEmailState" />
+	</bean>
+
+	<bean id="inReplySendingEmailTransition" class="com.jacada.sm.framework.transition.DefaultTransition" lazy-init="true">
+		<property name="condition">
+			<bean id="inReplySendingEmailConditionFactory" class="com.jacada.jad.cti.sm.conditions.media.factory.ConditionsFactoryBean"  lazy-init="true">
+				<aop:scoped-proxy/>
+				<property name="beanName" value="sendClickedEmailEventCondition"/>
+			</bean>
+		</property>
+		<property name="action">
+			<bean id="inReplySendingEmailActionFactory" class="com.jacada.jad.cti.sm.actions.media.factory.ActionsFactoryBean"  lazy-init="true">
+				<aop:scoped-proxy/>
+				<property name="beanName" value="sendEmailAction"/>
+			</bean>
+		</property>
+		<property name="fromState" ref="inReplyEmailState" />
+		<property name="toState" ref="sendingEmailState" />
+	</bean>
+
+	<bean id="inReplyInReplyEmailTransition" class="com.jacada.sm.framework.transition.DefaultTransition" lazy-init="true">
+		<property name="condition">
+			<bean id="inReplyInReplyEmailConditionFactory" class="com.jacada.jad.cti.sm.conditions.media.factory.ConditionsFactoryBean"  lazy-init="true">
+				<aop:scoped-proxy/>
+				<property name="beanName" value="retrieveClickedMediaEventCondition"/>
+			</bean>
+		</property>
+		<property name="action">
+			<bean id="inReplyInReplyEmailActionFactory" class="com.jacada.jad.cti.sm.actions.media.factory.ActionsFactoryBean"  lazy-init="true">
+				<aop:scoped-proxy/>
+				<property name="beanName" value="selectContextGroupAction"/>
+			</bean>
+		</property>
+		<property name="fromState" ref="inReplyEmailState" />
+		<property name="toState" ref="inReplyEmailState" />
+	</bean>
+
+	<util:list id="inReplyEmailStateTransitionsList">
+		<ref bean="inReplySendingEmailTransition" />
+		<ref bean="inReplyDoneEmailTransition" />
+		<ref bean="inReplyAcceptedEmailTransition" />
+		<ref bean="inReplyInReplyEmailTransition" />
+	</util:list>
+
+	<bean id="inReplyAllAcceptedEmailTransition" class="com.jacada.sm.framework.transition.DefaultTransition" lazy-init="true">
+		<property name="condition">
+			<bean id="inReplyAllAcceptedEmailConditionFactory" class="com.jacada.jad.cti.sm.conditions.media.factory.ConditionsFactoryBean"  lazy-init="true">
+				<aop:scoped-proxy/>
+				<property name="beanName" value="closeEditClickedEmailEventCondition"/>
+			</bean>
+		</property>
+		<property name="action">
+			<bean id="inReplyAllAcceptedEmailActionFactory" class="com.jacada.jad.cti.sm.actions.media.factory.ActionsFactoryBean"  lazy-init="true">
+				<aop:scoped-proxy/>
+				<property name="beanName" value="closeEditEmailAction"/>
+			</bean>
+		</property>
+		<property name="fromState" ref="inReplyAllEmailState" />
+		<property name="toState" ref="acceptedEmailState" />
+	</bean>
+	
+	<bean id="inReplyAllDoneEmailTransition" class="com.jacada.sm.framework.transition.DefaultTransition" lazy-init="true">
+		<property name="condition">
+			<bean id="inReplyAllDoneEmailConditionFactory" class="com.jacada.jad.cti.sm.conditions.media.factory.ConditionsFactoryBean"  lazy-init="true">
+				<aop:scoped-proxy/>
+				<property name="beanName" value="completeClickedEmailEventCondition"/>
+			</bean>
+		</property>
+		<property name="action">
+			<bean id="inReplyAllDoneEmailActionFactory" class="com.jacada.jad.cti.sm.actions.media.factory.ActionsFactoryBean"  lazy-init="true">
+				<aop:scoped-proxy/>
+				<property name="beanName" value="closeMediaItemAction"/>
+			</bean>
+		</property>
+		<property name="fromState" ref="inReplyAllEmailState" />
+		<property name="toState" ref="doneEmailState" />
+	</bean>
+	
+	<bean id="inReplyAllSendingEmailTransition" class="com.jacada.sm.framework.transition.DefaultTransition" lazy-init="true">
+		<property name="condition">
+			<bean id="inReplyAllSendingEmailConditionFactory" class="com.jacada.jad.cti.sm.conditions.media.factory.ConditionsFactoryBean"  lazy-init="true">
+				<aop:scoped-proxy/>
+				<property name="beanName" value="sendClickedEmailEventCondition"/>
+			</bean>
+		</property>
+		<property name="action">
+			<bean id="inReplyAllSendingEmailActionFactory" class="com.jacada.jad.cti.sm.actions.media.factory.ActionsFactoryBean"  lazy-init="true">
+				<aop:scoped-proxy/>
+				<property name="beanName" value="sendEmailAction"/>
+			</bean>
+		</property>
+		<property name="fromState" ref="inReplyAllEmailState" />
+		<property name="toState" ref="sendingEmailState" />
+	</bean>
+
+	<bean id="inReplyAllInReplyAllEmailTransition" class="com.jacada.sm.framework.transition.DefaultTransition" lazy-init="true">
+		<property name="condition">
+			<bean id="inReplyAllInReplyAllEmailConditionFactory" class="com.jacada.jad.cti.sm.conditions.media.factory.ConditionsFactoryBean"  lazy-init="true">
+				<aop:scoped-proxy/>
+				<property name="beanName" value="retrieveClickedMediaEventCondition"/>
+			</bean>
+		</property>
+		<property name="action">
+			<bean id="inReplyAllInReplyAllEmailActionFactory" class="com.jacada.jad.cti.sm.actions.media.factory.ActionsFactoryBean"  lazy-init="true">
+				<aop:scoped-proxy/>
+				<property name="beanName" value="selectContextGroupAction"/>
+			</bean>
+		</property>
+		<property name="fromState" ref="inReplyAllEmailState" />
+		<property name="toState" ref="inReplyAllEmailState" />
+	</bean>
+
+	<util:list id="inReplyAllEmailStateTransitionsList">
+		<ref bean="inReplyAllSendingEmailTransition" />
+		<ref bean="inReplyAllAcceptedEmailTransition" />
+		<ref bean="inReplyAllDoneEmailTransition" />
+		<ref bean="inReplyAllInReplyAllEmailTransition" />
+	</util:list>
+
+	<bean id="inForwardAcceptedEmailTransition" class="com.jacada.sm.framework.transition.DefaultTransition" lazy-init="true">
+		<property name="condition">
+			<bean id="inForwardAcceptedEmailConditionFactory" class="com.jacada.jad.cti.sm.conditions.media.factory.ConditionsFactoryBean"  lazy-init="true">
+				<aop:scoped-proxy/>
+				<property name="beanName" value="closeEditClickedEmailEventCondition"/>
+			</bean>
+		</property>
+		<property name="action">
+			<bean id="inForwardAcceptedEmailActionFactory" class="com.jacada.jad.cti.sm.actions.media.factory.ActionsFactoryBean"  lazy-init="true">
+				<aop:scoped-proxy/>
+				<property name="beanName" value="closeEditEmailAction"/>
+			</bean>
+		</property>
+		<property name="fromState" ref="inForwardEmailState" />
+		<property name="toState" ref="acceptedEmailState" />
+	</bean>
+	
+	<bean id="inForwardDoneEmailTransition" class="com.jacada.sm.framework.transition.DefaultTransition" lazy-init="true">
+		<property name="condition">
+			<bean id="inForwardDoneEmailConditionFactory" class="com.jacada.jad.cti.sm.conditions.media.factory.ConditionsFactoryBean"  lazy-init="true">
+				<aop:scoped-proxy/>
+				<property name="beanName" value="completeClickedEmailEventCondition"/>
+			</bean>
+		</property>
+		<property name="action">
+			<bean id="inForwardDoneEmailActionFactory" class="com.jacada.jad.cti.sm.actions.media.factory.ActionsFactoryBean"  lazy-init="true">
+				<aop:scoped-proxy/>
+				<property name="beanName" value="closeMediaItemAction"/>
+			</bean>
+		</property>
+		<property name="fromState" ref="inForwardEmailState" />
+		<property name="toState" ref="doneEmailState" />
+	</bean>
+	<bean id="inForwardSendingEmailTransition" class="com.jacada.sm.framework.transition.DefaultTransition" lazy-init="true">
+		<property name="condition">
+			<bean id="inForwardSendingEmailConditionFactory" class="com.jacada.jad.cti.sm.conditions.media.factory.ConditionsFactoryBean"  lazy-init="true">
+				<aop:scoped-proxy/>
+				<property name="beanName" value="sendClickedEmailEventCondition"/>
+			</bean>
+		</property>
+		<property name="action">
+			<bean id="inForwardSendingEmailActionFactory" class="com.jacada.jad.cti.sm.actions.media.factory.ActionsFactoryBean"  lazy-init="true">
+				<aop:scoped-proxy/>
+				<property name="beanName" value="sendEmailAction"/>
+			</bean>
+		</property>
+		<property name="fromState" ref="inForwardEmailState" />
+		<property name="toState" ref="sendingEmailState" />
+	</bean>
+
+	<bean id="inForwardInForwardEmailTransition" class="com.jacada.sm.framework.transition.DefaultTransition" lazy-init="true">
+		<property name="condition">
+			<bean id="inForwardInForwardEmailConditionFactory" class="com.jacada.jad.cti.sm.conditions.media.factory.ConditionsFactoryBean"  lazy-init="true">
+				<aop:scoped-proxy/>
+				<property name="beanName" value="retrieveClickedMediaEventCondition"/>
+			</bean>
+		</property>
+		<property name="action">
+			<bean id="inForwardInForwardEmailActionFactory" class="com.jacada.jad.cti.sm.actions.media.factory.ActionsFactoryBean"  lazy-init="true">
+				<aop:scoped-proxy/>
+				<property name="beanName" value="selectContextGroupAction"/>
+			</bean>
+		</property>
+		<property name="fromState" ref="inForwardEmailState" />
+		<property name="toState" ref="inForwardEmailState" />
+	</bean>
+
+	<util:list id="inForwardEmailStateTransitionsList">
+		<ref bean="inForwardSendingEmailTransition" />
+		<ref bean="inForwardAcceptedEmailTransition" />
+		<ref bean="inForwardDoneEmailTransition" />
+		<ref bean="inForwardInForwardEmailTransition" />
+	</util:list>
+
+	<bean id="sendingDoneEmailTransition" class="com.jacada.sm.framework.transition.DefaultTransition" lazy-init="true">
+		<property name="condition">
+			<bean id="sendingDoneEmailConditionFactory" class="com.jacada.jad.cti.sm.conditions.media.factory.ConditionsFactoryBean"  lazy-init="true">
+				<aop:scoped-proxy/>
+				<property name="beanName" value="emailDoneCondition"/>
+			</bean>
+		</property>
+		<property name="fromState" ref="sendingEmailState" />
+		<property name="toState" ref="doneEmailState" />
+	</bean>
+
+	<bean id="sendingSendingEmailTransition" class="com.jacada.sm.framework.transition.DefaultTransition" lazy-init="true">
+		<property name="condition">
+			<bean id="sendingSendingEmailConditionFactory" class="com.jacada.jad.cti.sm.conditions.media.factory.ConditionsFactoryBean"  lazy-init="true">
+				<aop:scoped-proxy/>
+				<property name="beanName" value="retrieveClickedMediaEventCondition"/>
+			</bean>
+		</property>
+		<property name="action">
+			<bean id="sendingSendingEmailActionFactory" class="com.jacada.jad.cti.sm.actions.media.factory.ActionsFactoryBean"  lazy-init="true">
+				<aop:scoped-proxy/>
+				<property name="beanName" value="selectContextGroupAction"/>
+			</bean>
+		</property>
+		<property name="fromState" ref="sendingEmailState" />
+		<property name="toState" ref="sendingEmailState" />
+	</bean>
+
+	<util:list id="sendingEmailStateTransitionsList">
+		<ref bean="sendingDoneEmailTransition" />
+		<ref bean="sendingSendingEmailTransition" />
+	</util:list>
+	<!-- ============== Transitions end ============== -->
+
+	<!-- Actual state model is defined in applicationContext-sm-mediaStateModel.xml -->
+</beans>

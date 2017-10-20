@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop" xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.1.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.1.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.1.xsd">
+
+	<!-- service beans -->
+	<!--  bpm service  (used by jim)-->
+	 <bean id="com.jacada.jad.services.DefaultBPMServiceManager"
+		class="com.jacada.jad.services.DefaultBPMServiceManager" scope="session" lazy-init="true">
+		<property name="bpmConnector">
+			<ref bean="bpmConnector" />
+		</property>	
+		<property name="auditManager">
+			<ref bean="auditingManager" />
+		</property>
+		<aop:scoped-proxy />
+	</bean>
+	<alias name="com.jacada.jad.services.DefaultBPMServiceManager"
+		alias="BPMService" />
+	<alias name="com.jacada.jad.services.DefaultBPMServiceManager"
+		alias="com.jacada.services.bpmService.interfaces.BPMService" />
+	  
+	  
+	<!--  businesslogic service  (used by jim)-->
+	 <bean id="USER.services.businessLogic.BusinessLogicService"
+		class="USER.services.businessLogic.BusinessLogicService" scope="session" lazy-init="true">
+		<property name="jimWorkflowManager">
+			<ref bean="jimWorkflowManager" />
+		</property>	
+		<property name="dispositionManager">
+			<ref bean="dispositionManager" />
+		</property>
+		<aop:scoped-proxy />
+	</bean>
+	<alias name="USER.services.businessLogic.BusinessLogicService"
+		alias="BusinessLogicService" />
+	<alias name="USER.services.businessLogic.BusinessLogicService"
+		alias="com.jacada.services.businessLogicService.interfaces.BusinessLogicService" />
+	  
+	<!--  session variables service  (used by jim)-->
+	 <bean id="USER.services.session.WorkSpaceSessionService"
+		class="USER.services.session.WorkSpaceSessionService" scope="session" lazy-init="true">
+		<property name="agentInformation">
+			<ref bean="agentInformation" />
+		</property>
+		<property name="sessionInformation">
+			<ref bean="sessionInformation" />
+		</property>
+		<property name="voiceInformation"> 
+			<ref bean="voiceInformation" />
+		</property>
+		<property name="voiceOperationProxy"
+			ref="voiceOperationProxy">
+		</property>
+		<aop:scoped-proxy />
+		
+	</bean>
+	<alias name="USER.services.session.WorkSpaceSessionService"
+		alias="WorkSpaceSessionService" />
+	<alias name="USER.services.session.WorkSpaceSessionService"
+		alias="com.jacada.services.sessionService.interfaces.IWorkSpaceSessionService" />
+	
+	<!--  call handling service  (used by jim)-->
+	 <bean id="USER.services.callHandling.CallHandlingService"
+		class="USER.services.callHandling.CallHandlingService" scope="session" lazy-init="true">
+		<property name="agentInformation">
+			<ref bean="agentInformation" />
+		</property>
+		<property name="sessionInformation">
+			<ref bean="sessionInformation" />
+		</property>
+		<property name="voiceInformation"> 
+			<ref bean="voiceInformation" />
+		</property>
+		<property name="voiceOperationProxy"
+			ref="voiceOperationProxy">
+		</property>
+		<aop:scoped-proxy />
+	</bean>
+	<alias name="USER.services.callHandling.CallHandlingService"
+		alias="CallHandlingService" />
+	<alias name="USER.services.callHandling.CallHandlingService"
+		alias="com.jacada.services.callHandlingService.interfaces.ICallHandlingService" />
+	
+	
+	<!--  stateful service that will be used for connecting workspace to jim. will be called from jim using a statefulServiceClient-->		   
+		 <bean id="com.jacada.services.StatefulConnectionService" class="com.jacada.services.StatefulConnectionService" scope="session" lazy-init="true" >		
+		<aop:scoped-proxy/>
+		<property name="locator" ref="serviceLocator"></property>
+	</bean>	
+	<alias name="com.jacada.services.StatefulConnectionService" alias="ConnectService"/>
+	<alias name="com.jacada.services.StatefulConnectionService" alias="com.jacada.services.IStatefulConnectionService"/>
+	
+	<!-- client -->
+	<bean id="serviceLocator" class="com.jacada.service.client.ServiceLocator">
+		<property name="serviceProviderName" value="spi-StatefulRemote"></property>
+		<property name="serviceUrl" ref="serviceUrl"></property>
+		<property name="localServiceProvider" ref="spi-Local"></property>
+		<property name="remoteServiceProvider" ref="httpInvokerProxy"></property>
+		<property name="remoteProviderInfoMap">
+			<map>
+				<entry key="spi-CTIGateway" value-ref="spi-CTIGateway"></entry>
+				<entry key="spi-StatefulRemoteToJim" value-ref="spi-StatefulRemoteToJim"></entry>
+				  
+			</map>
+		</property>
+	</bean>
+
+	<!-- serviceLocator used by web services -->
+	<bean id="noCallbackServiceLocator" class="com.jacada.service.client.ServiceLocator">
+		<property name="serviceProviderName" value="spi-StatefulRemote"></property>
+		<property name="serviceUrl" ref="serviceUrl"></property>
+		<property name="localServiceProvider" ref="spi-Local"></property>
+		<property name="remoteServiceProvider" ref="httpInvokerProxy"></property>
+		<property name="remoteProviderInfoMap">
+			<map>
+				<entry key="spi-RemoteWebServices" value-ref="spi-RemoteWebServices"></entry>
+				<entry key="internalService" value-ref="internalServiceWrapper"></entry>
+			</map>
+		</property>
+		<property name="callbackEnabled" value="false" />
+	</bean>
+	
+	<bean id="spi-CTIGateway" class="com.jacada.jad.services.providers.CTIGatewayProviderWrapper" init-method="init">
+		<property name="dbAccess" ref="dba"></property>		
+	</bean>
+
+	<bean id="serviceUrl" class="com.jacada.service.url.UrlStruct" scope="session" lazy-init="true">
+		<property name="urlCalculator" ref="urlCalculator"></property>	
+		<aop:scoped-proxy/>
+	</bean>
+	
+	<bean id="spi-StatefulRemoteToJim" class="com.jacada.service.client.providerinfo.StatefulRemoteProviderInfo" scope="session" lazy-init="true">
+		<aop:scoped-proxy/>
+	</bean>
+	
+	<bean id="spi-Local" class="com.jacada.service.server.LocalServiceProvider"></bean>
+	
+	<bean id="httpInvokerProxy" class="com.jacada.spring.invoke.http.ConfigurableHttpInvokerProxyFactoryBean">
+		<property name="serviceInterface" value="com.jacada.service.server.IRemoteServiceProvider" />
+		<property name="serviceUrl" value="" />
+	</bean>	
+<!-- old bean 
+	<bean id="spi-Remote" class="com.jacada.service.client.providerinfo.RemoteProviderInfo">
+	</bean>
+-->	
+	<bean id="spi-RemoteWebServices" class="com.jacada.service.client.providerinfo.RemoteProviderInfo">
+	</bean>
+
+	<bean id="sessionInfo" class="com.jacada.service.beans.SessionInfo" scope="session" lazy-init="true">
+		<aop:scoped-proxy/>
+	</bean>
+	
+	<bean id="internalServiceWrapper" class="com.jacada.service.client.providerinfo.RemoteProviderInfo" scope="session" lazy-init="true">
+		<aop:scoped-proxy/>
+	</bean>
+	
+	
+	<!--  internal service  -->
+	 <bean id="com.jacada.jad.services.InternalServiceImpl" class="com.jacada.jad.services.InternalServiceImpl" scope="session" lazy-init="true">		
+		<aop:scoped-proxy />
+	</bean>
+	<alias name="com.jacada.jad.services.InternalServiceImpl" alias="InternalService" />
+	<alias name="com.jacada.jad.services.InternalServiceImpl" alias="InternalServiceImpl" />
+	<alias name="com.jacada.jad.services.InternalServiceImpl" alias="com.jacada.jad.interfaces.InternalService" />
+	  
+</beans>

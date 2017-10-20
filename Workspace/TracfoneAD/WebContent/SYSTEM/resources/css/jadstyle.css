@@ -1,0 +1,70 @@
+/* Combo Box */
+	.ComboBox{}
+	.ComboBoxText{ 
+	   border-left:1px solid #999999;
+	   border-top:1px solid #999999;
+	   border-bottom:1px solid #999999;
+	   border-right:1px solid #999999;
+	   height:20;
+	   font:11px Tahoma;
+	   vertical-align:text-center;
+	   padding-top: 3px;
+	   padding-left: 2px; 
+	   
+	 }
+	.ComboBoxTextAndButton{}
+	.ComboBoxTextDynamic{ 
+	   background:#fff;
+	 }
+	.ComboBoxTextDisabled {
+	   border-left:1px solid #999999;
+	   border-top:1px solid #999999;
+	   border-bottom:1px solid #999999;
+	   border-right:1px solid #999999;
+	   height:16;
+	   font:8pt Arial,Tahoma;
+	   vertical-align:text-center;
+	   padding-top: 0px;
+	   padding-left: 2px;
+	 }
+	.ComboBoxTextDynamicOver{
+	   background:#ECECEC; 
+	 }
+	.ComboBoxButton{ 
+	   cursor:pointer; 
+	 }
+	 
+	.ComboBoxButtonImg{ 
+	   background-image:url("../images/combobutton_normal.png");
+	   vertical-align:text-center;
+  	   position:relative;
+	   width:20;
+	   height:20; 
+	 }
+	 	 
+	.ComboBoxButtonImgOver{ 
+		background-image:url("../images/combobutton_hover.png");
+	 	vertical-align:text-center;
+  	   	position:relative;
+	   	width:20;
+	   	height:20; 
+	 }
+	.ComboBoxButtonImgDisabled{ 
+		background-image:url("../images/combobutton_normal.png");
+	   	vertical-align:text-center;
+  	  	position:relative;
+	  	width:20;
+	   	height:20; 
+	 }
+	.ComboBoxButtonImgPressed{
+	   background-image:url("../images/combobutton_pressed.png");
+	   vertical-align:text-center;
+  	   position:relative;
+	   width:20;
+	   height:20; 
+	 }
+	
+ .ComboBoxList{ 
+    font:11px Tahoma, Arial;
+    border: 0;
+ }	

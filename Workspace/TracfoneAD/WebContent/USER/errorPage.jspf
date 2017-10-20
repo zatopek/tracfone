@@ -1,0 +1,5 @@
+ function getCustomErrorMessage(){
+ 	var message = 'There was an unexpected error in the application.<br>'
+ 	message += 'Press the Close button to exit, and restart the application.';
+ 	return message;
+ }

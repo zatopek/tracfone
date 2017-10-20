@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util" xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.1.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.1.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.1.xsd">
+
+	<!-- ============== States start ============== -->
+	<bean id="incomingChatState" class="com.jacada.sm.framework.state.DefaultState" lazy-init="true">
+		<property name="entryAction">
+			<bean id="incomingChatStateEntryActionFactory" class="com.jacada.jad.cti.sm.actions.media.factory.ActionsFactoryBean" lazy-init="true">
+				<aop:scoped-proxy/>
+				<property name="beanName" value="incomingChatStateEntryAction"/>
+			</bean>
+		</property>
+	</bean>
+	<bean id="acceptedChatState" class="com.jacada.sm.framework.state.DefaultState" lazy-init="true">
+		<property name="entryAction">
+			<bean id="acceptedChatStateEntryActionFactory" class="com.jacada.jad.cti.sm.actions.media.factory.ActionsFactoryBean" lazy-init="true">
+				<aop:scoped-proxy/>
+				<property name="beanName" value="acceptedChatStateMultiAction"/>
+			</bean>
+		</property>
+	</bean>
+	<bean id="closedChatState" class="com.jacada.sm.framework.state.DefaultState" lazy-init="true">
+		<property name="entryAction">
+			<bean id="closedChatStateEntryActionFactory" class="com.jacada.jad.cti.sm.actions.media.factory.ActionsFactoryBean" lazy-init="true">
+				<aop:scoped-proxy/>
+				<property name="beanName" value="filteredSendClientUIAction"/>
+			</bean>
+		</property>
+	</bean>
+	<bean id="doneChatState" class="com.jacada.sm.framework.state.DefaultState" lazy-init="true">
+		<property name="terminationState" value="true" />
+		<property name="entryAction">
+			<bean id="doneChatStateEntryActionFactory" class="com.jacada.jad.cti.sm.actions.media.factory.ActionsFactoryBean" lazy-init="true">
+				<aop:scoped-proxy/>
+				<property name="beanName" value="doneMediaStateMultiAction"/>
+			</bean>
+		</property>
+	</bean>
+	<!-- ============== States end ============== -->
+
+	<!-- ============== Conditions start ============== -->
+	<bean id="incomingIncomingChatCondition" class="com.jacada.jad.cti.sm.conditions.media.chat.defaults.AnswerClickedChatEventCondition" lazy-init="true"/>
+	<bean id="incomingAcceptedChatCondition" class="com.jacada.jad.cti.sm.conditions.media.chat.defaults.IncomingAcceptedChatCondition" lazy-init="true"/>
+	<bean id="acceptedAcceptedChatCondition" class="com.jacada.jad.cti.sm.conditions.media.chat.defaults.AcceptedAcceptedChatCondition" lazy-init="true"/>
+	<bean id="acceptedClosedChatCondition" class="com.jacada.jad.cti.sm.conditions.media.chat.defaults.AcceptedClosedChatCondition" lazy-init="true"/>
+	<bean id="doneChatCondition" class="com.jacada.jad.cti.sm.conditions.media.chat.defaults.DoneChatCondition" lazy-init="true"/>
+	
+	<!-- ============== Conditions end ============== -->
+	
+	<!-- ============== Actions start ============== -->
+	<bean id="incomingChatStateEntryAction" class="com.jacada.jad.cti.sm.actions.media.chat.IncomingChatStateEntryAction"
+			lazy-init="true" parent="incomingWorkItemStateEntryAction">
+	</bean>
+
+    <bean id="acceptedChatStateMultiAction" class="com.jacada.jad.cti.sm.actions.media.MultiAction" lazy-init="true">
+        <property name="actions">
+            <util:list>
+                <ref bean="sendChatToClientUIAction"/>
+                <ref bean="dropPhantomCallAction"/>
+            </util:list>
+        </property>
+    </bean>
+
+	<bean id="sendChatToClientUIAction" class="com.jacada.jad.cti.sm.actions.media.chat.SendChatToClientUIAction"
+			lazy-init="true" parent="sendClientUIAction">
+	</bean>
+	<bean id="handleMessageAction" class="com.jacada.jad.cti.sm.actions.media.chat.HandleMessageAction"
+			lazy-init="true" parent="sendClientUIAction">
+		<property name="commandDispatcher" ref="mediaCommandDispatcher"/>
+	</bean>
+	<!-- ============== Actions end ============== -->
+
+	<!-- ============== Transitions start ============== -->
+ 	<bean id="incomingIncomingChatTransition" class="com.jacada.sm.framework.transition.DefaultTransition" lazy-init="true">
+		<property name="condition">
+			<bean id="incomingIncomingChatConditionFactory" class="com.jacada.jad.cti.sm.conditions.media.factory.ConditionsFactoryBean"  lazy-init="true">
+				<aop:scoped-proxy/>
+				<property name="beanName" value="incomingIncomingChatCondition"/>
+			</bean>
+		</property>
+		<property name="fromState" ref="incomingChatState" />
+		<property name="toState" ref="incomingChatState" />
+	</bean>
+
+	<bean id="incomingAcceptedChatTransition" class="com.jacada.sm.framework.transition.DefaultTransition" lazy-init="true">
+		<property name="condition">
+			<bean id="incomingAcceptedChatConditionFactory" class="com.jacada.jad.cti.sm.conditions.media.factory.ConditionsFactoryBean"  lazy-init="true">
+				<aop:scoped-proxy/>
+				<property name="beanName" value="incomingAcceptedChatCondition"/>
+			</bean>
+		</property>
+        <property name="action">
+            <bean class="com.jacada.jad.cti.sm.actions.media.factory.ActionsFactoryBean"  lazy-init="true">
+                <aop:scoped-proxy/>
+                <property name="beanName" value="scheduleKeepAliveAction"/>
+            </bean>
+        </property>
+		<property name="fromState" ref="incomingChatState" />
+		<property name="toState" ref="acceptedChatState" />
+	</bean>
+
+	<bean id="incomingDoneChatTransition" class="com.jacada.sm.framework.transition.DefaultTransition" lazy-init="true">
+		<property name="condition">
+			<bean id="incomingDoneChatConditionFactory" class="com.jacada.jad.cti.sm.conditions.media.factory.ConditionsFactoryBean"  lazy-init="true">
+				<aop:scoped-proxy/>
+				<property name="beanName" value="unansweredEventCondition"/>
+			</bean>
+		</property>
+		<property name="fromState" ref="incomingChatState" />
+		<property name="toState" ref="doneState" />
+	</bean>
+
+	<util:list id="incomingChatStateTransitionsList">
+		<ref bean="incomingIncomingChatTransition"/>
+		<ref bean="incomingAcceptedChatTransition" />
+		<ref bean="incomingDoneChatTransition" />
+	</util:list>
+
+	<bean id="acceptedAcceptedChatTransition" class="com.jacada.sm.framework.transition.DefaultTransition" lazy-init="true">
+		<property name="condition">
+			<bean id="acceptedAcceptedChatConditionFactory" class="com.jacada.jad.cti.sm.conditions.media.factory.ConditionsFactoryBean"  lazy-init="true">
+				<aop:scoped-proxy/>
+				<property name="beanName" value="acceptedAcceptedChatCondition"/>
+			</bean>
+		</property>
+		<property name="action">
+			<bean id="acceptedAcceptedChatTransitionActionFactory" class="com.jacada.jad.cti.sm.actions.media.factory.ActionsFactoryBean" lazy-init="true">
+				<aop:scoped-proxy/>
+				<property name="beanName" value="handleMessageAction"/>
+			</bean>
+		</property>
+		<property name="fromState" ref="acceptedChatState" />
+		<property name="toState" ref="acceptedChatState" />
+	</bean>
+	<bean id="acceptedClosedChatTransition" class="com.jacada.sm.framework.transition.DefaultTransition" lazy-init="true">
+		<property name="condition">
+			<bean id="acceptedClosedChatConditionFactory" class="com.jacada.jad.cti.sm.conditions.media.factory.ConditionsFactoryBean"  lazy-init="true">
+				<aop:scoped-proxy/>
+				<property name="beanName" value="acceptedClosedChatCondition"/>
+			</bean>
+		</property>
+		<property name="fromState" ref="acceptedChatState" />
+		<property name="toState" ref="closedChatState" />
+	</bean>
+	<bean id="acceptedDoneChatTransition" class="com.jacada.sm.framework.transition.DefaultTransition" lazy-init="true">
+		<property name="condition">
+			<bean id="acceptedDoneChatConditionFactory" class="com.jacada.jad.cti.sm.conditions.media.factory.ConditionsFactoryBean"  lazy-init="true">
+				<aop:scoped-proxy/>
+				<property name="beanName" value="doneChatCondition"/>
+			</bean>
+		</property>
+		<property name="action">
+			<bean id="acceptedDoneChatActionFactory" class="com.jacada.jad.cti.sm.actions.media.factory.ActionsFactoryBean"  lazy-init="true">
+				<aop:scoped-proxy/>
+				<property name="beanName" value="closeMediaItemAction"/>
+			</bean>
+		</property>
+		<property name="fromState" ref="acceptedChatState" />
+		<property name="toState" ref="doneChatState" />
+	</bean>
+
+	<util:list id="acceptedChatStateTransitionsList">
+		<ref bean="acceptedAcceptedChatTransition"/>
+		<ref bean="acceptedDoneChatTransition"/>
+		<ref bean="acceptedClosedChatTransition"/>		
+	</util:list>
+
+	<bean id="closedDoneChatTransition" class="com.jacada.sm.framework.transition.DefaultTransition" lazy-init="true">
+		<property name="condition">
+			<bean id="closedDoneChatConditionFactory" class="com.jacada.jad.cti.sm.conditions.media.factory.ConditionsFactoryBean"  lazy-init="true">
+				<aop:scoped-proxy/>
+				<property name="beanName" value="doneChatCondition"/>
+			</bean>
+		</property>
+		<property name="action">
+			<bean id="closedDoneChatActionFactory" class="com.jacada.jad.cti.sm.actions.media.factory.ActionsFactoryBean"  lazy-init="true">
+				<aop:scoped-proxy/>
+				<property name="beanName" value="closeMediaItemAction"/>
+			</bean>
+		</property>
+		<property name="fromState" ref="closedChatState" />
+		<property name="toState" ref="doneChatState" />
+	</bean>
+
+	<bean id="closedClosedChatTransition" class="com.jacada.sm.framework.transition.DefaultTransition" lazy-init="true">
+		<property name="condition">
+			<bean id="closedClosedChatConditionFactory" class="com.jacada.jad.cti.sm.conditions.media.factory.ConditionsFactoryBean"  lazy-init="true">
+				<aop:scoped-proxy/>
+				<property name="beanName" value="retrieveClickedMediaEventCondition"/>
+			</bean>
+		</property>
+		<property name="action">
+			<bean id="closedClosedChatActionFactory" class="com.jacada.jad.cti.sm.actions.media.factory.ActionsFactoryBean"  lazy-init="true">
+				<aop:scoped-proxy/>
+				<property name="beanName" value="selectContextGroupAction"/>
+			</bean>
+		</property>
+		<property name="fromState" ref="closedChatState" />
+		<property name="toState" ref="closedChatState" />
+	</bean>
+
+	<util:list id="closedChatStateTransitionsList">
+		<ref bean="closedDoneChatTransition"/>
+		<ref bean="closedClosedChatTransition"/>
+	</util:list>
+ 
+ 	<!-- ============== Transitions end ============== -->
+
+	<!-- Actual state model is defined in applicationContext-sm-mediaStateModel.xml -->
+</beans>

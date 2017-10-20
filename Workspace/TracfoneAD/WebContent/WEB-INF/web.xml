@@ -1,0 +1,839 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<web-app xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="WebApp_ID" version="2.4" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee  http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+
+	<!--
+		Filter to perform Page Flow operations when JSPs are hit directly.
+	-->
+	<context-param>
+		<param-name>servletPath</param-name>
+		<param-value>InvocationService</param-value>
+	</context-param>
+	<filter>
+		<filter-name>CharacterEncodingFilter</filter-name>
+		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+		<init-param>
+			<param-name>forceEncoding</param-name>
+			<param-value>true</param-value>
+		</init-param>
+	</filter>
+	
+	<filter>
+		<filter-name>OpenEntityManagerInViewFilter</filter-name>
+		<filter-class>org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter</filter-class>
+	</filter>
+	<!-- OpenEntityManagerInViewFilter mapping begin -->
+	<filter-mapping>
+		<filter-name>OpenEntityManagerInViewFilter</filter-name>
+		<url-pattern>*.jsp</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>OpenEntityManagerInViewFilter</filter-name>
+		<url-pattern>*.jpf</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>OpenEntityManagerInViewFilter</filter-name>
+		<url-pattern>*.do</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>OpenEntityManagerInViewFilter</filter-name>
+		<url-pattern>*.json</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>OpenEntityManagerInViewFilter</filter-name>
+		<url-pattern>*.jsf</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>OpenEntityManagerInViewFilter</filter-name>
+		<url-pattern>/j_spring_security_check</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>OpenEntityManagerInViewFilter</filter-name>
+		<url-pattern>/dataSource</url-pattern>
+	</filter-mapping>
+	<!-- OpenEntityManagerInViewFilter mapping end -->
+	<filter-mapping>
+		<filter-name>CharacterEncodingFilter</filter-name>
+		<url-pattern>*.json</url-pattern>
+	</filter-mapping>
+
+	<filter-mapping>
+		<filter-name>CharacterEncodingFilter</filter-name>
+		<url-pattern>*.jpf</url-pattern>
+	</filter-mapping>
+
+	<filter-mapping>
+		<filter-name>CharacterEncodingFilter</filter-name>
+		<url-pattern>/j_spring_security_check</url-pattern>
+	</filter-mapping>
+	
+	<filter-mapping>
+		<filter-name>CharacterEncodingFilter</filter-name>
+		<url-pattern>/rest/*</url-pattern>
+	</filter-mapping>
+
+	<!-- Spring security filter -->
+	<filter>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+	</filter>
+
+	<filter-mapping>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<url-pattern>*.jsp</url-pattern>
+	</filter-mapping>
+
+	<filter-mapping>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<url-pattern>*.jsf</url-pattern>
+	</filter-mapping>
+
+	<filter-mapping>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<url-pattern>*.faces</url-pattern>
+	</filter-mapping>
+
+	<filter-mapping>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<url-pattern>*.html</url-pattern>
+	</filter-mapping>
+
+	<filter-mapping>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<url-pattern>*.json</url-pattern>
+	</filter-mapping>
+
+	<filter-mapping>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<url-pattern>*.do</url-pattern>
+	</filter-mapping>
+
+	<filter-mapping>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<url-pattern>*.jpf</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<url-pattern>/j_spring_security_check</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<url-pattern>/dynamicviews</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<url-pattern>/dataSource</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<url-pattern>/rest</url-pattern>
+	</filter-mapping>
+
+	<filter>
+		<filter-name>UrlResolverFilter</filter-name>
+		<filter-class>com.jacada.service.url.UrlResolverFilter</filter-class>
+	</filter>
+	<filter>
+		<filter-name>PageFlowJspFilter</filter-name>
+		<filter-class>org.apache.beehive.netui.pageflow.PageFlowJspFilter</filter-class>
+	</filter>
+	<!--
+		Filter to perform Page Flow operations when JavaServer Faces pages are
+		hit directly.
+	-->
+	<filter>
+		<filter-name>PageFlowFacesFilter</filter-name>
+		<filter-class>org.apache.beehive.netui.pageflow.PageFlowFacesFilter</filter-class>
+	</filter>
+	<filter>
+		<filter-name>JacadaWorkSpaceFilter</filter-name>
+		<filter-class>com.jacada.jad.core.JacadaWorkspaceFilter</filter-class>
+	</filter>
+	
+	<!-- MashMatrix integration  -->
+	<filter>
+    	<filter-name>mmLicenseFilter</filter-name>
+    	<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+  	</filter>
+
+  	<filter-mapping>
+    	<filter-name>mmLicenseFilter</filter-name>
+    	<url-pattern>*.jpf</url-pattern>
+  	</filter-mapping>
+  	
+  	<filter-mapping>
+    	<filter-name>mmLicenseFilter</filter-name>
+    	<url-pattern>*.do</url-pattern>
+  	</filter-mapping>
+  	<filter-mapping>
+    	<filter-name>mmLicenseFilter</filter-name>
+    	<url-pattern>*.json</url-pattern>
+  	</filter-mapping>
+  	<filter-mapping>
+		<filter-name>mmLicenseFilter</filter-name>
+		<url-pattern>*.faces</url-pattern>
+	</filter-mapping>	
+	<filter-mapping>
+		<filter-name>mmLicenseFilter</filter-name>
+		<url-pattern>*.jsf</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>mmLicenseFilter</filter-name>
+		<url-pattern>*.jsp</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>mmLicenseFilter</filter-name>
+		<servlet-name>action</servlet-name>
+	</filter-mapping>
+	
+	
+  	<!-- End MashMatrix integration  -->
+  	
+	<filter>
+		<filter-name>Session Registration Filter</filter-name>
+		<filter-class>com.jacada.session.jad.WorkspaceSessionRegistrationFilter</filter-class>
+	</filter>
+
+	<!--
+		It is possible - but certainly not required - to keep source files
+		such as page flows and JavaServer Faces backing beans mixed in with
+		web content. In this case, and when the web content directory itself
+		is being deployed without being copied to some other build location,
+		it is important to prevent the source code from being URL-addressable.
+		This filter returns a specified error code when source files are
+		requested.
+	-->
+
+
+	<filter-mapping>
+		<filter-name>JacadaWorkSpaceFilter</filter-name>
+		<url-pattern>/InvocationService</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>UrlResolverFilter</filter-name>
+		<url-pattern>/InvocationService</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>UrlResolverFilter</filter-name>
+		<url-pattern>/SYSTEM/portlets/CTI/CTIController.jpf</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>UrlResolverFilter</filter-name>
+		<url-pattern>/Controller.jpf</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>UrlResolverFilter</filter-name>
+		<url-pattern>/afterDuplicateLoginForm.do</url-pattern>
+	</filter-mapping>
+	
+	<!-- rest servlet start -->
+	
+	<servlet>
+		<servlet-name>rest</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>rest</servlet-name>
+		<url-pattern>/rest/*</url-pattern>
+	</servlet-mapping>
+	
+	<!-- rest servlet end -->
+	
+	<servlet>
+		<servlet-name>InvocationService</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<load-on-startup>2</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>InvocationService</servlet-name>
+		<url-pattern>/InvocationService</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>taskManager</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>taskManager</servlet-name>
+		<url-pattern>/taskManager.json</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>dataSource</servlet-name>
+		<servlet-class>com.jacada.jad.mm.servlet.DVDatasourceServlet</servlet-class>
+		<load-on-startup>2</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>dataSource</servlet-name>
+		<url-pattern>/dataSource</url-pattern>
+	</servlet-mapping>	
+	<servlet>
+		<servlet-name>environmentVars</servlet-name>
+		<servlet-class>com.jacada.jad.dv.environmentVariables.EnvironmentVarsServlet</servlet-class>
+		<load-on-startup>2</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>environmentVars</servlet-name>
+		<url-pattern>/environmentVars</url-pattern>
+	</servlet-mapping>
+<servlet>
+		<servlet-name>translationDict</servlet-name>
+		<servlet-class>com.jacada.jad.dv.localization.DVLocalizationServlet</servlet-class>
+		<load-on-startup>2</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>translationDict</servlet-name>
+		<url-pattern>/translationDict</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>dynamicViewsEditor</servlet-name>
+		<servlet-class>com.jacada.jad.mm.servlet.DynamicViewsEditorServlet</servlet-class>
+		<load-on-startup>2</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>dynamicViewsEditor</servlet-name>
+		<url-pattern>/dynamicviews</url-pattern>
+	</servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>systemJson</servlet-name>
+        <url-pattern>/HTManager.json</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>systemJson</servlet-name>
+        <url-pattern>/media.json</url-pattern>
+    </servlet-mapping>
+
+    <filter>
+		<filter-name>PageFlowForbiddenFilter</filter-name>
+		<filter-class>
+			org.apache.beehive.netui.pageflow.PageFlowForbiddenFilter</filter-class>
+		<init-param>
+			<param-name>response-code</param-name>
+			<param-value>404</param-value>
+		</init-param>
+	</filter>
+
+	<!--
+		extension mapping for adding &lt;script/&gt;, &lt;link/&gt;, and other
+		resource tags to JSF-pages
+	-->
+
+	<filter>
+		<filter-name>FailoverHelperFilter</filter-name>
+		<filter-class>com.jacada.jad.failover.web.FailoverHelperFilter</filter-class>
+	</filter>	
+
+	<filter-mapping>
+		<filter-name>FailoverHelperFilter</filter-name>
+		<url-pattern>*.jsp</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>FailoverHelperFilter</filter-name>
+		<url-pattern>*.jpf</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>FailoverHelperFilter</filter-name>
+		<url-pattern>*.do</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>FailoverHelperFilter</filter-name>
+		<url-pattern>*.json</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>FailoverHelperFilter</filter-name>
+		<url-pattern>*.jsf</url-pattern>
+	</filter-mapping>
+
+	<!--
+		extension mapping for serving page-independent resources (javascript,
+		stylesheets, images, etc.)
+	-->
+
+	<filter-mapping>
+		<filter-name>PageFlowJspFilter</filter-name>
+		<url-pattern>*.jsp</url-pattern>
+	</filter-mapping>
+
+	<filter-mapping>
+		<filter-name>JacadaWorkSpaceFilter</filter-name>
+		<url-pattern>*.faces</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>JacadaWorkSpaceFilter</filter-name>
+		<url-pattern>*.json</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>JacadaWorkSpaceFilter</filter-name>
+		<url-pattern>*.jsf</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>JacadaWorkSpaceFilter</filter-name>
+		<url-pattern>*.jsp</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>JacadaWorkSpaceFilter</filter-name>
+		<servlet-name>action</servlet-name>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>JacadaWorkSpaceFilter</filter-name>
+		<servlet-name>dataSource</servlet-name>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>JacadaWorkSpaceFilter</filter-name>
+		<servlet-name>environmentVars</servlet-name>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>JacadaWorkSpaceFilter</filter-name>
+		<servlet-name>rest</servlet-name>
+	</filter-mapping>
+
+	<filter-mapping>
+		<filter-name>Session Registration Filter</filter-name>
+		<servlet-name>action</servlet-name>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>Session Registration Filter</filter-name>
+		<servlet-name>Faces Servlet</servlet-name>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>Session Registration Filter</filter-name>
+		<servlet-name>taskManager</servlet-name>
+	</filter-mapping>	
+	<!--
+		&lt;filter-mapping&gt;
+		&lt;filter-name&gt;UrlResolverFilter&lt;/filter-name&gt;
+		&lt;url-pattern&gt;/InvocationService&lt;/url-pattern&gt;
+		&lt;/filter-mapping&gt;
+	-->
+
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>
+            /WEB-INF/applicationContext-config-base.xml
+            /WEB-INF/applicationContext-services.xml    
+            /WEB-INF/applicationContext-navbar.xml
+            /WEB-INF/applicationContext-services.xml
+            /WEB-INF/applicationContext-ws.xml
+            /WEB-INF/applicationContext-faq.xml
+            /WEB-INF/applicationContext-ldap.xml
+            /WEB-INF/applicationContext-cti.xml
+            /WEB-INF/applicationContext-sm-process.xml
+            /WEB-INF/applicationContext-sm-mediaStateModel.xml
+            /WEB-INF/applicationContext-sm-emailStateModel.xml
+            /WEB-INF/applicationContext-sm-chatStateModel.xml
+            /WEB-INF/applicationContext-sm-voiceStateModel.xml
+            /WEB-INF/applicationContext-sm-workItemStateModel.xml
+            /WEB-INF/applicationContext-sessionManager.xml
+            /WEB-INF/applicationContext-system.xml
+            /WEB-INF/applicationContext-managers.xml
+            /WEB-INF/applicationContext-jpa.xml
+            /WEB-INF/applicationContext-ehcache.xml
+            /WEB-INF/applicationContext-jimSideBySide.xml
+			/WEB-INF/applicationContext-messaging.xml
+            /WEB-INF/applicationContext-taskManager.xml
+            /WEB-INF/applicationContext-auditing.xml
+            /WEB-INF/applicationContext-instantMessaging.xml  
+            /WEB-INF/applicationContext-security.xml
+            /WEB-INF/applicationContext-timers.xml
+            /WEB-INF/applicationContext-search.xml
+            /WEB-INF/applicationContext-user.xml    
+            /WEB-INF/applicationContext-modules.xml
+            /WEB-INF/applicationContext-customerInfo.xml
+            /WEB-INF/applicationContext-customerInfoData.xml   
+            /WEB-INF/applicationContext-disposition.xml  
+	     	/WEB-INF/applicationContext-smartPad.xml  
+	     	/WEB-INF/applicationContext-supervisor.xml
+	     	/WEB-INF/applicationContext-featureManager.xml
+			
+            /WEB-INF/applicationContext-directory.xml  
+			/WEB-INF/applicationContext-emc.xml
+			/WEB-INF/applicationContext-projectVariables.xml
+			/WEB-INF/applicationContext-reporting-base.xml
+			/WEB-INF/applicationContext-dynamicviews.xml
+			/WEB-INF/applicationContext-dialList.xml
+			/WEB-INF/applicationContext-dashboardProperties.xml
+			/WEB-INF/applicationContext-menus.xml		
+			/WEB-INF/applicationContext-favorites.xml
+			/WEB-INF/applicationContext-b4pTaskManager.xml
+			
+	/WEB-INF/applicationContext-tomcat.xml
+	/WEB-INF/applicationContext-ws-TracfoneAD.xml</param-value>
+		<!--
+			Add this xml to list of contextConfigLocation to enable SMT
+            recording: /WEB-INF/applicationContext-tests.xml
+
+		-->
+        <!-- add this to list of contextConfigLocation to enable USER Persistence
+            /WEB-INF/USER/applicationContext-user-jpa.xml
+        -->
+	</context-param>
+	<context-param>
+		<description>
+        </description>
+		<param-name>applicationName</param-name>
+		<param-value>TracfoneADEAR</param-value>
+	</context-param>
+	<context-param>
+		<description>
+		</description>
+		<param-name>contextName</param-name>
+		<param-value>TracfoneAD</param-value>
+	</context-param>
+	<context-param>
+		<description>
+        The default suffix for extension-mapped resources that contain JSF components.
+Default is '.jsp'.</description>
+		<param-name>javax.faces.DEFAULT_SUFFIX</param-name>
+		<param-value>.jsp</param-value>
+	</context-param>
+	<context-param>
+		<description>
+        Number of Views to be stored in the session when Server-Side State Saving is being used.
+Default is 15.</description>
+		<param-name>com.sun.faces.NUMBER_OF_VIEWS_IN_SESSION</param-name>
+		<param-value>15</param-value>
+	</context-param>
+	<context-param>
+		<description>
+        If set to true while server-side state saving is being used, a serialized representation
+of the view is stored on the server. This allows for failover and sever clustering support.
+Default is false. This parameter is not available in JSF 1.0.</description>
+		<param-name>com.sun.faces.enableHighAvailability</param-name>
+		<param-value>false</param-value>
+	</context-param>
+	<context-param>
+		<description>
+        If set to true while client-side state saving is being used, reduces the number of bytes
+sent to the client by compressing the state before it is encoded and written as a hidden field.
+Default is false. This parameter is not available in JSF 1.0.</description>
+		<param-name>com.sun.faces.COMPRESS_STATE</param-name>
+		<param-value>false</param-value>
+	</context-param>
+	<context-param>
+		<description>
+        Monitors Faces JSP files for modifications and synchronizes a running server with
+the changes without restarting the server. If this parameter is set to false or
+removed from the deployment descriptor, any changes made to Faces JSP files may
+not be seen by the server until it is restarted. This parameter is usually set
+to true while the Faces JSP files are being developed and debugged in order to
+improve the performance of the development environment.</description>
+		<param-name>com.ibm.ws.jsf.JSP_UPDATE_CHECK</param-name>
+		<param-value>true</param-value>
+	</context-param>
+	<context-param>
+		<description>
+        Load JSF runtime when the application server starts up. If this parameter is set to false or removed,
+JSF runtime will be loaded and initialized when the first JSF request is processed.
+This may disable custom JSF extensions, such as factories defined in the project.</description>
+		<param-name>com.ibm.ws.jsf.LOAD_FACES_CONFIG_AT_STARTUP</param-name>
+		<param-value>true</param-value>
+	</context-param>
+
+	<listener>
+		<listener-class>com.jacada.jad.core.ServletContextHolder</listener-class>
+	</listener>
+	<!--
+		This listener (WorkspaceManagersSessionListener) should appear before
+		any other HttpSessionListener
+	-->
+	<listener>
+		<listener-class>SYSTEM.global.managers.WorkspaceManagersSessionListener</listener-class>
+	</listener>
+
+	<listener>
+		<listener-class>com.jacada.jad.logging.LogWrapperRegistrationListener</listener-class>
+	</listener>
+	<listener>
+		<listener-class>com.jacada.management.web.DeploymentDescriptorUrlInitializedContextLoaderListener</listener-class>
+	</listener>
+
+	<listener>
+		<listener-class>com.jacada.spring.web.context.request.JacadaRequestContextListener</listener-class>
+	</listener>
+
+	<listener>
+		<listener-class>com.jacada.session.web.SessionUnregistrationListener</listener-class>
+	</listener>
+
+	<listener>
+		<listener-class>com.jacada.jad.logging.sessionDump.WorkspaceSessionDump</listener-class>
+	</listener>
+
+	<listener>
+		<listener-class>com.jacada.logging.sessionDump.DumpDataQueues</listener-class>
+	</listener>	
+
+	<listener>
+		<listener-class>com.jacada.jad.failover.web.FailoverHelperListener</listener-class>
+	</listener>
+	<listener>
+		<listener-class>org.apache.beehive.netui.pageflow.HttpSessionMutexListener</listener-class>
+	</listener>
+	<listener>
+		<listener-class>org.springframework.web.util.HttpSessionMutexListener</listener-class>
+	</listener>
+	<listener>
+		<listener-class>com.jacada.spring.beanfactory.SessionAwareBeansListener</listener-class>
+	</listener>
+
+	<listener>
+		<listener-class>com.jacada.logging.session.dump.db.SessionDumpDataBaseAccess</listener-class>
+	</listener>
+
+
+    <!--
+		This object is in charge of destroying the running timer of a dstroed
+		session
+	-->
+	<!--
+		&lt;listener&gt;
+		&lt;listener-class&gt;com.jacada.jad.cti.event.EventTimerManagerDestroyer&lt;/listener-class&gt;
+		&lt;/listener&gt;
+	-->
+
+
+	<!-- NetUI Servlet Configuration -->
+	<!-- Standard Action Servlet Configuration (with debugging) -->
+	<servlet>
+		<servlet-name>action</servlet-name>
+		<servlet-class>
+			org.apache.beehive.netui.pageflow.PageFlowActionServlet</servlet-class>
+		<init-param>
+			<param-name>config</param-name>
+			<param-value>/_pageflow/struts-config.xml</param-value>
+		</init-param>
+		<init-param>
+			<param-name>config/-global</param-name>
+			<param-value>
+                /_pageflow/struts-config--global.xml
+            </param-value>
+		</init-param>
+		<init-param>
+			<param-name>debug</param-name>
+			<param-value>2</param-value>
+		</init-param>
+		<init-param>
+			<param-name>detail</param-name>
+			<param-value>2</param-value>
+		</init-param>
+		<init-param>
+			<param-name>selectorUrl</param-name>
+			<param-value>http://localhost:8080</param-value>
+		</init-param>
+		<init-param>
+			<param-name>timeout</param-name>
+			<param-value>3600</param-value>
+		</init-param>
+		<load-on-startup>2</load-on-startup>
+	</servlet>
+	<!-- The XmlHttpRequest handler Servlet -->
+	<servlet>
+		<servlet-name>XmlHttpRequestServlet</servlet-name>
+		<servlet-class>
+			org.apache.beehive.netui.pageflow.xmlhttprequest.XmlHttpRequestServlet</servlet-class>
+	</servlet>
+	<servlet id="Servlet_1176814705507">
+		<servlet-name>Faces Servlet</servlet-name>
+		<servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+		<load-on-startup>-1</load-on-startup>
+	</servlet>
+	<servlet>
+		<description>
+        </description>
+		<display-name>Gate</display-name>
+		<servlet-name>Gate</servlet-name>
+		<servlet-class>com.jacada.jad.servlets.Gate</servlet-class>
+	</servlet>
+
+	<servlet>
+		<servlet-name>DocumentReaderServlet</servlet-name>
+		<servlet-class>com.jacada.jad.search.web.DocumentReaderServlet</servlet-class>
+	</servlet>
+
+	<servlet>
+		<servlet-name>XFireServlet</servlet-name>
+		<servlet-class>org.codehaus.xfire.spring.XFireSpringServlet</servlet-class>
+	</servlet>
+
+	<servlet>
+		<servlet-name>systemJson</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>systemJson</servlet-name>
+		<url-pattern>/messaging.json</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>systemJson</servlet-name>
+		<url-pattern>/rap.json</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>systemJson</servlet-name>
+		<url-pattern>/dialList.json</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>systemJson</servlet-name>
+		<url-pattern>/contactList.json</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>systemJson</servlet-name>
+		<url-pattern>/messageHistory.json</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>systemJson</servlet-name>
+		<url-pattern>/search.json</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>systemJson</servlet-name>
+		<url-pattern>/helpOnHand.json</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>systemJson</servlet-name>
+		<url-pattern>/agentDisposition.json</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>systemJson</servlet-name>
+		<url-pattern>/testPortlet.json</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>systemJson</servlet-name>
+		<url-pattern>/smartPad.json</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+        <servlet-name>systemJson</servlet-name>
+		<url-pattern>/Spvcontroller.json</url-pattern>
+	</servlet-mapping> 
+	 <servlet-mapping>
+		<servlet-name>systemJson</servlet-name>
+		<url-pattern>/Reporting.json</url-pattern>
+	</servlet-mapping> 
+	
+	<servlet-mapping>
+		<servlet-name>taskManager</servlet-name>
+		<url-pattern>/supervisorTaskManager.json</url-pattern>
+	</servlet-mapping> 
+	
+	<servlet-mapping>
+		<servlet-name>DocumentReaderServlet</servlet-name>
+		<url-pattern>/DocumentReaderServlet</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>XFireServlet</servlet-name>
+		<url-pattern>/servlet/XFireServlet/*</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>XFireServlet</servlet-name>
+		<url-pattern>/services/*</url-pattern>
+	</servlet-mapping>
+	<!--
+		&lt;servlet&gt; &lt;description&gt; &lt;/description&gt;
+		&lt;display-name&gt; ServiceTest&lt;/display-name&gt;
+		&lt;servlet-name&gt;ServiceTest&lt;/servlet-name&gt;
+		&lt;servlet-class&gt; services.ServiceTest&lt;/servlet-class&gt;
+		&lt;/servlet&gt;
+	--><!-- Struts Action Servlet Mappings -->
+	<!--
+		Note that because Struts takes the *last* mapping here as the
+		extension to add to actions posted from forms, we must have *.do come
+		after *.jpf (etc.).
+	-->
+	<servlet-mapping>
+		<servlet-name>action</servlet-name>
+		<url-pattern>*.jpf</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>action</servlet-name>
+		<url-pattern>*.do</url-pattern>
+	</servlet-mapping>
+	<!-- XmlHttpRequest Servlet -->
+	<servlet-mapping>
+		<servlet-name>XmlHttpRequestServlet</servlet-name>
+		<url-pattern>*.xhr</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>Faces Servlet</servlet-name>
+		<url-pattern>*.jsf</url-pattern>
+	</servlet-mapping>
+
+
+	<servlet-mapping>
+		<servlet-name>Faces Servlet</servlet-name>
+		<url-pattern>/faces/*</url-pattern>
+	</servlet-mapping>
+
+	<!--
+		&lt;servlet-mapping&gt;
+		&lt;servlet-name&gt;ServiceTest&lt;/servlet-name&gt;
+		&lt;url-pattern&gt;/ServiceTest&lt;/url-pattern&gt;
+		&lt;/servlet-mapping&gt;
+	-->
+
+
+	<servlet-mapping>
+		<servlet-name>Faces Servlet</servlet-name>
+		<url-pattern>*.faces</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>Gate</servlet-name>
+		<url-pattern>/Gate</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>spvDashboard</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>spvDashboard</servlet-name>
+		<url-pattern>/agentsGroups.jsp</url-pattern>
+	</servlet-mapping> 
+	<error-page>
+		<error-code>500</error-code>
+		<location>/SYSTEM/error.jsp</location>
+	</error-page>
+
+
+	<welcome-file-list>
+		<welcome-file>Gate</welcome-file>
+	</welcome-file-list>
+
+	<!-- CommonJ configuration -->
+
+
+	
+	
+	
+
+
+<display-name>TracfoneAD</display-name>
+<resource-ref id="workManagerReference">
+<res-ref-name>wm/default</res-ref-name>
+<res-type>commonj.work.WorkManager</res-type>
+<res-auth>Container</res-auth>
+<res-sharing-scope>Shareable</res-sharing-scope>
+</resource-ref>
+<resource-ref id="JacadaDatabaseReference">
+<res-ref-name>JACADA_JDBC_DB_Reference</res-ref-name>
+<res-type>javax.sql.DataSource</res-type>
+<res-auth>Container</res-auth>
+<res-sharing-scope>Shareable</res-sharing-scope>
+</resource-ref>
+</web-app>

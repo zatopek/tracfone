@@ -1,0 +1,416 @@
+
+<%@page import="com.jacada.jad.jimworkflow.interfaces.JIMWorkflowManager.JIMLayouts"%>
+<%@page import="com.jacada.jad.push.PushHelper"%>
+<%@page import="com.jacada.jad.jimworkflow.interfaces.JIMWorkflowManager"%>
+<%@page import="com.jacada.jad.integration.interact.settings.InteractSettings"%>
+<%@ taglib uri="http://beehive.apache.org/netui/tags-databinding-1.0" prefix="netui-data"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@page import="java.util.List"%>
+<%@page import="java.util.Date"%>
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="org.json.JSONArray"%>
+<%@page import="java.lang.System"%>
+<%@page import="org.springframework.web.context.support.WebApplicationContextUtils"%>
+<%@page import="org.springframework.web.context.WebApplicationContext"%>
+<%@page import="SYSTEM.global.SharedData"%>
+<%@page import="SYSTEM.global.managers.LocaleManager"%>
+<%@ page import="com.jacada.jad.featuresManager.FeaturesManager"%>
+<%@ page import="com.jacada.jad.featuresManager.FeatureName"%>
+<%@ page import="com.jacada.jad.rap.provider.Authorization"%>
+<%@ page import="com.jacada.jad.rap.entities.RAPConstants"%>
+<%@ page import="com.jacada.jad.rap.entities.RAPConstants.Privileges"%>
+<%@ page import="com.jacada.jad.favorites.interfaces.FavoritesSettingsProvider"%>
+<%@ page import="com.jacada.management.UrlCalculator"%>
+<%@ page import="com.jacada.management.jmx.JMXServerInfoCalculator"%>
+<%@ page import="com.jacada.jad.toolbar.interfaces.ToolbarManagerHandler"%>  
+<%@page import="com.jacada.jad.tabsConfiguration.TabManager"%>
+<%@page import="com.jacada.jad.tabs.entities.Tab"%>
+<%@page import="com.jacada.jad.personalization.IPersonalization"%>
+<%@page import="com.jacada.jad.configuration.settings.SettingsDao"%>
+<%@page import="com.jacada.jad.cti.sm.media.CompletionStatus"%>
+<%@page import="com.jacada.management.jmx.JmxServerInfo"%>
+<%@page import="com.jacada.jad.core.ProductInfo"%>
+<%@page import="com.jacada.jad.core.ServletContextHolder"%>
+<%@page import="SYSTEM.global.managers.WorkspaceIntegrationManager"%>
+
+<%
+	ServletContext servletContext = session.getServletContext();
+	WebApplicationContext context = WebApplicationContextUtils .getWebApplicationContext(servletContext);
+	FeaturesManager featureManager = (FeaturesManager) context.getBean("featuresManager");
+	Authorization authorization = (Authorization)context.getBean(Authorization.AUTHORIZATION_BEAN);
+	FavoritesSettingsProvider favoritesSettingsProvider = (FavoritesSettingsProvider)context.getBean("favoritesSettingsProvider");
+	SettingsDao settingsDao = (SettingsDao)context.getBean("settingsDao");
+	ProductInfo product = (ProductInfo)context.getBean("productInfo");
+	UrlCalculator urlCalculator  = (UrlCalculator)context.getBean("urlCalculator");
+    JMXServerInfoCalculator serverCalc  = (JMXServerInfoCalculator)context.getBean("serverCalc");
+    WorkspaceIntegrationManager wsIntegrationManager = (WorkspaceIntegrationManager)context.getBean("workspaceIntegrationManager");
+%>
+<netui-data:getData resultId="themePath" value="${sharedFlow.globalApp.presentationManager.personalization.themeDirectory}"/>
+    <link href="<%=request.getContextPath()%>/SYSTEM/resources/css/jadcustom.css" type="text/css" rel="stylesheet">
+	<script type="text/javascript" src="<%=request.getContextPath()%>/SYSTEM/resources/js/prototype.js"></script>
+	<script type="text/javascript" src="<%=request.getContextPath()%>/SYSTEM/resources/js/extJS_/ext-all.js"></script>
+	<script type="text/javascript" src="<%=request.getContextPath()%>/SYSTEM/resources/js/indexhead.js"></script>
+    <script type="text/javascript" src="<%=request.getContextPath()%>/SYSTEM/resources/js/jad.js"></script>
+    <script type="text/javascript" src="<%=request.getContextPath()%>/USER/portlets/multiTab/NestingExtJsHelper.js"></script>
+	<script type="text/javascript" src="<%=request.getContextPath()%>/SYSTEM/resources/js/tabs.js"></script>
+	<script type="text/javascript" src="<%=request.getContextPath()%>/SYSTEM/resources/js/JIAIntegrationAPI.js"></script>
+	<script type="text/javascript" src="<%=request.getContextPath()%>/SYSTEM/resources/js/dialogs.js"></script>
+	<script type="text/javascript" src="<%=request.getContextPath()%>/SYSTEM/resources/js/menus.js"></script>
+	<script type="text/javascript" src="<%=request.getContextPath()%>/SYSTEM/resources/js/yahoo/js/ver10/yahoo.js" ></script>
+	<script type="text/javascript" src="<%=request.getContextPath()%>/SYSTEM/resources/js/yahoo/js/LocaleManager.js" ></script>
+	<script type="text/javascript" src="<%=request.getContextPath()%>/SYSTEM/resources/js/yahoo/js/ver10/dom.js" ></script>
+	<script type="text/javascript" src="<%=request.getContextPath()%>/SYSTEM/resources/js/yahoo/js/ver10/event.js" ></script>
+	<script type="text/javascript" src="<%=request.getContextPath()%>/SYSTEM/resources/js/yahoo/js/ver10/log.js" ></script>
+    
+    <script type="text/javascript" src="<%=request.getContextPath()%>/SYSTEM/resources/js/dragiframe.js"></script>
+	<script type="text/javascript" src="<%=request.getContextPath()%>/SYSTEM/resources/js/script.js"></script>
+	<script type="text/javascript" src="<%=request.getContextPath()%>/SYSTEM/resources/js/log.js"></script>
+	<script type="text/javascript" src="<%=request.getContextPath()%>/SYSTEM/resources/js/push.js"></script>
+	<script type="text/javascript" src="<%=request.getContextPath()%>/SYSTEM/resources/js/common.js"></script>   
+	<script type="text/javascript" src="<%=request.getContextPath()%>/SYSTEM/resources/js/JimHandler.js"></script> 
+	<script type="text/javascript" src="<%=request.getContextPath()%>/SYSTEM/resources/js/CTIClientAPI.js"></script>
+	<script type="text/javascript" src="<%=request.getContextPath()%>/SYSTEM/resources/js/MediaClientAPI.js"></script>
+	<script type="text/javascript" src="<%=request.getContextPath()%>/SYSTEM/resources/js/desktopHelper.js"></script>
+	<script type="text/javascript" src="<%=request.getContextPath()%>/SYSTEM/resources/js/NestedApplicationDisplayManager.js"></script>
+	<script type="text/javascript" src="<%=request.getContextPath()%>/SYSTEM/resources/js/RAPManager.js"></script>
+	<script type="text/javascript" src="<%=request.getContextPath()%>/SYSTEM/resources/js/JadWrapperToExtJs.js" > </script>
+	<script type="text/javascript" src="<%=request.getContextPath()%>/SYSTEM/resources/js/JIAClient.js" > </script>
+	<script type="text/javascript" src="<%=request.getContextPath()%>/SYSTEM/resources/js/base64.js" > </script>
+	<!-- ExtJS UX -->
+    <script type="text/javascript" src="<%=request.getContextPath()%>/SYSTEM/resources/js/extJS-extensions/ux/IFrame.js"></script>
+    <script type="text/javascript" src="<%=request.getContextPath()%>/SYSTEM/resources/js/extJS-extensions/ux/window/Notification.js"></script>
+    <script type="text/javascript" src="<%=request.getContextPath()%>/SYSTEM/resources/js/extJS-extensions/ux/TreePicker.js"></script>
+    
+    <script type="text/javascript" src="<%=request.getContextPath()%>/SYSTEM/resources/js/extJS-extensions/jacada/Utils.js"></script>    
+	<script type="text/javascript" src="<%=request.getContextPath()%>/SYSTEM/resources/js/extJS-extensions/jacada/index.js"></script>
+	<script type="text/javascript" src="<%=request.getContextPath()%>/USER/resources/js/WorkSpaceProjectExtensions.js"></script>
+	<script type="text/javascript" src="<%=request.getContextPath()%>/USER/resources/js/override.js"></script>
+ 
+    <netui-data:getData resultId="globalApp" value="${sharedFlow.globalApp}"/>
+    
+	<!-- must use string and not run time expreesion because SetBundle cannot escept run time expression in its basename -->
+       <%
+		SharedData global = (SharedData) pageContext.getAttribute("globalApp"); 
+		LocaleManager manager = global.getLocaleManager();
+		String locale = manager.getApplicationLocale();
+		String sessionIdentifier = global.getIntegrationManager().getSessionIdentifier(request, response); 
+    	String level = com.jacada.jad.logging.LogWrapper.getEffectiveLevel(com.jacada.jad.logging.LogWrapper.SCRIPT).toString();
+    	String agentName = global.getCTIManager().getAgentInformation().getName();
+    	String agentCTIName = global.getCTIManager().getAgentInformation().getCtiAgentName();
+    	String groupBasedSelector = PushHelper.constructGroupsBasedSelector(request, agentName);    	
+
+    	JIMWorkflowManager workflowManager = global.getJIMWorkflowManager();
+		boolean isJimHorizontal = workflowManager.isJIMScriptSidebySideEnabled() && workflowManager.getJIMLayout() == JIMLayouts.Horizontal;
+  		//check cti bar is enabled
+  		boolean isCtiBarEnabled = global.getCTIManager().getAgentInformation().isCtiBarEnabled(); 
+  		boolean displaySLAbar = global.getCTIManager().getCtiBehaviorHandler().getSLABehavior().isDisplaySLAbar(); 
+  		boolean isCtiBarPrivileged =  authorization.isPrivileged(Privileges.CTIBar.getPrivilege());
+  		if (featureManager.isEnabled(FeatureName.TickerTape) && authorization.isPrivileged(Privileges.TickerTapeFeature.getPrivilege())){ %> 
+  			<script type="text/javascript">
+  				$W().tickerTapePosition = '<%=global.getJFAPDataBase().getGlobalSetting("TickerTapePosition").Value%>';
+  			</script>
+  		<% }%>
+  		<script type="text/javascript">
+  			var logged = true;
+  			Ext.EventManager.onWindowUnload(Unload);
+	        //initialize context path var so that al oblects can access it.
+	        $W().productInfo = {
+	        	version: "<%= product.getVersion()%>"
+	        };
+	        $W().contextPath = "<%=request.getContextPath()%>";
+			$W().wsSessionId = "<%=session.getId()%>";
+			$W().wsEncodedSessionId = "<%=session.getId()%>";
+			$W().wsSessionCookieName = "<%= ServletContextHolder.getSessionCookieName()%>";
+			$W().agentName = "<%=agentName%>";
+			$W().agentCTIName = "<%=agentCTIName%>";
+			$W().LayoutByContext = <%=Boolean.valueOf(global.getJFAPDataBase().getGlobalSetting("LayoutByContext").Value)%>;
+			$W().interactionType = {
+				General: 'General',
+				Voice: 'Voice',
+				WorkItem: 'WorkItem',
+				Tasks: 'Tasks',
+				Email: 'Email',
+				Chat: 'Chat'
+			};
+			$W().interact = {
+				host: "<%=settingsDao.getStringSetting(InteractSettings.HOST_URL, InteractSettings.class.getName())%>",
+				tenantId: "<%= settingsDao.getStringSetting(InteractSettings.TENAT_ID, InteractSettings.class.getName())%>",
+				appKey: "<%= settingsDao.getStringSetting(InteractSettings.APP_KEY, InteractSettings.class.getName())%>",
+				accessToken: "<%= urlCalculator.removeEncodingPartFromSessionId(session.getId())%>",
+				integrationService: "<%=wsIntegrationManager.getApplicationService()%>"
+			};
+  		</script>
+  		
+		<fmt:setLocale value="<%=locale%>" scope="session" />
+		<fmt:setBundle basename="<%=manager.getResourceBundleBaseName()%>" scope="application" />
+		<fmt:requestEncoding value="UTF-8"/>
+	
+	<%-- Retrieving values for WorkSpaceInfo --%>
+    <%
+		Long logintime = global.getCTIManager().getAgentInformation().getLoginTime();
+		Date date = new Date(logintime);
+		SimpleDateFormat format = new SimpleDateFormat("dd MMM yyyy HH:mm:ss Z");
+		String loginTimeStr = format.format(date);
+				
+	
+		String serverName = "N/A";
+		try{
+			serverName = serverCalc.getJMXServerInfo().getServerName();
+		}catch(Throwable t){}
+    
+    %>
+    <script type="text/javascript">
+    	$W().agentLoginTime = '<%=loginTimeStr%>';
+    	$W().serverHost = '<%=urlCalculator.getHost()%>';
+    	$W().serverPort = '<%=urlCalculator.getPort()%>';
+		$W().serverName = '<%=serverName%>';
+    </script>
+    <script type="text/javascript" src="<%=request.getContextPath()%>/SYSTEM/resources/js/workspaceInfo.js"></script>
+
+		<!-- Initilaizing LocaleManager -->
+		<script type="text/javascript">
+		//store on main window whether CTI bar is enabled and privieleged
+			$W().isCtiBarEnabled = <%=isCtiBarEnabled%>;
+			$W().isCtiBarPrivileged = <%=isCtiBarPrivileged%>;
+			$W().displaySLAbar = <%=displaySLAbar%>;
+		
+			localeManager = new LocaleManager();   
+		    localeManager.setLocale("<%=locale%>");
+		    localeManager.loadLocale();
+		    $W().localeManager = localeManager;
+		    scriptLocaleManager = new ScriptLocaleManager();
+		    scriptLocaleManager.setLocale("");
+		    
+		    //accumulate push messages that come before CTIBar init
+		    $W().accumulatedCTIMessages = [];
+		    function onUpdateCTIClient(ctiClientInfo){
+		    	$W().LogManager.getLogger("client.push").trace('index.jspf onUpdateCTIClient - got state. ' + $W().cti);
+		    	if($W().cti){
+		    		$W().cti.showState(ctiClientInfo);
+		    	}else{
+		    		$W().accumulatedCTIMessages.push(ctiClientInfo);
+		    	}
+		    }
+		    
+		    //accumulate push message INIT_DISPOSITION that come before Agent Disposition portlet init
+		    $W().agentDispositionInit = false;
+		    function onInitDisposition(){
+		    	//Only one message is expected
+		    	$W().Push.unregisterEventHandler( 'INIT_DISPOSITION', $W().onInitDisposition);
+		    	$W().agentDispositionInit = true;
+		    	$W().LogManager.getLogger("client.push").trace('index.jspf onInitDisposition');
+		    	
+		    }
+		</script>
+ 
+  <% 	
+  	//Including timeline if enabled and user has the priviledge
+	boolean isTimelineEnabled = featureManager.isEnabled(FeatureName.Timeline) && authorization.isPrivileged(Privileges.TimelineFeature.getPrivilege());
+	if (isTimelineEnabled) { %>
+	
+	    <script>
+	      Timeline_ajax_url="${pageContext.request.contextPath}/SYSTEM/resources/js/simile-timeline-2.3.1/timeline_ajax/simile-ajax-api.js";
+	      Timeline_urlPrefix="${pageContext.request.contextPath}/SYSTEM/resources/js/simile-timeline-2.3.1/timeline_js/";       
+	      Timeline_parameters='bundle=true';
+	    </script>
+	    <script type="text/javascript" src="<%=request.getContextPath()%>/SYSTEM/resources/js/simile-timeline-2.3.1/timeline_js/timeline-api.js"></script>
+	    <script type="text/javascript" src="<%=request.getContextPath()%>/SYSTEM/resources/js/timelineManager.js"></script>
+	    <script>
+			timelineManager = new TimelineManager();
+			$W().timelineManager = timelineManager;
+	    </script>
+	       
+	<%} %>
+    
+    <%--
+    	Setting favorites dynamic change option 
+     --%>
+    <script language="JavaScript" type="text/javascript">
+    	$W().isFavoritesTabTitleDynamic = <%=favoritesSettingsProvider.isTitleDynamic()%>;
+    </script>
+	<%
+		ToolbarManagerHandler toolbarManager = (ToolbarManagerHandler) context.getBean("toolbarManager");
+	%>	
+
+ <% if (featureManager.isEnabled(FeatureName.Toolbar) && authorization.isPrivileged(Privileges.ToolbarFeature.getPrivilege())) { %>	
+<script  type="text/javascript">
+<!--
+	//temporary array that will be deleted after the toolbar ui is built
+  	$W().toolbarEnabled = true;		
+	$W().toolbarItemsArray = <%=toolbarManager.getItemsAsJsonString()%>
+	$W().toolbarItems = new Object();
+	for (var i=0,len=toolbarItemsArray.length; i<len; i++){
+		var item = toolbarItemsArray[i];
+  		$W().toolbarItems[item.id] = item;
+  	}
+	$W().toolbarWindows = {};
+-->
+</script>
+<% } else {%>
+<script  type="text/javascript">
+<!--
+	$W().toolbarEnabled = false;
+	$W().toolbarItems = {};
+	$W().toolbarWindows = {};
+-->
+</script>
+<% } %>
+    
+ 		<%
+ 	  ///////////////////////////
+ 	  // TABS                  //
+ 	  //////////////////////////
+		TabManager tabManager = (TabManager)context.getBean("tabManager");
+        List<Tab> tabs = tabManager.getTabs();
+        IPersonalization personalization = global.getPresentationManager().getPersonalization(request);
+        %> 
+        <script  type="text/javascript">
+        
+        tabItems = new Array();
+        var i=0;
+        <%
+		for (Tab tab: tabs) {%>
+			<%
+			String tabPrivilege = tabManager.getNullSafeParam(tab.getPrivilege());
+			//if privilege is not set, we allow to all
+			if(tabPrivilege.length() > 0 && !authorization.isPrivileged(tabPrivilege)){
+				continue;
+			}
+			%>
+			tabItems[i] = new Object();
+			tabItems[i].layout = 'fit';
+			tabItems[i].border = false;
+			tabItems[i].title='<%= personalization.getApplicationLocalizationValue(tabManager.getNullSafeParam(tab.getHeader()))%>';
+			tabItems[i].tabTip = tabItems[i].title;
+			tabItems[i].itemId = '<%=tabManager.getNullSafeParam(tab.getTabId())%>';
+			tabItems[i].frameId = '<%=tabManager.getNullSafeParam(tab.getFrameId())%>';
+			tabItems[i].closable = <%=tab.isRemovable()%>;
+			if($W().LayoutByContext){
+				tabItems[i].closable = false;
+			}
+			tabItems[i].hidden = <%=tab.isTabHideAtLogin()%>;
+			tabItems[i].autoScroll = false;
+			tabItems[i].privilege = '<%=tabManager.getNullSafeParam(tab.getPrivilege())%>';
+			tabItems[i].maximizable = <%=tab.isMaximizable()%>;
+	        tabItems[i].role = '<%=tabManager.getNullSafeParam(tab.getRole())%>';
+	        tabItems[i].autoDestroy = false;//prevents the x button to destory it, just hide it.
+	        tabItems[i].accessKey = '<%=tabManager.getNullSafeParam(tab.getAccessKey())%>';
+	        tabItems[i].interactionType = '<%=tabManager.getNullSafeParam(tab.getInteractionType()).replace(" ", "")%>'; 
+	        if(!tabItems[i].interactionType || tabItems[i].interactionType.length == 0){
+	        	tabItems[i].interactionType = $W().interactionType.General;
+	        }
+	        tabItems[i].hideMode = 'offsets';
+			var child;
+			//web application
+	        if(<%=Boolean.valueOf(tab.isWebApp())%>){
+	        	tabItems[i].id = tabItems[i].frameId;
+	        	tabItems[i].webapp = true;
+				tabItems[i].loadOnLogin = <%=tab.isTabLoadAtLogin()%>;
+				tabItems[i].actualUrl = '<%=tabManager.getNullSafeParam(tab.getUrl())%>';
+				//check if lazy loading or a dashboard
+				if(!tabItems[i].loadOnLogin || tabItems[i].actualUrl.startsWith('/dynamicviews/view/#')){
+					tabItems[i].url = "about:blank";
+				}else{
+	        		tabItems[i].url = tabItems[i].actualUrl;
+	        		tabItems[i].loaded = true;
+				}
+			}else if(<%=Boolean.valueOf(tab.isScreenPopApp())%>){
+	        	tabItems[i].id = tabItems[i].frameId;
+	        	tabItems[i].screenPopApp = true;
+				tabItems[i].loadOnLogin = false;
+				tabItems[i].actualUrl = '<%=tabManager.getNullSafeParam(tab.getUrl())%>';
+        		tabItems[i].url = tabItems[i].actualUrl;
+        		tabItems[i].loaded = false;
+			}else{
+				tabItems[i].id = '<%=tabManager.getNullSafeParam(tab.getTabId())%>';
+				tabItems[i].itemId = '<%=tabManager.getNullSafeParam(tab.getTabId())%>';
+				tabItems[i].nestedapp = true;
+				tabItems[i].exeName = '<%=tabManager.getNullSafeParam(tab.getExeName())%>';
+				tabItems[i].loadOnLogin = false;
+				tabItems[i].workingDirectory = '<%=tabManager.getNullSafeParam(tab.getExeLocation()).replaceAll("\\\\", "\\\\\\\\")%>';
+				tabItems[i].arguments = '<%=tabManager.getNullSafeParam(tab.getArguments()).replaceAll("\\\\", "\\\\\\\\")%>';
+				tabItems[i].exeNameRegKey = '<%=tabManager.getNullSafeParam(tab.getExecutableRegistryKey()).replaceAll("\\\\", "\\\\\\\\")%>';
+				tabItems[i].workingDirectoryRegKey = '<%=tabManager.getNullSafeParam(tab.getLocationRegistry()).replaceAll("\\\\", "\\\\\\\\")%>';
+				tabItems[i].argumentsRegKey = '<%=tabManager.getNullSafeParam(tab.getArgumentsRegistryKey()).replaceAll("\\\\", "\\\\\\\\")%>';
+				tabItems[i].backgroundColor = '<%=tabManager.getNullSafeParam(tab.getBackgroundColor())%>';
+				tabItems[i].linkCaption = '<%=tabManager.getNullSafeParam(tab.getLinkText())%>';
+				if(!tabItems[i].linkCaption){
+					//let's provide a default
+					tabItems[i].linkCaption = '<%=manager.getApplicationLocalizationValue("application.javascript.nesting.label.linkText")%>';
+				}
+				tabItems[i].detectBusy = <%=tab.isDetectBusy()%>;
+				tabItems[i].busyMessage = '<%=tabManager.getNullSafeParam(tab.getBusyMessage())%>';
+				tabItems[i].serverTimeInMillis = '<%=System.currentTimeMillis()%>';
+				tabItems[i].showLoadMsg = <%=tab.isShowLoadMessage()%>;
+				tabItems[i].loadingMsg = '<%=tabManager.getNullSafeParam(tab.getLoadingMessage())%>';
+				if(!tabItems[i].loadingMsg){
+					//let's provide a default
+					tabItems[i].loadingMsg = '<%=manager.getApplicationLocalizationValue("application.javascript.nesting.label.loadingMessage")%>';
+				}
+				tabItems[i].enableScrollbars = <%=tab.isProvideScrolling()%>;
+				tabItems[i].avoidPlaceInsideHost = '<%=tabManager.getNullSafeParam(tab.getAvoidPlaceInsideHost())%>';
+				tabItems[i].recreateApp = <%=tab.isAutomaticallyReopen()%>;
+				tabItems[i].alwaysHideWin = '<%=tabManager.getNullSafeParam(tab.getHideApplicationWindows())%>';
+				tabItems[i].centerApps = '<%=tabManager.getNullSafeParam(tab.getCenterApplicationInTab())%>';
+				tabItems[i].excludeProcess = '<%=tabManager.getNullSafeParam(tab.getExcludeProcess())%>';
+				tabItems[i].showWindowInCorrectTab = <%=tab.isShowWindowInCorrectTab()%>;
+			}
+			i++;
+		<% }%>
+		$W().tabItems = tabItems;
+    </script>
+
+    <script type="text/JavaScript">
+		<!--
+		UserCTIRoles = Class.create();
+		UserCTIRoles.CTIBasicUser           =<%=authorization.isUserInRole(request, RAPConstants.Roles.AGENT_ROLE.getRole()) %>;
+		UserCTIRoles.CTIStartUser           =<%=authorization.isPrivileged(RAPConstants.Privileges.CTIStart.getPrivilege()) %>;
+		UserCTIRoles.CTIStartOutboundCallUser =<%=authorization.isPrivileged(RAPConstants.Privileges.CTIStartOutboundCall.getPrivilege()) %>;
+		UserCTIRoles.CTIEndUser             =<%=authorization.isPrivileged(RAPConstants.Privileges.CTIEnd.getPrivilege()) %>;
+		UserCTIRoles.CTITransferUser        =<%=authorization.isPrivileged(RAPConstants.Privileges.CTITransfer.getPrivilege()) %>;
+		UserCTIRoles.CTIDialUser            =<%=authorization.isPrivileged(RAPConstants.Privileges.CTIDial.getPrivilege()) %>;
+		UserCTIRoles.CTIHoldUser            =<%=authorization.isPrivileged(RAPConstants.Privileges.CTIHold.getPrivilege()) %>;
+		UserCTIRoles.CTIConsultUser         =<%=authorization.isPrivileged(RAPConstants.Privileges.CTIConsult.getPrivilege()) %>;
+		UserCTIRoles.CTIBusyReadyUser       =<%=authorization.isPrivileged(RAPConstants.Privileges.CTIBusyReady.getPrivilege()) %>;
+		UserCTIRoles.CTITransferConnectAllowed =<%=authorization.isPrivileged(RAPConstants.Privileges.CTITransferConnect.getPrivilege())%>;
+		UserCTIRoles.BusyReasonCode			=<%=authorization.isPrivileged(RAPConstants.Privileges.BusyReasonCode.getPrivilege())%>;
+		UserCTIRoles.CTIDialList     		=<%=authorization.isPrivileged(RAPConstants.Privileges.DialList.getPrivilege())%>;
+		
+		ctiSettings = {
+				busyCodesList: eval("<%=global.getCTIManager().getBusyList()%>"),
+				ctiProvider: "<%=global.getCTIManager().getVoiceInformation().getCtiProvider()%>",
+				transferDefaultType: "<%=global.getCTIManager().getVoiceInformation().getDefaultTransferType()%>",
+				transferAllowedFromConsult: <%=global.getCTIManager().getVoiceInformation().isTransferAllowedFromConsult()%>,
+				softReturnEnabled: <%=global.getCTIManager().getVoiceInformation().isSoftReturnEnabled()%>,
+				sendDTMFEnabled: <%=global.getCTIManager().getVoiceInformation().isSendDTMFEnabled()%>,
+				outboundCallsAllowed: <%=global.getCTIManager().getCtiBehaviorHandler().isOutboundAllowed()%>,
+				customItemsEnabled: <%=global.getCTIManager().getOpenMediaInformation().isCustomItemsEnabled()%>,
+				ctiNotificationAutoCloseDelay: '<%=global.getJFAPDataBase().getCTISettingValue(true, "*", "CTI", "CTINotificationAutoCloseDelay")%>'
+		};
+		<%
+			String[] transferTypesList = global.getCTIManager().getVoiceInformation().getTransferTypes();
+			JSONArray transferTypesArray = new JSONArray();
+			if(transferTypesList != null){
+				for(int i = 0; i < transferTypesList.length; i++){
+					transferTypesArray.put(transferTypesList[i]);
+				}
+			}
+		%>
+		ctiSettings.transferTypesList = <%=transferTypesArray.toString()%>;
+		
+		<%
+			String[] rtnNumbers = global.getJFAPDataBase().getRTNs(global.getProjectId());
+			JSONArray rtnsArray = new JSONArray();
+			if(rtnNumbers != null){
+				for(int i = 0; i < rtnNumbers.length; i++){
+					JSONArray rtnArray = new JSONArray();
+					rtnArray.put(rtnNumbers[i]);
+					rtnsArray.put(rtnArray);
+				}
+			}
+		%>
+		ctiSettings.rtnNumbers = <%=rtnsArray.toString()%>;
+		$W().mediaCompletionStatus = <%=CompletionStatus.getStatusesAsJson()%>;
+		-->
+    </script>
+      

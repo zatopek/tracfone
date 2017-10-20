@@ -1,0 +1,51 @@
+<!-- This page defines the FAQ of this project.     Only FAQ tags (GroupList, Group, Item) should be used in this page. -->
+<!-- The FAQ portlet is localized. The values appearing in this xml are the localization keys -->
+<faqGroupList xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="Schemas/faq.xsd">
+     <id>root</id>
+     <agentmessage>application.faq.label.grouplistAgentmsg</agentmessage>
+     <freetext>application.faq.label.grouplistGreetext</freetext>
+     <greeting>application.faq.label.grouplistGreeting</greeting>
+     <heading>application.faq.label.grouplistHeading</heading>
+     <group>
+     	<heading>application.faq.label.groupA</heading>
+     	<item>
+     		<agentmessage>application.faq.label.agentMessage1</agentmessage>
+     		<answer>application.faq.label.answer1</answer>
+     		<freetext>application.faq.label.freetext1</freetext>
+     		<heading>application.faq.radio.groupA.heading1</heading>
+     		<greeting>application.faq.label.greeting1</greeting>
+     		<id>id1</id>
+     		<question>application.faq.label.question1</question>
+     	</item>
+     	<item>
+     		<agentmessage>application.faq.label.agentMessage2</agentmessage>
+     		<answer>application.faq.label.answer2</answer>
+     		<freetext>application.faq.label.freetext2</freetext>
+     		<heading>application.faq.radio.groupA.heading2</heading>
+     		<greeting>application.faq.label.greeting2</greeting>
+     		<id>id2</id>
+     		<question>application.faq.label.question2</question>
+     	</item>
+     </group>
+     <group>
+     	<heading>application.faq.label.groupB</heading>
+     	<item>
+     		<agentmessage>application.faq.label.agentMessage3</agentmessage>
+     		<answer>application.faq.label.answer3</answer>
+     		<freetext>application.faq.label.freetext3</freetext>
+     		<heading>application.faq.radio.groupB.heading3</heading>
+     		<greeting>application.faq.label.greeting3</greeting>
+     		<id>id3</id>
+     		<question>application.faq.label.question3</question>
+     	</item>
+     	<item>
+     		<agentmessage>application.faq.label.agentMessage4</agentmessage>
+     		<answer>application.faq.label.answer4</answer>
+     		<freetext>application.faq.label.freetext4</freetext>
+     		<heading>application.faq.radio.groupB.heading4</heading>
+     		<greeting>application.faq.label.greeting4</greeting>
+     		<id>id4</id>
+     		<question>application.faq.label.question4</question>
+     	</item>
+     </group>
+</faqGroupList> 

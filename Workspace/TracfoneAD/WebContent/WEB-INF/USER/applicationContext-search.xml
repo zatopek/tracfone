@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop" 
+	   xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+            http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
+            http://www.springframework.org/schema/aop 
+            http://www.springframework.org/schema/aop/spring-aop-4.1.xsd
+			http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.1.xsd">
+	
+	<!-- The list of the SearchBridges that will be used by search portlet -->
+	<util:list id="bridgesList" list-class="java.util.ArrayList" value-type="com.jacada.jad.search.SearchBridge"> 
+		<ref bean="internalIndexingSearchBridge"/>
+		<ref bean="sampleSearchBridge"/>
+	</util:list>
+	
+	<util:map id="analyzersMap" map-class="java.util.HashMap">
+		<entry key="en" value-ref="standardAnalyzer" />
+	</util:map>
+	
+	<bean id="standardAnalyzer" class="org.apache.lucene.analysis.snowball.SnowballAnalyzer">
+		<constructor-arg value="English"/>
+	</bean>
+	
+	<bean id="sampleSearchBridge" class="USER.search.SampleSearchBridge">
+		<property name="resultsMap" ref="sampleSearchResults"/>
+		<property name="localeManager" ref="localeManager"/>
+	</bean>
+	
+	<util:map id="sampleSearchResults" map-class="java.util.HashMap">
+		<entry key="billing" value-ref="billingResults"/>
+		<entry key="insurance" value-ref="insuranceResults"/>
+		<entry key="telco" value-ref="telcoResults"/>
+	</util:map>
+	
+	
+	<util:list id="telcoResults" list-class="java.util.ArrayList" value-type="USER.search.SampleSearchResult">
+		<bean class="USER.search.SampleSearchResult">
+			<property name="title" value="Telco Systems - Driving Carrier Ethernet Access"/>
+			<property name="url" value="http://www.batm.com"/>
+		</bean>
+		<bean class="USER.search.SampleSearchResult">
+			<property name="title" value="Telco - Wikipedia, the free encyclopedia"/>
+			<property name="url" value="http://en.wikipedia.org/wiki/Telco"/>
+		</bean>
+		<bean class="USER.search.SampleSearchResult">
+			<property name="title" value="Telcosystems"/>
+			<property name="url" value="http://www.telco2.net/blog"/>
+		</bean>
+	</util:list>
+	
+	
+	<util:list id="insuranceResults" list-class="java.util.ArrayList" value-type="USER.search.SampleSearchResult">
+		<bean class="USER.search.SampleSearchResult">
+			<property name="title" value="Insurance - Wikipedia, the free encyclopedia"/>
+			<property name="url" value="http://en.wikipedia.org/wiki/Insurance"/>
+		</bean>
+		<bean class="USER.search.SampleSearchResult">
+			<property name="title" value="Insurance Articles,Calculators,Tools, Advice - Insurance on Yahoo"/>
+			<property name="url" value="http://finance.yahoo.com/insurance"/>
+		</bean>
+		<bean class="USER.search.SampleSearchResult">
+			<property name="title" value="Industry:Insurance"/>
+			<property name="url" value="http://www.wikinvest.com/industry/Insurance"/>
+		</bean>
+	</util:list>
+	
+	<util:list id="billingResults" list-class="java.util.ArrayList" value-type="USER.search.SampleSearchResult">
+		<bean class="USER.search.SampleSearchResult">
+			<property name="title" value="Billing - Wikipedia, the free encyclopedia"/>
+			<property name="url" value="http://en.wikipedia.org/wiki/Billing"/>
+		</bean>
+		
+		<bean class="USER.search.SampleSearchResult">
+			<property name="title" value="Billings 3 | Professional Time Billing for Anyone."/>
+			<property name="url" value="http://www.billingsapp.com"/>
+		</bean>
+		
+		<bean class="USER.search.SampleSearchResult">
+			<property name="title" value="MIND CTI - Leader in billing and customer care."/>
+			<property name="url" value="http://www.mindcti.com"/>
+		</bean>
+		
+		<bean class="USER.search.SampleSearchResult">
+			<property name="title" value="Billing, CRM, Business Control Software Solutions by FTS."/>
+			<property name="url" value="http://www.billingsapp.com"/>
+		</bean>
+		
+		<bean class="USER.search.SampleSearchResult">
+			<property name="title" value="VoIP Billing Software, Systems, Solutions."/>
+			<property name="url" value="http://www.mtsint.com/page.asp?cat=52&amp;lang=1&amp;type=2"/>
+		</bean>
+		
+		<bean class="USER.search.SampleSearchResult">
+			<property name="title" value="ModernBill .:. Client Billing System."/>
+			<property name="url" value="https://secure.hostgator.com/~billing"/>
+		</bean>
+		
+		<bean class="USER.search.SampleSearchResult">
+			<property name="title" value="Burstable billing - Wikipedia, the free encyclopedia"/>
+			<property name="url" value="http://en.wikipedia.org/wiki/Burstable_billing"/>
+		</bean>
+		
+		<bean class="USER.search.SampleSearchResult">
+			<property name="title" value="Billing and OSS World: A telecom billing systems and OSS magazine"/>
+			<property name="url" value="http://www.billingworld.com"/>
+		</bean>
+		
+		<bean class="USER.search.SampleSearchResult">
+			<property name="title" value="Billing Boss - Online Invoicing"/>
+			<property name="url" value="http://www.billingboss.com"/>
+		</bean>
+		
+		<bean class="USER.search.SampleSearchResult">
+			<property name="title" value="Billing and Budgeting Resources - Google App Engine - Google Code"/>
+			<property name="url" value="http://code.google.com/appengine/docs/billing.html"/>
+		</bean>
+		
+		<bean class="USER.search.SampleSearchResult">
+			<property name="title" value="Freeside billing and trouble ticketing"/>
+			<property name="url" value="http://www.freeside.biz"/>
+		</bean>
+	</util:list>
+</beans>

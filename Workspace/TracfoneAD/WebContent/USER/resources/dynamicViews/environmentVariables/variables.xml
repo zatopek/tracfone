@@ -1,0 +1,55 @@
+<?xml version="1.0" ?>
+<variables xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="..\..\..\..\SYSTEM\resources\xmlValidators\environmentVariables.xsd"
+	creationDate="Thu Aug 18 14:36:49 IDT 2011">
+	
+	<!-- NOTE: Jacada recommends updating this file using the Environment Variables Configuration dialog only  -->
+	
+	<variable name="loadDisposition" 
+		group="pushKeywords"
+		runtimeInlineValue="loadDisposition"
+		designtimeInlineValue="loadDisposition"
+	/>
+	<variable name="sessionId" 
+		runtimeSource="sessionInformation"
+		group="sessionInfo"
+		runtimeMethod="getSessionId"
+		designtimeInlineValue="dummySessionId"
+	/>
+	<variable name="updateCTIClient" 
+		group="pushKeywords"
+		runtimeInlineValue="UpdateCTIClient"
+		designtimeInlineValue="UpdateCTIClient"
+	/>
+	<variable name="agentId" 
+		runtimeSource="agentInformation"
+		group="sessionInfo"
+		runtimeMethod="getAgentId"
+		designtimeInlineValue="workspace"
+	/>
+	<variable name="unloadScript" 
+		group="pushKeywords"
+		runtimeInlineValue="unload_script"
+		designtimeInlineValue="unload_script"
+	/>
+	<variable name="projectName" 
+		runtimeSource="projectId"
+		group="projectInfo"
+		runtimeMethod="toString"
+		designtimeInlineValue="Jacada WorkSpace"
+		designtimeSource="projectId"
+		designtimeMethod="toString"
+	/>
+	<variable name="loadScript" 
+		group="pushKeywords"
+		runtimeInlineValue="call_script_name"
+		designtimeInlineValue="call_script_name"
+	/>
+	<variable name="Jacada WorkFlow URL" 
+		runtimeSource="workflowServerURL"
+		group="projectInfo"
+		runtimeMethod="toString"
+		designtimeSource="workflowServerURL"
+		designtimeMethod="toString"
+	/>
+	
+</variables>

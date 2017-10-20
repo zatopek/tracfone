@@ -1,0 +1,109 @@
+<!-- This page defines the Navigation Bar of this project.     Only Navigation bar tags (LinkGroup, Link) should be used in this page. -->
+<!-- The navigation bar portlet is localized. The names appearing in this xml are the localization keys -->
+<navigationBar xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="Schemas/navbar.xsd">
+     <id>root</id>
+     <!--  Sample script link-->
+     <link>
+	     <selected>true</selected>
+	     <enabled>true</enabled>
+	     <expanded>true</expanded>
+	     <keepstate>true</keepstate>
+	     <description>link to script</description>
+	     <visible>true</visible>
+	     <tabid>mainScript</tabid>
+	     <url>USER/flows/sampleScript/index.jsf</url>
+	     <name>application.navigationBar.link.navScript</name>
+	     <id>mainScript</id>
+	     
+	     <!-- Inner links, all tabid of inner links are automatically inherited from parent, therefore no need to specify them -->
+		 <link>
+		  <selected>false</selected> 
+		  <enabled>true</enabled> 
+		  <expanded>false</expanded> 
+		  <keepstate>false</keepstate> 
+		  <description /> 
+		  <visible>true</visible> 
+		  <!-- <tabid>mainScript</tabid> --> 
+		  <url>USER/flows/sampleScript/greeting.jsf</url> 
+		  <name>application.navigationBar.link.start</name> 
+		  <id>stageOneTab</id> 
+		 </link>
+    
+	     <link>
+			<selected>false</selected>
+			<enabled>true</enabled>
+			<expanded>false</expanded>
+			<keepstate>false</keepstate>
+			<description></description>
+			<visible>true</visible>
+			<!-- <tabid>mainScript</tabid> -->
+			<url>USER/flows/sampleScript/creditCard.jsf</url>
+			<name>application.navigationBar.link.middle</name>
+			<id>stageTwoTab</id>
+		</link>        
+		<link>
+			<selected>false</selected>
+			<enabled>true</enabled>
+			<expanded>false</expanded>
+			<keepstate>false</keepstate>
+			<description></description>
+			<visible>true</visible>
+			<!-- <tabid>mainScript</tabid> -->
+			<url>USER/flows/sampleScript/anotherOrder.jsf</url>
+			<name>application.navigationBar.link.end</name>
+			<id>stageThreeTab</id>
+		</link>
+	</link>
+	<!--  FAQ link -->
+	<link>
+		<selected>false</selected>
+		<enabled>true</enabled>
+		<expanded>false</expanded>
+		<keepstate>false</keepstate>
+		<description>FAQ</description>
+		<visible>true</visible>
+		<tabid>faqTab</tabid>
+		<url>SYSTEM/portlets/faq/FaqController.jpf</url>
+		<name>application.navigationBar.link.faq</name>
+		<id>faqTab</id>
+	</link>   
+	<!--  Google link --> 
+	<link>
+		<selected>false</selected>
+		<enabled>true</enabled>
+		<expanded>false</expanded>
+		<keepstate>false</keepstate>
+		<description></description>
+		<visible>true</visible>
+		<tabid>googleTab</tabid>
+		<url>http://www.google.com</url>
+		<name>application.navigationBar.link.google</name>
+		<id>googleTab</id>
+	</link>
+	<!--  disposition script link-->
+	<link>
+	     <selected>false</selected>
+	     <enabled>true</enabled>
+	     <expanded>false</expanded>
+	     <keepstate>false</keepstate>
+	     <description>link to Call Disposition controller</description>
+	     <visible>false</visible>
+	     <tabid>calldisp</tabid>
+	     <url>USER/flows/callDisposition/callDisposition.jsf</url>
+	     <name>application.navigationBar.link.navDispositionScript</name>
+	     <id>calldisposition</id>
+	     <!-- Inner links, all tabid of inner links are automatically inherited from parent, therefore no need to specify them -->
+	     <link>
+	         <selected>false</selected>
+	         <enabled>true</enabled>
+	         <expanded>false</expanded>
+	         <keepstate>false</keepstate>
+	         <description></description>
+	         <visible>true</visible>
+	         <!-- <tabid>calldisp</tabid> -->
+	         <url>USER/flows/callDisposition/callDisposition.jsf</url>
+	         <name>application.navigationBar.link.dispositionPage</name>
+	         <id>stageOneDispTab</id>
+	     </link>
+	</link>
+</navigationBar> 

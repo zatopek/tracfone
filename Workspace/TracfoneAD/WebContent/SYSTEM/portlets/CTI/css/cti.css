@@ -1,0 +1,371 @@
+body { 
+    FONT-FAMILY:    Tahoma;
+    FONT-SIZE:      10px;
+    color:          #333333;
+    margin:         0px;
+    padding:        0px;
+    background:     #d2d7da;
+}
+
+.ctiTableHeader {
+    background-color: #9a9a9a;
+    color:             white;
+    padding: 0px 5px 0px 2px;
+    font-size: 12px; 
+    font-family: Tahoma 
+} 
+
+.corporate-logo {
+	
+	BACKGROUND-IMAGE: url(images/logo_jacada.gif);
+	BACKGROUND-REPEAT: no-repeat;
+	background-position: 30%;
+	width: 110px;
+	height: 70px;
+	float: left;
+	display: inline;
+	
+}
+
+.call-info { 
+	BACKGROUND-IMAGE: url(images/ctiBarBackground.png);
+	BACKGROUND-REPEAT: repeat-x; 
+	width: 100%; 
+	font-size: 12px;
+	font-family: Tahoma;
+	color: #858585;
+}
+
+
+.call-info .menu-separator { 
+	BACKGROUND-IMAGE: url(images/menuPartition.gif);
+	BACKGROUND-REPEAT: no-repeat; 
+	width: 2px; 
+	vertical-align: top;
+	height: 54px;
+}
+.call-info .left-bar-space {
+	display: inline;
+	float: left;
+}
+.call-info .right-bar-space {
+	display: inline;
+	float: right;
+}
+.call-info .counter-area { 
+	width: 145px;
+	vertical-align: top; 
+	padding-top: 12px;
+}
+.call-info .counter-area .counter { 
+	display: inline; 
+}
+.counter#callLabel { 
+	width: 95px; 
+}
+.counter#callCounter { 
+	width: 45px; 
+}
+.counter#totalLabel { 
+	width: 85px;
+	display: inline;
+	
+}
+.counter#totalCounter { 
+	width: 45px;
+	vertical-align: top;
+	font-size: 11px;
+	display: inline;
+}
+
+.ctiLabel{	
+	color: #57b1ef;	
+}
+
+#HoldTimeCaption, #WrapTimeCaption, #WrapUpTime, #HoldTime,#AhtLable, #TotalCallCaption {
+	padding-top: 7px;
+}
+
+#HoldTime, #WrapUpTime,  #TotalCall, #AHTdiv, #TotalTime, #TotalItemTime  {
+	
+	padding-top: 8px;
+	
+}
+
+.call-info .counter-space               { width: 20px }
+.call-info .before-counter-space        { width: 3px }
+.call-info .after-counter-space         { width: 10px }
+
+.call-info .alc-area { 
+	width: 140px;
+	vertical-align: top; 
+	padding-top: 12px;
+}
+.call-info .busy-reasons       { cursor:default; font-size: 11px; font-family: Tahoma; color: #333333; }
+#auxReasonLabel       { width:150px; padding-top: 1px; position: absolute; top: 33px; left: 0px;}
+
+
+.call-info .before-alc-space { 
+	width: 1px;
+	vertical-align: top; 
+}
+.call-info .after-alc-space             { width: 5px }
+
+.call-info .status-area { 
+	vertical-align: top;
+	width: 150px;
+	padding-top: 5px;
+	position: relative;
+	
+}
+
+.call-info .call-area { 
+	vertical-align: top; 
+	padding-top: 5px;
+	width: 150px;
+	
+}
+
+
+
+#StatusLabel {
+	width:100%; 
+	padding-top: 3px;
+	height: 25px;
+}
+
+.rtnCombo {	
+	width: 150px;
+	padding-top: 3px;
+	height: 25px;
+	
+}
+
+#rtnLabel {
+	width: 45px;
+	vertical-align: top;
+	padding-top: 4px;
+}
+
+#RtnTxt {	
+	vertical-align: bottom;
+	font-size: 11px;
+}
+
+
+
+.ctiPopup {
+	
+	border: #d2d2d2 2px solid;
+			
+}
+
+.call-info .buttons-area { 
+	width: 300px;
+	vertical-align: top;
+}
+
+.call-info .buttons-area .btn-line { 
+	padding-left: 0px; 
+	vertical-align: top; 
+	display: inline;
+}
+.call-info .buttons-area .btn-line .btn-space { 
+	width: 1px;
+}
+.call-info .before-buttons-area { 
+	width: 5px;
+	display: inline; 
+	float: right; 
+}
+
+#PhoneStatus {padding-left: 7px;font-size: 11px; font-family: Tahoma; color: #333333 }
+.call-info .cti-disconnect-msg          { font-size: 11px; color: red; font-family: Tahoma; font-weight:bold;}
+.call-info .cti-disconnect-msg-hide     { display: none; }
+.call-info .cti-disconnect-msg-in-manual-mode          {font-size: 11px; color: #000000; font-family: Tahoma;   white-space: nowrap; text-overflow:ellipsis; overflow:hidden; WIDTH: 138px;}
+.call-info .cti-disconnect-msg-in-manual-mode-hide     { display: none; }
+
+.call-info .cti-error-status       { font-size: 12px; color: red; font-family: Tahoma;  font-weight: bold; white-space: nowrap; text-overflow:ellipsis; overflow:hidden; WIDTH: 138px; padding-top: 10px;}
+
+.call-info .caller-id                   { font-size: 13px; font-family: Tahoma }
+.call-info .normal-counter              { font-size: 11px; font-family: Tahoma }    
+.call-info .end-counter                 { font-size: 11px; font-family: Tahoma; color: #c04040; }
+.call-info .middle-counter              { font-size: 11px; font-family: Tahoma; color: #e0a000; }
+.call-info .begin-counter               { font-size: 11px; font-family: Tahoma; color: #408020; }
+.call-info TD                           { font-size: 12px; font-family: Tahoma }
+
+/* CTI Buttons Definitions */
+.button { 
+    background-color: transparent;
+    height: 39px;
+    text-align: center;
+    font-size: 14px; 
+    font-family: Tahoma;
+    text-decoration: none;
+    color: #707070;
+    font-weight: bold;
+    border-left: #d2d2d2 1px solid;
+   
+    
+}
+
+.def .middle  { background-image: url(images/buttons/button-normal-full.png); background-repeat: repeat-x;}
+
+.over            { cursor: hand; }
+.over .middle    { background-image: url(images/buttons/button-hover-full.png); background-repeat: repeat-x; }
+
+.active          { cursor: hand; }
+.active .middle  { background-image: url(images/buttons/button-press-full.png); background-repeat:  repeat-x; }
+
+.middleDisabled  { background-image: url(images/buttons/button-normal-full.png); background-repeat: repeat-x; }
+.middleDisabled .icon { cursor: default; color: #b7b7b7;}
+
+
+
+.resyncStatus {
+	width: 99px; 
+	height: 40px;
+	display: inline;
+	padding-top: 3px;
+	padding-left: 30px; 
+}
+
+.resyncStatus .button {
+	
+   border: #d2d2d2 1px solid;
+        
+}
+
+
+.dropDown-button-area {	
+	width: 99px;
+	display: inline;
+	position: relative;	
+}
+	
+
+/* pop-up button */
+.popUpButton, .popUpButtonDisabled {
+    display: inline;
+    background-color: transparent;
+    background-repeat: no-repeat;
+    width: 11px;
+    height: 39px;
+    position: absolute;
+    top: 0;
+    right: 0;
+
+}
+.popUpButton            { background-image: url(images/buttons/button-dropDown_normal.gif); cursor: hand; }
+.popUpButtonDisabled    { background-image: url(images/buttons/button-dropDown_normal.gif); cursor: default; }
+.popUpButton:link, .popUpButton:visited { color: #002577; }
+.popUpButton:hover      { background-image: url(images/buttons/button-dropDown_hover.gif); }
+.popUpButton:active     { background-image: url(images/buttons/button-dropDown_press.gif); }
+
+/* button icons */
+.icon { display: inline-block; background-repeat: no-repeat;
+		align:center; padding-top: 1px;  text-indent: 0px; letter-spacing: 0.01cm;
+	    cursor: hand; height: 39px;
+	    background-position: 50% bottom;    
+}
+
+
+
+
+.middle#middleConsultBtn .icon {  background-image: url(images/buttons/Icons/conf.gif); width: 99px; }
+.middleDisabled#middleConsultBtn .icon { background-image: url(images/buttons/Icons/conf_dis.gif); width: 99px; }
+
+.middle#middleTransferBtn .icon { background-image: url(images/buttons/Icons/transfer.gif); width: 99px; }
+.middleDisabled#middleTransferBtn .icon { background-image: url(images/buttons/Icons/transfer_dis.gif); width: 99px;}
+
+.middle#middleHandshakeTransferBtn .icon { background-image: url(images/buttons/Icons/tr_handshake.gif); width: 120px; }
+.middleDisabled#middleHandshakeTransferBtn .icon { background-image: url(images/buttons/Icons/tr_handshake_dis.gif); width: 120px; }
+
+.middle#middleWarmTransferBtn .icon { background-image: url(images/buttons/Icons/tr_warm.gif); width: 120px; }
+.middleDisabled#middleWarmTransferBtn .icon { background-image: url(images/buttons/Icons/tr_warm_dis.gif); width: 120px; }
+
+.middle#middleColdTransferBtn .icon { background-image: url(images/buttons/Icons/tr_cold.gif); width: 120px; }
+.middleDisabled#middleColdTransferBtn .icon { background-image: url(images/buttons/Icons/tr_cold_dis.gif); width: 120px; }
+
+.middle#middleStartBtn .icon { background-image: url(images/buttons/Icons/start.gif); width: 99px;}
+.middleDisabled#middleStartBtn .icon { background-image: url(images/buttons/Icons/start_dis.gif); width: 99px;}
+
+.middle#middleAnswerBtn .icon { background-image: url(images/buttons/Icons/answer.gif); width: 99px;}
+.middleDisabled#middleAnswerBtn .icon { background-image: url(images/buttons/Icons/answer_dis.gif); width: 99px;}
+
+.middle#middleAnswerOpenMediaBtn .icon { background-image: url(images/buttons/Icons/answer.gif); width: 99px;}
+.middleDisabled#middleAnswerOpenMediaBtn .icon { background-image: url(images/buttons/Icons/answer_dis.gif); width: 99px;}
+
+.middle#middleStartOutboundBtn .icon { background-image: url(images/buttons/Icons/start.gif); width: 99px;}
+.middleDisabled#middleStartOutboundBtn .icon { background-image: url(images/buttons/Icons/start_dis.gif); width: 99px;}
+
+.middle#middleHoldOffBtn .icon { background-image: url(images/buttons/Icons/hold-off.gif); width: 99px;}
+.middleDisabled#middleHoldOffBtn .icon { background-image: url(images/buttons/Icons/hold-off_dis.gif); width: 99px;}
+
+.middle#middleHoldBtn .icon {  background-image: url(images/buttons/Icons/hold.gif); width: 99px;}
+.middleDisabled#middleHoldBtn .icon {  background-image: url(images/buttons/Icons/hold_dis.gif); width: 99px;}
+
+.middle#middleDialBtn .icon { background-image: url(images/buttons/Icons/dial.gif); width: 99px;}
+.middleDisabled#middleDialBtn .icon { background-image: url(images/buttons/Icons/dial_dis.gif); width: 99px;}
+
+.middle#middleSendDTMFBtn .icon { background-image: url(images/buttons/Icons/dial.gif); width: 99px;}
+.middleDisabled#middleSendDTMFBtn .icon { background-image: url(images/buttons/Icons/dial_dis.gif); width: 99px;}
+
+.middle#middleEndBtn .icon { background-image: url(images/buttons/Icons/end.gif); width: 99px;}
+.middleDisabled#middleEndBtn .icon {  background-image: url(images/buttons/Icons/end_dis.gif); width: 99px;}
+
+.middle#middleEndOpenMediaBtn .icon { background-image: url(images/buttons/Icons/fax-End.gif); width: 99px;}
+.middleDisabled#middleEndOpenMediaBtn .icon {  background-image: url(images/buttons/Icons/fax-End_dis.gif); width: 99px;}
+
+.middle#middleGeneralEndBtn .icon { background-image: url(images/buttons/Icons/icon-x.gif); width: 99px;}
+.middleDisabled#middleGeneralEndBtn .icon {  background-image: url(images/buttons/Icons/icon-x_dis.gif); width: 99px;}
+
+.middle#middleJoinBtn .icon { background-image: url(images/buttons/Icons/join.gif); width: 99px; }
+.middleDisabled#middleJoinBtn .icon { background-image: url(images/buttons/Icons/join_dis.gif); width: 99px; }
+
+.middle#middleBusyBtn .icon         { background-image: url(images/buttons/Icons/busy.gif); width: 99px;}
+.middleDisabled#middleBusyBtn .icon { background-image: url(images/buttons/Icons/busy_dis.gif); width: 99px;}
+
+.middle#middleReadyBtn .icon            {  background-image: url(images/buttons/Icons/ready.gif); width: 99px; }
+.middleDisabled#middleReadyBtn .icon    {  background-image: url(images/buttons/Icons/ready_dis.gif); width: 99px; }
+
+.middle#middleTransferCompleteBtn .icon            {  background-image: url(images/buttons/Icons/tr_complete.gif); width: 120px; }
+.middleDisabled#middleTransferCompleteBtn .icon    {  background-image: url(images/buttons/Icons/tr_complete_dis.gif); width: 120px; }
+
+.middle#middleTransferReturnBtn .icon            {  background-image: url(images/buttons/Icons/return.gif); width: 120px; }
+.middleDisabled#middleTransferReturnBtn .icon    {  background-image: url(images/buttons/Icons/return_dis.gif); width: 120px; }
+
+.middle#middleCompleteTransferBtn .icon            {  background-image: url(images/buttons/Icons/tr_complete.gif); width: 99px; }
+.middleDisabled#middleCompleteTransferBtn .icon    {  background-image: url(images/buttons/Icons/tr_complete_dis.gif); width: 99px; }
+
+.middle#middleConsultJoinBtn .icon            {  background-image: url(images/buttons/Icons/join.gif); width: 120px; }
+.middleDisabled#middleConsultJoinBtn .icon    {  background-image: url(images/buttons/Icons/join_dis.gif); width: 120px; }
+
+.middle#middleConsultReturnBtn .icon            {  background-image: url(images/buttons/Icons/return.gif); width: 120px; }
+.middleDisabled#middleConsultReturnBtn .icon    {  background-image: url(images/buttons/Icons/return_dis.gif); width: 120px; }
+
+.middle#middleConsultToggleToCustomerBtn .icon            {  background-image: url(images/buttons/Icons/toggle.gif); width: 120px; }
+.middleDisabled#middleConsultToggleToCustomerBtn .icon    {  background-image: url(images/buttons/Icons/toggle_dis.gif); width: 120px; }
+
+.middle#middleConsultToggleToSuperBtn .icon            {  background-image: url(images/buttons/Icons/back.gif); width: 99px; }
+.middleDisabled#middleConsultToggleToSuperBtn .icon    {  background-image: url(images/buttons/Icons/back_dis.gif); width: 99px; }
+
+.middle#middleWarmTransferToggleToCustomerBtn .icon            {  background-image: url(images/buttons/Icons/toggle.gif); width: 120px; }
+.middleDisabled#middleWarmTransferToggleToCustomerBtn .icon    {  background-image: url(images/buttons/Icons/toggle_dis.gif); width: 120px; }
+
+.middle#middleWarmTransferToggleToSuperBtn .icon            {  background-image: url(images/buttons/Icons/back.gif); width: 99px; }
+.middleDisabled#middleWarmTransferToggleToSuperBtn .icon    {  background-image: url(images/buttons/Icons/back_dis.gif); width: 99px; }
+
+
+.middle#middleConsultTransferBtn .icon            {  background-image: url(images/buttons/Icons/transfer.gif); width: 120px; }
+.middleDisabled#middleConsultTransferBtn .icon    {  background-image: url(images/buttons/Icons/transfer_dis.gif); width: 120px; }
+
+.middle#middleResyncBtn .icon            {  background-image: url(images/buttons/Icons/reconnect.gif); width: 99px;}
+.middleDisabled#middleResyncBtn .icon    {  background-image: url(images/buttons/Icons/reconnect_dis.gif); width: 99px;}
+
+.middle#middleTransferStandardBtn .icon            {  background-image: url(images/buttons/Icons/transfer.gif); width: 99px; }
+.middleDisabled#middleTransferStandardBtn .icon    {  background-image: url(images/buttons/Icons/transfer_dis.gif); width: 99px;}
+
+.middle#middleTransferConnectBtn .icon            {  background-image: url(images/buttons/Icons/tr_cold.gif); width: 99px; }
+.middleDisabled#middleTransferConnectBtn .icon    {  background-image: url(images/buttons/Icons/tr_cold_dis.gif); width: 99px;}
+
