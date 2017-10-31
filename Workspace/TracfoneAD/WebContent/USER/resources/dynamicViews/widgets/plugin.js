@@ -1,4 +1,13 @@
-/* Generated: Fri Oct 20 10:17:02 EDT 2017*/
+/* Generated: Tue Oct 31 12:12:11 EDT 2017*/
 
 
 
+	afrous.widget.repository.register(
+		{
+			name: '.gitignore',
+			title: '.gitignore',
+			items: 
+			[
+							]
+		}
+	);

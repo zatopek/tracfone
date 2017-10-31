@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.1//EN" "http://jakarta.apache.org/struts/dtds/struts-config_1_1.dtd">
 <struts-config>
-  <!-- Generated from /Controller.java on Fri Oct 20 10:16:37 EDT 2017 -->
+  <!-- Generated from /Controller.java on Tue Oct 31 12:09:47 EDT 2017 -->
   <form-beans>
     <form-bean className="org.apache.beehive.netui.pageflow.config.PageFlowActionFormBean" name="branchFormBean" type="org.apache.beehive.netui.pageflow.internal.AnyBeanActionForm">
       <set-property property="actualType" value="SYSTEM.Controller$BranchFormBean"/>
