@@ -10,9 +10,17 @@
 	<value>SecurityQuestions</value>
 <value>CustomerSearch</value>
 <value>Redemption</value>
+<value>UnableUnable</value>
+<value>TransferGuidelines</value>
+<value>InteractionNotes</value>
+<value>Interaction</value>
 </util:list>
 
 <import resource="USER/applicationContext-SecurityQuestions.xml"/>
 <import resource="USER/applicationContext-CustomerSearch.xml"/>
 <import resource="USER/applicationContext-Redemption.xml"/>
+<import resource="USER/applicationContext-UnableUnable.xml"/>
+<import resource="USER/applicationContext-TransferGuidelines.xml"/>
+<import resource="USER/applicationContext-InteractionNotes.xml"/>
+<import resource="USER/applicationContext-Interaction.xml"/>
 </beans>

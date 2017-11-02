@@ -1,35 +1,88 @@
 Ext.define('Jacada.user.com.jacada.tracfoneAD.securityQuestions.SecurityQuestions', {
     extend: 'Ext.panel.Panel',
 
-    //title: 'SecurityQuestions'
-    // {
-    //xtype:"form",
-    title: "",
-    bodyStyle: 'padding:5px 5px 0',
+    bodyStyle: 'padding:5px 5px 5px 5px',
     items: [{
-        xtype: "textfield",
-        fieldLabel: "Security PIN",
-        name: "textvalue"
+        xtype: 'panel',
+        layout: 'column',
+        border: false,
+        items: [
+            {
+                columnWidth: 0.5,
+                xtype: "displayfield",
+                value: "Security PIN",
+                name: "textvalue",
+                cls: 'portletDisplay'
+            }, {
+                columnWidth: 0.5,
+                xtype: 'component',
+                cls: 'portletWeblink',
+                autoEl: {
+                    tag: 'a',
+                    href: '#',
+                    html: 'Create PIN'
+                }
+            }
+        ]
     }, {
-        xtype: "textfield",
-        fieldLabel: "ESN Serial #",
-        name: "textvalue"
-    }, {
-        xtype: "textfield",
-        fieldLabel: "Activation ZIP",
-        name: "textvalue"
-    }, {
-        xtype: "textfield",
-        fieldLabel: "Last Redemption",
-        name: "textvalue"
-    }]
-    ,
+        xtype: 'panel',
+        layout: 'column',
+        border: false,
+        items: [
+            {
+                columnWidth: 0.5,
+                xtype: "displayfield",
+                value: "ESN Serial #",
+                name: "textvalue",
+                cls: 'portletDisplay'
+            }, {
+                columnWidth: 0.5,
+                xtype: "button",
+                //iconCls:
+                text: "90909090123",
+                handler: function(b,e){
+                    b.setIconClass  = 'btn-ok';
+                }
+            }
 
-    buttons: [{
-        text: 'Reset'
+        ]
     }, {
-        text: 'Validate'
+        xtype: 'panel',
+        layout: 'column',
+        border: false,
+        items: [
+            {
+                columnWidth: 0.5,
+                xtype: "displayfield",
+                value: 'Activation ZIP',
+                name: "textvalue",
+                cls: 'portletDisplay'
+            }, {
+                columnWidth: 0.5,
+                xtype: "button",
+                text: "30346"
+
+            }
+        ]
+    }, {
+        xtype: 'panel',
+        layout: 'column',
+        border: false,
+        items: [
+            {
+                columnWidth: 0.5,
+                xtype: "displayfield",
+                value: "Last Redemption",
+                name: "textvalue",
+                cls: 'portletDisplay'
+            }, {
+                columnWidth: 0.5,
+                xtype: "button",
+                text: "10/17/2017"
+
+            }
+        ]
     }]
-    //}
+
 
 });

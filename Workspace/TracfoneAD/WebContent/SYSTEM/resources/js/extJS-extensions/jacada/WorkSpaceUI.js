@@ -53,7 +53,7 @@ Ext.define('Jacada.core.WorkSpaceUI', {
 			layout: {type:'hbox', align:'stretch'},
 			border: false,
 			bodyStyle : 'background:none; ',
-			height: 115,
+			height: 65,
 			hidden: !$W().isCtiBarEnabled
 		});
 		item = this.buildLogoSection();
