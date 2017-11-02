@@ -1,0 +1,23 @@
+<plans>
+	<plan>
+		<descripton>$35 30 Days UNL TALK/TXT/DTA, first 2 GB at High Speeds
+			then at 2G</descripton>
+		<partNumber>STAPP300023</partNumber>
+		<price>35</price>
+		<qty>0</qty>
+	</plan>
+	<plan>
+		<descripton>$45 30 Days UNL TALK/TXT/DTA, first 10 GB at High Speeds
+			then at 2G</descripton>
+		<partNumber>STAPP200011</partNumber>
+		<price>45</price>
+		<qty>0</qty>
+	</plan>	
+	<plan>
+		<descripton>$55 30 Days UNL TALK/TXT/DTA, first 15 GB at High Speeds
+			then at 2G</descripton>
+		<partNumber>STAPP450011</partNumber>
+		<price>55</price>
+		<qty>0</qty>
+	</plan>		
+</plans>

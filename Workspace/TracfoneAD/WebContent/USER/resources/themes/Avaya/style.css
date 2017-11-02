@@ -973,10 +973,10 @@ a:-webkit-any-link {
 	margin-bottom: 2px;
 }
 
-.x-form-textarea {
+.interaction_textarea {
 	line-height: normal;
-	height: auto;
-	margin: 10px 20px 10px 0px;
+	height: 80px;
+	margin-top: 5px;
 }
 
 .x-form-checkbox {
