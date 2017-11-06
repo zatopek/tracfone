@@ -5,7 +5,9 @@
         <item accessKey="application.javascript.menuBar.accessKey.manageFavorites" name="application.menuBar.item.manageFavorites" value="openFavoritesDialog();"/>
     </item -->
     
-
+    <item name="application.menuBar.menu.sso" privilege="MenuBarItemHelp">       
+        <item accessKey="application.javascript.menuBar.accessKey.systemCredentials" name="application.menuBar.item.systemCredentials" value="Ext.create('Jacada.user.com.jacada.tracfoneAD.sSO.SSO').show();"/>
+    </item>
     <item name="application.menuBar.menu.help" privilege="MenuBarItemHelp">
         <item accessKey="application.javascript.menuBar.accessKey.workspaceInfo" name="application.menuBar.item.workspaceInfo" value="$W().workspaceInfo.open();"/>
         <item accessKey="application.javascript.menuBar.accessKey.aboutJacadaWorkSpace" name="application.menuBar.item.aboutJacadaWorkSpace" value="Ext.create('Jacada.system.ui.help.AboutDialog').show();"/>

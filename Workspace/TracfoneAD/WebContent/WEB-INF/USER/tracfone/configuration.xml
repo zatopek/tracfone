@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+	 http://www.springframework.org/schema/tx
+     http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+    <bean id="oSessionFactory" class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+        <!-- <property name="dataSource" ref="customerDB" /> -->
+        <property name="mappingResources">
+            <list>
+                <value>com/jacada/tracfoneAD/sSO/entities/AgentSSO.hbm.xml</value>
+                <value>com/jacada/tracfoneAD/sSO/entities/SSOCredential.hbm.xml</value>
+            </list>
+        </property>
+        <property name="hibernateProperties">
+            <!--  Added factory_class for antlr/quartz issue, needs further testing -->
+            <value>
+                hibernate.dialect=org.hibernate.dialect.Oracle10gDialect
+                <!-- hibernate.query.factory_class=org.hibernate.hql.classic.ClassicQueryTranslatorFactory -->
+                <!-- hibernate.connection.datasource=java:comp/env/AgentDesktop -->
+                hibernate.connection.datasource=JACADA_JDBC_DB
+                hibernate.show_sql=true
+                hibernate.current_session_context_class=thread
+                <!-- hibernate.jndi.class=com.ibm.websphere.naming.WsnInitialContextFactory -->
+                hibernate.format_sql=true
+            </value>
+        </property>
+    </bean>
+
+    <bean id="hibernateTemplate" class="org.springframework.orm.hibernate3.HibernateTemplate">
+        <constructor-arg>
+            <ref bean="oSessionFactory" />
+        </constructor-arg>
+    </bean>
+
+    <!--bean id="DesktopEnvSettings" class="com.jacada.lm.config.DesktopEnvironmentSettings">
+        <property name="guiUrl"><value>${environment.gui.url}</value></property>
+        <property name="guiPath"><value>${environment.gui.path}</value></property>
+        <property name="eboUrl"><value>${environment.ebo.url}</value></property>
+        <property name="awsUrl"><value>${environment.aws.url}</value></property>
+        <property name="crSACPath"><value>${environment.gui.crsvcpath}</value></property>
+        <property name="folderPath"><value>${environment.applications.repform}</value></property>
+        <property name="transportAppPath"><value>${environment.transportation.path}</value></property>
+        <property name="argumentsForTransportLaunch"><value>${environment.transportation.argumentsForLaunch}</value></property>
+        <property name="ctiConsolePath"><value>${environment.cti.ctiConsolePath}</value></property>
+        <property name="wsListenerURI"><value>${environment.cti.wsListenerURI}</value></property>
+        <property name="ctiMasterUserName" value="${environment.cti.masterUserName}" />
+        <property name="ctiMasterPassword" value="${environment.cti.masterPassword}" />
+        <property name="addressValidationUrl"><value>${environment.experian.url}</value></property>
+        <property name="omsGUI"><value>${environment.oms.gui}</value></property>
+        <property name="folderPathEmail"><value>${environment.applications.emailreferral}</value></property>
+        <property name="westernUnionUrl"><value>${environment.applications.westernUnionUrl}</value></property>
+        <property name="collectionsUrl"><value>${environment.applications.collectionsUrl}</value></property>
+    </bean>
+
+    <bean id="UIManagerSettings" class="com.jacada.lm.config.UIManagerSettingsImpl">
+        <property name="openThreshold"><value>${environment.ui.systemmessages.openthreshold}</value></property>
+        <property name="showThreshold"><value>${environment.ui.systemmessages.showthreshold}</value></property>
+        <property name="messagesResource"><value>${environment.ui.systemmessages.resourcebundle}</value></property>
+    </bean>
+
+    <bean id="crisServiceConfig" class="com.jacada.lm.services.CrisServiceConfigBean" init-method="init" lazy-init="false">
+        <property name="registryUrl"><value>${environment.cfe.registry.url}</value></property>
+        <property name="service" ref="cfeServiceApplicationProxy" />
+    </bean>
+
+    <bean id="MessageUtil" class="com.jacada.lm.common.util.MessageUtil" lazy-init="false">
+        <property name="uiManager" ref="UIManager" />
+    </bean>
+
+    <bean id="mdcFilter" class="com.jacada.lm.web.filter.MDCLogFilter" lazy-init="false">
+        <lookup-method name="getExtensionManager" bean="extensionManager"/>
+        <lookup-method name="getCredentialManager" bean="credentialManager"/>
+        <lookup-method name="getHostManager" bean="hostManager"/>
+    </bean>
+
+    <bean id="hibernateSessionFilter" class="com.jacada.lm.sso.filter.HibernateSessionFilter">
+        <lookup-method name="getHibernateTemplate" bean="hibernateTemplate" />
+    </bean>
+
+    <bean id="CodeTableUtil" class="com.jacada.lm.cfe.util.CodeTableUtil" init-method="loadCodeTableXML" lazy-init="false">
+        <property name="filePath"><value>${environment.cfect.file.location}</value></property>
+        <property name="runScript"><value>${environment.email.script.runcommand}</value></property>
+    </bean>
+
+    <bean id="CfeUtil" class="com.jacada.lm.cfe.util.CfeUtil" >
+        <property name="codeTableService" ref="CodeTableUtil" />
+    </bean>
+
+    <bean id="IntView" class="com.jacada.lm.intelligentView.model.IntelligentView" >
+    </bean>
+
+    <bean id="CustInfo" class="com.jacada.lm.customerinfo.model.CustomerInformation" >
+    </bean>
+
+    <bean id="CustInd" class="com.jacada.lm.customerinfo.model.CustomerInfoIndicators" >
+    </bean>
+
+    <bean id="ToCustInfo" class="com.jacada.lm.customerinfo.model.ToCustomerInformation" >
+    </bean>
+
+    <bean id="SmartPad" class="com.jacada.lm.smartPad.model.CRISSmartPad" >
+    </bean>
+
+    <bean id="SmartPadEntry" class="com.jacada.lm.smartPad.model.CRISSmartPadEntry" >
+    </bean-->
+
+</beans>

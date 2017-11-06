@@ -1,6 +1,6 @@
 $W().setTabTitle("RedemptionTab", "CUSTOMER SERVICE PROFILE");
 var customerServiceProfilePanel = Ext.create('Jacada.user.com.jacada.tracfoneAD.common.CustomerServiceProfile');
-var airtimePlanGrid = Ext.create('Jacada.user.com.jacada.tracfoneAD.redemption.AirtimePlanGrid');
+//var airtimePlanGrid = Ext.create('Jacada.user.com.jacada.tracfoneAD.redemption.AirtimePlanGrid');
 
 Ext
     .define(
@@ -220,14 +220,11 @@ Ext
                                             columnWidth: 0.6,
                                             border: false,
                                             height: 250
-                                            ,
-
+                                            /*,
                                             items: [
                                                 airtimePlanGrid
                                             ]
-                                            
-
-
+                                            */
                                         },
                                         {
                                             xtype: "panel",

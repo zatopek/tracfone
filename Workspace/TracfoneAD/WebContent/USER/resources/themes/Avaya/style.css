@@ -39,7 +39,7 @@ body{
 }
 
 .x-menu-item-text{
-	color: white;
+	color: #004DA1;
 }
 
 .x-menu-item-active {
@@ -981,6 +981,18 @@ a:-webkit-any-link {
 
 .x-form-checkbox {
 	margin-left: 10px;
+}
+
+.sso_form input{
+	margin-left: 1px;
+}
+
+.x-toolbar-text {
+	color: #6BDB30;
+}
+
+.x-menu-item{
+	background-color: white;
 }
 
 /* #D91D00 #D91000 red */
