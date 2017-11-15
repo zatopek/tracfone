@@ -995,5 +995,8 @@ a:-webkit-any-link {
 	background-color: white;
 }
 
+.profile_fieldset {
+	height: 260px;
+}
 /* #D91D00 #D91000 red */
 /* C81000 hover red */

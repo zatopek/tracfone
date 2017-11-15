@@ -50,7 +50,7 @@ var ssoForm = new Ext.FormPanel({
         border: false,
         items: [{
             xtype: "displayfield",
-            value: "SYSTEM"
+            value: "APPLICATION"
         }, {
             xtype: "displayfield",
             value: "SYSTEM-A"

@@ -25,6 +25,7 @@ Ext.define('Jacada.core.WorkSpaceMenuToolbar', {
 		Ext.apply(this, Ext.apply(this.initialConfig, config));
 	    this.callParent(arguments);
 	},
+
 	/**
 	 * Is separator required between menu items on the left side
 	 */

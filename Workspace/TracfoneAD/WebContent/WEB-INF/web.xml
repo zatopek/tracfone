@@ -460,7 +460,9 @@
 			/WEB-INF/applicationContext-favorites.xml
 			/WEB-INF/applicationContext-b4pTaskManager.xml
 
+			<!-- 
 			/WEB-INF/USER/tracfone/include.xml
+			 -->
 			
 	/WEB-INF/applicationContext-tomcat.xml
 	/WEB-INF/applicationContext-ws-TracfoneAD.xml</param-value>

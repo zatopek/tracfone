@@ -14,19 +14,7 @@
                 <value>com/jacada/tracfoneAD/sSO/entities/SSOCredential.hbm.xml</value>
             </list>
         </property>
-        <property name="hibernateProperties">
-            <!--  Added factory_class for antlr/quartz issue, needs further testing -->
-            <value>
-                hibernate.dialect=org.hibernate.dialect.Oracle10gDialect
-                <!-- hibernate.query.factory_class=org.hibernate.hql.classic.ClassicQueryTranslatorFactory -->
-                <!-- hibernate.connection.datasource=java:comp/env/AgentDesktop -->
-                hibernate.connection.datasource=JACADA_JDBC_DB
-                hibernate.show_sql=true
-                hibernate.current_session_context_class=thread
-                <!-- hibernate.jndi.class=com.ibm.websphere.naming.WsnInitialContextFactory -->
-                hibernate.format_sql=true
-            </value>
-        </property>
+
     </bean>
 
     <bean id="hibernateTemplate" class="org.springframework.orm.hibernate3.HibernateTemplate">

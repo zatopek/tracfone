@@ -37,6 +37,7 @@ Ext.define('Jacada.user.ui.cti.CTIBar', {
 	        //me.registerForMessages();
 	        $W().cti = this;
 	        var items = [];
+
 	        //items.push(me.getSeparator());
 	        //items.push(me.buildCustomSection());
 	        //items.push(me.buildSearchButton());
@@ -52,13 +53,13 @@ Ext.define('Jacada.user.ui.cti.CTIBar', {
 	        //items.push(me.getSeparator());
 	        ///items.push(me.buildContextButton());
 	        //items = items.compact();
-	        
+            Jacada.Logger.debug("CTIBar. Initializing Customer Service Profile");
 	        Ext.applyIf(me, {
 	        	items: items
 	        });
 	        me.callParent(arguments);
 
-	        Jacada.Logger.debug("CTIBar. Initializing CTI States");
+	        //Jacada.Logger.debug("CTIBar. Initializing CTI States");
 	        //me.initCtiStates();
 	        //var ctiClientInfo = {clientStateName:'not_initialized', bBusy: true};
 	        //me.showState(ctiClientInfo);
