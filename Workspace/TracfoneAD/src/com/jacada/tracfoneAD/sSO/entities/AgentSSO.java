@@ -7,8 +7,8 @@ public class AgentSSO {
 
     private long ssoId;
 	private String agentId;
-	private ApplicationSourceSystem system;
-	private Set<SSOCredential> sSOCredentials =
+	private String system;
+	private Set<SSOCredential> ssoCredentials =
 	new HashSet<SSOCredential>(0);
 
 
@@ -24,17 +24,18 @@ public class AgentSSO {
 	public void setAgentId(String agentId) {
 		this.agentId = agentId;
 	}
-	public ApplicationSourceSystem getSystem() {
+	public String getSystem() {
 		return system;
 	}
-	public void setSystem(ApplicationSourceSystem system) {
+	public void setSystem(String system) {
 		this.system = system;
 	}
-	public Set<SSOCredential> getsOCredentials() {
-		return sSOCredentials;
+	public Set<SSOCredential> getSsoCredentials() {
+		return ssoCredentials;
 	}
-	public void setSsOCredentials(Set<SSOCredential> sSOCredentials) {
-		this.sSOCredentials = sSOCredentials;
+	public void setSsoCredentials(Set<SSOCredential> ssoCredentials) {
+		this.ssoCredentials = ssoCredentials;
 	}
+
 	
 }

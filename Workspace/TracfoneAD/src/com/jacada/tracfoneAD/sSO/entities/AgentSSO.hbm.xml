@@ -3,7 +3,7 @@
 	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
 
-	<class name="com.jacada.lm.sso.model.AgentSSO" table="tf_agent_sso">
+	<class name="com.jacada.tracfoneAD.sSO.entities.AgentSSO" table="tf_agent_sso">
 		<id name="ssoId" type="java.lang.Long">
 			<column name="id" />
 			<generator class="identity" />
@@ -17,7 +17,7 @@
 			<column name="system_name" />
 		</property>
 
-		<set name="sSOCredentials" table="tf_agent_sso_credentials"
+		<set name="ssoCredentials" table="tf_agent_sso_credentials"
 			 inverse="true" lazy="true" fetch="select">
 			<key>
 				<column name="id" not-null="true" />

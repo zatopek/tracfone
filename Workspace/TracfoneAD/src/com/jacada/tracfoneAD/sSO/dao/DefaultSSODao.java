@@ -2,12 +2,16 @@ package com.jacada.tracfoneAD.sSO.dao;
 
 import java.util.List;
 
+import net.sf.ehcache.hibernate.HibernateUtil;
+
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 
 import com.jacada.jad.logging.LogWrapper;
 import com.jacada.tracfoneAD.sSO.dao.interfaces.SSODao;
+import com.jacada.tracfoneAD.sSO.entities.AgentSSO;
 import com.jacada.tracfoneAD.sSO.entities.ApplicationSourceSystem;
 import com.jacada.tracfoneAD.sSO.entities.SSOCredential;
 
@@ -94,8 +98,26 @@ public class DefaultSSODao implements SSODao {
     
 	@Override
 	public void updateUserCredentials(String agentId,
-			SSOCredential sSOCredential, boolean saveOrUpdate) {
-		// TODO Auto-generated method stub
+			SSOCredential inSSOCredential, boolean saveOrUpdate) {
+		
+		//Session session = HibernateUtil.getSessionFactory().openSession();
+		Session session = this.hibernateTemplate.getSessionFactory().openSession();
+		session.beginTransaction();
+
+		AgentSSO agentSSO = new AgentSSO();
+		agentSSO.setAgentId("workspace");
+		agentSSO.setSystem(ApplicationSourceSystem.SYS_A.getName());
+		session.save(agentSSO);
+
+		SSOCredential sSOCredential = new SSOCredential();
+		sSOCredential.setUserId("workspace");
+		sSOCredential.setPassword("password");
+		sSOCredential.setAgentSSO(agentSSO);
+		agentSSO.getSsoCredentials().add(sSOCredential);
+		session.save(sSOCredential);
+
+		session.getTransaction().commit();
+		System.out.println("Done");
 		
 	}
 

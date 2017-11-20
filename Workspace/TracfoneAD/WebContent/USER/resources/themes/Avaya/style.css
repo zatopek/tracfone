@@ -975,7 +975,7 @@ a:-webkit-any-link {
 
 .interaction_textarea {
 	line-height: normal;
-	height: 80px;
+	height: 80px; 	
 	margin-top: 5px;
 }
 
@@ -995,8 +995,9 @@ a:-webkit-any-link {
 	background-color: white;
 }
 
-.profile_fieldset {
-	height: 260px;
+.x-fieldset-header .x-fieldset-header-text {
+	font-weight: bold !important;
 }
+
 /* #D91D00 #D91000 red */
 /* C81000 hover red */
