@@ -53,13 +53,19 @@ var ssoForm = new Ext.FormPanel({
             value: "APPLICATION"
         }, {
             xtype: "displayfield",
-            value: "SYSTEM-A"
+            value: "TAS"
         }, {
             xtype: "displayfield",
-            value: "SYSTEM-B"
+            value: "Verizon CIS"
         }, {
             xtype: "displayfield",
-            value: "SYSTEM-C"
+            value: "Sprint CTMS"
+        }, {
+            xtype: "displayfield",
+            value: "T-Mobile WCSM"
+        }, {
+            xtype: "displayfield",
+            value: "Verizon RSSX"
         }]
     },
 
@@ -75,21 +81,35 @@ var ssoForm = new Ext.FormPanel({
 
                 xtype: "textfield",
                 fieldLabel: "",
-                name: "textvalue",
+                name: "TAS_Id",
                 cls: 'sso_form'
 
             }, {
 
                 xtype: "textfield",
                 fieldLabel: "",
-                name: "textvalue",
+                name: "VerizonCIS_Id",
                 cls: 'sso_form'
 
             }, {
 
                 xtype: "textfield",
                 fieldLabel: "",
-                name: "textvalue",
+                name: "SprintCTMS_Id",
+                cls: 'sso_form'
+
+            }, {
+
+                xtype: "textfield",
+                fieldLabel: "",
+                name: "TMobileWCSM_Id",
+                cls: 'sso_form'
+
+            }, {
+
+                xtype: "textfield",
+                fieldLabel: "",
+                name: "VerizonRSSX_Id",
                 cls: 'sso_form'
 
             }]
@@ -103,22 +123,44 @@ var ssoForm = new Ext.FormPanel({
                 value: "Password"
             }, {
 
-                xtype: 'textfield',
-                name: 'password',
+                xtype: "textfield",
+                fieldLabel: "",
+                name: "TAS_Pass",
                 inputType: 'password',
                 cls: 'sso_form'
+
             }, {
 
-                xtype: 'textfield',
-                name: 'password',
+                xtype: "textfield",
+                fieldLabel: "",
+                name: "VerizonCIS_Pass",
                 inputType: 'password',
                 cls: 'sso_form'
+
             }, {
 
-                xtype: 'textfield',
-                name: 'password',
+                xtype: "textfield",
+                fieldLabel: "",
+                name: "SprintCTMS_Pass",
                 inputType: 'password',
                 cls: 'sso_form'
+
+            }, {
+
+                xtype: "textfield",
+                fieldLabel: "",
+                name: "TMobileWCSM_Pass",
+                inputType: 'password',
+                cls: 'sso_form'
+
+            }, {
+
+                xtype: "textfield",
+                fieldLabel: "",
+                name: "VerizonRSSX_Pass",
+                inputType: 'password',
+                cls: 'sso_form'
+
             }]
         }]
 

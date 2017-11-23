@@ -9,11 +9,9 @@
         <item accessKey="application.javascript.menuBar.accessKey.systemCredentials" name="application.menuBar.item.systemCredentials" value="Ext.create('Jacada.user.com.jacada.tracfoneAD.sSO.SSO').show();"/>
     </item>
     <item name="application.menuBar.menu.transferGuidelines" privilege="MenuBarItemHelp">
-        <item accessKey="application.javascript.menuBar.accessKey.st_crt" name="application.menuBar.item.st_crt" value=""/>
-        <item accessKey="application.javascript.menuBar.accessKey.st_sup_erd" name="application.menuBar.item.st_sup_erd" value=""/>
-        <item accessKey="application.javascript.menuBar.accessKey.corp_erd" name="application.menuBar.item.corp_erd" value=""/>
-        <item accessKey="application.javascript.menuBar.accessKey.vas" name="application.menuBar.item.vas" value=""/>
-        <item accessKey="application.javascript.menuBar.accessKey.callCarrier" name="application.menuBar.item.callCarrier" value=""/>
+        <item accessKey="application.javascript.menuBar.accessKey.tracfone" name="application.menuBar.item.tracfone" value="javascript:window.open('','Transfer Guideline', 'http://10.248.27.31/transferguidelines/home/brand/TracFone/1')"/>
+        <item accessKey="application.javascript.menuBar.accessKey.corp_erd" name="application.menuBar.item.corp_erd" value="javascript:window.open('','Transfer Guideline', 'http://10.248.27.31/transferguidelines/home/brand/CorpERD/11')"/>
+        <item accessKey="application.javascript.menuBar.accessKey.vas" name="application.menuBar.item.vas" value="javascript:window.open('','Transfer Guideline', 'http://10.248.27.31/transferguidelines/home/brand/VAS/10')"/>
     </item>
     <item name="application.menuBar.menu.help" privilege="MenuBarItemHelp">
         <item accessKey="application.javascript.menuBar.accessKey.workspaceInfo" name="application.menuBar.item.workspaceInfo" value="$W().workspaceInfo.open();"/>
