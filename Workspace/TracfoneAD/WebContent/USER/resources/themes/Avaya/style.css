@@ -965,7 +965,7 @@ a:-webkit-any-link {
 .x-form-item, .x-form-field {
 	color: black;
 	font:  12px/12px helvetica,arial,verdana,sans-serif;
-	margin-left: 10px;
+	/*margin-left: 10px;*/
 }
 
 

@@ -10,7 +10,7 @@ public class SSODaoFactoryBean implements Serializable, FactoryBean<SSODao> {
 	private static final long serialVersionUID = 1L;
 	private transient SSODao stub;
 	private transient SSODao dao;
-	private boolean allowStub = true;
+	private boolean allowStub = false;
 	
 	public SSODao getObject() throws Exception {
 		if(JadThreadLocal.isDynamicViewsEditor() && allowStub){

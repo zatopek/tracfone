@@ -20,13 +20,14 @@ Ext
                         },
                         {
                             xtype: "panel",
-                            title: "TRANSCATION SUMMARY",
+                            title: "TRANSACTION SUMMARY",
                             columnWidth: 0.45,
                             border: false,
                             bodyStyle: 'padding:5px 5px 5px 5px',
                             items: [{
                                 xtype: 'displayfield',
-                                value: '<p>Airtime purchase successful.'
+                                name: 'transactionSummary',
+                                value: '<p>Pin redeem successful.'
 
                             }]
                         }]

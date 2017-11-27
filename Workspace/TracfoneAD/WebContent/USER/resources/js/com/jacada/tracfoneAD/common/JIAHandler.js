@@ -1,4 +1,4 @@
-var LMJIAHandler = (function () {
+var JIAHandler = (function () {
 	var ebo;
 	var eboLoggedIn = false;
 	var guiLoggedIn = false;
@@ -6,7 +6,7 @@ var LMJIAHandler = (function () {
 	var eboCustomerOpened = false;
 	var makeAPaymentCustomerOpened = false;
 	var makeAPaymentFirstTime = true;
-	var MEMO = {};
+	var credentialList;
 	var Commands = {
 		'GUI_Closed' : {
 			'fn' : 'openGUI',
@@ -133,70 +133,7 @@ var LMJIAHandler = (function () {
 			});
 		},
 		init : function () {
-			Ext.Ajax.request({
-				url : contextPath + '/portlets/utils/loginStatus',
-				success : function (response) {
-					var obj = Ext.decode(response.responseText);
-					if (obj && obj.status)
-						eboLoggedIn = obj.status.ebo;
-				},
-				failure : function (e) {
-					alert('failure returning login status');
-				}
-			});
 
-			AppHandler.callFn('registerEvent', ['afterShowTab', function (tabPanel, newCard, oldCard, eOpts) {
-						if (newCard.title == 'Collections') {
-							if ($W().isProcessRunning('GUITab') && newCustomer) {
-								/*LMUATA#133 fix*/
-								//this.closeGUI();
-							}
-						}
-						if (newCard.title == 'Billing') {
-							if (!eboCustomerOpened && ebo) {
-								document.getElementById('EBOTabFrameId').src = $W().location.protocol + '//' + $W().location.host + $W().contextPath + "/USER/resources/lockheed/jsp/webHost.jsp?url=";
-							}
-						}
-						if (newCard.title == 'Service / OMS') {
-						//	$W().openPCall();
-						}
-						if (newCard.title == 'Cust System') {
-							if($W().accountFromHomelaunched == false){	
-								$W().accountFromHomelaunched = true;
-								AppHandler.clickCancelButton = true;
-								launchCAS("CASH");
-							}
-						}
-						if (newCard.title == 'Make a Payment') {
-							//check for first time
-							if(makeAPaymentFirstTime)
-							{
-								makeAPaymentFirstTime = false;
-								makeAPaymentCustomerOpened = true;
-								return;
-							}
-						
-							//Check if this is a new customer
-							if (!makeAPaymentCustomerOpened) {
-								var src = document.getElementById('makePaymentFrameId').src;
-								if(src == 'about:blank') return;
-								document.getElementById('makePaymentFrameId').src = '';
-								document.getElementById('makePaymentFrameId').src = src;
-								makeAPaymentCustomerOpened = true;
-							}
-						}
-					}, this]);
-			this.callJIA('Register', {
-				'url' : $W().location.href
-			}, function (response) {
-				//Registered with JIA and opened GUI
-				//set OMS credentials after registering workspace
-				this.saveOmsCredentials();
-			});
-
-			AppHandler.callFn('registerEvent', ['unload', function () {
-						this.teardown();
-					}, this]);
 		},
 		teardown : function () {
 			this.callJIA('UnRegister', {
@@ -369,68 +306,152 @@ var LMJIAHandler = (function () {
 				}, 2);
 			}*/
 		},
-		openAccountInEBO : function () {
-			if (!MEMO || !MEMO.CUST || !MEMO.CUST.info || !MEMO.CUST.info.accountnumber || eboCustomerOpened)
-				return;
-			ebo.Navigate(MEMO.EBO.url + '/EBO_init.jsp?FUN=BROWSE_MASTER&TYPE_ACCOUNT=CAS&ID_ACCT_ENTERED=0' + MEMO.CUST.info.accountnumber);
-			eboCustomerOpened = true;
-		},
-		setProperties : function (GUIu, GUIp, EBOu, EBOp, EBOs, OMSu, OMSp) {
-			if (!MEMO.GUI)
-				MEMO.GUI = {};
-			MEMO.GUI.credentials = {
-				username : GUIu,
-				password : GUIp
-			};
-			if (!MEMO.EBO)
-				MEMO.EBO = {};
-			MEMO.EBO.credentials = {
-				username : EBOu,
-				password : EBOp,
-				securityGroup : EBOs
-			};
-			if(!MEMO.OMS)
-				MEMO.OMS = {};
-			MEMO.OMS.credentials = {
-					username : OMSu,
-					password : OMSp
-			};
-		},
-		saveOmsCredentials : function () {
-			if(!MEMO || !MEMO.OMS || !MEMO.OMS.credentials || !MEMO.OMS.credentials.username || !MEMO.OMS.credentials.password)return;
-			
-			this.callJIA('SetOmsCredentials', {
-				'username' : MEMO.OMS.credentials.username,
-				'password' : MEMO.OMS.credentials.password
-			}, function (response) {
-			});
-		},
+
 		getGuiUsername : function() {
 			if(!MEMO || !MEMO.GUI || !MEMO.GUI.credentials || !MEMO.GUI.credentials.username )return '';
 			return MEMO.GUI.credentials.username;
 		},
-		getGuiPassword : function() {
+		'' : function() {
 			if(!MEMO || !MEMO.GUI || !MEMO.GUI.credentials || !MEMO.GUI.credentials.password )return '';
 			return MEMO.GUI.credentials.password;
-		}		
-	};
+		},
+		getSystemCredentials : function(system){
+            this.credentialList.forEach(function(credential)
+            {
+            	if(system==credential.system)
+				{
+					return credential;
+				}
+                //Ext.getCmp(login.system + '_Id').setValue(login.username);
+                //Ext.getCmp(login.system + '_Pass').setValue(login.password);
+            })
+		},
+		launchTAS : function() {
+			var credential = this.getSystemCredentials('TAS');
+            this.callJIA('launchTAS', {
+                'userid' : credential.username,
+                'password' : credential.password
+            }, function (response) {
+
+            }, function (e) {
+
+            });
+		},
+        incomingCall : function(url){
+            var credential = this.getSystemCredentials('TAS');
+            this.callJIA('launchTAS', {
+                'url' : url
+            }, function (response) {
+
+            }, function (e) {
+
+            });
+        },
+        getCallInfoFromAIC : function(){
+            this.callJIA('getCallInfoFromAIC', {
+                'dummy' : 'blank'
+            }, function (response) {
+
+            }, function (e) {
+
+            });
+        },
+        getServiceProfileAndSecurityAnswersFromTAS : function(){
+            this.callJIA('getServiceProfileAndSecurityAnswersFromTAS', {
+                'dummy' : 'blank'
+            }, function (response) {
+
+            }, function (e) {
+
+            });
+        },
+        launchAgentSupportSearch : function(brand, searchTerm){
+            this.callJIA('getServiceProfileAndSecurityAnswersFromTAS', {
+                'brand' : brand,
+				'searchTerm' : searchTerm
+            }, function (response) {
+
+            }, function (e) {
+
+            });
+        },
+        launchCoverageMap : function(carrier, zip){
+            this.callJIA('launchCoverageMap', {
+                'carrier' : carrier,
+                'zip' : zip
+            }, function (response) {
+
+            }, function (e) {
+
+            });
+        },
+        launchAgentSupportFlowChart : function(useCase, brand, deviceType){
+            this.callJIA('launchCoverageMap', {
+                'userCase' : useCase,
+                'brand' : brand,
+				'deviceType' : deviceType
+            }, function (response) {
+
+            }, function (e) {
+
+            });
+        },
+        launchCarrierBilling : function(carrier){
+        	var system;
+        	if(carrier=='ATT')
+        		system = ''
+            else if(carrier=='TMOBILE')
+                system = 'TMobileWCSM'
+            else if (carrier=='VERIZON')
+                system = 'VerizonRSSX'
+
+            var credential = this.getSystemCredentials(system);
+
+            this.callJIA('launchCoverageMap', {
+                'carrier' : carrier,
+                'userId' : credential.username,
+                'password' : credential.password
+            }, function (response) {
+
+            }, function (e) {
+
+            });
+        },
+        addNewInteractionToTAS : function(useCase, brand, deviceType){
+            this.callJIA('launchCoverageMap', {
+                'userCase' : useCase,
+                'brand' : brand,
+                'deviceType' : deviceType
+            }, function (response) {
+
+            }, function (e) {
+
+            });
+        },
+        addPinNowInTAS : function(useCase, brand, deviceType){
+            this.callJIA('launchCoverageMap', {
+                'userCase' : useCase,
+                'brand' : brand,
+                'deviceType' : deviceType
+            }, function (response) {
+
+            }, function (e) {
+
+            });
+        },
+    };
 })();
 Ext.onReady(function () {
-	var u = "/AgentDesktop/portlets/utils/getUserCredentialsInfo";
 	Ext.Ajax.request({
-		url : u,
-		headers : {
-			'Content-Type' : 'application/json'
-		},
-		method : 'POST',
-		success : function (response) {
-			var decoded = Ext.decode(response.responseText);
-			LMJIAHandler.setProperties(decoded.GuiID, decoded.GuiPassword, decoded.EboID, decoded.EboPassword, decoded.SecGrp, decoded.OmsID, decoded.OmsPassword);
-			LMJIAHandler.init();
-		},
-		failure : function (response) {
-				LMJIAHandler.init();
-			var user = Ext.decode(response.responseText);
-		}
+        url : $W().contextPath + '/rest/sso/getAgentSsoCredentials/' + $W().agentName,
+		method : 'GET',
+        success:function(response){
+            logins = Ext.decode(response.responseText).payload;
+            this.credentialList = logins;
+            JIAHandler.init();
+        },
+        failure : function(response) {
+            JIAHandler.init();
+        }
 	});
 });

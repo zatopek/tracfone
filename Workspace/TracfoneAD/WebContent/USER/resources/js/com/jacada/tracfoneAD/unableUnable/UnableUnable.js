@@ -1,5 +1,6 @@
 $W().setTabTitle("CallingIssuesTab", "");
-
+var ticketFormPanel = Ext.create('Jacada.user.com.jacada.tracfoneAD.unableUnable.TicketForm');
+var interactionNotesPanel = Ext.create('Jacada.user.com.jacada.tracfoneAD.interactionNotes.InteractionNotes');
 Ext
     .define(
         'Jacada.user.com.jacada.tracfoneAD.unableUnable.UnableUnable',
@@ -22,10 +23,10 @@ Ext
                         {
                             xtype: 'panel',
                             columnWidth: 0.7,
-                            border: true,
-                            //title: 'SUI',
+                            border: false,
+                            title: ' ',
                             items: [
-
+                                interactionNotesPanel
                             ]
                         }]
                 }]

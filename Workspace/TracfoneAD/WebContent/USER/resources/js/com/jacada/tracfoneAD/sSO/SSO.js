@@ -1,6 +1,5 @@
 Ext.define('Jacada.user.com.jacada.tracfoneAD.sSO.SSO', {
     extend: 'Ext.window.Window',
-
     id: 'ssoWindow',
     height: 285,
     width: 450,
@@ -10,7 +9,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.sSO.SSO', {
     shadow: false,
     modal: true,
     title: 'Manage System Credentials',
-    //layout : 'fit',
+    closeAction: 'hide',
 
     initComponent: function () {
         var me = this;
@@ -18,19 +17,86 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.sSO.SSO', {
             items: ssoForm,
             buttons: [{
                 text: 'Reset',
+                tabIndex: 11,
                 handler: function () {
                     ssoForm.getForm().reset();
                 }
             }, {
                 text: 'Submit',
-                disabled: true
+                tabIndex: 12,
+                //disabled: true
+                handler : function() {
+                    var logins = [];
+                    var systems = ['TAS', 'VerizonCIS', 'SprintCTMS', 'TMobileWCSM', 'VerizonRSSX'];
+                    systems.forEach(function(system) {
+                        var username = Ext.getCmp(system + '_Id').getValue();
+                        var password = Ext.getCmp(system + '_Pass').getValue();
+                        if(trim(username)!='' && trim(password)!='')
+                        {
+                            var login = {
+                                system: system,
+                                username: username,
+                                password: password
+                            };
+                            logins.push(login);
+                        }
+                    });
+
+                    Ext.Ajax.request({
+                        url : $W().contextPath + '/rest/sso/addAgentSsoCredentials/' + $W().agentName,
+                        method : 'POST',
+                        contentType: 'application/json',
+                        params: {logins : JSON.stringify(logins)},
+                        scope : this,
+                        success : function(response) {
+                            // Received response from the server
+                            status = Ext.decode(response.responseText).status;
+                            msg = Ext.decode(response.responseText).message;
+                            if (status=='200') {
+                                Ext.Msg.show({
+                                    title:'Update Success'
+                                    ,msg:'Credentials Updated.'
+                                    ,buttons:Ext.Msg.OK
+                                    ,fn: function(buttonId) {
+                                        me.close();
+                                   }
+                                })
+                            } else {
+                                Ext.MessageBox.alert('Update Failed',
+                                    msg);
+                            }
+                        },
+                        failure : function(response){
+                            Ext.MessageBox.alert(response.responseText);
+                        }
+                    });
+                }
             }, {
                 text: 'Close',
+                tabIndex: 13,
                 handler: function () {
-                    me.hide();
+                    me.close();
                 }
-            }]
-
+            }],
+            listeners:{
+                render:function(){
+                    Ext.Ajax.request({
+                        url : $W().contextPath + '/rest/sso/getAgentSsoCredentials/' + $W().agentName,
+                        method:'GET',
+                        success:function(response){
+                            logins = Ext.decode(response.responseText).payload;
+                            logins.forEach(function(login)
+                            {
+                                Ext.getCmp(login.system + '_Id').setValue(login.username);
+                                Ext.getCmp(login.system + '_Pass').setValue(login.password);
+                            })
+                        },
+                        failure : function(response) {
+                            Ext.MessageBox.alert(response.responseText);
+                        }
+                    });
+                }
+            }
         });
         me.callParent(arguments);
     }
@@ -82,35 +148,45 @@ var ssoForm = new Ext.FormPanel({
                 xtype: "textfield",
                 fieldLabel: "",
                 name: "TAS_Id",
-                cls: 'sso_form'
+                id: "TAS_Id",
+                cls: 'sso_form',
+                tabIndex: 1
 
             }, {
 
                 xtype: "textfield",
                 fieldLabel: "",
                 name: "VerizonCIS_Id",
-                cls: 'sso_form'
+                id: "VerizonCIS_Id",
+                cls: 'sso_form',
+                tabIndex: 3
 
             }, {
 
                 xtype: "textfield",
                 fieldLabel: "",
                 name: "SprintCTMS_Id",
-                cls: 'sso_form'
+                id: "SprintCTMS_Id",
+                cls: 'sso_form',
+                tabIndex: 5
 
             }, {
 
                 xtype: "textfield",
                 fieldLabel: "",
                 name: "TMobileWCSM_Id",
-                cls: 'sso_form'
+                id: "TMobileWCSM_Id",
+                cls: 'sso_form',
+                tabIndex: 7
 
             }, {
 
                 xtype: "textfield",
                 fieldLabel: "",
                 name: "VerizonRSSX_Id",
-                cls: 'sso_form'
+                id: "VerizonRSSX_Id",
+                cls: 'sso_form',
+                tabIndex: 9
 
             }]
 
@@ -126,40 +202,50 @@ var ssoForm = new Ext.FormPanel({
                 xtype: "textfield",
                 fieldLabel: "",
                 name: "TAS_Pass",
+                id: "TAS_Pass",
                 inputType: 'password',
-                cls: 'sso_form'
+                cls: 'sso_form',
+                tabIndex: 2
 
             }, {
 
                 xtype: "textfield",
                 fieldLabel: "",
                 name: "VerizonCIS_Pass",
+                id: "VerizonCIS_Pass",
                 inputType: 'password',
-                cls: 'sso_form'
+                cls: 'sso_form',
+                tabIndex: 4
 
             }, {
 
                 xtype: "textfield",
                 fieldLabel: "",
                 name: "SprintCTMS_Pass",
+                id: "SprintCTMS_Pass",
                 inputType: 'password',
-                cls: 'sso_form'
+                cls: 'sso_form',
+                tabIndex: 6
 
             }, {
 
                 xtype: "textfield",
                 fieldLabel: "",
                 name: "TMobileWCSM_Pass",
+                id: "TMobileWCSM_Pass",
                 inputType: 'password',
-                cls: 'sso_form'
+                cls: 'sso_form',
+                tabIndex: 8
 
             }, {
 
                 xtype: "textfield",
                 fieldLabel: "",
                 name: "VerizonRSSX_Pass",
+                id: "VerizonRSSX_Pass",
                 inputType: 'password',
-                cls: 'sso_form'
+                cls: 'sso_form',
+                tabIndex: 10
 
             }]
         }]

@@ -128,6 +128,7 @@
          //set audit configuration at client side
 	    $W().isAuditEnabled =    <%=global.getAuditingManager().getConfiguration().isAuditingEnabled()%>;
 	    $W().isSwitchTabAuditEventEnabled = <%=global.getAuditingManager().getConfiguration().isAuditingPointEnabled(AuditingPoint.SWITCH_TAB)%>;
+        $W().ssoWindow = Ext.create('Jacada.user.com.jacada.tracfoneAD.sSO.SSO');
 	</script>
 	   	
 	   	 

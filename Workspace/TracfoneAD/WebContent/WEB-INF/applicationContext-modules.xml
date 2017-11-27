@@ -13,7 +13,6 @@
 <value>UnableUnable</value>
 <value>TransferGuidelines</value>
 <value>InteractionNotes</value>
-<value>Interaction</value>
 <value>SSO</value>
 </util:list>
 
@@ -23,6 +22,5 @@
 <import resource="USER/applicationContext-UnableUnable.xml"/>
 <import resource="USER/applicationContext-TransferGuidelines.xml"/>
 <import resource="USER/applicationContext-InteractionNotes.xml"/>
-<import resource="USER/applicationContext-Interaction.xml"/>
 <!-- import resource="USER/applicationContext-SSO.xml"/-->
 </beans>

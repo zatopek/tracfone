@@ -5,10 +5,11 @@ import com.jacada.tracfoneAD.sSO.exceptions.ApplicationSourceSystemNotFoundExcep
 public enum ApplicationSourceSystem {
 
 	//TO-DO
-	SYS_A("SYS_A"), 
-	SYS_B("SYS_B");
-	
-	
+	TAS("TAS"), 
+	Verizon_CIS("Verizon CIS"),
+	Sprint_CTMS("Sprint CTMS"),
+	TMobile_WCSM("T-Mobile WCSM"),
+	Verizon_RSSX("Verizon RSSX");
 	
 	/**
 	 * This field holds <code>name</code> of type <code>String</code>
@@ -26,7 +27,7 @@ public enum ApplicationSourceSystem {
 
 	/**
 	 * This method is used for getting Application source system based on the
-	 * string passed. pass "CAS", "CRIS" to get CAS and CRIS respectively.
+	 * string passed. 
 	 * 
 	 * @param name
 	 * @return appropriate enum of source system - ApplicationSourceSystem
@@ -50,11 +51,7 @@ public enum ApplicationSourceSystem {
 		return name;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Enum#toString()
-	 */
+
 	public String toString() {
 		return this.getName();
 	}

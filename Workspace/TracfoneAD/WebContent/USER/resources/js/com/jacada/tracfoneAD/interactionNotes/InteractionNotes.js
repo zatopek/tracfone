@@ -18,15 +18,19 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.interactionNotes.InteractionNotes'
             },
             items: [{
                 fieldLabel: 'Brand',
+                name: 'brand',
                 value: 'TracFone'
             }, {
                 fieldLabel: 'Device Type',
+                name: 'deviceType',
                 value: 'Smartphone'
             }, {
                 fieldLabel: 'Reason',
+                name: 'reason',
                 value: 'Redemption'
             }, {
                 fieldLabel: 'Result',
+                name: 'result',
                 value: 'Redemption Successful'
             }]
         }]
@@ -36,6 +40,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.interactionNotes.InteractionNotes'
         layout: 'fit',
         items: [{
             xtype: 'textarea',
+            name: 'autoNotes',
             fieldLabel: 'Auto Notes',
             margin: "10 50 10 0",
             disabled: true,
@@ -48,6 +53,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.interactionNotes.InteractionNotes'
             layout: 'fit',
             items: [{
                 xtype: 'textarea',
+                name: 'agentNotes',
                 fieldLabel: 'Agent Notes',
                 margin: "10 50 10 0",
                 value: ''

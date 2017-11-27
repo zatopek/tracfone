@@ -27,7 +27,7 @@ Ext
                                     {
                                         xtype: "textfield",
                                         fieldLabel: "Airtime Pin",
-                                        name: ""
+                                        name: "airtimePin"
                                     },
                                     {
                                         xtype: 'button',
@@ -48,7 +48,7 @@ Ext
                                     items: [{
                                         xtype: "displayfield",
                                         value: "<p><b>$45 30-Dday UNL TALK/DATA, first 10 GB at High Speeds then at 2G</b></p>",
-                                        name: "textvalue"
+                                        name: "pinDescription"
                                     }]
                                 },
 
@@ -65,7 +65,7 @@ Ext
                                         {
                                             xtype: "textfield",
                                             fieldLabel: "Promo Code",
-                                            name: "textvalue"
+                                            name: "promoCode"
                                         }
                                         , {
                                             xtype: 'button',
@@ -84,6 +84,7 @@ Ext
                             bodyStyle: 'padding:5px 5px 5px 5px',
                             items: [{
                                 xtype: 'displayfield',
+                                name: "transactionSummary",
                                 value: '<p>Thank you for adding benefits to your phone! '
                                 + '<p>You will need to turn your phone OFF and back on to reset and restore your benefits.'
                                 + '<p>Please remember to add benefits to your phone before <Service End Date>. As a reminder, we will send you a text message or email before this date.'
@@ -93,6 +94,4 @@ Ext
                         }
                     ]
                 }]
-
-
         })
