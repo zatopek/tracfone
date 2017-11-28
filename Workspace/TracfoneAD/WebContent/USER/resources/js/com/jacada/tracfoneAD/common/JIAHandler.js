@@ -313,7 +313,7 @@ var JIAHandler = (function () {
             }, function (e) {
 
             });
-        },
+        }
     };
 })();
 Ext.onReady(function () {

@@ -121,8 +121,9 @@
         Push.registerEventHandler( 'INIT_DISPOSITION', onInitDisposition);
         //-->
     </script>
-    
-    
+
+        <script language="JavaScript" type="text/javascript" src="<%=request.getContextPath()%>/USER/resources/js/com/jacada/tracfoneAD/common/JIAHandler.js"></script>
+        <script language="JavaScript" type="text/javascript" src="<%=request.getContextPath()%>/USER/resources/js/com/jacada/tracfoneAD/common/JASHandler.js""></script>
 	 <script  type="text/javascript">
         var isTabDragEnabled = false;
          //set audit configuration at client side
