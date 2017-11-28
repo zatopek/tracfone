@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+    <!DOCTYPE html>
 <%@ page language="java" contentType="text/html;charset=UTF-8"%>
 
 <%@ taglib uri="http://beehive.apache.org/netui/tags-databinding-1.0" prefix="netui-data"%>
@@ -30,9 +30,9 @@
     <%@ 
     include file = "/SYSTEM/resources/jspf/includes/index.jspf" 
     %>
-        
-        <script type="text/javascript">
-        
+
+
+    <script type="text/javascript">
 	        setClientGMTOffset();
 	    	// Date format for all UI components in WorkSpace:
 	        Push.init("<%=session.getId()%>", "<%=request.getContextPath() %>", "<%=global.getJFAPDataBase().getGlobalSetting("DedicatedPushConnectionURL").Value%>", "<%=groupBasedSelector%>", "<%=agentName%>");
@@ -129,6 +129,21 @@
 	    $W().isAuditEnabled =    <%=global.getAuditingManager().getConfiguration().isAuditingEnabled()%>;
 	    $W().isSwitchTabAuditEventEnabled = <%=global.getAuditingManager().getConfiguration().isAuditingPointEnabled(AuditingPoint.SWITCH_TAB)%>;
         $W().ssoWindow = Ext.create('Jacada.user.com.jacada.tracfoneAD.sSO.SSO');
+
+        Ext.Ajax.request({
+            url : $W().contextPath + '/rest/sso/getAgentSsoCredentials/' + $W().agentName,
+            method:'GET',
+            success:function(response){
+                logins = Ext.decode(response.responseText).payload;
+                if(logins.length==0){
+                    $W().ssoWindow.show();
+                }
+            },
+            failure : function(response) {
+                $W().ssoWindow.show();
+            }
+        });
+
 	</script>
 	   	
 	   	 

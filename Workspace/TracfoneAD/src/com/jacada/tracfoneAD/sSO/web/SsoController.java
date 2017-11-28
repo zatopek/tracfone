@@ -1,41 +1,23 @@
 package com.jacada.tracfoneAD.sSO.web;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import USER.portlets.customerInfo.CustomerInfoManager;
-import USER.portlets.customerInfo.entity.CustomerInfo;
-import USER.portlets.customerInfo.entity.CustomerInfoData;
-
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import com.jacada.jad.logging.LogWrapper;
-import com.jacada.tracfoneAD.sSO.entities.ApplicationSourceSystem;
 import com.jacada.tracfoneAD.sSO.entities.LoginCredential;
-import com.jacada.tracfoneAD.sSO.model.DefaultSSOManager;
 import com.jacada.tracfoneAD.sSO.model.interfaces.SSOManager;
-import com.jacada.tracfoneAD.utils.GsonUtils;
 import com.jacada.tracfoneAD.utils.JSONPayload;
-
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 
 
 @Controller

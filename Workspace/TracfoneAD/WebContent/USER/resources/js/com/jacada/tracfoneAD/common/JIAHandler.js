@@ -1,95 +1,6 @@
 var JIAHandler = (function () {
-	var ebo;
-	var eboLoggedIn = false;
-	var guiLoggedIn = false;
-	var newCustomer = true;
-	var eboCustomerOpened = false;
-	var makeAPaymentCustomerOpened = false;
-	var makeAPaymentFirstTime = true;
 	var credentialList;
-	var Commands = {
-		'GUI_Closed' : {
-			'fn' : 'openGUI',
-			'ends' : 'loginGUI'
-		},
-		'GUI_Open' : {
-			'fn' : 'loginGUI',
-			'ends' : 'openGUI'
-		},
-		'Invalid User ID.' : {
-			'fn' : 'loginGUI',
-			'ends' : 'openGUI'
-		},
-		'Sign-On Complete' : {
-			'fn' : 'setGUISignedIn',
-			'ends' : 'loginGUI'
-		},
-		'FindCustomerWindow_Closed' : {
-			'fn' : 'openFindCustomerWindow',
-			'ends' : 'searchGUI'
-		},
-		'FindCustomerWindow_Open' : {
-			'fn' : 'searchGUI',
-			'ends' : 'openFindCustomerWindow'
-		},
-		'FindCustomer_Done' : {
-			'fn' : 'openAccount',
-			'ends' : 'searchGUI'
-		},
-		'CustomerWindow_Open' : {
-			'fn' : '',
-			'ends' : 'openAccount'
-		},
-		'CustomerWindow_Closed' : {
-			'fn' : 'openAccount',
-			'ends' : 'openCollectionsWindow'
-		},
-		'CustomerWindow_Already_Closed' : {
-			'fn' : 'searchGUI',
-			'ends' : 'openCollectionsWindow'
-		},
-		'CollectionsWindow_Open' : {
-			'fn' : '',
-			'ends' : 'openCollectionsWindow'
-		},
-		'CollectionsWindow_Closed' : {
-			'fn' : '',
-			'ends' : 'createAgreement'
-		},
-		'CreateAgreementOnAccount_Done' : {
-			'fn' : 'resetCreateAgreementTransaction',
-			'ends' : 'createAgreement'
-		},
-		'ClearSearchFlag' : {
-			'fn' : '',
-			'ends' : 'searchGUI'
-		}
-	};
-	var Status = {
-		'openGUI' : {
-			'running' : false
-		},
-		'loginGUI' : {
-			'running' : false
-		},
-		'openFindCustomerWindow' : {
-			'running' : false
-		},
-		'searchGUI' : {
-			'running' : false
-		},
-		'openAccount' : {
-			'running' : false
-		},
-		'openCollectionsWindow' : {
-			'running' : false
-		},
-		'createAgreement' : {
-			'running' : false
-		}
-	};
 
-	//If there is a time out on the EBO site will need to be replicated
 	return {
 		receiveData : function (data) {
 		
@@ -113,7 +24,7 @@ var JIAHandler = (function () {
 		callJIA : function (command, data, success, failure) {
 			var that = this;
 			Ext.Ajax.request({
-				url : 'http://127.0.0.1:9002/JIA_Tracfone/' + command,
+				url : 'http://127.0.0.1:9002/Tracfone/' + command,
 				headers : {
 					'Content-Type' : 'application/json'
 				},
@@ -144,177 +55,7 @@ var JIAHandler = (function () {
 		},
 		/**
 		 */
-		openGUI : function () {
-			if (Status['openGUI']['running'])
-				return;
-			Status['openGUI']['running'] = true;
-			this.callJIA('OpenGUILoginWindow', {
-				'dummy' : 'blank'
-			}, function (response) {
-				//Made the Call wait for response
-			}, function (e) {
-				Status['openGUI']['running'] = false;
-			});
-		},
-		loginGUI : function () {
-			if (Status['loginGUI']['running'])
-				return;
-			Status['loginGUI']['running'] = true;
-			this.callJIA('LoginGUI', {
-				'username' : MEMO.GUI.credentials.username, //'A10404',
-				'password' : MEMO.GUI.credentials.password //'spring14'
-			}, function (response) {
-				//Made the Call wait for response
-			}, function (e) {
-				Status['loginGUI']['running'] = false;
-			});
-		},
-		setGUISignedIn : function () {
-			guiLoggedIn = true;
-		},
-		openFindCustomerWindow : function () {
-			if (!MEMO || !MEMO.CUST || !MEMO.CUST.info || !MEMO.CUST.info.accountnumber || !guiLoggedIn || !$W().isProcessRunning('GUITab'))
-				return;
-			if (Status['openFindCustomerWindow']['running'])
-				return;
-			Status['openFindCustomerWindow']['running'] = true;
-			//Do this only if a searchGUI was called and completed with a FindCustomerWindow_Closed
-			this.callJIA('OpenFindCustomerWindow', {
-				'dummy' : 'blank'
-			}, function (response) {
-				//Made the Call wait for response
-			}, function (e) {
-				Status['openFindCustomerWindow']['running'] = false;
-			});
-		},
-		searchGUI : function () {
-			if (!MEMO || !MEMO.CUST || !MEMO.CUST.info || !MEMO.CUST.info.accountnumber || !guiLoggedIn)
-				return;
 
-			if (Status['searchGUI']['running'])
-				return;
-			
-			if (!newCustomer)
-				return;
-					
-			Status['searchGUI']['running'] = true;
-			
-			this.callJIA('FindAccount', {
-				'account' : MEMO.CUST.info.accountnumber
-			}, function (response) {
-				//Made the Call wait for response
-				
-			}, function (e) {
-			
-				Status['searchGUI']['running'] = false;
-			});
-		},
-		openAccount : function () {
-			if (!MEMO || !MEMO.CUST || !MEMO.CUST.info || !MEMO.CUST.info.accountnumber || !guiLoggedIn)
-				return;
-			if (Status['openAccount']['running'])
-				return;
-			Status['openAccount']['running'] = true;
-			newCustomer = false;
-			this.callJIA('OpenAccount', {
-				'account' : MEMO.CUST.info.accountnumber
-			}, function (response) {
-				//Made the Call wait for response
-				Status['openAccount']['running'] = false;
-			}, function (e) {
-				//Made the Call wait for response
-				Status['openAccount']['running'] = false;
-			});
-		},
-		openCollectionsWindow : function () {
-			if (!MEMO || !MEMO.CUST || !MEMO.CUST.info || !MEMO.CUST.info.accountnumber || !guiLoggedIn || !$W().isProcessRunning('GUITab'))
-				return;
-			if (Status['openCollectionsWindow']['running'])
-				return;
-			Status['openCollectionsWindow']['running'] = true;
-			//Do this only if a searchGUI was called and completed with a FindCustomerWindow_Closed
-			this.callJIA('OpenCollectionWindow', {
-				'dummy' : 'blank'
-			}, function (response) {
-				//Made the Call wait for response
-			}, function (e) {
-				Status['openCollectionsWindow']['running'] = false;
-			});
-		},
-		createAgreement : function () {
-			
-			if (!MEMO || !MEMO.CUST || !MEMO.CUST.info || !MEMO.CUST.info.accountnumber || !guiLoggedIn)
-				return;
-
-			
-			$W().ShowTabById('GUITab');
-				
-			if ($W().isProcessRunning('GUITab') && !newCustomer) {
-				//Need this here to avoid race condition with newCustomer being set to false in showtab
-				Commands['CollectionsWindow_Open']['fn'] = 'createAgreement';
-				this.callJIA('CreateAgreementOnAccount', {
-					'account' : MEMO.CUST.info.accountnumber
-				}, function (response) {
-					//Made the Call wait for response
-				}, function (e) {
-					//Made the Call wait for response
-					Commands['CollectionsWindow_Open']['fn'] = '';
-				});
-			} else {
-				Commands['CollectionsWindow_Open']['fn'] = 'createAgreement';
-			}
-		},
-		resetCreateAgreementTransaction : function () {
-			
-			Status['createAgreement']['running'] = false;
-			Commands['CollectionsWindow_Open']['fn'] = '';
-			this.openCollectionsWindow();
-		},
-		closeGUI : function () {
-			var that = this;
-			this.callJIA('CloseCustomerAccount', {
-				'dummy' : 'blank'
-			}, function (response) {
-			});
-		},
-
-		updateCustAcc : function (AccNo) {
-			if (!MEMO.CUST)
-				MEMO.CUST = {};
-			MEMO.CUST.info = {
-				accountnumber : AccNo
-			}
-			newCustomer = true;
-			eboCustomerOpened = false;
-			makeAPaymentCustomerOpened = false;
-		},
-		registerEBOFrame : function (frame, url) {
-			if (ebo) {
-				ebo = frame;
-				this.openAccountInEBO();
-				return;
-			}
-			ebo = frame;
-			MEMO.EBO.url = url;
-			ebo.Navigate($W().location.protocol + '//' + $W().location.host + $W().contextPath + '/USER/resources/lockheed/jsp/eboLogin.jsp?url=' + MEMO.EBO.url + '&username=' + MEMO.EBO.credentials.username + '&password=' + MEMO.EBO.credentials.password+ '&secGroup=566');
-			
-			/*if (eboLoggedIn) {
-				var that = this;
-				setTimeout(function () {
-					that.openAccountInEBO();
-					//document.getElementById('EBOTabFrameId').src = $W().location.protocol + '//' + $W().location.host + $W().contextPath + "/USER/resources/lockheed/jsp/webHost.jsp?url=";
-				}, 2);
-			}*/
-		},
-
-		getGuiUsername : function() {
-			if(!MEMO || !MEMO.GUI || !MEMO.GUI.credentials || !MEMO.GUI.credentials.username )return '';
-			return MEMO.GUI.credentials.username;
-		},
-		'' : function() {
-			if(!MEMO || !MEMO.GUI || !MEMO.GUI.credentials || !MEMO.GUI.credentials.password )return '';
-			return MEMO.GUI.credentials.password;
-		},
 		getSystemCredentials : function(system){
             this.credentialList.forEach(function(credential)
             {
@@ -325,6 +66,7 @@ var JIAHandler = (function () {
                 //Ext.getCmp(login.system + '_Id').setValue(login.username);
                 //Ext.getCmp(login.system + '_Pass').setValue(login.password);
             })
+			return null;
 		},
 		launchTAS : function() {
 			var credential = this.getSystemCredentials('TAS');
@@ -334,7 +76,7 @@ var JIAHandler = (function () {
             }, function (response) {
 
             }, function (e) {
-
+				//login failed?
             });
 		},
         incomingCall : function(url){
@@ -347,20 +89,22 @@ var JIAHandler = (function () {
 
             });
         },
-        getCallInfoFromAIC : function(){
+        getCallInfoFromAIC : function(min){
             this.callJIA('getCallInfoFromAIC', {
-                'dummy' : 'blank'
+                'min' : min
             }, function (response) {
-
+				//TO-DO
+				//parse response and update Toolbar
             }, function (e) {
 
             });
         },
-        getServiceProfileAndSecurityAnswersFromTAS : function(){
+        getServiceProfileAndSecurityAnswersFromTAS : function(min){
             this.callJIA('getServiceProfileAndSecurityAnswersFromTAS', {
-                'dummy' : 'blank'
+                'min' : min
             }, function (response) {
-
+                //TO-DO
+                //parse response and update Toolbar
             }, function (e) {
 
             });
@@ -385,9 +129,9 @@ var JIAHandler = (function () {
 
             });
         },
-        launchAgentSupportFlowChart : function(useCase, brand, deviceType){
-            this.callJIA('launchCoverageMap', {
-                'userCase' : useCase,
+        launchAgentSupportFlowChart : function(callType, brand, deviceType){
+            this.callJIA('launchAgentSupportFlowChart', {
+                'callType' : callType,
                 'brand' : brand,
 				'deviceType' : deviceType
             }, function (response) {
@@ -407,32 +151,163 @@ var JIAHandler = (function () {
 
             var credential = this.getSystemCredentials(system);
 
-            this.callJIA('launchCoverageMap', {
+        	// no credential found for system not doing anything
+        	if(credential == null) {
+        		return;
+			}
+
+            this.callJIA('launchCarrierBilling', {
                 'carrier' : carrier,
                 'userId' : credential.username,
                 'password' : credential.password
             }, function (response) {
 
             }, function (e) {
-
+                //login failed?
             });
         },
-        addNewInteractionToTAS : function(useCase, brand, deviceType){
-            this.callJIA('launchCoverageMap', {
-                'userCase' : useCase,
-                'brand' : brand,
-                'deviceType' : deviceType
+        addNewInteractionToTAS : function(reason, result, notes){
+            this.callJIA('addNewInteractionToTAS', {
+                'reason' : reason,
+				'result' : result,
+				'notes' : notes
             }, function (response) {
-
+                //TO-DO
+                //parse response -> message box
             }, function (e) {
 
             });
         },
-        addPinNowInTAS : function(useCase, brand, deviceType){
-            this.callJIA('launchCoverageMap', {
-                'userCase' : useCase,
-                'brand' : brand,
-                'deviceType' : deviceType
+        addPinNowInTAS : function(pin){
+            this.callJIA('addPinNowInTAS', {
+                'pin' : pin
+            }, function (response) {
+                //TO-DO
+                //parse response -> transaction summary
+            }, function (e) {
+                //TO-DO
+                //parse response -> transaction summary
+            });
+        },
+        redeemPinInTAS : function(pin){
+            this.callJIA('redeemPinInTAS', {
+                'pin' : pin
+            }, function (response) {
+                //TO-DO
+                //parse response -> transaction summary
+            }, function (e) {
+                //TO-DO
+                //parse response -> transaction summary
+            });
+        },
+        getReservePinFromTAS : function(min){
+            this.callJIA('getReservePinFromTAS', {
+                'min' : min
+            }, function (response) {
+                //TO-DO
+                //parse response -> reserve pin list
+            }, function (e) {
+                //TO-DO
+                //parse response -> msg box
+            });
+        },
+        redeemCardFromReserveInTAS : function(cardPartNumber){
+            this.callJIA('redeemCardFromReserveInTAS', {
+                'cardPartNumber' : cardPartNumber
+            }, function (response) {
+                //TO-DO
+                //parse response -> transaction summary
+            }, function (e) {
+                //TO-DO
+                //parse response -> msg box
+            });
+        },
+        getPinDesceiptionFromTAS : function(pin){
+            this.callJIA('getPinDesceiptionFromTAS', {
+                'pin' : pin
+            }, function (response) {
+                //TO-DO
+                //parse response -> pin description
+            }, function (e) {
+                //TO-DO
+                //parse response -> msg box
+            });
+        },
+        getExistingCCFromTAS : function(min){
+            this.callJIA('getExistingCCFromTAS', {
+                'min' : min
+            }, function (response) {
+                //TO-DO
+                //parse response -> purchase drop down
+            }, function (e) {
+                //TO-DO
+                //parse response -> msg box
+            });
+        },
+        getAvailablePinCardForPurchaseFromTAS : function(min){
+            this.callJIA('getAvailablePinCardForPurchaseFromTAS', {
+                'min' : min
+            }, function (response) {
+                //TO-DO
+                //parse response -> pin card grid
+            }, function (e) {
+                //TO-DO
+                //parse response -> msg box
+            });
+        },
+        getEstimatedCostFromTAS : function(cardPartNumber){
+            this.callJIA('getEstimatedCostFromTAS', {
+                'cardPartNumber' : cardPartNumber
+            }, function (response) {
+                //TO-DO
+                //parse response -> extimated cost
+            }, function (e) {
+                //TO-DO
+                //parse response -> msg box
+            });
+        },
+        purchasePinCardFromTAS : function(cardPartNumber, cc){
+            this.callJIA('purchasePinCardFromTAS', {
+                'cardPartNumber' : cardPartNumber,
+                'cc' : cc
+            }, function (response) {
+                //TO-DO
+                //parse response -> transaction summary
+            }, function (e) {
+                //TO-DO
+                //parse response -> transaction summary
+            });
+        },
+        validatePromoCodeInTAS : function(promoCode){
+            this.callJIA('validatePromoCodeInTAS', {
+                'promoCode' : promoCode
+            }, function (response) {
+                //TO-DO
+                //parse response -> promo code
+            }, function (e) {
+                //TO-DO
+                //parse response -> msg box
+            });
+        },
+        submitNewTicketToTAS : function(ticketType, ticketTitle, priority, status, issue, notes){
+            this.callJIA('submitNewTicketToTAS', {
+                'ticketType' : ticketType,
+				'ticketTitle' : ticketTitle,
+				'priority' : priority,
+				'status' : status,
+				'issue' : issue,
+				'notes' : notes
+            }, function (response) {
+                //TO-DO
+                //parse response -> msg box -> reset desktop
+            }, function (e) {
+                //TO-DO
+                //parse response -> msg box
+            });
+        },
+        launchSUIToUAD : function(min){
+            this.callJIA('launchSUIToUAD', {
+                'min' : min
             }, function (response) {
 
             }, function (e) {

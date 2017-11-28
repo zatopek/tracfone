@@ -16,11 +16,11 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.unableUnable.TicketForm', {
             fieldLabel: 'Ticket Type',
             name: 'ticketType',
             value: 'Coverage'
-        },
+            },
             {
                 xtype: 'displayfield',
-                fieldLabel: 'Ticket Type',
-                name: 'ticketType',
+                fieldLabel: 'Ticket Title',
+                name: 'ticketTitle',
                 value: 'Customer needs SIM4'
             },
             {

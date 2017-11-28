@@ -24,26 +24,26 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.common.CustomerServiceProfile', {
                         items: [
                             {
                                 fieldLabel: 'Device Type',
-                                name: ''
+                                id: 'deviceType'
                             }, {
                                 fieldLabel: 'SIM',
                                 value: '0123456789012345',
-                                name: ''
+                                id: 'sim'
                             }, {
                                 fieldLabel: 'SIM Status',
-                                name: ''
+                                id: 'simStatus'
                             }, {
                                 fieldLabel: 'MIN',
-                                name: ''
+                                id: 'min'
                             }, {
                                 fieldLabel: 'MIN Status',
-                                name: ''
+                                id: 'minStatus'
                             }, {
                                 fieldLabel: 'MSID',
-                                name: ''
+                                id: 'msid'
                             }, {
                                 fieldLabel: 'Phone Gen',
-                                name: ''
+                                id: 'phoneGen'
                             }
 
                         ]
@@ -56,22 +56,22 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.common.CustomerServiceProfile', {
                         items: [
                             {
                                 fieldLabel: 'Serial #',
-                                name: ''
+                                id: 'serial'
                             }, {
                                 fieldLabel: 'Hex Serial #',
-                                name: ''
+                                id: 'hexSerial'
                             }, {
                                 fieldLabel: 'Port Number',
-                                name: ''
+                                id: 'portNumber'
                             }, {
                                 fieldLabel: 'Leased to Finance',
-                                name: ''
+                                id: 'leasedToFinance'
                             }, {
                                 fieldLabel: 'Lease Status',
-                                name: ''
+                                id: 'leaseStatus'
                             }, {
                                 fieldLabel: 'Sequence',
-                                name: ''
+                                id: 'sequence'
                             }
 
                         ]
@@ -97,28 +97,28 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.common.CustomerServiceProfile', {
                         items: [
                             {
                                 fieldLabel: 'Service Type',
-                                name: ''
+                                id: 'serviceType'
                             }, {
                                 fieldLabel: 'Rate Plan',
-                                name: ''
+                                id: 'ratePlan'
                             }, {
                                 fieldLabel: 'Service Plan ObjId',
-                                name: ''
+                                id: 'servicePlanObjId'
                             }, {
                                 fieldLabel: 'Technology',
-                                name: ''
+                                id: 'technology'
                             }, {
                                 fieldLabel: 'Activation Date',
-                                name: ''
+                                id: 'activationDate'
                             }, {
                                 fieldLabel: 'Deact Date',
-                                name: ''
+                                id: 'deactDate'
                             }, {
                                 fieldLabel: 'Service End Date',
-                                name: ''
+                                id: 'serviceEndDate'
                             }, {
                                 fieldLabel: 'Next Charge Date',
-                                name: ''
+                                id: 'nextChargeDate'
                             }
 
                         ]
@@ -131,31 +131,31 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.common.CustomerServiceProfile', {
                         items: [
                             {
                                 fieldLabel: 'Brand',
-                                name: ''
+                                id: 'brand'
                             }, {
                                 fieldLabel: 'Dealer',
-                                name: ''
+                                id: 'dealer'
                             }, {
                                 fieldLabel: 'Cards in Reserve',
-                                name: ''
+                                id: 'cardsInReserve'
                             }, {
                                 fieldLabel: 'Warranty Exchanges',
-                                name: ''
+                                id: 'warrantyExchanges'
                             }, {
                                 fieldLabel: 'Basic Warranty Found',
-                                name: ''
+                                id: 'basicWarrantyFound'
                             }, {
                                 fieldLabel: 'Extended Warranty',
-                                name: ''
+                                id: 'extendedWarranty'
                             }, {
                                 fieldLabel: 'Current Throttle State',
-                                name: ''
+                                id: 'currentThrottleState'
                             }, {
                                 fieldLabel: 'Auto Refill',
-                                name: ''
+                                id: 'autoRefill'
                             }, {
                                 fieldLabel: 'Next Refill Date',
-                                name: ''
+                                id: 'nextRefillDate'
                             }
 
                         ]
@@ -172,22 +172,22 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.common.CustomerServiceProfile', {
             defaultType: 'displayfield',
             items: [{
                 fieldLabel: 'Name',
-                name: ''
+                id: 'name'
             }, {
                 fieldLabel: 'Customer ID',
-                name: ''
+                id: 'customerId'
             }, {
                 fieldLabel: 'Group ID',
-                name: ''
+                id: 'groupId'
             }, {
                 fieldLabel: 'Email',
-                name: 'email'
+                id: 'email'
             }, {
                 fieldLabel: 'Zip',
-                name: ''
+                id: 'zip'
             }, {
                 fieldLabel: 'LID',
-                name: ''
+                id: 'ltd'
             }]
 
         }, {
@@ -198,19 +198,19 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.common.CustomerServiceProfile', {
             defaultType: 'displayfield',
             items: [{
                 fieldLabel: 'Phone Status',
-                name: ''
+                id: 'phoneStatus'
             }, {
                 fieldLabel: 'Customer ID',
-                name: ''
+                id: 'customerId'
             }, {
                 fieldLabel: 'Voice Balance',
-                name: ''
+                id: 'voiceBalance'
             }, {
                 fieldLabel: 'SMS Balance',
-                name: ''
+                id: 'smsBalance'
             }, {
                 fieldLabel: 'Data Balance',
-                name: ''
+                id: 'dataBalance'
             }]
         }]
 })
