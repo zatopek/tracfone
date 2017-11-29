@@ -16,14 +16,15 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.AirtimePlan', {
         me.callParent(arguments);
     },
 
-    sendToJia: function (grid, record, item, index, event, eOpts) {
+    sendToJia: function (view, selections, options) {
         var me = this;
-        // TODO, send the information to JIA
+        // TODO, send the information to JIA  - selections[0].getData()
         // ON CallBack, get information from JIA to display in Estimated Cost
         // assuming we get the data as estimatedCostData 
         // Note: the fields names (subTotal, tax etc..) should be matched to populate
         var estimatedCostData = { subTotal: '12.00', tax: '30.00', e911: '20.00', total: '45.00' }
         me.up().up().down('estimatedCost').load(estimatedCostData);
+        me.up().up().up().down('paymentTransaction').changePurchaseButton();
     },
 
     load: function () {
@@ -96,7 +97,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.AirtimePlan', {
             ],
             forceFit: true,
             listeners: {
-                itemclick: me.sendToJia
+                selectionchange: me.sendToJia
             }
         });
         return grid;

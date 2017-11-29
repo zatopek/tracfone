@@ -38,7 +38,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.PaymentTransaction', {
     purchase: function () {
         var me = this;
         var promoCode = me.down('#promoCode').getValue();
-        var portNumber = Ext.getCmp('airtimePlanGrid').getSelectionModel().getSelection()[0].getData().portNumber;
+        var portNumber = Ext.getCmp('airtimePlanGrid').getSelectionModel().getSelection()[0].get('portNumber');
         var cvv = Ext.getCmp('cvv').getValue();
         var payment = Ext.getCmp('selectPayment').getValue();
         var autoFill = Ext.getCmp('autoFill').checked;
@@ -46,6 +46,17 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.PaymentTransaction', {
         var response = 'Artime Purchase successfull';
         Ext.getCmp('airtimePurchaseResponse').setValue(response);
 
+    },
+
+    changePurchaseButton: function (gri) {
+        var rowsSelectedInAirtimeGrid = Ext.getCmp('airtimePlanGrid').getSelectionModel().getSelection().length;
+        var cvv = Ext.getCmp('cvv').getValue();
+        if (cvv.length >= 3 && rowsSelectedInAirtimeGrid > 0) {
+            Ext.getCmp('purchaseBtn').enable();
+        }
+        else {
+            Ext.getCmp('purchaseBtn').disable();
+        }
     },
 
     initComponent: function () {
@@ -89,20 +100,14 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.PaymentTransaction', {
                                         maskRe: /[0-9.]/,
                                         enableKeyEvents: true,
                                         listeners: {
-                                            keyup: function (textbox, event) {
-                                                if (textbox.getValue().length >= 3) {
-                                                    this.up().down('button').enable();
-                                                }
-                                                else {
-                                                    this.up().down('button').disable();
-                                                }
-                                            }
+                                            keyup: me.changePurchaseButton
                                         },
-                                        scope: this
+                                        scope: me
                                     }, {
                                         xtype: 'button',
                                         margin: "0 0 0 10",
                                         text: 'Purchase',
+                                        id: 'purchaseBtn',
                                         disabled: true,
                                         handler: me.purchase,
                                         scope: me

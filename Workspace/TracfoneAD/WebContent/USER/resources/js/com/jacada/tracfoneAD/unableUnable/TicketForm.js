@@ -66,6 +66,11 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.unableUnable.TicketForm', {
                 name: 'notes',
                 width: 500,
                 value: ''
+            },
+            {
+                xtype: 'button',
+                margin: "0 0 0 10",
+                text: 'Create Ticket'
             }]
     }]
 

@@ -11,9 +11,19 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.Redemption', {
 
     listeners: {
         afterrender: function () {
-            var defaultComponent = 'PurchasePin';
-            this.loadComponent(defaultComponent);
+            this.load();
         }
+    },
+
+    load: function () {
+        var me = this;
+        // var defaultComponent = 'PurchasePin';
+        // me.loadComponent(defaultComponent);
+
+        wsCommunicator.register("navigation", this, function (data) {
+            var className = data.classname;
+            me.loadComponent(className);
+        });
     },
 
     loadComponent: function (componentName) {
@@ -34,32 +44,32 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.Redemption', {
     createComponent: function () {
         var me = this;
         return [
-            { // TODO this first iten should be removed when the post message from interaction is complete to load the component
-                xtype: 'panel',
-                layout: 'hbox',
-                defaults: {
-                    xtype: 'button',
-                    margin: '10 10 10 0',
-                    handler: function () {
-                        me.loadComponent(this.name);
-                    }
-                },
-                items: [
-                    {
-                        text: 'PurchasePin',
-                        name: 'PurchasePin'
-                    }, {
-                        text: 'Add Pin',
-                        name: 'AddPin'
-                    }, {
-                        text: 'Reserve Pin',
-                        name: 'ReservePin'
-                    }, {
-                        text: 'Interaction Notes',
-                        name: 'InteractionNotes'
-                    }
-                ]
-            },
+            // { // TODO this first iten should be removed when the post message from interaction is complete to load the component
+            //     xtype: 'panel',
+            //     layout: 'hbox',
+            //     defaults: {
+            //         xtype: 'button',
+            //         margin: '10 10 10 0',
+            //         handler: function () {
+            //             me.loadComponent(this.name);
+            //         }
+            //     },
+            //     items: [
+            //         {
+            //             text: 'PurchasePin',
+            //             name: 'PurchasePin'
+            //         }, {
+            //             text: 'Add Pin',
+            //             name: 'AddPin'
+            //         }, {
+            //             text: 'Reserve Pin',
+            //             name: 'ReservePin'
+            //         }, {
+            //             text: 'Interaction Notes',
+            //             name: 'InteractionNotes'
+            //         }
+            //     ]
+            // },
             {
                 xtype: 'panel',
                 layout: 'column',
@@ -70,7 +80,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.Redemption', {
                         columnWidth: 0.3,
                         border: true,
                         title: 'PPOCESS FLOW',
-                        html: '<iframe style="height: 550px; width: 100%; border:0";" src="http://vivr.io/BCb9LbN"></iframe>'
+                        html: '<iframe style="height: 550px; width: 100%; border:0";" src="http://vivr.io/q61yLsG"></iframe>'
                     },
                     {
                         xtype: 'panel',

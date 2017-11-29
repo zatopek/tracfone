@@ -121,9 +121,8 @@
         Push.registerEventHandler( 'INIT_DISPOSITION', onInitDisposition);
         //-->
     </script>
-
-        <script language="JavaScript" type="text/javascript" src="<%=request.getContextPath()%>/USER/resources/js/com/jacada/tracfoneAD/common/JIAHandler.js"></script>
-        <script language="JavaScript" type="text/javascript" src="<%=request.getContextPath()%>/USER/resources/js/com/jacada/tracfoneAD/common/JASHandler.js""></script>
+    
+    
 	 <script  type="text/javascript">
         var isTabDragEnabled = false;
          //set audit configuration at client side
@@ -141,7 +140,7 @@
                 }
             },
             failure : function(response) {
-                $W().ssoWindow.show();
+                //$W().ssoWindow.show();
             }
         });
 
@@ -151,6 +150,7 @@
     <div id="SMARTPAD_DIV_ID"></div>
  	<div id="DESKTOP_HELPER_DIV_ID"></div> 
  	<script type="text/javascript" src="<%=request.getContextPath()%>/SYSTEM/resources/js/toolbar.js"></script>
+     <script src="<%=request.getContextPath()%>/USER/resources/js/com/jacada/tracfoneAD/utils/WSCommunicator.js"></script>
 </jacada:body>
 
 </netui:html>
