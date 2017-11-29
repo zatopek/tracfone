@@ -78,7 +78,7 @@ public class SQLiteJDBCDriverConnection {
 	 * select all rows in the agent_sso table that matches the agentId
 	 */
 	public List<LoginCredential> getAgentLogins(String agentId) {
-		System.out.println("getAgentLogins");
+		System.out.println("getAgentLogins=>" + agentId);
 		List<LoginCredential> loginList = new ArrayList<LoginCredential>();
 		
 		String sql = "SELECT system, username, password FROM agent_sso where agentId='"

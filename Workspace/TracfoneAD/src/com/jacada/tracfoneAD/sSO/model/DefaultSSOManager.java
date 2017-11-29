@@ -7,9 +7,7 @@ import org.springframework.stereotype.Component;
 
 import com.jacada.jad.feature.model.DefaultWorkspaceManager;
 import com.jacada.jad.feature.annotations.FeatureManager;
-import com.jacada.tracfoneAD.sSO.entities.ApplicationSourceSystem;
 import com.jacada.tracfoneAD.sSO.entities.LoginCredential;
-import com.jacada.tracfoneAD.sSO.entities.SSOCredential;
 import com.jacada.tracfoneAD.sSO.model.interfaces.SSOManager;
 
 @FeatureManager(name = "SSO")

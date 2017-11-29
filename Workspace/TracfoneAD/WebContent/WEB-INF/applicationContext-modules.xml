@@ -8,21 +8,21 @@
 	<util:list id="modules">
 	
 	<value>SecurityQuestions</value>
-<value>CustomerSearch</value>
 <value>Redemption</value>
 <value>UnableUnable</value>
 <value>TransferGuidelines</value>
 <value>InteractionNotes</value>
 <value>SSO</value>
 <value>CallHandling</value>
+<value>CustomerServiceProfile</value>
 </util:list>
 
 <import resource="USER/applicationContext-SecurityQuestions.xml"/>
-<import resource="USER/applicationContext-CustomerSearch.xml"/>
 <import resource="USER/applicationContext-Redemption.xml"/>
 <import resource="USER/applicationContext-UnableUnable.xml"/>
 <import resource="USER/applicationContext-TransferGuidelines.xml"/>
 <import resource="USER/applicationContext-InteractionNotes.xml"/>
 <!-- import resource="USER/applicationContext-SSO.xml"/-->
 <import resource="USER/applicationContext-CallHandling.xml"/>
+<!-- import resource="USER/applicationContext-CustomerServiceProfile.xml"/-->
 </beans>

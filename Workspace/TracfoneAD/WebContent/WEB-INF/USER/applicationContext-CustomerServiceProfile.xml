@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+		
+	<bean id="customerServiceProfileManager" class="com.jacada.tracfoneAD.customerServiceProfile.model.DefaultCustomerServiceProfileManager" scope="singleton" >
+		<property name="customerServiceProfile" 
+		ref="customerServiceProfile"/>
+	</bean>
+	<bean id="customerServiceProfile" class="com.jacada.tracfoneAD.customerServiceProfile.dao.CustomerServiceProfileDaoFactoryBean" scope="session" lazy-init="true">
+		<aop:scoped-proxy/>
+		<property name="dao" 
+		ref="customerServiceProfileDao"/>
+		<property name="stub" 
+		ref="customerServiceProfileDaoStub"/>
+	</bean>
+	<bean id="customerServiceProfileDao" class="com.jacada.tracfoneAD.customerServiceProfile.dao.JpaCustomerServiceProfileDao" scope="singleton" >
+	</bean>
+	<bean id="customerServiceProfileDaoStub" class="com.jacada.tracfoneAD.customerServiceProfile.dao.CustomerServiceProfileDaoStub" scope="singleton" >
+	</bean>
+	
+</beans>
