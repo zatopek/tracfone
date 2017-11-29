@@ -61,8 +61,8 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.common.CustomerServiceProfile', {
                                 fieldLabel: 'Hex Serial #',
                                 id: 'hexSerial'
                             }, {
-                                fieldLabel: 'Port Number',
-                                id: 'portNumber'
+                                fieldLabel: 'Part Number',
+                                id: 'partNumber'
                             }, {
                                 fieldLabel: 'Leased to Finance',
                                 id: 'leasedToFinance'
@@ -171,18 +171,18 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.common.CustomerServiceProfile', {
             title: 'CUSTOMER PROFILE',
             defaultType: 'displayfield',
             items: [{
-                fieldLabel: 'Name',
-                id: 'name'
-            }, {
-                fieldLabel: 'Customer ID',
+                fieldLabel: 'Customer Id',
                 id: 'customerId'
-            }, {
-                fieldLabel: 'Group ID',
-                id: 'groupId'
-            }, {
+            },{
+                fieldLabel: 'Contact Name',
+                id: 'contactName'
+            },{
                 fieldLabel: 'Email',
                 id: 'email'
-            }, {
+            },{
+                fieldLabel: 'Group ID',
+                id: 'groupId'
+            },{
                 fieldLabel: 'Zip',
                 id: 'zip'
             }, {
@@ -199,16 +199,13 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.common.CustomerServiceProfile', {
             items: [{
                 fieldLabel: 'Phone Status',
                 id: 'phoneStatus'
-            }, {
-                fieldLabel: 'Customer ID',
-                id: 'customerId'
-            }, {
+            },{
                 fieldLabel: 'Voice Balance',
                 id: 'voiceBalance'
-            }, {
+            },{
                 fieldLabel: 'SMS Balance',
                 id: 'smsBalance'
-            }, {
+            },{
                 fieldLabel: 'Data Balance',
                 id: 'dataBalance'
             }]

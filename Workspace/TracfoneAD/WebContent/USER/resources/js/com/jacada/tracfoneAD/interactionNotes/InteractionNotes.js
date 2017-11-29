@@ -34,12 +34,12 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.interactionNotes.InteractionNotes'
     createInteraction: function () {
         var me = this;
         me.mask('Please wait...');
-        var autoNotes = Ext.getCmp('autoNotes').getValue();
-        var agentNotes = Ext.getCmp('agentNotes').getValue();
+        var autoNotes = me.down('#autoNotes').getValue()
+        var agentNotes = me.down('#agentNotes').getValue();
 
         // TODO send the values to server and display message from response
         var response = 'Interaction created.'
-        Ext.getCmp('createInteractioResponse').setValue(response);
+        me.down('#createInteractioResponse').setValue(response);
         me.unmask();
     },
     createComponent: function () {
