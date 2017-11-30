@@ -150,7 +150,14 @@
     <div id="SMARTPAD_DIV_ID"></div>
  	<div id="DESKTOP_HELPER_DIV_ID"></div> 
  	<script type="text/javascript" src="<%=request.getContextPath()%>/SYSTEM/resources/js/toolbar.js"></script>
-     <script src="<%=request.getContextPath()%>/USER/resources/js/com/jacada/tracfoneAD/utils/WSCommunicator.js"></script>
+ 	<script src="<%=request.getContextPath()%>/USER/resources/js/common/3rdparty/bluebird.min.js"></script>
+	<script src="<%=request.getContextPath()%>/USER/resources/js/common/CTIHelper.js"></script>
+	<script src="<%=request.getContextPath()%>/USER/resources/js/common/WindowsManager.js"></script>
+	<script src="<%=request.getContextPath()%>/USER/resources/js/common/ProjectVariables.js"></script>
+	<script src="<%=request.getContextPath()%>/USER/resources/js/common/BroadBridge.js"></script>
+	<script src="<%=request.getContextPath()%>/USER/resources/js/common/DataStore.js"></script>
+	<script src="<%=request.getContextPath()%>/USER/resources/js/common/WSCommunicator.js"></script>
+	<script src="<%=request.getContextPath()%>/USER/resources/js/common/Adam.js"></script>
 </jacada:body>
 
 </netui:html>

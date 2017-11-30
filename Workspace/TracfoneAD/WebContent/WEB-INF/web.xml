@@ -306,7 +306,15 @@
         <servlet-name>systemJson</servlet-name>
         <url-pattern>/media.json</url-pattern>
     </servlet-mapping>
-
+	<servlet>
+		<servlet-name>userJson</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+        <servlet-name>userJson</servlet-name>
+        <url-pattern>/projectapi/*</url-pattern>
+    </servlet-mapping>
     <filter>
 		<filter-name>PageFlowForbiddenFilter</filter-name>
 		<filter-class>
