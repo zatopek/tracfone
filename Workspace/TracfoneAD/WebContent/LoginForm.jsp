@@ -121,6 +121,7 @@
 	    	       },
 					{
 					    name: 'j_username',
+						emptyText: 'Username',
 					    value: 'workspace',
 					    padding: '10 0 18 0',
 					    hideLabel: true,
@@ -137,6 +138,7 @@
 		 	        	}
 					},{
 					    name: 'j_password',
+						emptyText: 'Password',
 					    value: 'workspace',
 					    inputType: 'password',
 					    hideLabel: true,

@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.google.gson.Gson;
 import com.jacada.tracfoneAD.sSO.entities.LoginCredential;
 import com.jacada.tracfoneAD.sSO.model.interfaces.SSOManager;
-import com.jacada.tracfoneAD.utils.JSONPayload;
+import com.jacada.tracfoneAD.util.JSONPayload;
 
 
 @Controller

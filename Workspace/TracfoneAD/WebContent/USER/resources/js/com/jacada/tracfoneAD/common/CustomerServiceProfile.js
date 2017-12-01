@@ -105,6 +105,9 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.common.CustomerServiceProfile', {
                                 fieldLabel: 'Service Plan ObjId',
                                 id: 'servicePlanObjId'
                             }, {
+                                fieldLabel: 'Carrier',
+                                id: 'carrier'
+                            },, {
                                 fieldLabel: 'Technology',
                                 id: 'technology'
                             }, {
@@ -148,8 +151,8 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.common.CustomerServiceProfile', {
                                 fieldLabel: 'Extended Warranty',
                                 id: 'extendedWarranty'
                             }, {
-                                fieldLabel: 'Current Throttle State',
-                                id: 'currentThrottleState'
+                                fieldLabel: 'Current Throttle Status',
+                                id: 'currentThrottleStatus'
                             }, {
                                 fieldLabel: 'Auto Refill',
                                 id: 'autoRefill'

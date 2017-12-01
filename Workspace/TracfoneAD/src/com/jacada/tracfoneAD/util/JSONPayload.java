@@ -1,4 +1,4 @@
-package com.jacada.tracfoneAD.utils;
+package com.jacada.tracfoneAD.util;
 
 import java.io.Serializable;
 

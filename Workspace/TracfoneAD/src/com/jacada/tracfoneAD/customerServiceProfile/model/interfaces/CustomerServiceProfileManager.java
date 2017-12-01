@@ -5,4 +5,5 @@ import com.jacada.tracfoneAD.customerServiceProfile.entities.CustomerServiceProf
 
 public interface CustomerServiceProfileManager extends WorkspaceManager {
 	CustomerServiceProfile getCustomerServiceProfile(String esn);
+	String getOperatingSystem(String partNumber);
 }

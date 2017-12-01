@@ -2,7 +2,7 @@ package com.jacada.tracfoneAD.customerServiceProfile.web;
 
 import com.jacada.tracfoneAD.customerServiceProfile.entities.CustomerServiceProfile;
 import com.jacada.tracfoneAD.customerServiceProfile.model.interfaces.CustomerServiceProfileManager;
-import com.jacada.tracfoneAD.utils.JSONPayload;
+import com.jacada.tracfoneAD.util.JSONPayload;
 
 import javax.servlet.http.HttpServletRequest;
 

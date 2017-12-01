@@ -999,5 +999,9 @@ a:-webkit-any-link {
 	font-weight: bold !important;
 }
 
+.x-form-empty-field{
+	color: #CCCCCC !important;
+}
+
 /* #D91D00 #D91000 red */
 /* C81000 hover red */

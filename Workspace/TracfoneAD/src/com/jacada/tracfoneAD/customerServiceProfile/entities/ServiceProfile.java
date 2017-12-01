@@ -8,6 +8,8 @@ public class ServiceProfile implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+		String carrier;
+		String currentThrottleStatus;
         String serviceType;
         String ratePlan;
         String servicePlanObjId;
@@ -22,9 +24,20 @@ public class ServiceProfile implements Serializable {
         String warrantyExchanges;
         String basicWarrantyFound;
         String extendedWarranty;
-        String currentThrottleState;
         String autoRefill;
         String nextRefillDate;
+		public String getCarrier() {
+			return carrier;
+		}
+		public void setCarrier(String carrier) {
+			this.carrier = carrier;
+		}
+		public String getCurrentThrottleStatus() {
+			return currentThrottleStatus;
+		}
+		public void setCurrentThrottleStatus(String currentThrottleStatus) {
+			this.currentThrottleStatus = currentThrottleStatus;
+		}
 		public String getServiceType() {
 			return serviceType;
 		}
@@ -108,12 +121,6 @@ public class ServiceProfile implements Serializable {
 		}
 		public void setExtendedWarranty(String extendedWarranty) {
 			this.extendedWarranty = extendedWarranty;
-		}
-		public String getCurrentThrottleState() {
-			return currentThrottleState;
-		}
-		public void setCurrentThrottleState(String currentThrottleState) {
-			this.currentThrottleState = currentThrottleState;
 		}
 		public String getAutoRefill() {
 			return autoRefill;
