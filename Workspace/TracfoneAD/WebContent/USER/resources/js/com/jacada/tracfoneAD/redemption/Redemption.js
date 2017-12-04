@@ -16,7 +16,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.Redemption', {
         var me = this;
         var component = null;
         var widgetName = me.getWidgetName(componentName); // component name comes up as ClassName. change it to className
-        var container = Ext.getCmp('mainPanel');
+        var container = me.down('#mainPanel');
 
         Ext.each(container.items.items, function (item) {
             item.hide();
@@ -37,24 +37,6 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.Redemption', {
             component.load && component.load();
 
         }
-    },
-
-    componentExists: function (container, componentName) {
-        var exists = false;
-        Ext.each(container.items.items, function (component) {
-            if (component.xtype.toLowerCase() === componentName.toLowerCase()) {
-                if (component.reset && typeof component.reset === 'function') {
-                    component.reset();
-                }
-                component.show();
-                if (component.load && typeof component.load === 'function') {
-                    component.load();
-                }
-                exists = true;
-                return false;
-            }
-        });
-        return exists;
     },
 
     createComponent: function () {
@@ -101,11 +83,12 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.Redemption', {
                     {
                         xtype: 'panel',
                         columnWidth: 0.7,
-                        id: 'mainPanel',
+                        itemId: 'mainPanel',
                         border: false,
                         items: []
                     }
                 ]
-            }]
+            }
+        ]
     }
 })

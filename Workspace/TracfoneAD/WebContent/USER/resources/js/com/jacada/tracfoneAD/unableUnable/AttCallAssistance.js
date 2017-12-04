@@ -1,5 +1,6 @@
 Ext.define('Jacada.user.com.jacada.tracfoneAD.unableUnable.AttCallAssistance', {
-    extend: 'Ext.panel.Panel',
+    extend: 'Jacada.user.com.jacada.tracfoneAD.baseComponents.BaseView',
+    xtype: 'attCallAssitance',
     title: 'Contact AT&T',
     layout: 'vbox',
     border: false,
@@ -10,76 +11,77 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.unableUnable.AttCallAssistance', {
         labelStyle: 'white-space: nowrap;',
         labelWidth: 400
     },
-    items: [
-        {
-            xtype: 'panel',
-            height: 50,
-            border: false,
+
+    load: function () {
+
+    },
+
+    reset: function () {
+
+    },
+
+    initComponent: function () {
+        var me = this;
+        Ext.applyIf(me, {
+            name: 'attCallAssistance',
             items: [
                 {
-                    xtype: 'displayfield',
-                    labelWidth: 0,
-                    value: '<h2>Call AT&T at 1-877-252-7716 (DO NOT GIVE THIS NUMBER TO CUSTOMER) </h2>'
+                    xtype: 'panel',
+                    height: 50,
+                    border: false,
+                    items: [
+                        {
+                            xtype: 'displayfield',
+                            labelWidth: 0,
+                            value: '<h2>Call AT&T at 1-877-252-7716 (DO NOT GIVE THIS NUMBER TO CUSTOMER) </h2>'
+                        }
+                    ]
+                },
+                {
+                    name: 'agentName',
+                    fieldLabel: 'Agent\'s Name'
+                }, {
+                    name: 'avayaId',
+                    fieldLabel: 'Avaya ID'
+                }, {
+                    name: 'att_min',
+                    fieldLabel: 'MIN'
+                }, {
+                    name: 'imei',
+                    fieldLabel: 'IMEI'
+                }, {
+                    name: 'att_sim',
+                    fieldLabel: 'SIM'
+                }, {
+                    name: 'makeAndModel',
+                    fieldLabel: 'Make/Model'
+                }, {
+                    name: 'numSignalBar',
+                    fieldLabel: 'Number of Signal Bars'
+                }, {
+                    name: 'customerName',
+                    fieldLabel: 'Customer Name'
+                }, {
+                    name: 'address',
+                    fieldLabel: 'Address'
+                }, {
+                    name: 'issue',
+                    fieldLabel: 'Exact Issue Customer is Experiencing'
+                }, {
+                    name: 'message',
+                    fieldLabel: 'Exact Network Message the Customer hears'
+                }, {
+                    name: 'steps',
+                    fieldLabel: 'All Troubleshooting Steps Done prior to Calling AT&T'
+                }, {
+                    name: 'when',
+                    fieldLabel: 'When the Issue Began'
+                }, {
+                    name: 'location',
+                    fieldLabel: 'Has Customer Tried in Other Locations?'
                 }
             ]
-        },
-        {
-            id: 'agentName',
-            fieldLabel: 'Agent\'s Name',
-            value: 'Becky Shum'
-        }, {
-            id: 'avayaId',
-            fieldLabel: 'Avaya ID',
-            value: 'lab_jacada'
-        }, {
-            id: 'att_min',
-            fieldLabel: 'MIN',
-            value: '13219466700'
-        }, {
-            id: 'imei',
-            fieldLabel: 'IMEI',
-            value: '94687693948384344'
-        }, {
-            id: 'att_sim',
-            fieldLabel: 'SIM',
-            value: '4309509438598325'
-        }, {
-            id: 'makeAndModel',
-            fieldLabel: 'Make/Model',
-            value: 'Apple iPhone'
-        }, {
-            id: 'numSignalBar',
-            fieldLabel: 'Number of Signal Bars',
-            value: '2'
-        }, {
-            id: 'customerName',
-            fieldLabel: 'Customer Name',
-            value: 'John Smith'
-        }, {
-            id: 'address',
-            fieldLabel: 'Address',
-            value: '123 Main Street, Atlanta, GA30328'
-        }, {
-            id: 'issue',
-            fieldLabel: 'Exact Issue Customer is Experiencing',
-            value: ''
-        }, {
-            id: 'message',
-            fieldLabel: 'Exact Network Message the Customer hears',
-            value: ''
-        }, {
-            id: 'steps',
-            fieldLabel: 'All Troubleshooting Steps Done prior to Calling AT&T',
-            value: ''
-        }, {
-            id: 'when',
-            fieldLabel: 'When the Issue Began',
-            value: ''
-        }, {
-            id: 'location',
-            fieldLabel: 'Has Customer Tried in Other Locations?',
-            value: ''
-        }
-    ]
-
+        });
+        me.callParent(arguments);
+    }
 });

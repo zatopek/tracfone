@@ -45,8 +45,9 @@ var Adam = function () {
 
 			// get naviation from the jas postmessage
 			managers["interactcomm"].register("navigation", this, function (data) {
-				var className = data.classname;
-				widgets['redemption'].loadComponent(className);
+				var className = data.classname; // class name to load
+				var component = data.component; // widget key (name)
+				widgets[component].loadComponent(className);
 			});
 
 			managers['interactcomm'].register('confirmPolicy', this, function (data) { });
@@ -171,11 +172,6 @@ Ext.onReady(function () {
 	console.info('Adam is in charge now!');
 	adam = new Adam();
 	adam.load();
-	//HIDE the tab
-	if (typeof tabPanel != 'undefined') {
-		tabPanel.getTabBar().items.each(function (i, item) {
-			if (i.text == 'HIDE')
-				i.hide();
-		});
-	}
+	// hide the portlet
+	widgets['customerServiceProfile'].up().up().hide()
 });
