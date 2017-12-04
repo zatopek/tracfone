@@ -5,7 +5,7 @@ var projectVariable = null;
 
 		return {
 			load: function() {
-				adam.callService('variables', '').then(function (variablesResponse) {
+				adam.callService('variables', 'POST', '').then(function (variablesResponse) {
 					variables = variablesResponse;
 				});
 			},

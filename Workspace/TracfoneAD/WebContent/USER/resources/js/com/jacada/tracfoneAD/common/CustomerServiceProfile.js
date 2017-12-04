@@ -1,216 +1,250 @@
 Ext.define('Jacada.user.com.jacada.tracfoneAD.common.CustomerServiceProfile', {
-    extend: 'Ext.panel.Panel',
-    //title: 'CUSTOMER SERVICE PROFILE',
+    extend: 'Jacada.user.com.jacada.tracfoneAD.baseComponents.BaseView',
+    xtype: 'customerServiceProfile',
     layout: 'column',
     defaults: {
         margin: '5 10 0 5', //top right bottom left (clockwise) margins of each item/column
         height: 280
     },
-    items: [
-        {
-            columnWidth: 0.35,
-            border: true,
-            xtype: 'fieldset',
-            title: 'DEVICE PROFILE',
-            items: [{
-                xtype: 'panel',
-                layout: 'column',
-                border: false,
-                items: [
-                    {
-                        columnWidth: 0.5,
-                        defaultType: 'displayfield',
-                        border: false,
-                        items: [
-                            {
-                                fieldLabel: 'Device Type',
-                                id: 'deviceType'
-                            }, {
-                                fieldLabel: 'SIM',
-                                value: '0123456789012345',
-                                id: 'sim'
-                            }, {
-                                fieldLabel: 'SIM Status',
-                                id: 'simStatus'
-                            }, {
-                                fieldLabel: 'MIN',
-                                id: 'min'
-                            }, {
-                                fieldLabel: 'MIN Status',
-                                id: 'minStatus'
-                            }, {
-                                fieldLabel: 'MSID',
-                                id: 'msid'
-                            }, {
-                                fieldLabel: 'Phone Gen',
-                                id: 'phoneGen'
-                            }
 
-                        ]
-
-                    },
-                    {
-                        columnWidth: 0.5,
-                        defaultType: 'displayfield',
-                        border: false,
-                        items: [
-                            {
-                                fieldLabel: 'Serial #',
-                                id: 'serial'
-                            }, {
-                                fieldLabel: 'Hex Serial #',
-                                id: 'hexSerial'
-                            }, {
-                                fieldLabel: 'Part Number',
-                                id: 'partNumber'
-                            }, {
-                                fieldLabel: 'Leased to Finance',
-                                id: 'leasedToFinance'
-                            }, {
-                                fieldLabel: 'Lease Status',
-                                id: 'leaseStatus'
-                            }, {
-                                fieldLabel: 'Sequence',
-                                id: 'sequence'
-                            }
-
-                        ]
-                    }
-                ]
-            }]
-
-        },
-        {
-            columnWidth: 0.35,
-            border: true,
-            xtype: 'fieldset',
-            title: 'SERVICE PROFILE',
-            items: [{
-                xtype: 'panel',
-                layout: 'column',
-                border: false,
-                items: [
-                    {
-                        columnWidth: 0.5,
-                        border: false,
-                        defaultType: 'displayfield',
-                        items: [
-                            {
-                                fieldLabel: 'Service Type',
-                                id: 'serviceType'
-                            }, {
-                                fieldLabel: 'Rate Plan',
-                                id: 'ratePlan'
-                            }, {
-                                fieldLabel: 'Service Plan ObjId',
-                                id: 'servicePlanObjId'
-                            }, {
-                                fieldLabel: 'Carrier',
-                                id: 'carrier'
-                            },, {
-                                fieldLabel: 'Technology',
-                                id: 'technology'
-                            }, {
-                                fieldLabel: 'Activation Date',
-                                id: 'activationDate'
-                            }, {
-                                fieldLabel: 'Deact Date',
-                                id: 'deactDate'
-                            }, {
-                                fieldLabel: 'Service End Date',
-                                id: 'serviceEndDate'
-                            }, {
-                                fieldLabel: 'Next Charge Date',
-                                id: 'nextChargeDate'
-                            }
-
-                        ]
-
-                    },
-                    {
-                        columnWidth: 0.5,
-                        border: false,
-                        defaultType: 'displayfield',
-                        items: [
-                            {
-                                fieldLabel: 'Brand',
-                                id: 'brand'
-                            }, {
-                                fieldLabel: 'Dealer',
-                                id: 'dealer'
-                            }, {
-                                fieldLabel: 'Cards in Reserve',
-                                id: 'cardsInReserve'
-                            }, {
-                                fieldLabel: 'Warranty Exchanges',
-                                id: 'warrantyExchanges'
-                            }, {
-                                fieldLabel: 'Basic Warranty Found',
-                                id: 'basicWarrantyFound'
-                            }, {
-                                fieldLabel: 'Extended Warranty',
-                                id: 'extendedWarranty'
-                            }, {
-                                fieldLabel: 'Current Throttle Status',
-                                id: 'currentThrottleStatus'
-                            }, {
-                                fieldLabel: 'Auto Refill',
-                                id: 'autoRefill'
-                            }, {
-                                fieldLabel: 'Next Refill Date',
-                                id: 'nextRefillDate'
-                            }
-
-                        ]
-                    }
-                ]
-            }]
-
+    load: function (data) {
+        var me = this;
+        var loader = function (component, componentData) {
+            var fields = component.query('displayfield');
+            Ext.each(fields, function (field) {
+                field.setValue(componentData[field.name]);
+            })
         }
-        , {
-            columnWidth: 0.15,
-            border: true,
-            xtype: 'fieldset',
-            title: 'CUSTOMER PROFILE',
-            defaultType: 'displayfield',
-            items: [{
-                fieldLabel: 'Customer Id',
-                id: 'customerId'
-            },{
-                fieldLabel: 'Contact Name',
-                id: 'contactName'
-            },{
-                fieldLabel: 'Email',
-                id: 'email'
-            },{
-                fieldLabel: 'Group ID',
-                id: 'groupId'
-            },{
-                fieldLabel: 'Zip',
-                id: 'zip'
-            }, {
-                fieldLabel: 'LID',
-                id: 'ltd'
-            }]
 
-        }, {
-            columnWidth: 0.15,
-            border: true,
-            xtype: 'fieldset',
-            title: 'ACCOUNT BALANCES',
-            defaultType: 'displayfield',
-            items: [{
-                fieldLabel: 'Phone Status',
-                id: 'phoneStatus'
-            },{
-                fieldLabel: 'Voice Balance',
-                id: 'voiceBalance'
-            },{
-                fieldLabel: 'SMS Balance',
-                id: 'smsBalance'
-            },{
-                fieldLabel: 'Data Balance',
-                id: 'dataBalance'
-            }]
-        }]
+        Ext.each(me.items.items, function (item) {
+            loader(item, data[item.name])
+        })
+    },
+
+    reset: function () {
+        var me = this;
+        Ext.each(me.query('displayfield'), function (field) {
+            field.setValue('');
+        });
+    },
+
+    initComponent: function () {
+        var me = this;
+        Ext.applyIf(me, {
+            name: 'customerServiceProfile',
+            items: [
+                {
+                    columnWidth: 0.35,
+                    border: true,
+                    xtype: 'fieldset',
+                    title: 'DEVICE PROFILE',
+                    name: 'deviceProfile', // match with pushData property name {"accountBalances":{},"customerProfile":{},"deviceProfile":{},"serviceProfile":{}}
+                    items: [
+                        {
+                            xtype: 'panel',
+                            layout: 'column',
+                            border: false,
+                            items: [
+                                {
+                                    columnWidth: 0.5,
+                                    defaultType: 'displayfield',
+                                    border: false,
+                                    items: [
+                                        {
+                                            fieldLabel: 'Device Type',
+                                            name: 'deviceType'
+                                        }, {
+                                            fieldLabel: 'SIM',
+                                            name: 'sim'
+                                        }, {
+                                            fieldLabel: 'SIM Status',
+                                            name: 'simStatus'
+                                        }, {
+                                            fieldLabel: 'MIN',
+                                            name: 'min'
+                                        }, {
+                                            fieldLabel: 'MIN Status',
+                                            name: 'minStatus'
+                                        }, {
+                                            fieldLabel: 'MSID',
+                                            name: 'msid'
+                                        }, {
+                                            fieldLabel: 'Phone Gen',
+                                            name: 'phoneGen'
+                                        }
+                                    ]
+                                },
+                                {
+                                    columnWidth: 0.5,
+                                    defaultType: 'displayfield',
+                                    border: false,
+                                    items: [
+                                        {
+                                            fieldLabel: 'Serial #',
+                                            name: 'serial'
+                                        }, {
+                                            fieldLabel: 'Hex Serial #',
+                                            name: 'hexSerial'
+                                        }, {
+                                            fieldLabel: 'Part Number',
+                                            name: 'partNumber'
+                                        }, {
+                                            fieldLabel: 'Leased to Finance',
+                                            name: 'leasedToFinance'
+                                        }, {
+                                            fieldLabel: 'Lease Status',
+                                            name: 'leaseStatus'
+                                        }, {
+                                            fieldLabel: 'Sequence',
+                                            name: 'sequence'
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    columnWidth: 0.35,
+                    border: true,
+                    xtype: 'fieldset',
+                    title: 'SERVICE PROFILE',
+                    name: 'serviceProfile',
+                    items: [
+                        {
+                            xtype: 'panel',
+                            layout: 'column',
+                            border: false,
+                            items: [
+                                {
+                                    columnWidth: 0.5,
+                                    border: false,
+                                    defaultType: 'displayfield',
+                                    items: [
+                                        {
+                                            fieldLabel: 'Service Type',
+                                            name: 'serviceType'
+                                        }, {
+                                            fieldLabel: 'Rate Plan',
+                                            name: 'ratePlan'
+                                        }, {
+                                            fieldLabel: 'Service Plan ObjId',
+                                            name: 'servicePlanObjId'
+                                        }, {
+                                            fieldLabel: 'Carrier',
+                                            name: 'carrier'
+                                        }, , {
+                                            fieldLabel: 'Technology',
+                                            name: 'technology'
+                                        }, {
+                                            fieldLabel: 'Activation Date',
+                                            name: 'activationDate'
+                                        }, {
+                                            fieldLabel: 'Deact Date',
+                                            name: 'deactDate'
+                                        }, {
+                                            fieldLabel: 'Service End Date',
+                                            name: 'serviceEndDate'
+                                        }, {
+                                            fieldLabel: 'Next Charge Date',
+                                            name: 'nextChargeDate'
+                                        }
+                                    ]
+                                },
+                                {
+                                    columnWidth: 0.5,
+                                    border: false,
+                                    defaultType: 'displayfield',
+                                    items: [
+                                        {
+                                            fieldLabel: 'Brand',
+                                            name: 'brand'
+                                        }, {
+                                            fieldLabel: 'Dealer',
+                                            name: 'dealer'
+                                        }, {
+                                            fieldLabel: 'Cards in Reserve',
+                                            name: 'cardsInReserve'
+                                        }, {
+                                            fieldLabel: 'Warranty Exchanges',
+                                            name: 'warrantyExchanges'
+                                        }, {
+                                            fieldLabel: 'Basic Warranty Found',
+                                            name: 'basicWarrantyFound'
+                                        }, {
+                                            fieldLabel: 'Extended Warranty',
+                                            name: 'extendedWarranty'
+                                        }, {
+                                            fieldLabel: 'Current Throttle Status',
+                                            name: 'currentThrottleStatus'
+                                        }, {
+                                            fieldLabel: 'Auto Refill',
+                                            name: 'autoRefill'
+                                        }, {
+                                            fieldLabel: 'Next Refill Date',
+                                            name: 'nextRefillDate'
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+
+                }
+                , {
+                    columnWidth: 0.15,
+                    border: true,
+                    xtype: 'fieldset',
+                    title: 'CUSTOMER PROFILE',
+                    name: 'customerProfile',
+                    defaultType: 'displayfield',
+                    items: [
+                        {
+                            fieldLabel: 'Customer Id',
+                            name: 'customerId'
+                        }, {
+                            fieldLabel: 'Contact Name',
+                            name: 'contactName'
+                        }, {
+                            fieldLabel: 'Email',
+                            name: 'email'
+                        }, {
+                            fieldLabel: 'Group ID',
+                            name: 'groupId'
+                        }, {
+                            fieldLabel: 'Zip',
+                            name: 'zip'
+                        }, {
+                            fieldLabel: 'LID',
+                            name: 'ltd'
+                        }
+                    ]
+
+                }, {
+                    columnWidth: 0.15,
+                    border: true,
+                    xtype: 'fieldset',
+                    title: 'ACCOUNT BALANCES',
+                    name: 'accountBalances',
+                    defaultType: 'displayfield',
+                    items: [
+                        {
+                            fieldLabel: 'Phone Status',
+                            name: 'phoneStatus'
+                        }, {
+                            fieldLabel: 'Voice Balance',
+                            name: 'voiceBalance'
+                        }, {
+                            fieldLabel: 'SMS Balance',
+                            name: 'smsBalance'
+                        }, {
+                            fieldLabel: 'Data Balance',
+                            name: 'dataBalance'
+                        }
+                    ]
+                }
+            ]
+        });
+        me.callParent(arguments);
+    }
 })

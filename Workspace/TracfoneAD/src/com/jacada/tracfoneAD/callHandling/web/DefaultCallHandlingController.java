@@ -37,7 +37,7 @@ public class DefaultCallHandlingController extends WorkspaceController {
 
 	@RequestMapping(value = "incoming", method = RequestMethod.GET, produces = "application/json")
 	public @ResponseBody
-	void getAgentSsoCredentials(HttpServletRequest request) throws Exception {
+	void incoming(HttpServletRequest request) throws Exception {
 		Map <String, String[]> params = request.getParameterMap();
 		
 		/*
@@ -48,15 +48,29 @@ public class DefaultCallHandlingController extends WorkspaceController {
 		}
 		PushHelper.pushMessage(request, "IncomingCallParamObj", obj);
 		*/
-		
-
+		String esn = request.getParameter("esn");
+		String task_id = request.getParameter("task_id");
 		String agentName = request.getParameter("agentName");
 
-		String esn = request.getParameter("esn");
-		
 		PushHelper.publishMessageToAgent(agentName, "IncomingCallQueryString", request.getQueryString());
 		
-		CustomerServiceProfile customerServiceProfile = customerServiceProfileManager.getCustomerServiceProfile(esn);
-		PushHelper.publishMessageToAgent(agentName, "CustomerServiceProfile", customerServiceProfile);
+		//CustomerServiceProfile customerServiceProfile = customerServiceProfileManager.getCustomerServiceProfile(esn);
+		//PushHelper.pushMessage(request, "CustomerServiceProfile", customerServiceProfile);
+		PushHelper.publishMessageToAgent(agentName, "CustomerServiceProfile", new CustomerServiceProfile());
+		PushHelper.publishMessageToAgent(agentName, "LaunchWorkflow", task_id);
+		
 	}
+	
+	@RequestMapping(value="incomingCall/{agentId}", method = RequestMethod.POST, produces = "application/json")
+	public @ResponseBody void incomingCall(@PathVariable String agentId, HttpServletRequest request) throws Exception{
+		
+		String esn = request.getParameter("esn");
+		String task_id = request.getParameter("task_id");
+		
+		//CustomerServiceProfile customerServiceProfile = customerServiceProfileManager.getCustomerServiceProfile(esn);
+		//PushHelper.publishMessageToAgent(request, "CustomerServiceProfile", customerServiceProfile);
+		PushHelper.publishMessageToAgent(agentId, "CustomerServiceProfile", new CustomerServiceProfile());
+		PushHelper.publishMessageToAgent(agentId, "LaunchWorkflow", task_id);
+		
+	}	
 }

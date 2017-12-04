@@ -1,14 +1,25 @@
 Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.AddPin', {
-    extend: 'Ext.panel.Panel',
+    extend: 'Jacada.user.com.jacada.tracfoneAD.baseComponents.BaseView',
+    xtype: 'addPin',
     listeners: {
         afterrender: function () {
             // this.load();
         }
     },
+    reset: function () {
+        var me = this;
+        me.down('#airtimePin').setValue('');
+        me.down('#promoCode').setValue('');
+        me.down('#transactionSummary').setValue('');
+        me.down('#addAirtimeResponse').setValue('');
+        me.down('#promoValidateResponse').setValue('');
+        me.disableButtons();
+    },
 
     initComponent: function () {
         var me = this;
         Ext.applyIf(me, {
+            name: 'addPin',
             items: me.createComponent(),
         });
         me.callParent(arguments);
@@ -19,23 +30,25 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.AddPin', {
         if (textbox.getValue().length === 13) {
             // Send the textbox value to a service and get response and enable buttons
             var response = '$45 30-Dday UNL TALK/DATA, first 10 GB at High Speeds then at 2G';
-            Ext.getCmp('addAirtimeResponse').setValue(response);
+            me.down('#addAirtimeResponse').setValue(response);
             me.enableButtons();
         }
         else {
             me.disableButtons();
-            Ext.getCmp('addAirtimeResponse').setValue('');
+            me.down('#addAirtimeResponse').setValue('');
         }
     },
 
     enableButtons: function () {
-        Ext.getCmp('addToReserveBtn').enable();
-        Ext.getCmp('addNowBtn').enable();
+        var me = this;
+        me.down('#addToReserveBtn').enable();
+        me.down('#addNowBtn').enable();
     },
 
     disableButtons: function () {
-        Ext.getCmp('addToReserveBtn').disable();
-        Ext.getCmp('addNowBtn').disable();
+        var me = this;
+        me.down('#addToReserveBtn').disable();
+        me.down('#addNowBtn').disable();
 
     },
 
@@ -45,14 +58,14 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.AddPin', {
         // TODO send this promo code to the server and get a response text 
         // using dummy response text for now
         var response = 'promo code Valid';
-        Ext.getCmp('promoValidateResponse').setValue(response);
+        me.down('#promoValidateResponse').setValue(response);
 
     },
 
     doTranction: function (type) {
         var me = this;
         me.mask('Please wait..');
-        var airtimePin = Ext.getCmp('airtimePin').getValue();
+        var airtimePin = me.down('#airtimePin').getValue();
         if (type === 'addNow') {
             // TODO call service with airtime Pin value and get response
         }
@@ -64,7 +77,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.AddPin', {
             + '<p>You will need to turn your phone OFF and back on to reset and restore your benefits.'
             + '<p>Please remember to add benefits to your phone before <Service End Date>. As a reminder, we will send you a text message or email before this date.'
             + '<p>Service plan added: <b>$45 Unlimited Talk, Text & Data Plan</b>';
-        Ext.getCmp('transactionSummary').setValue(response);
+        me.down('#transactionSummary').setValue(response);
         me.unmask();
     },
 
@@ -95,8 +108,9 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.AddPin', {
                                     xtype: "textfield",
                                     fieldLabel: "Airtime Pin",
                                     name: "airtimePin",
-                                    id: 'airtimePin',
+                                    itemId: 'airtimePin',
                                     enforceMaxLength: true,
+                                    maskRe: /[0-9.]/,
                                     maxLength: 13,
                                     enableKeyEvents: true,
                                     listeners: {
@@ -111,7 +125,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.AddPin', {
                                     margin: "0 0 0 10",
                                     disabled: true,
                                     text: 'Add Now',
-                                    id: 'addNowBtn',
+                                    itemId: 'addNowBtn',
                                     handler: function () {
                                         me.doTranction('addNow');
                                     }
@@ -121,7 +135,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.AddPin', {
                                     margin: "0 0 0 10",
                                     text: 'Add to Reserve',
                                     disabled: true,
-                                    id: 'addToReserveBtn',
+                                    itemId: 'addToReserveBtn',
                                     handler: function () {
                                         me.doTranction('addToReserve');
                                     }
@@ -134,7 +148,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.AddPin', {
                             margin: '5 5 5 10',
                             items: [{
                                 xtype: "displayfield",
-                                id: "addAirtimeResponse"
+                                itemId: "addAirtimeResponse"
                             }]
                         },
 
@@ -151,13 +165,29 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.AddPin', {
                                 {
                                     xtype: "textfield",
                                     fieldLabel: "Promo Code",
-                                    id: 'promoCode',
-                                    name: "textvalue"
+                                    itemId: 'promoCode',
+                                    name: "textvalue",
+                                    enableKeyEvents: true,
+                                    listeners: {
+                                        keyup: {
+                                            fn: function (textbox, event) {
+                                                if (textbox.getValue().trim().length > 0) {
+                                                    me.down('#validateBtn').enable();
+                                                }
+                                                else {
+                                                    me.down('#validateBtn').disable();
+                                                }
+                                            },
+                                            scope: me
+                                        }
+                                    }
                                 }
                                 , {
                                     xtype: 'button',
                                     margin: "0 0 0 10",
                                     text: 'Validate',
+                                    itemId: 'validateBtn',
+                                    disabled: true,
                                     handler: me.validatePromo,
                                     scope: me
                                 }
@@ -166,7 +196,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.AddPin', {
                         {
                             xtype: 'displayfield',
                             name: 'promoValidateResponse',
-                            id: 'promoValidateResponse',
+                            itemId: 'promoValidateResponse',
                             margin: '0 0 0 25',
                             style: 'color: green',
                             value: ''
@@ -181,7 +211,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.AddPin', {
                         bodyStyle: 'padding:5px 5px 5px 5px',
                         items: [{
                             xtype: 'displayfield',
-                            id: 'transactionSummary',
+                            itemId: 'transactionSummary',
                             value: ''
                         }]
                     }
@@ -189,5 +219,4 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.AddPin', {
             }
         ]
     }
-
 })

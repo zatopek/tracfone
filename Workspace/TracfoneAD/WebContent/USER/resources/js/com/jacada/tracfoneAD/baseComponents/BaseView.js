@@ -1,50 +1,34 @@
 Ext.define('Jacada.user.com.jacada.tracfoneAD.baseComponents.BaseView', {
-    extend: 'Ext.Component',
+    extend: 'Ext.panel.Panel',
     xtype: 'baseView',
-    listeners: {
-        afterlayout: {
-            fn: function () {
-                if (adam && adam.register) {
-                    adam.register(this.xtype, this);
-                } else {
-                    //Failed to register with ADAM
-                    if (!$W().WaitingForAdam)
-                        $W().WaitingForAdam = [];
-
-                    $W().WaitingForAdam.push({
-                        key: this.xtype,
-                        widget: this
-                    });
-                }
-            },
-            single: true
-        }
-    },
-
-    initComponent: function (initConfig) {
-        var config = initConfig || {};
-        if (config.name) {
+    initComponent: function () {
+        if (this.name) {
             this.on({
                 afterlayout: {
                     fn: function () {
                         if (adam && adam.register) {
-                            adam.register(config.name, this);
+                            adam.register(this.name, this);
                         } else {
                             //Failed to register with ADAM
                             if (!$W().WaitingForAdam)
                                 $W().WaitingForAdam = [];
 
                             $W().WaitingForAdam.push({
-                                key: config.name,
+                                key: this.name,
                                 widget: this
                             });
                         }
                     },
-                    single: true
+                    single: true,
+                    scope: this
                 }
             });
         }
-        this.callParent(initConfig);
+        this.callParent(arguments);
+    },
+
+    getWidgetName: function (className) {
+        return className.charAt(0).toLowerCase() + className.slice(1);
     },
 
     load: function () { },

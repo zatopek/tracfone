@@ -30,7 +30,7 @@ var CTIHelper = null;
 						resolve(attachedData);
 						return;
 					} 
-					adam.callService('cti/attachedData', 'current').then(function (response) {
+					adam.callService('cti/attachedData', 'POST', 'current').then(function (response) {
 						attachedData = response;
 						attachedData.fetched = true;
 						resolve(attachedData);

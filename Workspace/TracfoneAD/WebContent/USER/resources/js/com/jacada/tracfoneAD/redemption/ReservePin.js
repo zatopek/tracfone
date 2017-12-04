@@ -1,5 +1,6 @@
 Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.ReservePin', {
-    extend: 'Ext.panel.Panel',
+    extend: 'Jacada.user.com.jacada.tracfoneAD.baseComponents.BaseView',
+    xtype: 'reservePin',
     listeners: {
         afterrender: function () {
             this.load();
@@ -27,13 +28,21 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.ReservePin', {
             { description: '45 40 Day UML lorem ipsum', accessDays: '45', portNumber: 'STA464', statusDescription: 'Active' },
             { description: '45 40 Day UML lorem ipsum', accessDays: '45', portNumber: 'STA464', statusDescription: 'Active' }
         ];
-        Ext.getCmp('reservePinGrid').getStore().loadData(data);
+        me.down('#reservePinGrid').getStore().loadData(data);
         me.unmask();
+    },
+
+    reset: function () {
+        var me = this;
+        me.down('#reservePinGrid').getStore().loadData([], false);
+        me.down('#transactionSummaryResponse').setValue('');
+
     },
 
     initComponent: function () {
         var me = this;
         Ext.applyIf(me, {
+            name: 'reservePin',
             items: [
                 {
                     xtype: 'panel',
@@ -59,7 +68,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.ReservePin', {
                             bodyStyle: 'padding:5px 5px 5px 5px',
                             items: [{
                                 xtype: 'displayfield',
-                                id: 'transactionSummaryResponse'
+                                itemId: 'transactionSummaryResponse'
 
                             }]
                         }]
@@ -69,9 +78,10 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.ReservePin', {
     },
 
     sendToJia: function (grid, record, item, index, event, eOpts) {
+        var me = this;
         //TODO send record to sever and get the response
         var response = 'Redeem reserve pin successfull';
-        Ext.getCmp('transactionSummaryResponse').setValue(response);
+        me.down('#transactionSummaryResponse').setValue(response);
     },
 
     createRedeemReservePinGrid: function () {
@@ -102,7 +112,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.ReservePin', {
         // create the grid
         var grid = Ext.create('Ext.grid.Panel', {
             xtype: 'reservePinGrid',
-            id: 'reservePinGrid',
+            itemId: 'reservePinGrid',
             store: myStore,
             columns: [
                 {
@@ -126,7 +136,10 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.ReservePin', {
             ],
             forceFit: true,
             listeners: {
-                itemdblclick: me.sendToJia
+                itemdblclick: {
+                    fn: me.sendToJia,
+                    scope: me
+                }
             }
         });
         return grid;

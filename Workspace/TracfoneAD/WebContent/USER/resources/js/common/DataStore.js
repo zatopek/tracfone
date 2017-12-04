@@ -47,7 +47,7 @@ var DataStore = null;
 						resolve({});
 					} else {
 						//Now we can call the back end
-						adam.callService(currentRequestConfig.url, requestData).then(function (response) {
+						adam.callService(currentRequestConfig.url, currentRequestConfig.method, requestData).then(function (response) {
 							resolve(response);
 						}).catch (function (e) {
 							console.error(e);

@@ -1,5 +1,5 @@
 Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.AirtimePlan', {
-    extend: 'Ext.panel.Panel',
+    extend: 'Jacada.user.com.jacada.tracfoneAD.baseComponents.BaseView',
     xtype: 'airtimePlan',
     lyout: 'fit',
     autoScroll: true,
@@ -11,9 +11,15 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.AirtimePlan', {
     initComponent: function () {
         var me = this;
         Ext.applyIf(me, {
+            name: 'airtimePlan',
             items: [me.createContentPanel()],
         });
         me.callParent(arguments);
+    },
+
+    reset: function () {
+        var me = this;
+        me.down('#airtimePlanGrid').getStore().loadData([], false);
     },
 
     sendToJia: function (view, selections, options) {
@@ -79,7 +85,6 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.AirtimePlan', {
         var grid = Ext.create('Ext.grid.Panel', {
             xtype: 'airtimePlanGrid',
             itemId: 'airtimePlanGrid',
-            id: 'airtimePlanGrid',
             store: myStore,
             columns: [{
                 text: "Description",

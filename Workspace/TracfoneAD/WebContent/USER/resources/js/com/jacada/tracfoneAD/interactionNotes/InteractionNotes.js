@@ -1,14 +1,17 @@
 Ext.define('Jacada.user.com.jacada.tracfoneAD.interactionNotes.InteractionNotes', {
-    extend: 'Ext.panel.Panel',
+    extend: 'Jacada.user.com.jacada.tracfoneAD.baseComponents.BaseView',
+    xtype: 'interactionNotes',
     title: 'CREATE INTERACTION',
     border: false,
     initComponent: function () {
         var me = this;
         Ext.applyIf(me, {
+            name: 'interactionNotes',
             items: me.createComponent()
         });
         me.callParent(arguments);
     },
+
     listeners: {
         afterrender: function () {
             var me = this;
@@ -29,6 +32,16 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.interactionNotes.InteractionNotes'
         Ext.each(fields, function (item) {
             item.setValue(data[item.name]);
         })
+    },
+
+    reset: function () {
+        var me = this;
+        var fields = me.items.items[0].items.items[0].items.items;
+        Ext.each(fields, function (item) {
+            item.setValue('');
+        });
+        me.down('#createInteractioResponse').setValue('');
+        me.down('#agentNotes').setValue('');
     },
 
     createInteraction: function () {
@@ -80,7 +93,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.interactionNotes.InteractionNotes'
                 xtype: 'textarea',
                 name: 'autoNotes',
                 fieldLabel: 'Auto Notes',
-                id: 'autoNotes',
+                itemId: 'autoNotes',
                 margin: "10 50 10 0",
                 disabled: true,
                 value: "Airtime Pin added - $45 30-Dday UNL TALK/DATA, first 10 GB at High Speeds then at 2G"
@@ -94,7 +107,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.interactionNotes.InteractionNotes'
                 xtype: 'textarea',
                 name: 'agentNotes',
                 fieldLabel: 'Agent Notes',
-                id: 'agentNotes',
+                itemId: 'agentNotes',
                 margin: "10 50 10 0",
                 value: ''
             }]
@@ -110,7 +123,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.interactionNotes.InteractionNotes'
         }, {
             xtype: 'displayfield',
             name: 'response',
-            id: 'createInteractioResponse'
+            itemId: 'createInteractioResponse'
         }]
     }
 });

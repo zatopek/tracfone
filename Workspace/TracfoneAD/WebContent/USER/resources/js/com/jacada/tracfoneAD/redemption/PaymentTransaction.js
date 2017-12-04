@@ -1,5 +1,5 @@
 Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.PaymentTransaction', {
-    extend: 'Ext.panel.Panel',
+    extend: 'Jacada.user.com.jacada.tracfoneAD.baseComponents.BaseView',
     xtype: 'paymentTransaction',
     listeners: {
         afterrender: function () {
@@ -20,9 +20,21 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.PaymentTransaction', {
                 { val: "1234567890", name: "1234567890" }
             ]
         });
-        var combo = Ext.getCmp('selectPayment');
+        var combo = me.down('#selectPayment');
         combo.bindStore(selectPaymentStore);
         combo.setValue(combo.getStore().getAt(0));
+    },
+
+    reset: function () {
+        var me = this;
+        me.down('#selectPayment').getStore().loadData([], false);
+        me.down('#promoValidateResponse').setValue('');
+        me.down('#promoCode').setValue('');
+        me.down('#airtimePurchaseResponse').setValue('');
+        me.down('#autoFill').setValue(false);
+
+        me.down('#cvv').setValue('');
+        me.down('#purchaseBtn').disable();
     },
 
     validatePromo: function () {
@@ -31,37 +43,39 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.PaymentTransaction', {
         // TODO send this promo code to the server and get a response text 
         // using dummy response text for now
         var response = 'promo code Valid';
-        Ext.getCmp('promoValidateResponse').setValue(response);
+        me.down('#promoValidateResponse').setValue(response);
 
     },
 
     purchase: function () {
         var me = this;
         var promoCode = me.down('#promoCode').getValue();
-        var portNumber = Ext.getCmp('airtimePlanGrid').getSelectionModel().getSelection()[0].get('portNumber');
-        var cvv = Ext.getCmp('cvv').getValue();
-        var payment = Ext.getCmp('selectPayment').getValue();
-        var autoFill = Ext.getCmp('autoFill').checked;
+        var portNumber = me.up().down('airtimePlan').down('#airtimePlanGrid').getSelectionModel().getSelection()[0].get('portNumber');
+        var cvv = me.down('#cvv').getValue();
+        var payment = me.down('#selectPayment').getValue();
+        var autoFill = me.down('#autoFill').checked;
         // TODO send this data to the service and get the response;
         var response = 'Artime Purchase successfull';
-        Ext.getCmp('airtimePurchaseResponse').setValue(response);
+        me.down('#airtimePurchaseResponse').setValue(response);
 
     },
 
-    changePurchaseButton: function (gri) {
-        var rowsSelectedInAirtimeGrid = Ext.getCmp('airtimePlanGrid').getSelectionModel().getSelection().length;
-        var cvv = Ext.getCmp('cvv').getValue();
+    changePurchaseButton: function () {
+        var me = this;
+        var rowsSelectedInAirtimeGrid = me.up().down('airtimePlan').down('#airtimePlanGrid').getSelectionModel().getSelection().length;
+        var cvv = me.down('#cvv').getValue();
         if (cvv.length >= 3 && rowsSelectedInAirtimeGrid > 0) {
-            Ext.getCmp('purchaseBtn').enable();
+            me.down('#purchaseBtn').enable();
         }
         else {
-            Ext.getCmp('purchaseBtn').disable();
+            me.down('#purchaseBtn').disable();
         }
     },
 
     initComponent: function () {
         var me = this;
         Ext.applyIf(me, {
+            name: 'paymentTransaction',
             items: [
                 {
                     xtype: "panel",
@@ -86,7 +100,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.PaymentTransaction', {
                                         xtype: "combo",
                                         fieldLabel: "Select Payment",
                                         name: "selectPayment",
-                                        id: 'selectPayment',
+                                        itemId: 'selectPayment',
                                         valueField: 'val',
                                         displayField: 'name'
                                     }, {
@@ -94,20 +108,22 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.PaymentTransaction', {
                                         fieldLabel: "CVV",
                                         labelAlign: 'right',
                                         name: "cvv",
-                                        id: 'cvv',
+                                        itemId: 'cvv',
                                         enforceMaxLength: true,
                                         maxLength: 3,
                                         maskRe: /[0-9.]/,
                                         enableKeyEvents: true,
                                         listeners: {
-                                            keyup: me.changePurchaseButton
+                                            keyup: {
+                                                fn: me.changePurchaseButton,
+                                                scope: me
+                                            }
                                         },
-                                        scope: me
                                     }, {
                                         xtype: 'button',
                                         margin: "0 0 0 10",
                                         text: 'Purchase',
-                                        id: 'purchaseBtn',
+                                        itemId: 'purchaseBtn',
                                         disabled: true,
                                         handler: me.purchase,
                                         scope: me
@@ -125,18 +141,34 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.PaymentTransaction', {
                                 items: [{
                                     xtype: "textfield",
                                     fieldLabel: "Promo Code",
-                                    id: 'promoCode',
-                                    name: "promoCode"
+                                    itemId: 'promoCode',
+                                    name: "promoCode",
+                                    enableKeyEvents: true,
+                                    listeners: {
+                                        keyup: {
+                                            fn: function (textbox, event) {
+                                                if (textbox.getValue().trim().length > 0) {
+                                                    me.down('#validateBtn').enable();
+                                                }
+                                                else {
+                                                    me.down('#validateBtn').disable();
+                                                }
+                                            },
+                                            scope: me
+                                        }
+                                    }
                                 }, {
                                     xtype: 'button',
                                     margin: "0 0 0 10",
                                     text: 'Validate',
+                                    itemId: 'validateBtn',
+                                    disabled: true,
                                     handler: me.validatePromo,
                                     scope: me
                                 }, {
                                     xtype: "checkbox",
                                     boxLabel: "Auto-Refill",
-                                    id: 'autoFill',
+                                    itemId: 'autoFill',
                                     name: "checkbox",
                                     inputValue: ""
                                 }]
@@ -144,7 +176,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.PaymentTransaction', {
                             {
                                 xtype: 'displayfield',
                                 name: 'promoValidateResponse',
-                                id: 'promoValidateResponse',
+                                itemId: 'promoValidateResponse',
                                 margin: '0 0 0 25',
                                 style: 'color: green',
                                 value: ''
@@ -161,7 +193,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.PaymentTransaction', {
                                 {
                                     xtype: 'displayfield',
                                     name: 'airtimePurchaseResponse',
-                                    id: 'airtimePurchaseResponse'
+                                    itemId: 'airtimePurchaseResponse'
                                 }
                             ]
                         }

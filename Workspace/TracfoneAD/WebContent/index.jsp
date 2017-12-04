@@ -120,10 +120,6 @@
         Push.registerEventHandler( 'UpdateCTIClient', onUpdateCTIClient);   
         Push.registerEventHandler( 'INIT_DISPOSITION', onInitDisposition);
 
-        //Project specific event handling
-        Push.registerEventHandler( 'IncomingCallQueryString', onIncomingCallQueryString);
-        Push.registerEventHandler( 'CustomerServiceProfile', onCustomerServiceProfile);
-        Push.registerEventHandler( 'LaunchWorkflow', onLaunchWorkflow);
 
 
         //-->
@@ -166,6 +162,14 @@
 	<script src="<%=request.getContextPath()%>/USER/resources/js/common/WSCommunicator.js"></script>
 	<script src="<%=request.getContextPath()%>/USER/resources/js/common/Adam.js"></script>
 	<script src="<%=request.getContextPath()%>/USER/resources/js/common/PushHandler.js"></script>
+
+        <script>
+
+        //Project specific event handling
+        Push.registerEventHandler( 'IncomingCallQueryString', onIncomingCallQueryString);
+        Push.registerEventHandler( 'CustomerServiceProfile', onCustomerServiceProfile);
+        Push.registerEventHandler( 'LaunchWorkflow', onLaunchWorkflow);
+        </script>
 </jacada:body>
 
 </netui:html>

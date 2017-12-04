@@ -72,7 +72,8 @@ var JIAHandler = (function () {
 			var credential = this.getSystemCredentials('TAS');
             this.callJIA('launchTAS', {
                 'userid' : credential.username,
-                'password' : credential.password
+                'password' : credential.password,
+                'agentId' : $W().agentName
             }, function (response) {
 
             }, function (e) {

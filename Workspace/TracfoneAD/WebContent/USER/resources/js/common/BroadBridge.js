@@ -11,7 +11,7 @@ var BroadBridge = function (service, retryCount, cb, scope) {
 	var checkQueue = function () {
 		if (queue.length > 0) {
 			var request = queue.pop();
-			transmit(request['guuid'], request['call'], request['callObject']);
+			transmit(request['guuid'], request['call'], request['method'], request['callObject']);
 		}
 	};
 
@@ -34,7 +34,7 @@ var BroadBridge = function (service, retryCount, cb, scope) {
 			//OK retry allowed
 			active[guuid].retryCount += 1;
 			console.info('RETRYING: ' + guuid);
-			transmit(guuid, active[guuid].call, {
+			transmit(guuid, active[guuid].call, active[guuid].method, {
 				id: guuid,
 				object: active[guuid].callObject
 			});
@@ -63,12 +63,12 @@ var BroadBridge = function (service, retryCount, cb, scope) {
 			delete active[guuid];
 		}
 	};
-	var transmit = function (guuid, call, callObject) {
+	var transmit = function (guuid, call, method, callObject) {
 		//make that AJAX call. Use the singleton instead of a new connection here
 		executing += 1;
 		Ext.Ajax.request({
-			url: 'projectapi/' + call,
-			method: 'POST',
+			url: 'projectapi/' + call + '?dc=' + new Date(),
+			method: method || 'GET',
 			jsonData: callObject, //callObject is already conformed
 			scope: this,
 			success: function(response){
@@ -83,7 +83,7 @@ var BroadBridge = function (service, retryCount, cb, scope) {
 	};
 	
 	return {
-		send: function (call, callObject, nosave, guuid) {
+		send: function (call, method, callObject, nosave, guuid) {
 			var that = this;
 			console.info('Sending...');
 			if (!guuid)
@@ -101,7 +101,7 @@ var BroadBridge = function (service, retryCount, cb, scope) {
 					});
 
 				if (executing < maxConcurrent) {
-					transmit(guuid, call, {
+					transmit(guuid, call, method, {
 						id: guuid,
 						object: callObject
 					});
@@ -111,6 +111,7 @@ var BroadBridge = function (service, retryCount, cb, scope) {
 					queue.push({
 						guuid: guuid,
 						call: call,
+						method: method,
 						callObject: callObject
 					});
 				}

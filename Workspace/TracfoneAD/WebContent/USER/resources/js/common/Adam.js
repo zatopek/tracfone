@@ -11,24 +11,22 @@ var Adam = function () {
 	managers = {};
 	widgets = {};
 	waitingWidgetRegister = {};
-	managers['comm'] = new BroadBridge("", 2, function () {}, this);
+	managers['comm'] = new BroadBridge("", 2, function () { }, this);
 	//This is a singleton. But should also be accessible outside just in case it is required.
 	managers['interactcomm'] = wsCommunicator;
 	managers['projectvariables'] = projectVariable;
 	managers['ctiHelper'] = ctiHelper;
 	managers['windowsManager'] = new WindowsManager();
-	managers['policyDataManager'] = policyStore = new DataStore({
-			'uniqueId': 'policyNumber',
-			'resources': {
-				'search': {
-					url: 'policy/searchPolicy',
-					fields: {
-						policyNo: true
-					}
-				},
-				'systemNotes': {}
+	managers['plansDataStore'] = redemptionStore = new DataStore({
+		uniqueId: 'planId',
+		resources: {
+			airtimePlans: {
+				method: 'GET',
+				url: '../USER/resources/js/dummydata/airtimePlanGrid.json',
+				fields: {}
 			}
-		});
+		}
+	});
 
 	return {
 		load: function () {
@@ -37,17 +35,24 @@ var Adam = function () {
 					managers[manager].load();
 			}
 			//Also see if there are any widgets that were created before Adam was
-			if(typeof WaitingForAdam != 'undefined') {
+			if (typeof WaitingForAdam != 'undefined') {
 				for (var widget in WaitingForAdam) {
 					if (WaitingForAdam[widget].key && WaitingForAdam[widget].widget)
 						adam.register(WaitingForAdam[widget].key, WaitingForAdam[widget].widget);
 				}
 				delete WaitingForAdam;
 			}
-			managers['interactcomm'].register('confirmPolicy', this, function (data) {});
+
+			// get naviation from the jas postmessage
+			managers["interactcomm"].register("navigation", this, function (data) {
+				var className = data.classname;
+				widgets['redemption'].loadComponent(className);
+			});
+
+			managers['interactcomm'].register('confirmPolicy', this, function (data) { });
 		},
-		callService: function (call, callObject) {
-			return managers['comm'].send(call, callObject);
+		callService: function (call, method, callObject) {
+			return managers['comm'].send(call, method, callObject);
 		},
 		getVariable: function (name) {
 			return managers['projectvariables'].get(name);
@@ -89,6 +94,12 @@ var Adam = function () {
 				resolve('Registered');
 			});
 
+		},
+		searchAirtimePlans: function (criteria) {
+			return managers['plansDataStore'].search('airtimePlans', criteria || {});
+		},
+		getAirtimePlan: function (planId) {
+			return managers['plansDataStore'].get(planId);
 		},
 		startCall: function () {
 			//Maybe each widget should implement this function
@@ -143,8 +154,8 @@ var Adam = function () {
 		/**
 		A utility function to log errors
 		 */
-		logError: function () {},
-		registerForEvent: function () {},
+		logError: function () { },
+		registerForEvent: function () { },
 		currentState: function () {
 			//ready
 			//incall
@@ -161,7 +172,7 @@ Ext.onReady(function () {
 	adam = new Adam();
 	adam.load();
 	//HIDE the tab
-	if(typeof tabPanel != 'undefined') {
+	if (typeof tabPanel != 'undefined') {
 		tabPanel.getTabBar().items.each(function (i, item) {
 			if (i.text == 'HIDE')
 				i.hide();

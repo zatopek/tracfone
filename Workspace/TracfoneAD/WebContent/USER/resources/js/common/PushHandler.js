@@ -1,12 +1,15 @@
 function onIncomingCallQueryString(queryString){
+    alert(queryString);
     var TAS_url = "http://sit1tas.tracfone.com/AdfCrmConsole/faces/adf.task-flow?" + queryString;
     //call JIA API incomingCall(TAS_url);
     //call JIA API getCallInfoFromAIC()
 }
 function onCustomerServiceProfile(pushData){
+    alert(pushData);
     //Populate Customer Service Profile section with data object
 }
 function onLaunchWorkflow(taskId){
+    alert(taskId);
     //if unable/unable
     if(taskId=='9901'){
         //call JIA API launchAgentSupportSearch('Tracfone', 'Unable Unable');
