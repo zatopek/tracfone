@@ -2,6 +2,7 @@ package com.jacada.tracfoneAD.customerServiceProfile.model;
 
 
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 
 import com.jacada.jad.feature.model.DefaultWorkspaceManager;
@@ -102,8 +103,29 @@ public class DefaultCustomerServiceProfileManager extends DefaultWorkspaceManage
 
 	@Override
 	public String getOperatingSystem(String partNumber) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+		ResultSet rs = customerServiceProfile.getOperatingSystem(partNumber);
+		String os = null;
+		try {
+			while(rs.next()) {		
+				String parameter = rs.getString("PARAMETER");
+				if(parameter.equals("OPERATING_SYSTEM")) {
+					os = rs.getString("VALUE");
+				}
+			}
+			/*
+		    ResultSetMetaData metadata = rs.getMetaData();
+		    int columnCount = metadata.getColumnCount();
+		    for (int i=1; i<=columnCount; i++) 
+		    {
+		        String columnName = metadata.getColumnName(i);
+		        System.out.println(columnName);
+		    }
+		    */
 
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return os;
+	}
 }

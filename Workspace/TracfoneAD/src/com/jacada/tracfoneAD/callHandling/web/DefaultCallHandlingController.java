@@ -68,7 +68,7 @@ public class DefaultCallHandlingController extends WorkspaceController {
 		String task_id = request.getParameter("task_id");
 		
 		//CustomerServiceProfile customerServiceProfile = customerServiceProfileManager.getCustomerServiceProfile(esn);
-		//PushHelper.publishMessageToAgent(request, "CustomerServiceProfile", customerServiceProfile);
+		//PushHelper.publishMessageToAgent(agentId, "CustomerServiceProfile", customerServiceProfile);
 		PushHelper.publishMessageToAgent(agentId, "CustomerServiceProfile", new CustomerServiceProfile());
 		PushHelper.publishMessageToAgent(agentId, "LaunchWorkflow", task_id);
 		

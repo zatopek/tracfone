@@ -91,7 +91,7 @@ public class JpaCustomerServiceProfileDao implements CustomerServiceProfileDao {
 					password);
 			preparedStatement = dbConnection.prepareStatement(query);
 			preparedStatement.setString(1, partNumber);
-			rs = preparedStatement.executeQuery(query);
+			rs = preparedStatement.executeQuery();
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
