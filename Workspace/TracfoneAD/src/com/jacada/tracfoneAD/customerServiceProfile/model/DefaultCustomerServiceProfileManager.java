@@ -33,8 +33,8 @@ public class DefaultCustomerServiceProfileManager extends DefaultWorkspaceManage
 		ResultSet rs = customerServiceProfile.getCustomerServiceProfile(esn);
 		CustomerServiceProfile customerServiceProfile = new CustomerServiceProfile();
 		try {
-			if(rs.first())
-			{
+			if(rs.next()) {
+	
 				CustomerProfile customerProfile = new CustomerProfile();			
 				DeviceProfile deviceProfile = new DeviceProfile();
 				ServiceProfile serviceProfile = new ServiceProfile();

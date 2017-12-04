@@ -48,10 +48,15 @@ public class DefaultCallHandlingController extends WorkspaceController {
 		}
 		PushHelper.pushMessage(request, "IncomingCallParamObj", obj);
 		*/
-		PushHelper.pushMessage(request, "IncomingCallQueryString", request.getQueryString());
 		
+
+		String agentName = request.getParameter("agentName");
+
 		String esn = request.getParameter("esn");
+		
+		PushHelper.publishMessageToAgent(agentName, "IncomingCallQueryString", request.getQueryString());
+		
 		CustomerServiceProfile customerServiceProfile = customerServiceProfileManager.getCustomerServiceProfile(esn);
-		PushHelper.pushMessage(request, "CustomerServiceProfile", customerServiceProfile);
+		PushHelper.publishMessageToAgent(agentName, "CustomerServiceProfile", customerServiceProfile);
 	}
 }

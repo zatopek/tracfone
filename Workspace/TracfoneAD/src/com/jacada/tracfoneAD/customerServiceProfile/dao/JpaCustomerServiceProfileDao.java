@@ -46,7 +46,7 @@ public class JpaCustomerServiceProfileDao implements CustomerServiceProfileDao {
 		ResultSet rs = null;
 
 		String query = "select "
-				+ "device_type, sim, sim_status, min, min_status, x_msid, phone_gen, part_serial_no, x_hex_serial_no,"
+				+ "device_type, sim, sim_status, x_min, min_status, x_msid, phone_gen, part_serial_no, x_hex_serial_no,"
 				+ "part_number, lease_status_flag, lease_status_name, sequence, service_type, rate_plan, service_plan_objid,"
 				+ "carrier, technology, technology_alt, install_date, service_end_dt, x_expire_dt, next_charge_date, brand,"
 				+ "dealer_name, cards_in_queue, warranty_exchanges, basic_warranty, extended_warranty, x_policy_description,"
@@ -60,7 +60,7 @@ public class JpaCustomerServiceProfileDao implements CustomerServiceProfileDao {
 			preparedStatement = dbConnection.prepareStatement(query);
 			preparedStatement.setString(1, esn);
 			preparedStatement.setString(2, null);
-			rs = preparedStatement.executeQuery(query);
+			rs = preparedStatement.executeQuery();
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
