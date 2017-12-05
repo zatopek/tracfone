@@ -53,7 +53,4 @@ public class SsoController {
 		payload.setMessage("OK");
 		return payload;
 	}	
-	
-
-	
 }

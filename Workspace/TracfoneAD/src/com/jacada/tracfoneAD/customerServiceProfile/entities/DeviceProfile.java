@@ -20,6 +20,8 @@ public class DeviceProfile implements Serializable{
 	String leasedToFinance;
 	String leaseStatus;
 	String sequence;
+	String os;
+	
 	public String getDeviceType() {
 		return deviceType;
 	}
@@ -97,6 +99,12 @@ public class DeviceProfile implements Serializable{
 	}
 	public void setSequence(String sequence) {
 		this.sequence = sequence;
+	}
+	public String getOs() {
+		return os;
+	}
+	public void setOs(String os) {
+		this.os = os;
 	}
 	
 	

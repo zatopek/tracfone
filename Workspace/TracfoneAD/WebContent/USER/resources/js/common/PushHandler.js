@@ -1,17 +1,15 @@
-function onIncomingCallQueryString(queryString) {
-    alert(queryString);
-    var TAS_url = "http://sit1tas.tracfone.com/AdfCrmConsole/faces/adf.task-flow?" + queryString;
-    //call JIA API incomingCall(TAS_url);
-    //call JIA API getCallInfoFromAIC()
-}
 function onCustomerServiceProfile(pushData) {
+    //call JIA API getCallInfoFromAIC();
+
     // TODO remove this dummy Data
+    /*
     pushData = {
         deviceProfile: { "deviceType": "iPhone", "simStatus": "active" },
         serviceProfile: { "serviceType": "type of service", "brand": "my Brand" },
         customerProfile: { "customerId": "lksdf9879789", "contactName": "Peter Parer" },
         accountBalances: { "phoneStatus": "Pending", "smsBalance": "1245" }
     }
+    */
 
     widgets['customerServiceProfile'].up().up().show(); // show portlet
     widgets['customerServiceProfile'].load(pushData);

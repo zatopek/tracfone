@@ -166,7 +166,6 @@
         <script>
 
         //Project specific event handling
-        Push.registerEventHandler( 'IncomingCallQueryString', onIncomingCallQueryString);
         Push.registerEventHandler( 'CustomerServiceProfile', onCustomerServiceProfile);
         Push.registerEventHandler( 'LaunchWorkflow', onLaunchWorkflow);
         </script>
