@@ -13,11 +13,24 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.unableUnable.VerizonCallAssistance
     },
 
     load: function () {
-
+        var me = this;
+        me.mask('please wait..');
+        adam.callService('../USER/resources/js/dummydata/verizonCallAssistance.json', 'GET', {}).then(function (response) {
+            Ext.each(me.query('displayfield'), function (item) {
+                item.setValue(response[item.name]);
+            });
+            me.unmask();
+        }).error(function () {
+            Ext.Msg.alert('ERROR', 'Error getting Verizon call assistance data');
+            me.unmask();
+        });
     },
 
     reset: function () {
-
+        var me = this;
+        Ext.each(me.query('displayfield'), function (item) {
+            item.setValue('');
+        });
     },
 
     initComponent: function () {
@@ -28,25 +41,25 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.unableUnable.VerizonCallAssistance
                 {
                     xtype: 'panel',
                     height: 50,
+                    margin: '0 0 0 10',
                     border: false,
                     items: [
                         {
-                            xtype: 'displayfield',
-                            labelWidth: 0,
-                            value: '<h2>Call Verizon at 1-888-946-4669 (DO NOT GIVE THIS NUMBER TO CUSTOMER) </h2>'
+                            xtype: 'component',
+                            html: '<h2>Call Verizon at 1-888-946-4669 (DO NOT GIVE THIS NUMBER TO CUSTOMER) </h2>'
                         }
                     ]
                 }, {
                     name: 'avayaId',
                     fieldLabel: 'Avaya ID'
                 }, {
-                    name: 'verizon_min',
+                    name: 'verizonMin',
                     fieldLabel: 'MIN'
                 }, {
                     name: 'meid',
                     fieldLabel: 'MEID'
                 }, {
-                    name: 'verizon_sim',
+                    name: 'verizonSim',
                     fieldLabel: 'SIM'
                 }, {
                     name: 'prl',
@@ -69,6 +82,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.unableUnable.VerizonCallAssistance
                 }, {
                     name: 'issue',
                     fieldLabel: 'Brief Description of Issue'
+
                 }
             ]
         });

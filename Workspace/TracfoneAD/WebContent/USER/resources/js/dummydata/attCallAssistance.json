@@ -1,0 +1,19 @@
+{
+    "status": "0",
+    "result": {
+        "agentName": "Peter Parker",
+        "avayaId": "1245",
+        "attMin": "STA4601",
+        "imei": "1234564564564546",
+        "attSim": "att sim",
+        "makeAndModel": "iPhone 6s",
+        "numSignalBar": "2132",
+        "customerName": "John Smith",
+        "address": "123 stree1 state Zip, 23568",
+        "issue": "lorem ipsum",
+        "message": "lorem ipusm dolor sit amet",
+        "steps": "5",
+        "when": "then",
+        "location": "here"
+    }
+}

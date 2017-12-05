@@ -13,11 +13,24 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.unableUnable.AttCallAssistance', {
     },
 
     load: function () {
-
+        var me = this;
+        me.mask('please wait..');
+        adam.callService('../USER/resources/js/dummydata/attCallAssistance.json', 'GET', {}).then(function (response) {
+            Ext.each(me.query('displayfield'), function (item) {
+                item.setValue(response[item.name]);
+            });
+            me.unmask();
+        }).error(function () {
+            Ext.Msg.alert('ERROR', 'Error getting AT&T call assistance data');
+            me.unmask();
+        });
     },
 
     reset: function () {
-
+        var me = this;
+        Ext.each(me.query('displayfield'), function (item) {
+            item.setValue('');
+        });
     },
 
     initComponent: function () {
@@ -29,11 +42,11 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.unableUnable.AttCallAssistance', {
                     xtype: 'panel',
                     height: 50,
                     border: false,
+                    margin: '0 0 0 10',
                     items: [
                         {
-                            xtype: 'displayfield',
-                            labelWidth: 0,
-                            value: '<h2>Call AT&T at 1-877-252-7716 (DO NOT GIVE THIS NUMBER TO CUSTOMER) </h2>'
+                            xtype: 'component',
+                            html: '<h2>Call AT&T at 1-877-252-7716 (DO NOT GIVE THIS NUMBER TO CUSTOMER) </h2>'
                         }
                     ]
                 },
@@ -44,13 +57,13 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.unableUnable.AttCallAssistance', {
                     name: 'avayaId',
                     fieldLabel: 'Avaya ID'
                 }, {
-                    name: 'att_min',
+                    name: 'attMin',
                     fieldLabel: 'MIN'
                 }, {
                     name: 'imei',
                     fieldLabel: 'IMEI'
                 }, {
-                    name: 'att_sim',
+                    name: 'attSim',
                     fieldLabel: 'SIM'
                 }, {
                     name: 'makeAndModel',

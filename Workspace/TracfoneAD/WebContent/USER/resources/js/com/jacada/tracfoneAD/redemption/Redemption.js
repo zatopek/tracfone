@@ -35,10 +35,15 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.Redemption', {
             if (container.items.items.indexOf(component) === -1) {
                 container.add(component);
             }
+        }
+
+        if (component) {
             component.reset && component.reset();
             component.show();
             component.load && component.load();
-
+        }
+        else {
+            Ext.Msg.alert('ERROR', 'Failed to create component');
         }
     },
 

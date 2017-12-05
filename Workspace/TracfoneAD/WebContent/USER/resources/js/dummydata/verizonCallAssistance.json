@@ -1,0 +1,16 @@
+{
+    "status": "0",
+    "result": {
+        "avayaId": "1245",
+        "verizonMin": "STA4601",
+        "meid": "546654656",
+        "verizonSim": "verizon sim",
+        "prl": "iPhone 6s",
+        "address": "123 stree1 state Zip, 23568",
+        "makeAndModel": "Toyata Campbri",
+        "firmware": "2132",
+        "software": "photoshop",
+        "issue": "lorem ipsum",
+        "signalStrength": "signal strangr"
+    }
+}
