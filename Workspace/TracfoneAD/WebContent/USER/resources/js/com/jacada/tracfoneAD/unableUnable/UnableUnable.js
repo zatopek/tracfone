@@ -80,10 +80,13 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.unableUnable.UnableUnable', {
             else {
                 component = Ext.create('Jacada.user.com.jacada.tracfoneAD.unableUnable.' + componentName);
             }
-            container.add(component)
+            container.add(component);
         }
         else {
             component = widgets[widgetName];
+            if (container.items.items.indexOf(component) === -1) {
+                container.add(component);
+            }
             component.reset && component.reset();
             component.show();
             component.load && component.load();
