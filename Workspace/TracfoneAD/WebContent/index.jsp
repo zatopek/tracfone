@@ -155,6 +155,7 @@
  	<script type="text/javascript" src="<%=request.getContextPath()%>/SYSTEM/resources/js/toolbar.js"></script>
  	<script src="<%=request.getContextPath()%>/USER/resources/js/common/3rdparty/bluebird.min.js"></script>
 	<script src="<%=request.getContextPath()%>/USER/resources/js/common/CTIHelper.js"></script>
+    <script src="<%=request.getContextPath()%>/USER/resources/js/common/Constants.js"></script>
 	<script src="<%=request.getContextPath()%>/USER/resources/js/common/WindowsManager.js"></script>
 	<script src="<%=request.getContextPath()%>/USER/resources/js/common/ProjectVariables.js"></script>
 	<script src="<%=request.getContextPath()%>/USER/resources/js/common/BroadBridge.js"></script>
