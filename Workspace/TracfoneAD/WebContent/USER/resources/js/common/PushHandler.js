@@ -2,14 +2,20 @@ function onCustomerServiceProfile(pushData) {
     //call JIA API getCallInfoFromAIC();
 
     // TODO remove this dummy Data
-    /*
+
     pushData = {
-        deviceProfile: { "deviceType": "iPhone", "simStatus": "active" },
-        serviceProfile: { "serviceType": "type of service", "brand": "my Brand" },
+        deviceProfile: { "deviceType": "BYOB", "sim": "123", "minStatus": "INACTIVE", "simStatus": "SIM ACTIVE", "phoneGen": "AD-LTE", "os": "and" },
+        serviceProfile: { "serviceType": "type of service", "brand": "my Brand", "carrier": "Sprint", "serviceEndDate": "12/15/2017", "cardsInReserve":"2" },
         customerProfile: { "customerId": "lksdf9879789", "contactName": "Peter Parer" },
-        accountBalances: { "phoneStatus": "Pending", "smsBalance": "1245" }
+        accountBalances: { "phoneStatus": "Pending", "smsBalance": "124", "voiceBalance": "0" }
     }
-    */
+
+    // save it in managers for now. Need a way to put it in datastore depending on unique Id
+    managers['pushData'] = pushData;
+    // pushData.customerProfile.account = {};
+    // Object.assign(pushData.customerProfile.account, pushData.accountBalances);
+
+    // adam.savePushData(pushData);
 
     widgets['customerServiceProfile'].up().up().show(); // show portlet
     widgets['customerServiceProfile'].load(pushData);

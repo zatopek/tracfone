@@ -9,34 +9,22 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.ReservePin', {
     load: function () {
         var me = this;
         // TODO get the data for drop down
-        //  using sampel data for now
         me.mask('loading...');
-        var data = [
-            { description: '45 40 Day UML lorem ipsum', accessDays: '45', portNumber: 'STA464', statusDescription: 'Active' },
-            { description: '45 40 Day UML lorem ipsum', accessDays: '45', portNumber: 'STA464', statusDescription: 'Active' },
-            { description: '45 40 Day UML lorem ipsum', accessDays: '45', portNumber: 'STA464', statusDescription: 'Active' },
-            { description: '45 40 Day UML lorem ipsum', accessDays: '45', portNumber: 'STA464', statusDescription: 'Active' },
-            { description: '45 40 Day UML lorem ipsum', accessDays: '45', portNumber: 'STA464', statusDescription: 'Active' },
-            { description: '45 40 Day UML lorem ipsum', accessDays: '45', portNumber: 'STA464', statusDescription: 'Active' },
-            { description: '45 40 Day UML lorem ipsum', accessDays: '45', portNumber: 'STA464', statusDescription: 'Active' },
-            { description: '45 40 Day UML lorem ipsum', accessDays: '45', portNumber: 'STA464', statusDescription: 'Active' },
-            { description: '45 40 Day UML lorem ipsum', accessDays: '45', portNumber: 'STA464', statusDescription: 'Active' },
-            { description: '45 40 Day UML lorem ipsum', accessDays: '45', portNumber: 'STA464', statusDescription: 'Active' },
-            { description: '45 40 Day UML lorem ipsum', accessDays: '45', portNumber: 'STA464', statusDescription: 'Active' },
-            { description: '45 40 Day UML lorem ipsum', accessDays: '45', portNumber: 'STA464', statusDescription: 'Active' },
-            { description: '45 40 Day UML lorem ipsum', accessDays: '45', portNumber: 'STA464', statusDescription: 'Active' },
-            { description: '45 40 Day UML lorem ipsum', accessDays: '45', portNumber: 'STA464', statusDescription: 'Active' },
-            { description: '45 40 Day UML lorem ipsum', accessDays: '45', portNumber: 'STA464', statusDescription: 'Active' }
-        ];
-        me.down('#reservePinGrid').getStore().loadData(data);
-        me.unmask();
+        var min = managers['pushData'].deviceProfile.min;
+        adam.callService('PINs/Reserved?min=' + min, 'GET', {}).then(function (response) {
+            if (response.length > 0)
+                me.down('#reservePinGrid').getStore().loadData(response);
+            me.unmask();
+        }).error(function () {
+            Ext.Msg.alert('ERROR', 'Error getting reserve pin data');
+            me.unmask();
+        });
     },
 
     reset: function () {
         var me = this;
         me.down('#reservePinGrid').getStore().loadData([], false);
         me.down('#transactionSummaryResponse').setValue('');
-
     },
 
     initComponent: function () {
@@ -64,6 +52,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.ReservePin', {
                             xtype: "panel",
                             title: "TRANSCATION SUMMARY",
                             columnWidth: 0.45,
+                            itemId: 'transactionSummaryContainer',
                             border: false,
                             bodyStyle: 'padding:5px 5px 5px 5px',
                             items: [{
@@ -79,9 +68,14 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.ReservePin', {
 
     sendToJia: function (grid, record, item, index, event, eOpts) {
         var me = this;
-        //TODO send record to sever and get the response
-        var response = 'Redeem reserve pin successfull';
-        me.down('#transactionSummaryResponse').setValue(response);
+        me.down('#transactionSummaryContainer').mask('Please wait..');
+        adam.callService('PINs/' + record.partNumber, 'DELETE').then(function (response) {
+            me.down('#transactionSummaryResponse').setValue(response);
+            me.down('#transactionSummaryContainer').unmask();
+        }).error(function () {
+            Ext.Msg.alert('ERROR', 'Error getting transaction');
+            me.down('#transactionSummaryContainer').unmask();
+        })
     },
 
     createRedeemReservePinGrid: function () {
@@ -89,7 +83,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.ReservePin', {
         Ext.define('reservePinModel', {
             extend: 'Ext.data.Model',
             fields: [{
-                name: 'portNumber',
+                name: 'partNumber',
                 type: 'string'
             }, {
                 name: 'description',
@@ -116,9 +110,9 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.ReservePin', {
             store: myStore,
             columns: [
                 {
-                    text: "Port Number",
+                    text: "Part Number",
                     flex: 1,
-                    dataIndex: 'portNumber'
+                    dataIndex: 'partNumber'
                 }, {
                     text: "Description",
                     flex: 2,

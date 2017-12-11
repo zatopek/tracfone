@@ -31,6 +31,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.AirtimePlan', {
         var estimatedCostData = { subTotal: '12.00', tax: '30.00', e911: '20.00', total: '45.00' }
         me.up().up().down('estimatedCost').load(estimatedCostData);
         me.up().up().up().down('paymentTransaction').changePurchaseButton();
+        me.up().up().up().down('paymentTransaction').changePromoCodeButton();
     },
 
     load: function () {
@@ -39,21 +40,21 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.AirtimePlan', {
         //  using sampel data for now
         me.mask('loading...');
         var data = [
-            { description: '$45 40 Day UML lorem ipsum', price: '$45', portNumber: 'STA464' },
-            { description: '$45 40 Day UML lorem ipsum', price: '$45', portNumber: 'STA464' },
-            { description: '$45 40 Day UML lorem ipsum', price: '$45', portNumber: 'STA464' },
-            { description: '$45 40 Day UML lorem ipsum', price: '$45', portNumber: 'STA464' },
-            { description: '$45 40 Day UML lorem ipsum', price: '$45', portNumber: 'STA464' },
-            { description: '$45 40 Day UML lorem ipsum', price: '$45', portNumber: 'STA464' },
-            { description: '$45 40 Day UML lorem ipsum', price: '$45', portNumber: 'STA464' },
-            { description: '$45 40 Day UML lorem ipsum', price: '$45', portNumber: 'STA464' },
-            { description: '$45 40 Day UML lorem ipsum', price: '$45', portNumber: 'STA464' },
-            { description: '$45 40 Day UML lorem ipsum', price: '$45', portNumber: 'STA464' },
-            { description: '$45 40 Day UML lorem ipsum', price: '$45', portNumber: 'STA464' },
-            { description: '$45 40 Day UML lorem ipsum', price: '$45', portNumber: 'STA464' },
-            { description: '$45 40 Day UML lorem ipsum', price: '$45', portNumber: 'STA464' },
-            { description: '$45 40 Day UML lorem ipsum', price: '$45', portNumber: 'STA464' },
-            { description: '$45 40 Day UML lorem ipsum', price: '$45', portNumber: 'STA464' }
+            { description: '$45 40 Day UML lorem ipsum', price: '$45', partNumber: 'STA464' },
+            { description: '$45 40 Day UML lorem ipsum', price: '$45', partNumber: 'STA464' },
+            { description: '$45 40 Day UML lorem ipsum', price: '$45', partNumber: 'STA464' },
+            { description: '$45 40 Day UML lorem ipsum', price: '$45', partNumber: 'STA464' },
+            { description: '$45 40 Day UML lorem ipsum', price: '$45', partNumber: 'STA464' },
+            { description: '$45 40 Day UML lorem ipsum', price: '$45', partNumber: 'STA464' },
+            { description: '$45 40 Day UML lorem ipsum', price: '$45', partNumber: 'STA464' },
+            { description: '$45 40 Day UML lorem ipsum', price: '$45', partNumber: 'STA464' },
+            { description: '$45 40 Day UML lorem ipsum', price: '$45', partNumber: 'STA464' },
+            { description: '$45 40 Day UML lorem ipsum', price: '$45', partNumber: 'STA464' },
+            { description: '$45 40 Day UML lorem ipsum', price: '$45', partNumber: 'STA464' },
+            { description: '$45 40 Day UML lorem ipsum', price: '$45', partNumber: 'STA464' },
+            { description: '$45 40 Day UML lorem ipsum', price: '$45', partNumber: 'STA464' },
+            { description: '$45 40 Day UML lorem ipsum', price: '$45', partNumber: 'STA464' },
+            { description: '$45 40 Day UML lorem ipsum', price: '$45', partNumber: 'STA464' }
         ];
         me.items.items[0].getStore().loadData(data);
         me.unmask();
@@ -70,7 +71,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.AirtimePlan', {
                 name: 'price',
                 type: 'string'
             }, {
-                name: 'portNumber',
+                name: 'partNumber',
                 type: 'string'
             }
             ]
@@ -95,9 +96,9 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.AirtimePlan', {
                 flex: 1,
                 dataIndex: 'price'
             }, {
-                text: "Port Number",
+                text: "Part Number",
                 flex: 2,
-                dataIndex: 'portNumber'
+                dataIndex: 'partNumber'
             }
             ],
             forceFit: true,

@@ -160,11 +160,10 @@
 	<script src="<%=request.getContextPath()%>/USER/resources/js/common/BroadBridge.js"></script>
 	<script src="<%=request.getContextPath()%>/USER/resources/js/common/DataStore.js"></script>
 	<script src="<%=request.getContextPath()%>/USER/resources/js/common/WSCommunicator.js"></script>
+    <script src="<%=request.getContextPath()%>/USER/resources/js/common/PushHandler.js"></script>
+    <script src="<%=request.getContextPath()%>/USER/resources/js/common/JasHandler.js"></script>
 	<script src="<%=request.getContextPath()%>/USER/resources/js/common/Adam.js"></script>
-	<script src="<%=request.getContextPath()%>/USER/resources/js/common/PushHandler.js"></script>
-
-        <script>
-
+	<script>
         //Project specific event handling
         Push.registerEventHandler( 'CustomerServiceProfile', onCustomerServiceProfile);
         Push.registerEventHandler( 'LaunchWorkflow', onLaunchWorkflow);

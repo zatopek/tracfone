@@ -43,12 +43,25 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.unableUnable.UnableUnable', {
                     layout: 'column',
                     items: [
                         {
-                            xtype: 'panel',
+                            xtype: 'component',
+                            itemId: 'unableUnableJasFrame',
                             columnWidth: 0.3,
-                            border: true,
-                            title: 'PPOCESS FLOW',
-                            html: '<iframe style="height: 520px; width: 100%; border:0";" src="https://gointeract.io/interact/index?interaction=2471ae2941ee-0cf98cced8706fb9-c170&accountId=azurademo&appkey=6c87bc97-fc7a-4dfe-80b3-d8c43521cb9c&TF_BYOP_Flag=true&TF_Carrier=ATT&TF_iPhone_Flag=true&TF_LTE_Flag=false&TF_MINStatus=ACTIVE&TF_PPE_Flag=FALSE&TF_ServiceEndDate=20%20Nov%202017&TF_SIMStatus=CN&TF_VoiceBalance=100&TF_VoiceBalance_Flag=false&TF_ServiceExpiredFlag=False"></iframe>'
+                            autoEl: {
+                                tag: 'iframe',
+                                src: '',
+                                allowfullscreen: true,
+                                frameborder: '0',
+                                height: 550,
+                                width: '100%'
+                            }
                         },
+                        // {
+                        //     xtype: 'panel',
+                        //     columnWidth: 0.3,
+                        //     border: true,
+                        //     title: 'PPOCESS FLOW',
+                        //     html: '<iframe style="height: 520px; width: 100%; border:0";" src="https://gointeract.io/interact/index?interaction=2471ae2941ee-0cf98cced8706fb9-c170&accountId=azurademo&appkey=6c87bc97-fc7a-4dfe-80b3-d8c43521cb9c&TF_BYOP_Flag=true&TF_Carrier=ATT&TF_iPhone_Flag=true&TF_LTE_Flag=false&TF_MINStatus=ACTIVE&TF_PPE_Flag=FALSE&TF_ServiceEndDate=20%20Nov%202017&TF_SIMStatus=CN&TF_VoiceBalance=100&TF_VoiceBalance_Flag=false&TF_ServiceExpiredFlag=False"></iframe>'
+                        // },
                         {
                             xtype: 'panel',
                             columnWidth: 0.7,
@@ -62,6 +75,15 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.unableUnable.UnableUnable', {
             ],
         });
         me.callParent(me);
+    },
+
+    listeners: {
+        afterrender: function () {
+            var me = this;
+            me.down('#unableUnableJasFrame').getEl().set({
+                'src': managers['jasHandler'].getUnableUnableUrl()
+            });
+        }
     },
 
     loadComponent: function (componentName) {

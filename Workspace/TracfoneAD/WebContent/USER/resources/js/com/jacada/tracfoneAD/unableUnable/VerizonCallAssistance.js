@@ -15,15 +15,24 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.unableUnable.VerizonCallAssistance
     load: function () {
         var me = this;
         me.mask('please wait..');
-        adam.callService('../USER/resources/js/dummydata/verizonCallAssistance.json', 'GET', {}).then(function (response) {
-            Ext.each(me.query('displayfield'), function (item) {
-                item.setValue(response[item.name]);
-            });
-            me.unmask();
-        }).error(function () {
-            Ext.Msg.alert('ERROR', 'Error getting Verizon call assistance data');
-            me.unmask();
+        var data = managers.pushData;
+        var data = {
+            avayaId: data.avayaId,
+            min: data.deviceProfile.min,
+            meid: data.deviceProfile.msid, // check if meid = msid
+            sim: data.deviceProfile.sim,
+            prl: data.prl, // check the correct match
+            address: data.customerProfile.zip, // we do not have full address
+            makeAndModel: data.deviceProfile.deviceType, // check if this is correct match
+            firmware: data.deviceProfile.os,
+            signalStrength: '', // not available
+            issue: '' // not available 
+
+        }
+        Ext.each(me.query('displayfield'), function (item) {
+            item.setValue(data[item.name]);
         });
+        me.unmask();
     },
 
     reset: function () {

@@ -17,6 +17,7 @@ var Adam = function () {
 	managers['projectvariables'] = projectVariable;
 	managers['ctiHelper'] = ctiHelper;
 	managers['windowsManager'] = new WindowsManager();
+	managers['jasHandler'] = new JasHandler();
 	managers['plansDataStore'] = redemptionStore = new DataStore({
 		uniqueId: 'planId',
 		resources: {
@@ -27,6 +28,13 @@ var Adam = function () {
 			}
 		}
 	});
+
+	managers['deviceProfile'] = new DataStore({
+		uniqueId: 'sim',
+		resources: {
+		}
+	});
+
 
 	return {
 		load: function () {
@@ -161,6 +169,18 @@ var Adam = function () {
 			//ready
 			//incall
 			//inDisposition
+		},
+		callData: {},
+		savePushData: function (data) {
+			debugger;
+			//save call data
+			// call data IDs for different component
+			this.callData.sim = data.deviceProfile.sim;
+			managers['deviceProfile'].digest(data.deviceProfile);
+
+		},
+		getDeviceProfile: function (sim) {
+			return managers['deviceProfile'].get(sim || this.callData.sim);
 		}
 	};
 

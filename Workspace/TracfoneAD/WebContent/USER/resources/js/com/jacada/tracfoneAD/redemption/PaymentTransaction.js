@@ -64,12 +64,29 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.PaymentTransaction', {
         var me = this;
         var rowsSelectedInAirtimeGrid = me.up().down('airtimePlan').down('#airtimePlanGrid').getSelectionModel().getSelection().length;
         var cvv = me.down('#cvv').getValue();
-        if (cvv.length >= 3 && rowsSelectedInAirtimeGrid > 0) {
+        if (cvv.length >= 3 && me.isAirtimePlanSelected()) {
             me.down('#purchaseBtn').enable();
         }
         else {
             me.down('#purchaseBtn').disable();
         }
+    },
+
+    isAirtimePlanSelected: function () {
+        var me = this;
+        var rowsSelectedInAirtimeGrid = me.up().down('airtimePlan').down('#airtimePlanGrid').getSelectionModel().getSelection().length;
+        return rowsSelectedInAirtimeGrid > 0
+    },
+
+    changePromoCodeButton: function () {
+        var me = this;
+        if (me.down('#promoCode').getValue().trim().length > 0 && me.isAirtimePlanSelected()) {
+            me.down('#validateBtn').enable();
+        }
+        else {
+            me.down('#validateBtn').disable();
+        }
+
     },
 
     initComponent: function () {
@@ -146,14 +163,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.PaymentTransaction', {
                                     enableKeyEvents: true,
                                     listeners: {
                                         keyup: {
-                                            fn: function (textbox, event) {
-                                                if (textbox.getValue().trim().length > 0) {
-                                                    me.down('#validateBtn').enable();
-                                                }
-                                                else {
-                                                    me.down('#validateBtn').disable();
-                                                }
-                                            },
+                                            fn: me.changePromoCodeButton,
                                             scope: me
                                         }
                                     }

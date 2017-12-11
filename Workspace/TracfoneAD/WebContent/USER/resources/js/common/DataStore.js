@@ -49,7 +49,7 @@ var DataStore = null;
 						//Now we can call the back end
 						adam.callService(currentRequestConfig.url, currentRequestConfig.method, requestData).then(function (response) {
 							resolve(response);
-						}).catch (function (e) {
+						}).catch(function (e) {
 							console.error(e);
 							reject(e);
 						});
@@ -59,7 +59,7 @@ var DataStore = null;
 		};
 
 		return {
-			digest : function(response){
+			digest: function (response) {
 				if (typeof response == 'object' && typeof response.length == 'number') {
 					//This is an array
 					for (var i in response) {
@@ -72,7 +72,7 @@ var DataStore = null;
 					//Single response
 					//Can this ever happen for search?
 					//Save this result
-					if(this.currentRequestConfig.saveId){
+					if (this.currentRequestConfig.saveId) {
 						response[this.uniqueId] = id;
 					}
 					_internal.processResult(response);
@@ -126,7 +126,7 @@ var DataStore = null;
 								//Single response
 								//Can this ever happen for search?
 								//Save this result
-								if(this.currentRequestConfig.saveId){
+								if (this.currentRequestConfig.saveId) {
 									response[this.uniqueId] = id;
 								}
 								_internal.processResult(response);
@@ -139,7 +139,7 @@ var DataStore = null;
 									msg: 'Returned response of unsupported type'
 								});
 							}
-						}).catch (reject);
+						}).catch(reject);
 					} else {
 						reject({
 							msg: 'Call out of order. No saved information available'
@@ -174,14 +174,14 @@ var DataStore = null;
 							});
 							return;
 						}
-					}).catch (function (e) {
+					}).catch(function (e) {
 						reject(e);
 					});
 				});
 			},
-			update: function(id, name, customData){
+			update: function (id, name, customData) {
 				return new Promise(function (resolve, reject) {
-					if(!name || !resources[name] || !customData) {
+					if (!name || !resources[name] || !customData) {
 						reject({
 							msg: 'Unidentified configuration or invalid input.'
 						});
@@ -196,7 +196,7 @@ var DataStore = null;
 							requestData[field] = data[id][field];
 						}
 						//Can custom data be an array?											
-						for (var customField in customData){
+						for (var customField in customData) {
 							//Get this field from saved data
 							requestData[customField] = customData[customField];
 						}
@@ -219,7 +219,7 @@ var DataStore = null;
 							} else if (typeof response == 'object') {
 								//Single response
 								//Save this result
-								if(this.currentRequestConfig.saveId){
+								if (this.currentRequestConfig.saveId) {
 									response[this.uniqueId] = id;
 								}
 								_internal.processResult(response);
@@ -232,7 +232,7 @@ var DataStore = null;
 									msg: 'Returned response of unsupported type'
 								});
 							}
-						}).catch (reject);
+						}).catch(reject);
 					} else {
 						reject({
 							msg: 'Call out of order. No saved information available'
@@ -244,11 +244,11 @@ var DataStore = null;
 			set: function (id, name, value) {
 				return new Promise(function (resolve, reject) {
 					if (data[id]) {
-						
+
 						if (typeof data[id][name] == 'object' && typeof data[id][name].length == 'number') {
 							if (typeof value == 'object' && typeof value.length == 'number') {
-								for(var i in value) {
-									if(typeof i == 'number')
+								for (var i in value) {
+									if (typeof i == 'number')
 										data[id][name].push(value);
 								}
 							} else {
@@ -257,7 +257,7 @@ var DataStore = null;
 						} else {
 							data[id][name] = value;
 						}
-						
+
 						resolve(data[id]);
 					} else {
 						reject({

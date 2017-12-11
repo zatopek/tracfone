@@ -4,7 +4,7 @@
 
 body{ 
     FONT-FAMILY:    Tahoma;
-    FONT-SIZE:      10px;
+    FONT-SIZE:      11px;
     color:          #000000;
     overflow: hidden;
 }
@@ -26,7 +26,7 @@ body{
 }
 
 .x-menu-body{
-	-webkit-border-radius: 10px;
+	-webkit-border-radius: 11px;
 	-moz-border-radius: 4px;
 	-ms-border-radius: 4px;
 	-o-border-radius: 4px;
@@ -69,6 +69,7 @@ body{
 .x-panel-header-default{
 	background: #004DA1;
 	border-style: none;
+	font-size: 10px;
 }
  .x-panel-header-default-horizontal{
 	padding: 2px 8px 2px 8px;
@@ -159,24 +160,25 @@ body{
 }
 
 .x-tree-node-text{
-	font-size: 12px;
+	font-size: 11px;
 	padding-left: 4px;
 	cursor: pointer;
 }
 
 .x-form-item-label{
-	font:  12px/12px helvetica,arial,verdana,sans-serif;
-	margin-left: 10px;
+	font:  11px/11px helvetica,arial,verdana,sans-serif;
+	margin-left: 1px;
 	color: #004DA1;
 }
 
 .x-form-display-field{
-	font: normal 12px/12px helvetica,arial,verdana,sans-serif;
+	font: normal 11px/11px helvetica,arial,verdana,sans-serif;
 	margin-top: 1px;
 	color: #004DA1;
 	font-weight: bold;
-	padding-left: 2px;
-	padding-top: 5px;
+	padding-left: 1px;
+	padding-top: 1px;
+	height: 14px;
 }
 
 .x-panel-body-default{
@@ -187,7 +189,7 @@ body{
 #workspace-menu{
 	background-image: none !important;
 	background-color: #F1F1F1;
-	margin-top: 10px;
+	margin-top: 11px;
 }
 
 .x-tip-default {
@@ -541,7 +543,9 @@ td.emailNodeIcon .x-grid-cell-inner {
 }
 
 .x-field-label-cell{
+	/*
 	vertical-align: middle;
+	 */
 }
 
 .task-output-field-label {
@@ -912,7 +916,7 @@ a:-webkit-any-link {
 	 color: #004DA1;
 	 cursor: auto;
 	 text-decoration: underline;
-	 font:  12px/12px helvetica,arial,verdana,sans-serif;
+	 font:  11px/11px helvetica,arial,verdana,sans-serif;
 	 margin-top: 10px !important;
      margin-left: 10px !important;	 
 }
@@ -921,18 +925,14 @@ a:-webkit-any-link {
 	color: #004DA1;
 	cursor: auto;
 	text-decoration: underline;
-	font:  12px/12px helvetica,arial,verdana,sans-serif;
+	font:  11px/11px helvetica,arial,verdana,sans-serif;
 	margin-top: 10px !important;
     margin-left: 10px !important;	
 }
 
 .x-header-text {
 	white-space: nowrap;
-	font-size: 12px;
-}
-
-.x-panel-header-default {
-	font-size: 12px;
+	font-size: 10px;
 }
 
 .agentAssitBtn {
@@ -942,7 +942,7 @@ a:-webkit-any-link {
 }
 
 .portletDisplay {
-	font: normal 12px/12px helvetica,arial,verdana,sans-serif;
+	font: normal 11px/11px helvetica,arial,verdana,sans-serif;
 	margin-top: 5px;
 	margin-left: 5px;
 	color: #004DA1;
@@ -952,19 +952,19 @@ a:-webkit-any-link {
 	color: #004DA1;
 	cursor: auto;
 	text-decoration: underline;
-	font:  12px/12px helvetica,arial,verdana,sans-serif;
+	font:  11px/11px helvetica,arial,verdana,sans-serif;
 	margin-top: 5px !important;
 }
 
 .x-form-cb-label {
 	margin-top: 4px;
-	font: normal 12px/12px helvetica,arial,verdana,sans-serif;
+	font: normal 11px/11px helvetica,arial,verdana,sans-serif;
 	margin-left: 10px;
 }
 
 .x-form-item, .x-form-field {
 	color: black;
-	font:  12px/12px helvetica,arial,verdana,sans-serif;
+	font:  11px/11px helvetica,arial,verdana,sans-serif;
 	/*margin-left: 10px;*/
 }
 
@@ -980,7 +980,7 @@ a:-webkit-any-link {
 }
 
 .x-form-checkbox {
-	margin-left: 10px;
+	margin-left: 11px;
 }
 
 .sso_form input{
@@ -1002,6 +1002,13 @@ a:-webkit-any-link {
 .x-form-empty-field{
 	color: #CCCCCC !important;
 }
+
+.x-fieldset-header-text {
+	font: normal 10px/13px helvetica,arial,verdana,sans-serif;
+	color: black;
+	padding: 1px 0;
+}
+
 
 /* #D91D00 #D91000 red */
 /* C81000 hover red */

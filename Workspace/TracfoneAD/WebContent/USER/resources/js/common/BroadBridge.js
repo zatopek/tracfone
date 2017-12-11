@@ -29,7 +29,7 @@ var BroadBridge = function (service, retryCount, cb, scope) {
 		//See if retry allowed!!
 		if (!active[guuid].retryCount)
 			active[guuid].retryCount = 0;
-		
+
 		if (active[guuid].retryCount < retryCount) {
 			//OK retry allowed
 			active[guuid].retryCount += 1;
@@ -42,7 +42,7 @@ var BroadBridge = function (service, retryCount, cb, scope) {
 			console.error('FAILED: ' + guuid);
 			active[guuid].reject(error);
 			delete active[guuid];
-		}		
+		}
 	};
 	var recv = function (guuid, response) {
 
@@ -54,8 +54,9 @@ var BroadBridge = function (service, retryCount, cb, scope) {
 		}
 
 		//Check if the response is a success
-		if (jsonResponse.status != 0) {
-			err(guuid, response);
+		//if (jsonResponse.status != 0) {
+		if (!jsonResponse.success) {
+			err(guuid, { response : response });
 		} else {
 			//Ok now respond back!
 			console.info('SUCCESS: ' + guuid);
@@ -66,22 +67,23 @@ var BroadBridge = function (service, retryCount, cb, scope) {
 	var transmit = function (guuid, call, method, callObject) {
 		//make that AJAX call. Use the singleton instead of a new connection here
 		executing += 1;
+		var url = 'http://localhost:9002/TracFone/Tas/'
 		Ext.Ajax.request({
-			url: 'projectapi/' + call + '?dc=' + new Date(),
+			url: url + call + '?dc=' + new Date(),
 			method: method || 'GET',
 			jsonData: callObject, //callObject is already conformed
 			scope: this,
-			success: function(response){
+			success: function (response) {
 				executing -= 1;
 				recv(guuid, response);
 			},
-			failure: function(response){
+			failure: function (response) {
 				executing -= 1;
 				err(guuid, response);
 			}
 		});
 	};
-	
+
 	return {
 		send: function (call, method, callObject, nosave, guuid) {
 			var that = this;

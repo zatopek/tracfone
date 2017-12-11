@@ -12,26 +12,23 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.interactionNotes.InteractionNotes'
         me.callParent(arguments);
     },
 
-    listeners: {
-        afterrender: function () {
-            var me = this;
-            me.load();
-        }
-    },
-
     load: function () {
         var me = this;
-        //TODO get the data from the service
         var data = {
-            brand: 'TracFone1',
-            deviceType: 'Smartphone1',
-            reason: 'Redemption1',
-            result: 'Redemption Successfull1'
+            brand: managers['pushData'].serviceProfile.brand,
+            deviceType: managers['pushData'].deviceProfile.deviceType,
+            reason: Object.keys(REASON)[0], // select the first element. we might not need this
+            result: 'Redemption Successfull1'  // TBD
         }
         var fields = me.items.items[0].items.items[0].items.items;
         Ext.each(fields, function (item) {
-            item.setValue(data[item.name]);
+            if (data[item.name])
+                item.setValue(data[item.name]);
         })
+
+        // TODO from where we get this? 
+        var autoNotes = 'Airtime Pin added - $45 30-Dday UNL TALK/DATA, first 10 GB at High Speeds then at 2G'
+        me.down('#autoNotes').setValue(autoNotes);
     },
 
     reset: function () {
@@ -78,8 +75,39 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.interactionNotes.InteractionNotes'
                     fieldLabel: 'Device Type',
                     name: 'deviceType'
                 }, {
-                    fieldLabel: 'Reason',
-                    name: 'reason'
+                    xtype: 'combo',
+                    fieldLabel: "Reason",
+                    name: "reason",
+                    itemId: 'reason',
+                    valueField: 'val',
+                    displayField: 'name',
+                    editable: false,
+                    forceSelection: true,
+                    store: Ext.create('Ext.data.Store', {
+                        fields: ['val', 'name'],
+                        data: Object.keys(REASON).map(function (item, index) { return { "val": item, "name": item } })
+                    }),
+                    listeners: {
+                        change: function (combo, newValue, oldValue) {
+                            if (newValue) {
+                                var detailStore = Ext.create('Ext.data.Store', {
+                                    fields: ['val', 'name'],
+                                    data: REASON[newValue].map(function (item, index) { return { "val": item, "name": item } })
+                                });
+                                var detailCombo = me.down('#detail');
+                                detailCombo.bindStore(detailStore);
+                                detailCombo.select(detailCombo.getStore().getAt(0));
+                            }
+                        }
+                    }
+                }, {
+                    xtype: 'combo',
+                    name: 'detail',
+                    itemId: 'detail',
+                    fieldLabel: 'Detail',
+                    editable: false,
+                    valueField: 'val',
+                    displayField: 'name',
                 }, {
                     fieldLabel: 'Result',
                     name: 'result'
@@ -94,9 +122,8 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.interactionNotes.InteractionNotes'
                 name: 'autoNotes',
                 fieldLabel: 'Auto Notes',
                 itemId: 'autoNotes',
-                margin: "10 50 10 0",
+                margin: '10 50 10 0',
                 disabled: true,
-                value: "Airtime Pin added - $45 30-Dday UNL TALK/DATA, first 10 GB at High Speeds then at 2G"
             }]
         }
             , {

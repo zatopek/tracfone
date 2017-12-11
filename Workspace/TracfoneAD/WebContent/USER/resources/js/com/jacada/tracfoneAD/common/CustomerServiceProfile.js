@@ -28,6 +28,18 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.common.CustomerServiceProfile', {
         });
     },
 
+    checkBalance: function (value) {
+        if (value && parseInt(value) <= 0) {
+            value = '<span style="color:#f00">' + value + '</span>'
+        }
+        return value;
+    },
+    checkExpired: function (value) {
+        if (value && (new Date().getTime() > new Date(value).getTime())) {
+            value = '<span style="color:#f00">' + value + '</span>'
+        }
+        return value;
+    },
     initComponent: function () {
         var me = this;
         Ext.applyIf(me, {
@@ -144,7 +156,8 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.common.CustomerServiceProfile', {
                                             name: 'deactDate'
                                         }, {
                                             fieldLabel: 'Service End Date',
-                                            name: 'serviceEndDate'
+                                            name: 'serviceEndDate',
+                                            valueToRaw: me.checkExpired
                                         }, {
                                             fieldLabel: 'Next Charge Date',
                                             name: 'nextChargeDate'
@@ -233,13 +246,16 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.common.CustomerServiceProfile', {
                             name: 'phoneStatus'
                         }, {
                             fieldLabel: 'Voice Balance',
-                            name: 'voiceBalance'
+                            name: 'voiceBalance',
+                            valueToRaw: me.checkBalance
                         }, {
                             fieldLabel: 'SMS Balance',
-                            name: 'smsBalance'
+                            name: 'smsBalance',
+                            valueToRaw: me.checkBalance
                         }, {
                             fieldLabel: 'Data Balance',
-                            name: 'dataBalance'
+                            name: 'dataBalance',
+                            valueToRaw: me.checkBalance
                         }
                     ]
                 }

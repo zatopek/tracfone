@@ -12,6 +12,26 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.Redemption', {
         me.callParent(me);
     },
 
+    listeners: {
+        afterrender: function () {
+            var me = this;
+            var redemptionUrl = managers['jasHandler'].getRedemptionUrl();
+            me.down('#redemptionJasFrame').getEl().set({
+                'src': redemptionUrl
+            });
+        }
+    },
+
+    getRedemptionUrl: function () {
+        // TODO generate and return the JAS url 
+        adam.getDeviceProfile().then(function (response) {
+            debugger;
+        });
+
+        debugger;
+        return 'http://vivr.io/q61yLsG';
+    },
+
     loadComponent: function (componentName) {
         var me = this;
         var component = null;
@@ -82,12 +102,25 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.Redemption', {
                 border: false,
                 items: [
                     {
-                        xtype: 'panel',
+                        xtype: 'component',
+                        itemId: 'redemptionJasFrame',
                         columnWidth: 0.3,
-                        border: true,
-                        title: 'PPOCESS FLOW',
-                        html: '<iframe style="height: 550px; width: 100%; border:0";" src="http://vivr.io/q61yLsG"></iframe>'
+                        autoEl: {
+                            tag: 'iframe',
+                            src: '',
+                            allowfullscreen: true,
+                            frameborder: '0',
+                            height: 550,
+                            width: '100%'
+                        }
                     },
+                    // {
+                    //     xtype: 'panel',
+                    //     columnWidth: 0.3,
+                    //     border: true,
+                    //     title: 'PPOCESS FLOW',
+                    //     html: '<iframe style="height: 550px; width: 100%; border:0";" src="http://vivr.io/q61yLsG"></iframe>'
+                    // },
                     {
                         xtype: 'panel',
                         columnWidth: 0.7,
