@@ -6,6 +6,6 @@ import java.sql.ResultSet;
 import com.jacada.tracfoneAD.customerServiceProfile.entities.CustomerServiceProfile;
 
 public interface CustomerServiceProfileDao extends Serializable {
-	ResultSet getCustomerServiceProfile(String esn);
-	ResultSet getOperatingSystem(String partNumber);
+	public ResultSet getCustomerServiceProfile(String esn);
+	public ResultSet getOperatingSystem(String partNumber);
 }

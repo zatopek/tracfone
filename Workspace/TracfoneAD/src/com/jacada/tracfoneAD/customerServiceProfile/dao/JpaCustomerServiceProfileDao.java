@@ -22,7 +22,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class JpaCustomerServiceProfileDao implements CustomerServiceProfileDao {
 
 	private static final long serialVersionUID = 1L;
-	private EntityManager entityManager;
 
 	@Value("${jdbc.driverClassName}")
 	private String driverClassName;
@@ -32,11 +31,6 @@ public class JpaCustomerServiceProfileDao implements CustomerServiceProfileDao {
 	private String username;
 	@Value("${jdbc.password}")
 	private String password;
-
-	@PersistenceContext
-	public void setEntityManager(EntityManager entityManager) {
-		this.entityManager = entityManager;
-	}
 
 	@Override
 	public ResultSet getCustomerServiceProfile(String esn) {
@@ -50,7 +44,7 @@ public class JpaCustomerServiceProfileDao implements CustomerServiceProfileDao {
 				+ "part_number, lease_status_flag, lease_status_name, sequence, service_type, rate_plan, service_plan_objid,"
 				+ "carrier, technology, technology_alt, install_date, service_end_dt, x_expire_dt, next_charge_date, brand,"
 				+ "dealer_name, cards_in_queue, warranty_exchanges, basic_warranty, extended_warranty, x_policy_description,"
-				+ "adf_next_refill_date, customer_id, first_name, last_name, e_mail, groupid, x_zipcode, lid, phone_status"
+				+ "sp_script_text, adf_next_refill_date, customer_id, first_name, last_name, e_mail, groupid, x_zipcode, lid, phone_status"
 				+ " from table(sa.adfcrm_vo.get_service_profile(?,?))";
 
 		try {
