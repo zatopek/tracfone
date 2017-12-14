@@ -67,7 +67,7 @@ var Adam = function () {
 			});
 
 			managers['interactcomm'].register('callJia', this, function (data) {
-				this.callService('SUI/Launch?min=' + managers['pushData'].deviceProfile.min, 'POST').then(function (response) {
+				this.callService('Tas/SUI/Launch?min=' + managers['pushData'].deviceProfile.min, 'POST').then(function (response) {
 					// do nothing
 				});
 			});
@@ -128,7 +128,14 @@ var Adam = function () {
 			//First get the attached data
 		},
 		endCall: function () {
-			//Maybe each widget should implement this function
+			//reset all widgets
+			// for (var widget in widgets) {
+			// 	if (widgets[widget].reset && typeof widgets[widget].reset === 'function')
+			// 		widgets[widget].reset();
+			// }
+
+			// debugger;
+
 		},
 		endDisposition: function () {
 			//The reset should take care of clearing everything.
