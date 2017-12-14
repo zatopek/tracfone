@@ -20,6 +20,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.AddPin', {
         var me = this;
         Ext.applyIf(me, {
             name: 'addPin',
+            cls: 'airtimePinCls',
             items: me.createComponent(),
         });
         me.callParent(arguments);

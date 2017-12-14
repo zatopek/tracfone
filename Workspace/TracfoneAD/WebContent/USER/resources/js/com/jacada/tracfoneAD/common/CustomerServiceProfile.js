@@ -44,6 +44,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.common.CustomerServiceProfile', {
         var me = this;
         Ext.applyIf(me, {
             name: 'customerServiceProfile',
+            cls: 'customerServiceProfileCls',
             items: [
                 {
                     columnWidth: 0.35,

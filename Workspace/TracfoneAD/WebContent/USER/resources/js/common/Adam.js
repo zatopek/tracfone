@@ -14,7 +14,7 @@ var Adam = function () {
 	managers['comm'] = new BroadBridge("", 2, function () { }, this);
 	//This is a singleton. But should also be accessible outside just in case it is required.
 	managers['interactcomm'] = wsCommunicator;
-	managers['projectvariables'] = projectVariable;
+	//managers['projectvariables'] = projectVariable;
 	managers['ctiHelper'] = ctiHelper;
 	managers['windowsManager'] = new WindowsManager();
 	managers['jasHandler'] = new JasHandler();
@@ -30,7 +30,7 @@ var Adam = function () {
 	});
 
 	managers['deviceProfile'] = new DataStore({
-		uniqueId: 'sim',
+		uniqueId: 'customerId',
 		resources: {
 		}
 	});
@@ -55,10 +55,22 @@ var Adam = function () {
 			managers["interactcomm"].register("navigation", this, function (data) {
 				var className = data.classname; // class name to load
 				var component = data.component; // widget key (name)
-				widgets[component].loadComponent(className);
+				// we will only get this in ticket form
+				var params = null;
+				if (data.tickettitle) {
+					params = {
+						ticketTitle: data.tickettitle,
+						ticketType: data.tickettype
+					};
+				}
+				widgets[component].loadComponent(className, params);
 			});
 
-			managers['interactcomm'].register('confirmPolicy', this, function (data) { });
+			managers['interactcomm'].register('callJia', this, function (data) {
+				this.callService('SUI/Launch?min=' + managers['pushData'].deviceProfile.min, 'POST').then(function (response) {
+					// do nothing
+				});
+			});
 		},
 		callService: function (call, method, callObject) {
 			return managers['comm'].send(call, method, callObject);
@@ -174,13 +186,14 @@ var Adam = function () {
 		savePushData: function (data) {
 			debugger;
 			//save call data
+			//save call data
 			// call data IDs for different component
-			this.callData.sim = data.deviceProfile.sim;
+			this.callData.customerId = data.customerProfile.customerId;
 			managers['deviceProfile'].digest(data.deviceProfile);
 
 		},
-		getDeviceProfile: function (sim) {
-			return managers['deviceProfile'].get(sim || this.callData.sim);
+		getDeviceProfile: function (customerId) {
+			return managers['deviceProfile'].get(customerId || this.callData.customerId);
 		}
 	};
 

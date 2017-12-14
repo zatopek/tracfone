@@ -1,8 +1,18 @@
 // TODO replace with real values
 const REASON = {
-    "Reason1": ["Reason 1 Detail1", "Reason 1 Detail2"],
-    "Reason2": ["reason 2, detail 1", "reason 2 detail 2"],
-    "Reason3": ["reason 3 detail 1", "reason 3 detail 2"],
-    "Reason4": ["reason 4 detail 1", "reason 4 detail 2"],
-    "Reason5": ["reason 5 detail 1", "reason 5 detail 2"]
+    "Redemption": ["Anitime added to be wrong ESN",
+        "Customer purchases wrong airtime card",
+        "Data Add-On",
+        "Invalid/Inactive POSA Issue",
+        "Promo Issue",
+        "Redemption Failure",
+        "Redemption Successful",
+        "Reup",
+        "Scratched off pin"],
+    "Unable/Unable": ["Carrier outage",
+        "No coverage",
+        "OTA pending",
+        "Pending",
+        "SIM Issue"],
 };
+const RESULT = ["Call Completed", "Call Transfered", "Hang up/Disconnected", "Case created"]

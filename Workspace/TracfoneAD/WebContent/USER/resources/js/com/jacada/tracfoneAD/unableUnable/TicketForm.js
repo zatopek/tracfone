@@ -3,10 +3,12 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.unableUnable.TicketForm', {
     title: 'CREATE TICKET',
     xtype: 'ticketForm',
     border: false,
+
     initComponent: function () {
         var me = this;
         Ext.applyIf(me, {
             name: 'ticketForm',
+            cls: 'ticketFormCls',
             items: [
                 {
                     xtype: 'form',
@@ -22,39 +24,17 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.unableUnable.TicketForm', {
                             xtype: 'displayfield',
                             fieldLabel: 'Ticket Type',
                             name: 'ticketType',
-                            value: 'Coverage'
                         },
                         {
                             xtype: 'displayfield',
                             fieldLabel: 'Ticket Title',
                             name: 'ticketTitle',
-                            value: 'Customer needs SIM4'
                         },
                         {
                             xtype: 'displayfield',
                             fieldLabel: 'Priority',
                             name: 'priority',
-                            value: 'High'
                         },
-                        /*
-                        new Ext.form.ComboBox({
-                            store: Ext.data.Priority,
-                            typeAhead: true,
-                            forceSelection: true,
-                            triggerAction: 'all',
-                            emptyText: 'Select a priority...',
-                            selectOnFocus: true
-                        }),
-                
-                            new Ext.form.ComboBox({
-                                store: Ext.data.TicketTitles,
-                                typeAhead: true,
-                                forceSelection: true,
-                                triggerAction: 'all',
-                                emptyText: 'Select a ticket title...',
-                                selectOnFocus: true
-                            }),
-                            */
                         {
                             xtype: 'displayfield',
                             fieldLabel: 'Status',
@@ -89,6 +69,10 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.unableUnable.TicketForm', {
                                     me.createTicket();
                             },
                             scope: me
+                        }, {
+                            xtype: 'displayfield',
+                            itemId: 'createTicketResponse',
+                            value: ''
                         }
                     ]
                 }
@@ -99,11 +83,37 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.unableUnable.TicketForm', {
 
     createTicket: function () {
         var me = this;
+        me.mask('Please wait...');
         var data = me.down('form').getForm().getValues();
-        // TODO send this data to server
+        Ext.apply(data, {
+            type: me.ticketType, // from jas to component param
+            title: me.ticketTitle, // from jas to component param
+            priority: 'High',
+            status: 'Pending'
+        });
+        adam.callService('Tickets', 'POST', data).then(function (response) {
+            me.down('#createTicketResponse').setValue(response);
+            me.unmask();
+        }).error(function () {
+            Ext.Msg.alert('ERROR', 'Please try again');
+            me.unmask();
+        });
     },
+
     load: function () {
-        // TODO get data from server and load
+        var me = this;
+        me.mask('Please wait..');
+        var response = {
+            ticketType: me.ticketType, // from jas to component param
+            ticketTitle: me.ticketTitle, // from jas to component param
+            priority: 'High',
+            status: 'Pending'
+        };
+
+        Ext.each(me.query('displayfield'), function (field) {
+            field.setValue(response[field.name]);
+        });
+        me.unmask();
     },
 
     reset: function () {

@@ -3,13 +3,13 @@ function onCustomerServiceProfile(pushData) {
 
     // TODO remove this dummy Data
 
+
     pushData = {
-        deviceProfile: { "deviceType": "BYOB", "sim": "123", "minStatus": "INACTIVE", "simStatus": "SIM ACTIVE", "phoneGen": "AD-LTE", "os": "and" },
-        serviceProfile: { "serviceType": "type of service", "brand": "my Brand", "carrier": "Sprint", "serviceEndDate": "12/15/2017", "cardsInReserve":"2" },
+        deviceProfile: { "deviceType": "BYOP", "sim": "123", "minStatus": "ACTIVE", "simStatus": "SIM ACTIVE", "phoneGen": "AD-LTE", "os": "and" },
+        serviceProfile: { "serviceType": "type of service", "brand": "my Brand", "carrier": "AT&T", "serviceEndDate": "12/15/2017", "cardsInReserve":"2" },
         customerProfile: { "customerId": "lksdf9879789", "contactName": "Peter Parer" },
         accountBalances: { "phoneStatus": "Pending", "smsBalance": "124", "voiceBalance": "0" }
     }
-
     // save it in managers for now. Need a way to put it in datastore depending on unique Id
     managers['pushData'] = pushData;
     // pushData.customerProfile.account = {};
@@ -39,4 +39,9 @@ function onLaunchWorkflow(taskId) {
         //launch JAS redemption flow with parameters
         ShowTabById('RedemptionTab');
     }
+}
+
+function onAgentEnvUsername(data)
+{
+    $W().username = data;
 }

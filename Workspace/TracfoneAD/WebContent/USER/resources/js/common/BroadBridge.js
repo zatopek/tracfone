@@ -67,11 +67,11 @@ var BroadBridge = function (service, retryCount, cb, scope) {
 	var transmit = function (guuid, call, method, callObject) {
 		//make that AJAX call. Use the singleton instead of a new connection here
 		executing += 1;
-		var url = 'http://localhost:9002/TracFone/Tas/'
+		var url = 'http://localhost:9002/TracFone/' +  $W().username + '/Tas';
 		Ext.Ajax.request({
 			url: url + call + '?dc=' + new Date(),
 			method: method || 'GET',
-			jsonData: callObject, //callObject is already conformed
+			jsonData: callObject.object, //callObject is already conformed
 			scope: this,
 			success: function (response) {
 				executing -= 1;

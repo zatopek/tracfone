@@ -4,29 +4,31 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.EstimatedCost', {
     defaults: {
         xtype: 'displayfield',
         labelStyle: 'white-space: nowrap;',
-        renderer: Ext.util.Format.usMoney
+        // uncomment line below when we get numbers from the service
+        // renderer: Ext.util.Format.usMoney 
     },
     initComponent: function () {
         $W().setTabTitle("RedemptionTab", "");
         var me = this;
         Ext.applyIf(me, {
             name: 'estimatedCost',
+            cls: 'estimatedCostCls',
             items: [{
 
                 fieldLabel: 'Subtotal',
-                name: 'subTotal',
+                name: 'totalChargeToday',
             }, {
 
                 fieldLabel: 'Tax',
-                name: 'tax',
+                name: 'totalAllTax',
             }, {
 
                 fieldLabel: 'E911',
-                name: 'e911',
+                name: 'e911Tax',
             }, {
 
                 fieldLabel: 'Total',
-                name: 'total',
+                name: 'totalAmount',
             }]
         });
         me.callParent(me);

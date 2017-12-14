@@ -7,6 +7,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.interactionNotes.InteractionNotes'
         var me = this;
         Ext.applyIf(me, {
             name: 'interactionNotes',
+            cls: 'interactionNotePanelCls',
             items: me.createComponent()
         });
         me.callParent(arguments);
@@ -14,11 +15,14 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.interactionNotes.InteractionNotes'
 
     load: function () {
         var me = this;
+        var reason = 'Unable/Unable'
+        if (managers['flowType'] === 'redemption')
+            reason = 'Redemption';
+
         var data = {
             brand: managers['pushData'].serviceProfile.brand,
             deviceType: managers['pushData'].deviceProfile.deviceType,
-            reason: Object.keys(REASON)[0], // select the first element. we might not need this
-            result: 'Redemption Successfull1'  // TBD
+            reason: reason, // select the first element. we might not need this
         }
         var fields = me.items.items[0].items.items[0].items.items;
         Ext.each(fields, function (item) {
@@ -75,12 +79,14 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.interactionNotes.InteractionNotes'
                     fieldLabel: 'Device Type',
                     name: 'deviceType'
                 }, {
-                    xtype: 'combo',
+                    xtype: 'combo', // Consider making this displayfield and load detail combo using the flowtype parameter if there is no need for a change event for this in future
                     fieldLabel: "Reason",
+                    width: 350,
                     name: "reason",
                     itemId: 'reason',
                     valueField: 'val',
                     displayField: 'name',
+                    disabled: true,
                     editable: false,
                     forceSelection: true,
                     store: Ext.create('Ext.data.Store', {
@@ -96,7 +102,6 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.interactionNotes.InteractionNotes'
                                 });
                                 var detailCombo = me.down('#detail');
                                 detailCombo.bindStore(detailStore);
-                                detailCombo.select(detailCombo.getStore().getAt(0));
                             }
                         }
                     }
@@ -105,12 +110,26 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.interactionNotes.InteractionNotes'
                     name: 'detail',
                     itemId: 'detail',
                     fieldLabel: 'Detail',
+                    width: 350,
+                    emptyText: 'Choose an Issue',
                     editable: false,
                     valueField: 'val',
                     displayField: 'name',
                 }, {
+                    xtype: 'combo',
                     fieldLabel: 'Result',
-                    name: 'result'
+                    name: 'result',
+                    itemId: 'result',
+                    width: 350,
+                    emptyText: 'Choose a Result',
+                    editable: false,
+                    queryMode: 'local',
+                    valueField: 'val',
+                    displayField: 'name',
+                    store: Ext.create('Ext.data.Store', {
+                        fields: ['val', 'name'],
+                        data: RESULT.map(function (item, index) { return { "val": item, "name": item } })
+                    })
                 }]
             }]
         }, {
