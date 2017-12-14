@@ -50,11 +50,22 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.interactionNotes.InteractionNotes'
         me.mask('Please wait...');
         var autoNotes = me.down('#autoNotes').getValue()
         var agentNotes = me.down('#agentNotes').getValue();
+        var requestObject = {
+            reason: me.down('#reason').getValue(),
+            notes: me.down('#agentNotes').getValue(),
+            detail: me.down('#detail').getValue(),
+            result: me.down('#result').getValue()
+        }
 
-        // TODO send the values to server and display message from response
-        var response = 'Interaction created.'
-        me.down('#createInteractioResponse').setValue(response);
-        me.unmask();
+        adam.callService('Tas/Interctions', 'POST', requestObject).then(function (response) {
+            me.down('#createInteractioResponse').setValue(response);
+            // TODO end the call here ?? 
+            //adam.endCall();
+            me.unmask();
+        }).catch(function (e) {
+            Ext.Msg.alert('ERROR', 'Sorry, Interaction could not be created. Please try again.');
+            me.unmask();
+        });
     },
     createComponent: function () {
         var me = this;
@@ -66,7 +77,8 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.interactionNotes.InteractionNotes'
                 padding: '5'
             },
             items: [{
-                xtype: 'panel',
+                xtype: 'form',
+                itemId: 'interactionInfoForm',
                 border: false,
                 defaults: {
                     xtype: 'displayfield',

@@ -91,11 +91,11 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.unableUnable.TicketForm', {
             priority: 'High',
             status: 'Pending'
         });
-        adam.callService('Tickets', 'POST', data).then(function (response) {
+        adam.callService('Tas/Tickets', 'POST', data).then(function (response) {
             me.down('#createTicketResponse').setValue(response);
             me.unmask();
-        }).error(function () {
-            Ext.Msg.alert('ERROR', 'Please try again');
+        }).catch(function () {
+            Ext.Msg.alert('ERROR', 'Sorry, ticket could not be created. Please try again.');
             me.unmask();
         });
     },
