@@ -28,7 +28,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.PaymentTransaction', {
             me.unmask();
 
         }).catch(function () {
-            Ext.Msg.alert('ERROR', 'Sorry, cards could not be found. Please try again.');
+            //  Ext.Msg.alert('ERROR', 'Sorry, cards could not be found. Please try again.');
             me.unmask();
         })
     },
@@ -63,12 +63,22 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.PaymentTransaction', {
         var promoCode = me.down('#promoCode').getValue();
         var partNumber = me.up().down('airtimePlan').down('#airtimePlanGrid').getSelectionModel().getSelection()[0].get('partNumber');
         var cvv = me.down('#cvv').getValue();
-        var payment = me.down('#selectPayment').getValue();
+        var creditCardNumber = me.down('#selectPayment').getValue();
         var autoFill = me.down('#autoFill').checked;
-        // TODO send this data to the service and get the response;
-        var response = 'Artime Purchase successfull';
-        me.down('#airtimePurchaseResponse').setValue(response);
-
+        me.mask('Please wait...');
+        adam.callService('Tas/Cards/' + partNumber + '?promocode=' + promoCode, 'POST', {
+            cardPartNumber: partNumber,
+            creditCardNumber: creditCardNumber,
+            promoCode: promoCode
+        }).then(function (response) {
+            me.down('#airtimePurchaseResponse').setValue(response);
+            var airtimeSelected = me.up().down('airtimePlan').down('#airtimePlanGrid').getSelectionModel().getSelection()[0];
+            adam.addAutoNotes('Pin Purchased - ' + airtimeSelected.get('description'));
+            me.unmask();
+        }).catch(function () {
+            Ext.Msg.alert('ERROR', 'Sorry, something went wrong while processing yoru request. Please try again.');
+            me.unmask();
+        })
     },
 
     changePurchaseButton: function () {

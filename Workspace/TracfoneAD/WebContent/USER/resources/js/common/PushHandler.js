@@ -4,7 +4,7 @@ function onCustomerServiceProfile(pushData) {
     // TODO remove this dummy Data
 
     pushData = {
-        deviceProfile: { "deviceType": "BYOP", "sim": "123", "minStatus": "ACTIVE", "simStatus": "SIM ACTIVE", "phoneGen": "AD-LTE", "os": "and" },
+        deviceProfile: { "min":"3219990000", "deviceType": "BYOP", "sim": "123", "minStatus": "ACTIVE", "simStatus": "SIM ACTIVE", "phoneGen": "AD-LTE", "os": "and" },
         serviceProfile: { "serviceType": "type of service", "brand": "my Brand", "carrier": "VErizon", "serviceEndDate": "12/15/2017", "cardsInReserve": "2" },
         customerProfile: { "customerId": "lksdf9879789", "contactName": "Peter Parer" },
         accountBalances: { "phoneStatus": "Pending", "smsBalance": "124", "voiceBalance": "0" }
@@ -81,4 +81,10 @@ function onLaunchWorkflow(taskId) {
         managers['flowType'] = 'redemption'; // to keep track of the flow
         ShowTabById('RedemptionTab');
     }
+
+}
+
+function onAgentEnvUsername(data)
+{
+    $W().username = data;
 }

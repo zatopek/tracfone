@@ -131,21 +131,6 @@
          //set audit configuration at client side
 	    $W().isAuditEnabled =    <%=global.getAuditingManager().getConfiguration().isAuditingEnabled()%>;
 	    $W().isSwitchTabAuditEventEnabled = <%=global.getAuditingManager().getConfiguration().isAuditingPointEnabled(AuditingPoint.SWITCH_TAB)%>;
-        $W().ssoWindow = Ext.create('Jacada.user.com.jacada.tracfoneAD.sSO.SSO');
-
-        Ext.Ajax.request({
-            url : $W().contextPath + '/rest/sso/getAgentSsoCredentials/' + $W().agentName,
-            method:'GET',
-            success:function(response){
-                logins = Ext.decode(response.responseText).payload;
-                if(logins.length==0){
-                    $W().ssoWindow.show();
-                }
-            },
-            failure : function(response) {
-                //$W().ssoWindow.show();
-            }
-        });
 
 	</script>
 	   	

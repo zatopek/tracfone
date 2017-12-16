@@ -44,6 +44,9 @@ public class ExtensionManager implements AbstractManager, FailOverAware {
 		
 		String agentName = (String) request.getSession().getAttribute("agentName");
 		
+		if(username==null || username.equals("null")){
+			username = "";
+		}
 		
 		try {
 			PushHelper.pushMessageToAgent(request.getSession(), agentName, "AgentEnvUsername", username);

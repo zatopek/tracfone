@@ -71,7 +71,7 @@ function logout(cancel, reason, isNewDepartment)
     $W().workspaceOut = true;
     onAgentLogout();
     Push.stop();
-    
+
     var isNewDepartmentStr = (isNewDepartment == true) ? "newdepartment" :""; 
     var parametersString = '&reason=' + reason  + '&department=' + isNewDepartmentStr + '&username=' + $W().username;
     closeAllSubWindows();

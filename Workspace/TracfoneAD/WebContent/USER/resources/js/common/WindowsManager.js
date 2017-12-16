@@ -6,7 +6,11 @@ var WindowsManager
 	WindowsManager = function () {
 		var windows = {};
 
-		var _internal = {}
+		var _internal = {
+			ssoWindow: function () {
+				windows['ssoWindow'] = Ext.create('Jacada.user.com.jacada.tracfoneAD.sSO.SSO');
+			}
+		}
 
 		return {
 			show: function (name, data, forceCreate) {

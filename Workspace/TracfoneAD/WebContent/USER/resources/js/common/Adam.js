@@ -34,7 +34,7 @@ var Adam = function () {
 		resources: {
 		}
 	});
-
+	managers['autoNotes'] = '';
 
 	return {
 		load: function () {
@@ -122,16 +122,48 @@ var Adam = function () {
 		getAirtimePlan: function (planId) {
 			return managers['plansDataStore'].get(planId);
 		},
+		addAutoNotes: function (notes) {
+			managers['autoNotes'] += notes;
+		},
+		getAgentSsoCredentials: function () {
+			Ext.Ajax.request({
+				url: $W().contextPath + '/rest/sso/getAgentSsoCredentials/' + $W().agentName,
+				method: 'GET',
+				success: function (response) {
+					logins = Ext.decode(response.responseText).payload;
+					if (logins.length === 0) {
+						managers['windowsManager'].show('ssoWindow');
+					}
+					else {
+						var resource = 'Credentials?system=workspace&user=' + $W().agentName + '&password=';
+						adam.callService(resource, 'POST', JSON.stringify(logins)).then(function (response) {
+							// do nothing
+						}).catch(function (error) {
+						});
+
+					}
+				},
+				failure: function (response) {
+					//$W().ssoWindow.show();
+					debugger;
+				}
+			});
+		},
 		startCall: function () {
 			//Maybe each widget should implement this function
 			//What should happen at the start of a call??
 			//First get the attached data
 		},
 		endCall: function () {
-			//reset all widgets
-			// for (var widget in widgets) {
-			// 	if (widgets[widget].reset && typeof widgets[widget].reset === 'function')
-			// 		widgets[widget].reset();
+			// reset all widgets
+			// for (var key in widgets) {
+			// 	if (widgets[key].reset) {
+			// 		try {
+			// 			widgets[key].reset();
+			// 		} catch (e) {
+			// 			console.err('Failed to reset - ' + key);
+			// 		}
+			// 	}
 			// }
 
 			// debugger;
@@ -212,6 +244,8 @@ Ext.onReady(function () {
 	console.info('Adam is in charge now!');
 	adam = new Adam();
 	adam.load();
+	adam.getAgentSsoCredentials();
+
 	// hide the portlet
 	widgets['customerServiceProfile'].up().up().hide()
 });

@@ -90,6 +90,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.AddPin', {
 
         adam.callService(resource, method, {}).then(function (response) {
             me.down('#transactionSummary').setValue(response);
+            adam.addAutoNotes('Airtime Pin Added - ' + me.down('#addAirtimeResponse').getValue());
             me.unmask();
         }).catch(function () {
             Ext.Msg.alert('ERROR', 'Sorry, adding pin failed. Please try again.');

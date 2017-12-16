@@ -31,7 +31,8 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.interactionNotes.InteractionNotes'
         })
 
         // TODO from where we get this? 
-        var autoNotes = 'Airtime Pin added - $45 30-Dday UNL TALK/DATA, first 10 GB at High Speeds then at 2G'
+        //var autoNotes = 'Airtime Pin added - $45 30-Dday UNL TALK/DATA, first 10 GB at High Speeds then at 2G';
+        var autoNotes = managers['autoNotes'] || '';
         me.down('#autoNotes').setValue(autoNotes);
     },
 

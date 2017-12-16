@@ -1111,8 +1111,8 @@ h2 {
 }
 
 .estimatedCostCls .x-panel-body {
-	margin: 10px;
-	height: 90px !important;
+	 margin: 10px;
+	 height: 90px !important;
 }
 
 .attCallAssistanceCls, .verizonCallAssistanceCls,
@@ -1128,6 +1128,15 @@ h2 {
 .verizonCallAssistanceCls .x-panel-body, .ticketFormCls .x-panel-body,
 .interactionNotePanelCls .x-panel-body, .airtimePinCls .x-panel-body .x-panel .x-panel .x-panel-body {
 	padding: 5px;
+}
+
+.ssoFormCls .x-form-display-field {
+	margin-top: 4px;
+	color: #004da1;
+	font-weight: bold;
+	font: normal 11px/11px helvetica,arial,verdana,sans-serif;
+	margin-left: 2px;
+	margin-bottom: 6px;
 }
 
 /* End bottom section */

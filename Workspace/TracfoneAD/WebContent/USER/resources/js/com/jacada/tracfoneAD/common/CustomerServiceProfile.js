@@ -4,7 +4,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.common.CustomerServiceProfile', {
     layout: 'column',
     defaults: {
         margin: '5 10 0 5', //top right bottom left (clockwise) margins of each item/column
-        height: 280
+        height: 200
     },
 
     load: function (data) {
@@ -28,9 +28,15 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.common.CustomerServiceProfile', {
         });
     },
 
+    checkStatus: function (value) {
+        if (value && value.toLowerCase().indexOf('inactive') >= 0) {
+            value = '<span style="color:#f00">' + value + '</span>';
+        }
+        return value;
+    },
     checkBalance: function (value) {
         if (value && parseInt(value) <= 0) {
-            value = '<span style="color:#f00">' + value + '</span>'
+            value = '<span style="color:#f00">' + value + '</span>';
         }
         return value;
     },
@@ -71,13 +77,15 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.common.CustomerServiceProfile', {
                                             name: 'sim'
                                         }, {
                                             fieldLabel: 'SIM Status',
-                                            name: 'simStatus'
+                                            name: 'simStatus',
+                                            valueToRaw: me.checkStatus
                                         }, {
                                             fieldLabel: 'MIN',
                                             name: 'min'
                                         }, {
                                             fieldLabel: 'MIN Status',
-                                            name: 'minStatus'
+                                            name: 'minStatus',
+                                            valueToRaw: me.checkStatus
                                         }, {
                                             fieldLabel: 'MSID',
                                             name: 'msid'
@@ -178,7 +186,8 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.common.CustomerServiceProfile', {
                                             name: 'dealer'
                                         }, {
                                             fieldLabel: 'Cards in Reserve',
-                                            name: 'cardsInReserve'
+                                            name: 'cardsInReserve',
+                                            valueToRaw: me.checkBalance
                                         }, {
                                             fieldLabel: 'Warranty Exchanges',
                                             name: 'warrantyExchanges'

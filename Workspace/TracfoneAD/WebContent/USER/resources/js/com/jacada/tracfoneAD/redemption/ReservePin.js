@@ -8,7 +8,6 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.ReservePin', {
     },
     load: function () {
         var me = this;
-        // TODO get the data for drop down
         me.mask('loading...');
         var min = managers['pushData'].deviceProfile.min;
         adam.callService('Tas/PINs/Reserved?min=' + min, 'GET', {}).then(function (response) {
@@ -71,6 +70,8 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.ReservePin', {
         me.down('#transactionSummaryContainer').mask('Please wait..');
         adam.callService('Tas/PINs/' + record.partNumber, 'DELETE').then(function (response) {
             me.down('#transactionSummaryResponse').setValue(response);
+            var selectedPin = me.down('#reservePinGrid').getSelectionModel().getSelection()[0];
+            adam.addAutoNotes('Reserved Pin - ' + selectedPin.get('redCode') + ' - ' + selectedPin('snp'));
             me.down('#transactionSummaryContainer').unmask();
         }).catch(function () {
             Ext.Msg.alert('ERROR', 'Sorry, something went wrong while processing your request. Please try again.');
@@ -83,16 +84,13 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.ReservePin', {
         Ext.define('reservePinModel', {
             extend: 'Ext.data.Model',
             fields: [{
+                name: 'redCode',
+                type: 'string'
+            }, {
+                name: 'snp',
+                type: 'string'
+            }, {
                 name: 'partNumber',
-                type: 'string'
-            }, {
-                name: 'description',
-                type: 'string'
-            }, {
-                name: 'accessDays',
-                type: 'string'
-            }, {
-                name: 'statusDescription',
                 type: 'string'
             }
             ]
@@ -110,22 +108,18 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.ReservePin', {
             store: myStore,
             columns: [
                 {
+                    text: "Red Code",
+                    flex: 2,
+                    dataIndex: 'redCode'
+                }, {
+                    text: "SNP",
+                    flex: 1,
+                    dataIndex: 'snp'
+                },
+                {
                     text: "Part Number",
                     flex: 1,
                     dataIndex: 'partNumber'
-                }, {
-                    text: "Description",
-                    flex: 2,
-                    dataIndex: 'description'
-                }, {
-                    text: "Access Days",
-                    flex: 1,
-                    dataIndex: 'accessDays'
-                },
-                {
-                    text: "Status Description",
-                    flex: 1,
-                    dataIndex: 'statusDescription'
                 }
             ],
             forceFit: true,

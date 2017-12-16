@@ -29,14 +29,7 @@ public class LoginInterceptor extends
 			String agentName = paramHttpServletRequest
 					.getParameter("j_username");
 			paramHttpServletRequest.getSession().setAttribute("agentName", agentName);
-			/*
-			try {
-				PushHelper.pushMessageToAgent(paramHttpServletRequest.getSession(), "AgentEnvUsername", username);
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			*/
+
 		}
 		return null;
 	}
