@@ -33,11 +33,17 @@
                 			  always-use-default-target="false"  authentication-failure-handler-ref="failureHandler"
                 			  authentication-success-handler-ref="successHandler" />
                 <s:session-management session-authentication-strategy-ref="sessionCreationStrategy"/>
+                <s:custom-filter ref="loginInterceptor" position="PRE_AUTH_FILTER"/>
     		</s:http>
     
     <bean id="sessionCreationStrategy" class="com.jacada.jad.security.AuthenticatedSessionStrategy">
 
     </bean>
+         
+    <bean id="loginInterceptor" class="com.jacada.tracfoneAD.util.LoginInterceptor">
+    	<property name="authenticationManager" ref="authenticationManager"></property>
+    </bean>
+    
   <!--
   	<bean id="authenticationProcessingFilter" class="org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter">
         <property name="allowSessionCreation" value="false"/>

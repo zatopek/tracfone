@@ -8,15 +8,14 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.ReservePin', {
     },
     load: function () {
         var me = this;
-        // TODO get the data for drop down
         me.mask('loading...');
         var min = managers['pushData'].deviceProfile.min;
-        adam.callService('PINs/Reserved?min=' + min, 'GET', {}).then(function (response) {
+        adam.callService('Tas/PINs/Reserved?min=' + min, 'GET', {}).then(function (response) {
             if (response.length > 0)
                 me.down('#reservePinGrid').getStore().loadData(response);
             me.unmask();
-        }).error(function () {
-            Ext.Msg.alert('ERROR', 'Error getting reserve pin data');
+        }).catch(function () {
+            Ext.Msg.alert('ERROR', 'Sorry, reserved pins could not be found. Pelase try again.');
             me.unmask();
         });
     },
@@ -69,11 +68,13 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.ReservePin', {
     sendToJia: function (grid, record, item, index, event, eOpts) {
         var me = this;
         me.down('#transactionSummaryContainer').mask('Please wait..');
-        adam.callService('PINs/' + record.partNumber, 'DELETE').then(function (response) {
+        adam.callService('Tas/PINs/' + record.partNumber, 'DELETE').then(function (response) {
             me.down('#transactionSummaryResponse').setValue(response);
+            var selectedPin = me.down('#reservePinGrid').getSelectionModel().getSelection()[0];
+            adam.addAutoNotes('Reserved Pin - ' + selectedPin.get('redCode') + ' - ' + selectedPin('snp'));
             me.down('#transactionSummaryContainer').unmask();
-        }).error(function () {
-            Ext.Msg.alert('ERROR', 'Error getting transaction');
+        }).catch(function () {
+            Ext.Msg.alert('ERROR', 'Sorry, something went wrong while processing your request. Please try again.');
             me.down('#transactionSummaryContainer').unmask();
         })
     },
@@ -83,16 +84,13 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.ReservePin', {
         Ext.define('reservePinModel', {
             extend: 'Ext.data.Model',
             fields: [{
+                name: 'redCode',
+                type: 'string'
+            }, {
+                name: 'snp',
+                type: 'string'
+            }, {
                 name: 'partNumber',
-                type: 'string'
-            }, {
-                name: 'description',
-                type: 'string'
-            }, {
-                name: 'accessDays',
-                type: 'string'
-            }, {
-                name: 'statusDescription',
                 type: 'string'
             }
             ]
@@ -110,22 +108,18 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.ReservePin', {
             store: myStore,
             columns: [
                 {
+                    text: "Red Code",
+                    flex: 2,
+                    dataIndex: 'redCode'
+                }, {
+                    text: "SNP",
+                    flex: 1,
+                    dataIndex: 'snp'
+                },
+                {
                     text: "Part Number",
                     flex: 1,
                     dataIndex: 'partNumber'
-                }, {
-                    text: "Description",
-                    flex: 2,
-                    dataIndex: 'description'
-                }, {
-                    text: "Access Days",
-                    flex: 1,
-                    dataIndex: 'accessDays'
-                },
-                {
-                    text: "Status Description",
-                    flex: 1,
-                    dataIndex: 'statusDescription'
                 }
             ],
             forceFit: true,

@@ -4,8 +4,8 @@ function onCustomerServiceProfile(pushData) {
     // TODO remove this dummy Data
 
     pushData = {
-        deviceProfile: { "deviceType": "BYOB", "sim": "123", "minStatus": "INACTIVE", "simStatus": "SIM ACTIVE", "phoneGen": "AD-LTE", "os": "and" },
-        serviceProfile: { "serviceType": "type of service", "brand": "my Brand", "carrier": "Sprint", "serviceEndDate": "12/15/2017", "cardsInReserve":"2" },
+        deviceProfile: { "min":"3219990000", "deviceType": "BYOP", "sim": "123", "minStatus": "ACTIVE", "simStatus": "SIM ACTIVE", "phoneGen": "AD-LTE", "os": "and" },
+        serviceProfile: { "serviceType": "type of service", "brand": "my Brand", "carrier": "VErizon", "serviceEndDate": "12/15/2017", "cardsInReserve": "2" },
         customerProfile: { "customerId": "lksdf9879789", "contactName": "Peter Parer" },
         accountBalances: { "phoneStatus": "Pending", "smsBalance": "124", "voiceBalance": "0" }
     }
@@ -16,7 +16,6 @@ function onCustomerServiceProfile(pushData) {
     // Object.assign(pushData.customerProfile.account, pushData.accountBalances);
 
     // adam.savePushData(pushData);
-
     widgets['customerServiceProfile'].up().up().show(); // show portlet
     widgets['customerServiceProfile'].load(pushData);
 
@@ -25,18 +24,67 @@ function onCustomerServiceProfile(pushData) {
 }
 function onLaunchWorkflow(taskId) {
     //if unable/unable
+    var pushData = managers['pushData'];
+    var carrier = pushData.serviceProfile.carrier;
+
+    //regenerate carrier value to match with the service parameter
+    switch (carrier.toLowerCase()) {
+        case 'tmobile':
+            carrier = 'TMobile';
+            break;
+        case 'verizon':
+            carrier = 'Verizon';
+            break;
+        case 'at&t':
+            carrier = encodeURIComponent('AT&T'); // TODO need to check if this is the desired value
+            break;
+        default:
+    }
+
     if (taskId == '9901') {
-        //call JIA API launchAgentSupportSearch('Tracfone', 'Unable Unable');
+        //call JIA API launchAgentSupportSearch('brand', 'Unable Unable');
+        adam.callService('AgentAdvisor/Search/' + pushData.serviceProfile.brand + '?searchTerm=Unable%20Unable', 'GET').then(function (response) {
+            // do nothing
+        }).catch(function (error) {
+        });
+
         //call JIA API launchCoverageMap(carrier, zip);
+        adam.callService('CoverageMap/Search/' + carrier + '/' + pushData.customerProfile.zip, 'GET').then(function (response) {
+            // do nothing
+        }).catch(function (error) {
+        });
+
         //call JIA API launchAgentSupportFlowChart('Unable Unable', carrier, deviceType;
-        //launch JAS unable unable main flow with parameters
+        adam.callService('AgentAdvisor/FlowChart?brand=' + pushData.serviceProfile.brand + '&flowChart=Unable%20Unable&carrier=' + carrier + '&phoneType=' + pushData.deviceProfile.deviceType, 'GET').then(function (response) {
+            // do nothing
+        }).catch(function (error) {
+        });
+
+        //launch JAS unable unable main flow with parameters => handled in JasHandler
         //call JIA API launchCarrierBilling
+        adam.callService('Billing/' + carrier, 'GET').then(function (response) {
+            // do nothing
+        }).catch(function (error) {
+        });
+
+        managers['flowType'] = 'unableUnable'; // to keep track of the flow
         ShowTabById('CallingIssuesTab');
     }
     //if redemption
     else if (taskId == '9902' || taskId == '9903') {
         //call JIA API launchAgentSupportSearch('Tracfone', 'Redemption');
-        //launch JAS redemption flow with parameters
+        adam.callService('AgentAdvisor/Search/' + pushData.serviceProfile.brand + '?searchTerm=Redemption', 'GET').then(function (response) {
+            // do nothing
+        }).catch(function (error) {
+        });
+        //launch JAS redemption flow with parameters ==> handled in JasHandler
+        managers['flowType'] = 'redemption'; // to keep track of the flow
         ShowTabById('RedemptionTab');
     }
+
+}
+
+function onAgentEnvUsername(data)
+{
+    $W().username = data;
 }

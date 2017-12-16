@@ -15,15 +15,27 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.unableUnable.AttCallAssistance', {
     load: function () {
         var me = this;
         me.mask('please wait..');
-        adam.callService('../USER/resources/js/dummydata/attCallAssistance.json', 'GET', {}).then(function (response) {
-            Ext.each(me.query('displayfield'), function (item) {
-                item.setValue(response[item.name]);
-            });
-            me.unmask();
-        }).error(function () {
-            Ext.Msg.alert('ERROR', 'Error getting AT&T call assistance data');
-            me.unmask();
+        var pushData = managers['pushData'];
+        var data = {
+            agentName: $W().agentName,
+            avayaId: 'NA',
+            min: pushData.deviceProfile.min,
+            imei: 'NA',
+            sim: pushData.deviceProfile.sim,
+            makeAndModel: 'NA',
+            numberOfSignalBar: 'NA',
+            customerName: pushData.customerProfile.contactName,
+            address: pushData.customerProfile.zip,
+            issue: 'NA',
+            message: 'NA',
+            steps: 'NA',
+            when: 'NA',
+            location: 'NA'
+        }
+        Ext.each(me.query('displayfield'), function (item) {
+            item.setValue(data[item.name]);
         });
+        me.unmask();
     },
 
     reset: function () {
@@ -37,6 +49,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.unableUnable.AttCallAssistance', {
         var me = this;
         Ext.applyIf(me, {
             name: 'attCallAssistance',
+            cls: 'attCallAssistanceCls',
             items: [
                 {
                     xtype: 'panel',
@@ -57,19 +70,19 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.unableUnable.AttCallAssistance', {
                     name: 'avayaId',
                     fieldLabel: 'Avaya ID'
                 }, {
-                    name: 'attMin',
+                    name: 'min',
                     fieldLabel: 'MIN'
                 }, {
                     name: 'imei',
                     fieldLabel: 'IMEI'
                 }, {
-                    name: 'attSim',
+                    name: 'sim',
                     fieldLabel: 'SIM'
                 }, {
                     name: 'makeAndModel',
                     fieldLabel: 'Make/Model'
                 }, {
-                    name: 'numSignalBar',
+                    name: 'numberOfSignalBar',
                     fieldLabel: 'Number of Signal Bars'
                 }, {
                     name: 'customerName',

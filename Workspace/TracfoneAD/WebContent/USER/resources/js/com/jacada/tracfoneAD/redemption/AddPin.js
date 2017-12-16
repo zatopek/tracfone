@@ -9,7 +9,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.AddPin', {
     reset: function () {
         var me = this;
         me.down('#airtimePin').setValue('');
-        me.down('#promoCode').setValue('');
+        // me.down('#promoCode').setValue('');
         me.down('#transactionSummary').setValue('');
         me.down('#addAirtimeResponse').setValue('');
         me.down('#promoValidateResponse').setValue('');
@@ -27,17 +27,27 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.AddPin', {
 
     airTimePinAction: function (textbox, event) {
         var me = this;
-        if (textbox.getValue().length === 13) {
-            // Send the textbox value to a service and get response and enable buttons
-            var response = '$45 30-Dday UNL TALK/DATA, first 10 GB at High Speeds then at 2G';
-            me.down('#addAirtimeResponse').setValue(response);
-            me.enableButtons();
+        var pin = textbox.getValue();
+        if (pin.length === 13) {
+            me.mask('Please wait...');
+            adam.callService('Tas/PINs/' + pin + '/Description', 'GET', {}).then(function (response) {
+                me.down('#addAirtimeResponse').setValue(response);
+                me.enableButtons();
+                //  me.changePromoCodeButton();
+                me.unmask();
+            }).catch(function () {
+                Ext.Msg.alert('ERROR', 'Sorry, the airtime pin that you enntered could not be found.');
+                me.disableButtons();
+                me.down('#addAirtimeResponse').setValue('');
+                //me.changePromoCodeButton();
+                me.unmask();
+            });
         }
         else {
             me.disableButtons();
             me.down('#addAirtimeResponse').setValue('');
         }
-        me.changePromoCodeButton();
+        //  me.changePromoCodeButton();
     },
 
     enableButtons: function () {
@@ -56,30 +66,36 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.AddPin', {
     validatePromo: function () {
         var me = this;
         var promoCode = me.down('#promoCode').getValue();
-        // TODO send this promo code to the server and get a response text 
-        // using dummy response text for now
-        var response = 'promo code Valid';
-        me.down('#promoValidateResponse').setValue(response);
+        var airtimePin = me.down('#airtimePin').getValue();
 
+        adam.callService('Tas/PromoCodes/' + promoCode + '/ValidateAdd?pinNumber=' + airtimePin).then(function (response) {
+            // this service is not working
+            me.down('#promoValidateResponse').setValue(response);
+        }).catch(function () {
+            Ext.Msg.alert('ERROR', 'Technical dificulties in validating promo code.');
+        });
     },
 
     doTransaction: function (type) {
         var me = this;
         me.mask('Please wait..');
         var airtimePin = me.down('#airtimePin').getValue();
-        if (type === 'addNow') {
-            // TODO call service with airtime Pin value and get response
+        //  var promoCode = me.down('#promoCode').getValue(); // TODO need to pass this as well to resource
+        var method = 'POST';
+        var resource = 'Tas/PINs/' + airtimePin;
+
+        if (type === 'addToReserve') {
+            method = 'PATCH';
         }
-        else {
-            // TODO call service with airtime Pin value and get response
-        }
-        //
-        response = '<p>Thank you for adding benefits to your phone! '
-            + '<p>You will need to turn your phone OFF and back on to reset and restore your benefits.'
-            + '<p>Please remember to add benefits to your phone before <Service End Date>. As a reminder, we will send you a text message or email before this date.'
-            + '<p>Service plan added: <b>$45 Unlimited Talk, Text & Data Plan</b>';
-        me.down('#transactionSummary').setValue(response);
-        me.unmask();
+
+        adam.callService(resource, method, {}).then(function (response) {
+            me.down('#transactionSummary').setValue(response);
+            adam.addAutoNotes('Airtime Pin Added - ' + me.down('#addAirtimeResponse').getValue());
+            me.unmask();
+        }).catch(function () {
+            Ext.Msg.alert('ERROR', 'Sorry, adding pin failed. Please try again.');
+            me.unmask();
+        })
     },
 
     changePromoCodeButton: function () {
@@ -163,40 +179,40 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.AddPin', {
                             }]
                         },
 
-                        {
-                            xtype: 'panel',
-                            border: false,
-                            layout: {
-                                type: 'hbox',
-                                padding: '5',
-                                align: 'stretchmax'
+                        // {
+                        //     xtype: 'panel',
+                        //     border: false,
+                        //     layout: {
+                        //         type: 'hbox',
+                        //         padding: '5',
+                        //         align: 'stretchmax'
 
-                            },
-                            items: [
-                                {
-                                    xtype: "textfield",
-                                    fieldLabel: "Promo Code",
-                                    itemId: 'promoCode',
-                                    name: "textvalue",
-                                    enableKeyEvents: true,
-                                    listeners: {
-                                        keyup: {
-                                            fn: me.changePromoCodeButton,
-                                            scope: me
-                                        }
-                                    }
-                                }
-                                , {
-                                    xtype: 'button',
-                                    margin: "0 0 0 10",
-                                    text: 'Validate',
-                                    itemId: 'validateBtn',
-                                    disabled: true,
-                                    handler: me.validatePromo,
-                                    scope: me
-                                }
-                            ]
-                        },
+                        //     },
+                        //     items: [
+                        //         {
+                        //             xtype: "textfield",
+                        //             fieldLabel: "Promo Code",
+                        //             itemId: 'promoCode',
+                        //             name: "textvalue",
+                        //             enableKeyEvents: true,
+                        //             listeners: {
+                        //                 keyup: {
+                        //                     fn: me.changePromoCodeButton,
+                        //                     scope: me
+                        //                 }
+                        //             }
+                        //         }
+                        //         , {
+                        //             xtype: 'button',
+                        //             margin: "0 0 0 10",
+                        //             text: 'Validate',
+                        //             itemId: 'validateBtn',
+                        //             disabled: true,
+                        //             handler: me.validatePromo,
+                        //             scope: me
+                        //         }
+                        //     ]
+                        // },
                         {
                             xtype: 'displayfield',
                             name: 'promoValidateResponse',

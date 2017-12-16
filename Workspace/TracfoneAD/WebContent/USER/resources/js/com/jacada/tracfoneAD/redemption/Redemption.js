@@ -22,16 +22,6 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.Redemption', {
         }
     },
 
-    getRedemptionUrl: function () {
-        // TODO generate and return the JAS url 
-        adam.getDeviceProfile().then(function (response) {
-            debugger;
-        });
-
-        debugger;
-        return 'http://vivr.io/q61yLsG';
-    },
-
     loadComponent: function (componentName) {
         var me = this;
         var component = null;

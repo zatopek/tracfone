@@ -24,56 +24,53 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.AirtimePlan', {
 
     sendToJia: function (view, selections, options) {
         var me = this;
-        // TODO, send the information to JIA  - selections[0].getData()
-        // ON CallBack, get information from JIA to display in Estimated Cost
-        // assuming we get the data as estimatedCostData 
-        // Note: the fields names (subTotal, tax etc..) should be matched to populate
-        var estimatedCostData = { subTotal: '12.00', tax: '30.00', e911: '20.00', total: '45.00' }
-        me.up().up().down('estimatedCost').load(estimatedCostData);
-        me.up().up().up().down('paymentTransaction').changePurchaseButton();
-        me.up().up().up().down('paymentTransaction').changePromoCodeButton();
+        var estimatedCostComponent = me.up().up().down('estimatedCost');
+        estimatedCostComponent.mask('Please wait...');
+        var partNumber = selections[0].getData().partNumber;
+        adam.callService('Tas/Cards/' + partNumber + '/Cost/Estimated').then(function (response) {
+            estimatedCostComponent.load(response);
+            me.up().up().up().down('paymentTransaction').changePurchaseButton();
+            me.up().up().up().down('paymentTransaction').changePromoCodeButton();
+            estimatedCostComponent.unmask();
+        }).catch(function () {
+            Ext.Msg.alert('ERROR', 'Sorry, estimated cost could not be calculated. Please try again.');
+            estimatedCostComponent.unmask();
+        })
+
     },
 
     load: function () {
         var me = this;
-        // TODO get the data for drop down
-        //  using sampel data for now
         me.mask('loading...');
-        var data = [
-            { description: '$45 40 Day UML lorem ipsum', price: '$45', partNumber: 'STA464' },
-            { description: '$45 40 Day UML lorem ipsum', price: '$45', partNumber: 'STA464' },
-            { description: '$45 40 Day UML lorem ipsum', price: '$45', partNumber: 'STA464' },
-            { description: '$45 40 Day UML lorem ipsum', price: '$45', partNumber: 'STA464' },
-            { description: '$45 40 Day UML lorem ipsum', price: '$45', partNumber: 'STA464' },
-            { description: '$45 40 Day UML lorem ipsum', price: '$45', partNumber: 'STA464' },
-            { description: '$45 40 Day UML lorem ipsum', price: '$45', partNumber: 'STA464' },
-            { description: '$45 40 Day UML lorem ipsum', price: '$45', partNumber: 'STA464' },
-            { description: '$45 40 Day UML lorem ipsum', price: '$45', partNumber: 'STA464' },
-            { description: '$45 40 Day UML lorem ipsum', price: '$45', partNumber: 'STA464' },
-            { description: '$45 40 Day UML lorem ipsum', price: '$45', partNumber: 'STA464' },
-            { description: '$45 40 Day UML lorem ipsum', price: '$45', partNumber: 'STA464' },
-            { description: '$45 40 Day UML lorem ipsum', price: '$45', partNumber: 'STA464' },
-            { description: '$45 40 Day UML lorem ipsum', price: '$45', partNumber: 'STA464' },
-            { description: '$45 40 Day UML lorem ipsum', price: '$45', partNumber: 'STA464' }
-        ];
-        me.items.items[0].getStore().loadData(data);
-        me.unmask();
+        var min = managers['pushData'].deviceProfile.min;
+        adam.callService('Tas/PINs/Available?min=' + min, 'GET', {}).then(function (response) {
+            if (response.length > 0)
+                me.items.items[0].getStore().loadData(response);
+            me.unmask();
+        }).catch(function () {
+            Ext.Msg.alert('ERROR', 'Sorry, available pins could not be found. Please try again.');
+            me.unmask();
+        });
     },
 
     createContentPanel: function () {
         var me = this;
         Ext.define('airtimePlanModel', {
             extend: 'Ext.data.Model',
-            fields: [{
-                name: 'description',
-                type: 'string'
-            }, {
-                name: 'price',
-                type: 'string'
-            }, {
-                name: 'partNumber',
-                type: 'string'
-            }
+            fields: [
+                {
+                    name: 'description',
+                    type: 'string'
+                }, {
+                    name: 'units',
+                    type: 'string'
+                }, {
+                    name: 'price',
+                    type: 'string'
+                }, {
+                    name: 'partNumber',
+                    type: 'string'
+                }
             ]
         });
 
@@ -91,6 +88,10 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.AirtimePlan', {
                 text: "Description",
                 flex: 3,
                 dataIndex: 'description'
+            }, {
+                text: "Units",
+                flex: 1,
+                dataIndex: 'units'
             }, {
                 text: "Price",
                 flex: 1,

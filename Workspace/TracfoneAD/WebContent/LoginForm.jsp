@@ -62,6 +62,7 @@
         ss.setAttribute("type", "text/css");
         ss.setAttribute("href", "<%=request.getContextPath()%>"+"/"+$W().theme.directory+"/style.css");
         document.getElementsByTagName("head")[0].appendChild(ss);
+
     </script>
 	
 	
@@ -154,6 +155,11 @@
 		 	        			}
 		 	        		}
 		 	        	}
+					},{
+					    name: 'username',
+						id: 'username',
+						xtype: 'hidden',
+						value: '<%=request.getParameter("username") %>'
 					},{
 						xtype: 'hidden',
 						name: 'spring-security-redirect',

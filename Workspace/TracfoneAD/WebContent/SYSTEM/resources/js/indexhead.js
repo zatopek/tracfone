@@ -57,7 +57,7 @@ function Unload() {
     Push.stop();
     var http = new XMLHttpRequest();
     var contextPath = location.href.substring(0, location.href.lastIndexOf('/'));
-    http.open("GET", contextPath + "/Controller.jpf?logout=true&reason=9999&shouldRegisterSession=false", false);
+    http.open("GET", contextPath + "/Controller.jpf?logout=true&reason=9999&shouldRegisterSession=false&username=" + $W().username, false);
     http.send();
 }
 
@@ -71,9 +71,9 @@ function logout(cancel, reason, isNewDepartment)
     $W().workspaceOut = true;
     onAgentLogout();
     Push.stop();
-    
-    var isNewDepartmentStr = (isNewDepartment == true) ? "&newdepartment" :""; 
-    var parametersString = '&reason=' + reason  + '&department=' + isNewDepartmentStr;
+
+    var isNewDepartmentStr = (isNewDepartment == true) ? "newdepartment" :""; 
+    var parametersString = '&reason=' + reason  + '&department=' + isNewDepartmentStr + '&username=' + $W().username;
     closeAllSubWindows();
     var contextPath = location.href.substring(0, location.href.lastIndexOf('/'));
     location.href= contextPath + "/Controller.jpf?logout=true&shouldRegisterSession=false" + parametersString;
@@ -89,7 +89,7 @@ function resetToDefaults()
  	if (confirm($W().localeManager.getLocalizationValue('application.javascript.message.confirm.resetToDefaults'))) {
 	    //reset the layout
 	    var contextPath = location.href.substring(0, location.href.lastIndexOf('/'));
-	    contextPath += "/Controller.jpf?reset=true"
+	    contextPath += "/Controller.jpf?reset=true&username=" + $W().username;
 	    var request = new Ajax.Request(contextPath, {method: 'get', asynchronous : false});
 	    if (request.success()) {
 	        onLayoutChanged();
@@ -238,7 +238,7 @@ window.onbeforeunload = function (evt) {
 refresh = function () {
     Push.stop();
     var contextPath = location.href.substring(0, location.href.lastIndexOf('/'));
-    location.href = contextPath + "/Controller.jpf";
+    location.href = contextPath + "/Controller.jpf?username=" + + $W().username;
 }
 
 refreshMenu = function() {

@@ -15,16 +15,16 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.unableUnable.VerizonCallAssistance
     load: function () {
         var me = this;
         me.mask('please wait..');
-        var data = managers.pushData;
+        var pushData = managers['pushData'];
         var data = {
-            avayaId: data.avayaId,
-            min: data.deviceProfile.min,
-            meid: data.deviceProfile.msid, // check if meid = msid
-            sim: data.deviceProfile.sim,
-            prl: data.prl, // check the correct match
-            address: data.customerProfile.zip, // we do not have full address
-            makeAndModel: data.deviceProfile.deviceType, // check if this is correct match
-            firmware: data.deviceProfile.os,
+            avayaId: 'NA',
+            min: pushData.deviceProfile.min,
+            meid: pushData.deviceProfile.msid, // check if meid = msid
+            sim: pushData.deviceProfile.sim,
+            prl: pushData.prl, // check the correct match
+            address: pushData.customerProfile.zip, // we do not have full address
+            makeAndModel: pushData.deviceProfile.deviceType, // check if this is correct match
+            firmware: pushData.deviceProfile.os,
             signalStrength: '', // not available
             issue: '' // not available 
 
@@ -46,6 +46,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.unableUnable.VerizonCallAssistance
         var me = this;
         Ext.applyIf(me, {
             name: 'verizonCallAssistance',
+            cls: 'verizonCallAssistanceCls',
             items: [
                 {
                     xtype: 'panel',
@@ -62,13 +63,13 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.unableUnable.VerizonCallAssistance
                     name: 'avayaId',
                     fieldLabel: 'Avaya ID'
                 }, {
-                    name: 'verizonMin',
+                    name: 'min',
                     fieldLabel: 'MIN'
                 }, {
                     name: 'meid',
                     fieldLabel: 'MEID'
                 }, {
-                    name: 'verizonSim',
+                    name: 'sim',
                     fieldLabel: 'SIM'
                 }, {
                     name: 'prl',

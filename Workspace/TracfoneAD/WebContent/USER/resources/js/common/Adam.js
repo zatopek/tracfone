@@ -14,7 +14,7 @@ var Adam = function () {
 	managers['comm'] = new BroadBridge("", 2, function () { }, this);
 	//This is a singleton. But should also be accessible outside just in case it is required.
 	managers['interactcomm'] = wsCommunicator;
-	managers['projectvariables'] = projectVariable;
+	//managers['projectvariables'] = projectVariable;
 	managers['ctiHelper'] = ctiHelper;
 	managers['windowsManager'] = new WindowsManager();
 	managers['jasHandler'] = new JasHandler();
@@ -30,11 +30,11 @@ var Adam = function () {
 	});
 
 	managers['deviceProfile'] = new DataStore({
-		uniqueId: 'sim',
+		uniqueId: 'customerId',
 		resources: {
 		}
 	});
-
+	managers['autoNotes'] = '';
 
 	return {
 		load: function () {
@@ -55,10 +55,22 @@ var Adam = function () {
 			managers["interactcomm"].register("navigation", this, function (data) {
 				var className = data.classname; // class name to load
 				var component = data.component; // widget key (name)
-				widgets[component].loadComponent(className);
+				// we will only get this in ticket form
+				var params = null;
+				if (data.tickettitle) {
+					params = {
+						ticketTitle: data.tickettitle,
+						ticketType: data.tickettype
+					};
+				}
+				widgets[component].loadComponent(className, params);
 			});
 
-			managers['interactcomm'].register('confirmPolicy', this, function (data) { });
+			managers['interactcomm'].register('callJia', this, function (data) {
+				this.callService('Tas/SUI/Launch?min=' + managers['pushData'].deviceProfile.min, 'POST').then(function (response) {
+					// do nothing
+				});
+			});
 		},
 		callService: function (call, method, callObject) {
 			return managers['comm'].send(call, method, callObject);
@@ -110,13 +122,52 @@ var Adam = function () {
 		getAirtimePlan: function (planId) {
 			return managers['plansDataStore'].get(planId);
 		},
+		addAutoNotes: function (notes) {
+			managers['autoNotes'] += notes;
+		},
+		getAgentSsoCredentials: function () {
+			Ext.Ajax.request({
+				url: $W().contextPath + '/rest/sso/getAgentSsoCredentials/' + $W().agentName,
+				method: 'GET',
+				success: function (response) {
+					logins = Ext.decode(response.responseText).payload;
+					if (logins.length === 0) {
+						managers['windowsManager'].show('ssoWindow');
+					}
+					else {
+						var resource = 'Credentials?system=workspace&user=' + $W().agentName + '&password=';
+						adam.callService(resource, 'POST', JSON.stringify(logins)).then(function (response) {
+							// do nothing
+						}).catch(function (error) {
+						});
+
+					}
+				},
+				failure: function (response) {
+					//$W().ssoWindow.show();
+					debugger;
+				}
+			});
+		},
 		startCall: function () {
 			//Maybe each widget should implement this function
 			//What should happen at the start of a call??
 			//First get the attached data
 		},
 		endCall: function () {
-			//Maybe each widget should implement this function
+			// reset all widgets
+			// for (var key in widgets) {
+			// 	if (widgets[key].reset) {
+			// 		try {
+			// 			widgets[key].reset();
+			// 		} catch (e) {
+			// 			console.err('Failed to reset - ' + key);
+			// 		}
+			// 	}
+			// }
+
+			// debugger;
+
 		},
 		endDisposition: function () {
 			//The reset should take care of clearing everything.
@@ -174,13 +225,14 @@ var Adam = function () {
 		savePushData: function (data) {
 			debugger;
 			//save call data
+			//save call data
 			// call data IDs for different component
-			this.callData.sim = data.deviceProfile.sim;
+			this.callData.customerId = data.customerProfile.customerId;
 			managers['deviceProfile'].digest(data.deviceProfile);
 
 		},
-		getDeviceProfile: function (sim) {
-			return managers['deviceProfile'].get(sim || this.callData.sim);
+		getDeviceProfile: function (customerId) {
+			return managers['deviceProfile'].get(customerId || this.callData.customerId);
 		}
 	};
 
@@ -192,6 +244,8 @@ Ext.onReady(function () {
 	console.info('Adam is in charge now!');
 	adam = new Adam();
 	adam.load();
+	adam.getAgentSsoCredentials();
+
 	// hide the portlet
 	widgets['customerServiceProfile'].up().up().hide()
 });

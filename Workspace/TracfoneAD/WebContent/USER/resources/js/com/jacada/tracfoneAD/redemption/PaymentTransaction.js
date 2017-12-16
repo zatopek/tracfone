@@ -8,21 +8,29 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.PaymentTransaction', {
     },
 
     load: function () {
-        // TODO GET the data from the service for the payment dropdown
-        // using dummy data for now
         var me = this;
+        me.mask('Please wait...');
+        var min = managers['pushData'].deviceProfile.min;
+        adam.callService('Tas/CreditCards?min=' + min, 'GET', {}).then(function (response) {
+            // TODO we are getting [{description: "sometext", units: "sometext", price: "sometext", partNumber: "sometext"}] in response.
+            // but we need an array of credit cards. So using dummy data for now
+            var selectPaymentStore = Ext.create('Ext.data.Store', {
+                fields: ['val', 'name'],
+                data: [
+                    { val: "1234567890", name: "1234567890" },
+                    { val: "1234567890", name: "1234567890" },
+                    { val: "1234567890", name: "1234567890" }
+                ]
+            });
+            var combo = me.down('#selectPayment');
+            combo.bindStore(selectPaymentStore);
+            combo.setValue(combo.getStore().getAt(0));
+            me.unmask();
 
-        var selectPaymentStore = Ext.create('Ext.data.Store', {
-            fields: ['val', 'name'],
-            data: [
-                { val: "1234567890", name: "1234567890" },
-                { val: "1234567890", name: "1234567890" },
-                { val: "1234567890", name: "1234567890" }
-            ]
-        });
-        var combo = me.down('#selectPayment');
-        combo.bindStore(selectPaymentStore);
-        combo.setValue(combo.getStore().getAt(0));
+        }).catch(function () {
+            //  Ext.Msg.alert('ERROR', 'Sorry, cards could not be found. Please try again.');
+            me.unmask();
+        })
     },
 
     reset: function () {
@@ -40,24 +48,37 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.PaymentTransaction', {
     validatePromo: function () {
         var me = this;
         var promoCode = me.down('#promoCode').getValue();
-        // TODO send this promo code to the server and get a response text 
-        // using dummy response text for now
-        var response = 'promo code Valid';
-        me.down('#promoValidateResponse').setValue(response);
+        var partNumber = me.up().down('airtimePlan').down('#airtimePlanGrid').getSelectionModel().getSelection()[0].get('partNumber');
+        adam.callService('Tas/PromoCodes/' + promoCode + '/ValidatePurchase?cardPartNumber=' + partNumber, 'GET', {}).then(function () {
+            // TODO this service is not working
+            me.down('#promoValidateResponse').setValue(response);
 
+        }).catch(function () {
+            Ext.Msg.alert('ERROR', 'Sorry, the promo code that you provided could not be validated. Please try again.');
+        })
     },
 
     purchase: function () {
         var me = this;
         var promoCode = me.down('#promoCode').getValue();
-        var portNumber = me.up().down('airtimePlan').down('#airtimePlanGrid').getSelectionModel().getSelection()[0].get('portNumber');
+        var partNumber = me.up().down('airtimePlan').down('#airtimePlanGrid').getSelectionModel().getSelection()[0].get('partNumber');
         var cvv = me.down('#cvv').getValue();
-        var payment = me.down('#selectPayment').getValue();
+        var creditCardNumber = me.down('#selectPayment').getValue();
         var autoFill = me.down('#autoFill').checked;
-        // TODO send this data to the service and get the response;
-        var response = 'Artime Purchase successfull';
-        me.down('#airtimePurchaseResponse').setValue(response);
-
+        me.mask('Please wait...');
+        adam.callService('Tas/Cards/' + partNumber + '?promocode=' + promoCode, 'POST', {
+            cardPartNumber: partNumber,
+            creditCardNumber: creditCardNumber,
+            promoCode: promoCode
+        }).then(function (response) {
+            me.down('#airtimePurchaseResponse').setValue(response);
+            var airtimeSelected = me.up().down('airtimePlan').down('#airtimePlanGrid').getSelectionModel().getSelection()[0];
+            adam.addAutoNotes('Pin Purchased - ' + airtimeSelected.get('description'));
+            me.unmask();
+        }).catch(function () {
+            Ext.Msg.alert('ERROR', 'Sorry, something went wrong while processing yoru request. Please try again.');
+            me.unmask();
+        })
     },
 
     changePurchaseButton: function () {
@@ -197,6 +218,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.PaymentTransaction', {
                             xtype: "panel",
                             title: "TRANSCATION SUMMARY",
                             columnWidth: 0.45,
+                            itemId: 'transactionSummaryPanel',
                             border: false,
                             bodyStyle: 'padding:5px 5px 5px 5px',
                             items: [

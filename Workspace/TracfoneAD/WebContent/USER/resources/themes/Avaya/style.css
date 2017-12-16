@@ -1,3 +1,7 @@
+@import url(https://use.fontawesome.com/releases/v5.0.1/css/all.css);
+@import url(https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css);
+@import url(https://s3.amazonaws.com/icomoon.io/103594/Tracfone/style.css?7d2jjg);
+
 .baseColor{
 	background-color:#F1F1F1;
 }
@@ -11,7 +15,7 @@ body{
 
 .x-tool-img{
 	margin-left: -2px;
-	background-color: trsparent;
+	background-color: transparent;
 }
 
 .x-tool .x-tool-img{
@@ -22,7 +26,7 @@ body{
 
 .x-column-header-inner {
   padding: 4px 5px 3px 10px;
-  border-bottom: 1px solid silver;
+  /* border-bottom: 1px solid silver; */
 }
 
 .x-menu-body{
@@ -177,7 +181,7 @@ body{
 	color: #004DA1;
 	font-weight: bold;
 	padding-left: 1px;
-	padding-top: 1px;
+	padding-top: 3px;
 	height: 14px;
 }
 
@@ -189,7 +193,7 @@ body{
 #workspace-menu{
 	background-image: none !important;
 	background-color: #F1F1F1;
-	margin-top: 11px;
+	margin-top: 20px;
 }
 
 .x-tip-default {
@@ -285,24 +289,26 @@ body{
 .contextNavigation {
     padding: 0px;
     cursor: pointer;
-    background: #46627A;
+    background: #fff;
 }
 .contextNavigation .x-grid-cell {
-    background: #46627A;
-    color: white;
+    background: #fff;
+    color: #000;
 }
 
 .contextNavigation .x-grid-row-selected .x-grid-cell {
     font-weight: bold;
-    background-image: url(images/navigation/selected_item.png);
+/*    background-image: url(images/navigation/selected_item.png); */
 	background-repeat: repeat-y;
-	background-color: #6C7F8F;
+	background-color: #004da1;
+	color: #fff;
 }
 
 .contextNavigation .x-grid-row-over .x-grid-cell {
-    background-image: url(images/navigation/selected_item.png);
+/*    background-image: url(images/navigation/selected_item.png); */
 	background-repeat: repeat-y;
-	background-color: #6C7F8F;
+	background-color: #004da1;
+	color: #fff;
 }
 
 .x-tree-icon{
@@ -374,9 +380,11 @@ body{
 	BACKGROUND-REPEAT: no-repeat;
 	border-style: none;
 	background-color: transparent;
-    margin-left: 5px;
-	margin-top: 5px;
+    margin-left: 10px;
+	margin-top: 10px;
 	vertical-align: middle  !important;
+	height: 40px !important;
+	background-size: contain;
 }
 /*5
 /*channel icons*/
@@ -682,7 +690,7 @@ body .ux-notification-light {
 /*	Common classes for login/logout/welcome/about        /*
 /* ******************************************************/
 .logo-panel{
-	background-color:#CFCFCF;
+	background-color:#dedede;
 	background-image: url('images/TracFone_Logo_250x89.png');
     background-repeat: no-repeat;
     background-position-y: 40px;
@@ -697,7 +705,7 @@ body .ux-notification-light {
 	text-align: center !important;
 }
 .form-panel{
-	background-color:#46627A;
+	background-color:#004da1;
 	padding-top: 25px;
 }
 
@@ -866,10 +874,12 @@ body .ux-notification-light {
 }
 
 .x-grid-row-over .x-grid-td{
-	background-color: #d4d4d4;
+	background-color: #6bdb30;
+	color: #fff;
 }
 .x-grid-row-selected .x-grid-td {
   background-color: #6bdb30;
+	color: #fff;
 }
 .x-toolbar-footer{
 	background-color: #F1F1F1 !important;
@@ -1012,3 +1022,161 @@ a:-webkit-any-link {
 
 /* #D91D00 #D91000 red */
 /* C81000 hover red */
+
+/* Customer Service Profile */
+.customerServiceProfileCls .x-form-item-label, .customerServiceProfileCls .x-form-display-field {
+	font:  9px/9px helvetica,arial,verdana,sans-serif;
+}
+.customerServiceProfileCls div fieldset:nth-child(3) table tr td:first-child,
+.customerServiceProfileCls div fieldset:nth-child(3) table tr td:first-child label{
+	width: 65px !important;
+}
+.customerServiceProfileCls div fieldset:nth-child(4) table tr td:first-child,
+.customerServiceProfileCls div fieldset:nth-child(4) table tr td:first-child label{
+	width: 65px !important;
+}
+/* End Customer Service Profile */
+
+/* login screen */
+
+.login-form-field-user .x-form-text, .login-form-field-password .x-form-text {
+	background-image: none;
+}
+
+.login-form-field-user:before, .login-form-field-password:before {
+	position: absolute;
+	right: 10px;
+	font-family: icomoon;
+	font-size: 20px;
+	top: 35%;
+	color: #004da1;
+	z-index: 1;
+}
+
+.login-form-field-user:before {
+	content: '\e905';
+}
+.login-form-field-password:before {
+	content: '\e901';
+}
+
+.x-form-trigger {
+	background: none;
+}
+
+/* End login screen */
+
+/* Nav */
+
+.x-grid-cell-inner-treecolumn {
+	padding: 10px 10px 9px 6px;
+}
+
+.contextNavigation .x-grid-row-selected .x-grid-cell:before {
+	content: '';
+	width: 5px;
+	height: 28px;
+	display: block;
+	background-color: #6bdb30;
+	position: absolute;
+}
+
+/* End Nav */
+
+/* bottom section */
+
+h2 {
+	font-size: 16px !important;
+	margin-top: 8px;
+}
+
+.x-column-header {
+	border: none !important;
+}
+
+.x-column-header-trigger {
+	border-right: 1px solid silver;
+}
+
+.x-grid-with-row-lines .x-grid-td {
+	border: none;
+}
+
+.x-grid-cell-inner {
+	padding: 7px 10px 6px 10px;
+}
+
+.estimatedCostCls {
+	height: 100% !important;
+}
+
+.estimatedCostCls .x-panel-body {
+	 margin: 10px;
+	 height: 90px !important;
+}
+
+.attCallAssistanceCls, .verizonCallAssistanceCls,
+.ticketFormCls, .unableUnableCls .interactionNotePanelCls {
+	margin-top: -5px;
+}
+
+.airtimePinCls table tr td:first-child label, .airtimePinCls table tr td:first-child {
+	width: 65px !important;
+}
+
+.interactionNotePanelCls .x-panel-body, .attCallAssistanceCls .x-panel-body,
+.verizonCallAssistanceCls .x-panel-body, .ticketFormCls .x-panel-body,
+.interactionNotePanelCls .x-panel-body, .airtimePinCls .x-panel-body .x-panel .x-panel .x-panel-body {
+	padding: 5px;
+}
+
+.ssoFormCls .x-form-display-field {
+	margin-top: 4px;
+	color: #004da1;
+	font-weight: bold;
+	font: normal 11px/11px helvetica,arial,verdana,sans-serif;
+	margin-left: 2px;
+	margin-bottom: 6px;
+}
+
+/* End bottom section */
+
+/* Icons */
+
+.contextNavigation table tbody tr:nth-child(2) td span:before,
+.contextNavigation table tbody tr:nth-child(3) td span:before,
+.contextNavigation table tbody tr:nth-child(4) td span:before {
+	font-family: icomoon;
+	color: #004da1;
+	position: absolute;
+	left: 30px;
+	font-size: 14px;
+}
+
+.contextNavigation table tbody tr:nth-child(2) td span:before {
+	content: '\e900';
+}
+.contextNavigation table tbody tr:nth-child(3) td span:before {
+	content: '\e904';
+}
+.contextNavigation table tbody tr:nth-child(4) td span:before {
+	content: '\e903';
+}
+ /* hover and selected */
+.contextNavigation table tbody tr.x-grid-row-over:nth-child(2) td span:before,
+.contextNavigation table tbody tr.x-grid-row-over:nth-child(3) td span:before,
+.contextNavigation table tbody tr.x-grid-row-over:nth-child(4) td span:before,
+.contextNavigation table tbody tr.x-grid-row-selected:nth-child(2) td span:before,
+.contextNavigation table tbody tr.x-grid-row-selected:nth-child(3) td span:before,
+.contextNavigation table tbody tr.x-grid-row-selected:nth-child(4) td span:before {
+	color: #fff;
+}
+/* hover */
+.contextNavigation table tbody tr.x-grid-row-over:nth-child(2) td span:before,
+.contextNavigation table tbody tr.x-grid-row-over:nth-child(3) td span:before,
+.contextNavigation table tbody tr.x-grid-row-over:nth-child(4) td span:before {
+	font-size: 16px;
+}
+
+/* Icons End */
+

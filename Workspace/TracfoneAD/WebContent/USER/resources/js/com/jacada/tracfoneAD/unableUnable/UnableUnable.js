@@ -11,6 +11,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.unableUnable.UnableUnable', {
         var me = this;
         Ext.applyIf(me, {
             name: 'unableUnable',
+            cls: 'unableUnableCls',
             items: [
                 { // TODO this first item should be removed when the post message from interaction is complete to load the components on the right main panel
                     xtype: 'panel',
@@ -86,7 +87,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.unableUnable.UnableUnable', {
         }
     },
 
-    loadComponent: function (componentName) {
+    loadComponent: function (componentName, params) {
         var me = this;
         var component = null;
         var widgetName = me.getWidgetName(componentName); // component name comes up as ClassName. change it to className
@@ -109,6 +110,9 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.unableUnable.UnableUnable', {
             if (container.items.items.indexOf(component) === -1) {
                 container.add(component);
             }
+        } // apend params if exists to component
+        if (params && !Ext.Object.isEmpty(params)) {
+            Ext.applyIf(component, params);
         }
         if (component) {
             component.reset && component.reset();
