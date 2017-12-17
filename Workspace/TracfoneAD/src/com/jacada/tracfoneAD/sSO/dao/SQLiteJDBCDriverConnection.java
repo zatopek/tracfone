@@ -10,11 +10,16 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Value;
+
 import com.jacada.tracfoneAD.sSO.entities.LoginCredential;
 
 public class SQLiteJDBCDriverConnection {
-
-	public static String DB_URL = "jdbc:sqlite:C:\\Jacada\\sqlite\\db\\tracfone.db";
+		
+	@Value("${sso.sqllite.location}")
+	private String ssoSqliteLocation;
+	
+	private String DB_URL = "jdbc:sqlite:" + ssoSqliteLocation;
 
 	/**
 	 * Connect to the database
@@ -26,6 +31,7 @@ public class SQLiteJDBCDriverConnection {
 		Connection conn = null;
 		try {
 			Class.forName("org.sqlite.JDBC");
+			System.out.println("DB_URL=>" +  DB_URL);
 			conn = DriverManager.getConnection(DB_URL);
 			System.out.println("Connection to SQLite has been established.");
 		} catch (SQLException e) {

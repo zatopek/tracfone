@@ -14,7 +14,7 @@ var Adam = function () {
 	managers['comm'] = new BroadBridge("", 2, function () { }, this);
 	//This is a singleton. But should also be accessible outside just in case it is required.
 	managers['interactcomm'] = wsCommunicator;
-	//managers['projectvariables'] = projectVariable;
+	managers['projectvariables'] = projectVariable;
 	managers['ctiHelper'] = ctiHelper;
 	managers['windowsManager'] = new WindowsManager();
 	managers['jasHandler'] = new JasHandler();

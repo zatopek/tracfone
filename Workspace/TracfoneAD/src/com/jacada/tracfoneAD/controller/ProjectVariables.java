@@ -15,17 +15,17 @@ import com.jacada.tracfoneAD.util.Response;
 @RestController
 @RequestMapping(value = "variables", produces = "application/json")
 public class ProjectVariables {
-	@Value("${jas.welcome.url}")
-	private String welcomeURL;
-	@Value("${jas.changepremium.url}")
-	private String changePremiumURL;
-
+	@Value("${jas.redemption.url}")
+	private String redemptionUrl;
+	@Value("${jas.unableUnable.url}")
+	private String unableUnableUrl;
+	
 	@RequestMapping(method = RequestMethod.POST)
 	public Response<Map<String, String>> all(
 			@RequestBody Request<String> request) {
 		Map<String, String> variables = new HashMap<String, String>();
-		variables.put("welcomeScriptURL", welcomeURL);
-		variables.put("changePremiumURL", changePremiumURL);
+		variables.put("redemptionUrl", redemptionUrl);
+		variables.put("unableUnableUrl", unableUnableUrl);
 		return Response.success(request, variables);
 	}
 }

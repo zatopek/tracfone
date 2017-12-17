@@ -27,7 +27,7 @@ public class DefaultSSODao implements SSODao {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private static SQLiteJDBCDriverConnection sQLiteJDBCDriverConnection;
+	private SQLiteJDBCDriverConnection sQLiteJDBCDriverConnection;
 	
 	public DefaultSSODao()
 	{

@@ -26,7 +26,7 @@ public class Main {
 
 	/**
 	 * This method returns an instance of the
-	 * {@link PropertyPlaceholderConfigurer} with uad.properties and
+	 * {@link PropertyPlaceholderConfigurer} with tracfonead.properties and
 	 * JacadaConfiguration.properties file configured
 	 * 
 	 * @return {@link PropertyPlaceholderConfigurer} instance
