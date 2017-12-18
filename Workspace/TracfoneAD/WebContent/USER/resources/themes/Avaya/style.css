@@ -193,7 +193,7 @@ body{
 #workspace-menu{
 	background-image: none !important;
 	background-color: #F1F1F1;
-	margin-top: 20px;
+	margin-top: 10px;
 }
 
 .x-tip-default {
@@ -381,9 +381,9 @@ body{
 	border-style: none;
 	background-color: transparent;
     margin-left: 10px;
-	margin-top: 10px;
+	margin-top: 3px;
 	vertical-align: middle  !important;
-	height: 40px !important;
+	height: 30px !important;
 	background-size: contain;
 }
 /*5

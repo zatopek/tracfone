@@ -4,7 +4,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.common.CustomerServiceProfile', {
     layout: 'column',
     defaults: {
         margin: '5 10 0 5', //top right bottom left (clockwise) margins of each item/column
-        height: 200
+        height: 170
     },
 
     load: function (data) {

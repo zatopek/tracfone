@@ -6,7 +6,7 @@ function onCustomerServiceProfile(pushData) {
     pushData = {
         deviceProfile: { "min":"3219990000", "deviceType": "BYOP", "sim": "123", "minStatus": "ACTIVE", "simStatus": "SIM ACTIVE", "phoneGen": "AD-LTE", "os": "and" },
         serviceProfile: { "serviceType": "type of service", "brand": "my Brand", "carrier": "VErizon", "serviceEndDate": "12/15/2017", "cardsInReserve": "2" },
-        customerProfile: { "customerId": "lksdf9879789", "contactName": "Peter Parer" },
+        customerProfile: { "customerId": "lksdf9879789", "contactName": "Peter Parer", "zip":"32828" },
         accountBalances: { "phoneStatus": "Pending", "smsBalance": "124", "voiceBalance": "0" }
     }
 

@@ -95,7 +95,7 @@ var JasHandler;
             },
 
             getRedemptionUrl: function () {
-                return adam.getVariable("redemptionurl") + '&' + encodeURI(getRedemptionParams());
+                return adam.getVariable("redemptionUrl") + '&' + encodeURI(getRedemptionParams());
             },
 
             getUnableUnableUrl: function () {
