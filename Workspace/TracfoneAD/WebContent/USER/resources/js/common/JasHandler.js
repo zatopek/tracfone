@@ -5,8 +5,6 @@ var JasHandler;
         // TODO get it from project variables (adam.getVariable(redemptionurl))
         //var redemptionUrl = 'https://gointeract.io/interact/index?interaction=237e6c87c415-d4b64eb5b32cb044-22b8&accountId=azurademo&appkey=6c87bc97-fc7a-4dfe-80b3-d8c43521cb9c';
         //var unableUnableUrl = 'https://gointeract.io/interact/index?interaction=2471ae2941ee-0cf98cced8706fb9-c170&accountId=azurademo&appkey=6c87bc97-fc7a-4dfe-80b3-d8c43521cb9c';
-    	var redemptionUrl = "";
-    	var unableUnableUrl = "";
         // var d = new Date("11/01/2017");
         // var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
         // var today = new Date();

@@ -5,14 +5,12 @@ var projectVariable = null;
 
 		return {
 			load: function() {
-				/*
+
+            	/*
 				adam.callService('variables', 'POST', '').then(function (variablesResponse) {
-
-					alert(variablesResponse.size());
 					variables = variablesResponse;
-				});
-				*/
-
+				}
+            	 */
                 Ext.Ajax.request({
                     url: $W().contextPath + '/rest/variables/get',
                     method: 'GET',
