@@ -1,25 +1,13 @@
 package com.jacada.tracfoneAD.sSO.dao;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
-import net.sf.ehcache.hibernate.HibernateUtil;
-
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
-import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.stereotype.Component;
 
-import com.jacada.jad.logging.LogWrapper;
 import com.jacada.tracfoneAD.sSO.dao.interfaces.SSODao;
-import com.jacada.tracfoneAD.sSO.entities.AgentSSO;
 import com.jacada.tracfoneAD.sSO.entities.ApplicationSourceSystem;
 import com.jacada.tracfoneAD.sSO.entities.LoginCredential;
-import com.jacada.tracfoneAD.sSO.entities.SSOCredential;
-import com.jacada.tracfoneAD.sSO.exceptions.ApplicationSourceSystemNotFoundException;
+
 @Component
 public class DefaultSSODao implements SSODao {
 
@@ -28,16 +16,14 @@ public class DefaultSSODao implements SSODao {
 	 */
 	private static final long serialVersionUID = 1L;
 	private SQLiteJDBCDriverConnection sQLiteJDBCDriverConnection;
-	
-	public DefaultSSODao()
-	{
-		sQLiteJDBCDriverConnection = new SQLiteJDBCDriverConnection();
-		//sQLiteJDBCDriverConnection.createNewDatabase();
-		//sQLiteJDBCDriverConnection.createNewTable();
-	}
+
 	
 	@Override
 	public List<LoginCredential> getUserSsoCredentials(String agentId) {
+		
+		if(sQLiteJDBCDriverConnection == null){
+			sQLiteJDBCDriverConnection = new SQLiteJDBCDriverConnection();
+		}
 		return sQLiteJDBCDriverConnection.getAgentLogins(agentId);
 	}
 
@@ -61,6 +47,9 @@ public class DefaultSSODao implements SSODao {
 
 	@Override
 	public void deleteUserSsoCredentials(String agentId) {
+		if(sQLiteJDBCDriverConnection == null){
+			sQLiteJDBCDriverConnection = new SQLiteJDBCDriverConnection();
+		}
 		sQLiteJDBCDriverConnection.delete(agentId);
 		
 	}
@@ -68,6 +57,11 @@ public class DefaultSSODao implements SSODao {
 	@Override
 	public void addOrUpdateUserSsoCredentials(String agentId,
 			List<LoginCredential> loginCredentials, boolean add) {
+		
+		if(sQLiteJDBCDriverConnection == null){
+			sQLiteJDBCDriverConnection = new SQLiteJDBCDriverConnection();
+		}
+		
 		if(add)
 		{
 			for(LoginCredential login:loginCredentials)

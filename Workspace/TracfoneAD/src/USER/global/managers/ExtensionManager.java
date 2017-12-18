@@ -3,6 +3,8 @@ package USER.global.managers;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Value;
+
 import SYSTEM.global.GlobalAction;
 import SYSTEM.global.GlobalActionNames;
 import SYSTEM.global.GlobalActionOrder;
@@ -12,6 +14,7 @@ import SYSTEM.global.managers.AbstractManager;
 import com.jacada.jad.agentDisposition.DispositionManager;
 import com.jacada.jad.agentDisposition.events.DispositionEventListener;
 import com.jacada.jad.failover.FailOverAware;
+import com.jacada.jad.projectVariables.impl.ProjectVariables;
 import com.jacada.jad.push.PushHelper;
 
 public class ExtensionManager implements AbstractManager, FailOverAware {
@@ -44,11 +47,12 @@ public class ExtensionManager implements AbstractManager, FailOverAware {
 		
 		String agentName = (String) request.getSession().getAttribute("agentName");
 		
+		
 		if(username==null || username.equals("null")){
 			username = "";
 		}
 		
-		try {
+		try {			
 			PushHelper.pushMessageToAgent(request.getSession(), agentName, "AgentEnvUsername", username);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

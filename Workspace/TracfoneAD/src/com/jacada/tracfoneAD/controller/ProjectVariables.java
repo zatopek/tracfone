@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.google.gson.Gson;
 import com.jacada.tracfoneAD.util.Request;
 import com.jacada.tracfoneAD.util.Response;
 
@@ -28,4 +29,12 @@ public class ProjectVariables {
 		variables.put("unableUnableUrl", unableUnableUrl);
 		return Response.success(request, variables);
 	}
+	
+	@RequestMapping(value="get", method = RequestMethod.GET, produces = "application/json")
+	public String getVariables() {
+		Map<String, String> variables = new HashMap<String, String>();
+		variables.put("redemptionUrl", redemptionUrl);
+		variables.put("unableUnableUrl", unableUnableUrl);
+		return new Gson().toJson(variables);
+	}	
 }

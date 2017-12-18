@@ -6,7 +6,7 @@
     </item -->
 
     <item name="application.menuBar.menu.sso" privilege="MenuBarItemHelp">
-        <item accessKey="application.javascript.menuBar.accessKey.systemCredentials" name="application.menuBar.item.systemCredentials" value="managers['windowManager'].show('ssoWindow')"/>
+        <item accessKey="application.javascript.menuBar.accessKey.systemCredentials" name="application.menuBar.item.systemCredentials" value="managers['windowsManager'].show('ssoWindow')"/>
     </item>
     <item name="application.menuBar.menu.transferGuidelines" privilege="MenuBarItemHelp">
         <item accessKey="application.javascript.menuBar.accessKey.tracfone" name="application.menuBar.item.tracfone" value="javascript:window.open('','Transfer Guideline', 'http://10.248.27.31/transferguidelines/home/brand/TracFone/1')"/>
