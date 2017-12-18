@@ -135,8 +135,15 @@ var Adam = function () {
 						managers['windowsManager'].show('ssoWindow');
 					}
 					else {
-						var resource = 'Credentials?system=workspace&user=' + $W().agentName + '&password=';
-						adam.callService(resource, 'POST', JSON.stringify(logins)).then(function (response) {
+						
+						var resource = 'Credentials';
+						var extraparam = {
+							app: 'workspace',
+							username: $W().agentName,
+							password: ''
+						}
+						logins.push(extraparam);
+						adam.callService(resource, 'POST', JSON.stringify(logins).replace(/system/g , "app")).then(function (response) {
 							// do nothing
 						}).catch(function (error) {
 						});
