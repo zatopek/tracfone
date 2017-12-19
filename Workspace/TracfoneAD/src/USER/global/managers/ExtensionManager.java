@@ -3,6 +3,8 @@ package USER.global.managers;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Value;
+
 import SYSTEM.global.GlobalAction;
 import SYSTEM.global.GlobalActionNames;
 import SYSTEM.global.GlobalActionOrder;
@@ -29,7 +31,8 @@ public class ExtensionManager implements AbstractManager, FailOverAware {
 		this.globalApp = globalApp;
 
 	}
-
+	@Value("${tas.url}")
+	private String tasUrl;
 	@GlobalAction(actionName=GlobalActionNames.LOGIN,order=GlobalActionOrder.AFTER)
 	public void login(HttpServletRequest request){ 
 		
@@ -50,6 +53,7 @@ public class ExtensionManager implements AbstractManager, FailOverAware {
 		
 		try {
 			PushHelper.pushMessageToAgent(request.getSession(), agentName, "AgentEnvUsername", username);
+			PushHelper.pushMessageToAgent(request.getSession(), agentName, "StartTas", tasUrl);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
