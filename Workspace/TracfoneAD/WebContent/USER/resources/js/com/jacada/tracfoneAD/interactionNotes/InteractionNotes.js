@@ -58,7 +58,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.interactionNotes.InteractionNotes'
             result: me.down('#result').getValue()
         }
 
-        adam.callService('Tas/Interctions', 'POST', requestObject).then(function (response) {
+        adam.callService('Tas/Interactions', 'POST', requestObject).then(function (response) {
             me.down('#createInteractioResponse').setValue(response);
             // TODO end the call here ?? 
             //adam.endCall();

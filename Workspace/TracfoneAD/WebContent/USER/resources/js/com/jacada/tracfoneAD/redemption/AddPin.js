@@ -80,9 +80,9 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.AddPin', {
         var me = this;
         me.mask('Please wait..');
         var airtimePin = me.down('#airtimePin').getValue();
-        //  var promoCode = me.down('#promoCode').getValue(); // TODO need to pass this as well to resource
+        var promoCode = me.down('#promoCode').getValue(); // TODO need to pass this as well to resource
         var method = 'POST';
-        var resource = 'Tas/PINs/' + airtimePin;
+        var resource = 'Tas/PINs/' + airtimePin + "?promoCode=" + promoCode;
 
         if (type === 'addToReserve') {
             method = 'PATCH';
@@ -162,7 +162,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.AddPin', {
                                     margin: "0 0 0 10",
                                     text: 'Add to Reserve',
                                     disabled: true,
-                                    itemId: 'addToReserveBtn',
+                                    itemId: 'addToReserveBtnaddToReserveBtn',
                                     handler: function () {
                                         me.doTransaction('addToReserve');
                                     }
