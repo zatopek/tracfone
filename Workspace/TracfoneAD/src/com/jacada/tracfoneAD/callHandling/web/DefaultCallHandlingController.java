@@ -59,9 +59,9 @@ public class DefaultCallHandlingController extends WorkspaceController {
 
 		PushHelper.publishMessageToAgent(agentName, "IncomingCallQueryString", request.getQueryString());
 		
-		//CustomerServiceProfile customerServiceProfile = customerServiceProfileManager.getCustomerServiceProfile(esn);
-		//PushHelper.pushMessage(request, "CustomerServiceProfile", customerServiceProfile);
-		PushHelper.publishMessageToAgent(agentName, "CustomerServiceProfile", new CustomerServiceProfile());
+		CustomerServiceProfile customerServiceProfile = customerServiceProfileManager.getCustomerServiceProfile(esn);
+		PushHelper.pushMessage(request, "CustomerServiceProfile", customerServiceProfile);
+		//PushHelper.publishMessageToAgent(agentName, "CustomerServiceProfile", new CustomerServiceProfile());
 		PushHelper.publishMessageToAgent(agentName, "LaunchWorkflow", task_id);
 		
 	}
@@ -83,41 +83,9 @@ public class DefaultCallHandlingController extends WorkspaceController {
 			}			
 		}
 		
-		CustomerServiceProfile customerServiceProfile =  new CustomerServiceProfile();
+		//CustomerServiceProfile customerServiceProfile =  new CustomerServiceProfile();
 		//Comment out for local testing
-		//CustomerServiceProfile customerServiceProfile = customerServiceProfileManager.getCustomerServiceProfile(esn);
-		String os = customerServiceProfileManager.getOperatingSystem(customerServiceProfile.getDeviceProfile().getPartNumber());
-		//Dummy Data
-		
-		AccountBalances accountBalances = new AccountBalances();
-		CustomerProfile customerProfile = new CustomerProfile();
-		DeviceProfile deviceProfile =  new DeviceProfile();
-		ServiceProfile serviceProfile = new ServiceProfile();
-		deviceProfile.setDeviceType("BYOP");
-		deviceProfile.setSimStatus("ACTIVE");
-		deviceProfile.setMinStatus("ACTIVE");
-		deviceProfile.setPhoneGen("4G_LTE");
-		deviceProfile.setSerial("100000000743517");
-		deviceProfile.setPartNumber("STEZEZE35GP2");
-		deviceProfile.setSim("8901260710008609802");
-		deviceProfile.setOs(os);
-        serviceProfile.setServiceType("type of service");
-        serviceProfile.setBrand("TRACFONE");
-        serviceProfile.setDealer("9621 TRACFONE-BRIGHTPORT XYZ");
-        serviceProfile.setCardsInReserve("2");
-        serviceProfile.setServiceEndDate("1/1/2018");
-        serviceProfile.setCarrier("190024 AT&T PREPAID");
-        serviceProfile.setTechnology("GSM (4G)");
-        serviceProfile.setAutoRefill("#130 unlimited Plan - 10GB");
-        customerProfile.setCustomerId("lksdf9879789");
-        customerProfile.setContactName("Peter Parer");
-        accountBalances.setPhoneStatus("ACTIVE");
-        accountBalances.setSmsBalance("1245w");
-        accountBalances.setVoiceBalance("33");
-		customerServiceProfile.setAccountBalances(accountBalances);
-		customerServiceProfile.setCustomerProfile(customerProfile);
-		customerServiceProfile.setDeviceProfile(deviceProfile);
-		customerServiceProfile.setServiceProfile(serviceProfile);
+		CustomerServiceProfile customerServiceProfile = customerServiceProfileManager.getCustomerServiceProfile(esn);
 		
 		PushHelper.publishMessageToAgent(agentId, "CustomerServiceProfile", customerServiceProfile);
 		//PushHelper.publishMessageToAgent(agentId, "CustomerServiceProfile", new CustomerServiceProfile());

@@ -67,9 +67,8 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.PaymentTransaction', {
         var autoFill = me.down('#autoFill').checked;
         me.mask('Please wait...');
         adam.callService('Tas/Cards/' + partNumber + '?promocode=' + promoCode, 'POST', {
-            cardPartNumber: partNumber,
-            creditCardNumber: creditCardNumber,
-            promoCode: promoCode
+            number: creditCardNumber.substr(creditCardNumber.length - 4),
+            cvv: cvv
         }).then(function (response) {
             me.down('#airtimePurchaseResponse').setValue(response);
             var airtimeSelected = me.up().down('airtimePlan').down('#airtimePlanGrid').getSelectionModel().getSelection()[0];

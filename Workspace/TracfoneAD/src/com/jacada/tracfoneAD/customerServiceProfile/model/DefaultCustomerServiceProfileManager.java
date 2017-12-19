@@ -58,6 +58,7 @@ public class DefaultCustomerServiceProfileManager extends DefaultWorkspaceManage
 					deviceProfile.setLeaseStatus(rs.getString("lease_status_name"));
 					deviceProfile.setSequence(rs.getString("sequence"));
 					deviceProfile.setHexSerial(rs.getString("x_hex_serial_no"));
+					deviceProfile.setOs(getOperatingSystem(deviceProfile.getPartNumber()));
 					
 					serviceProfile.setServiceType(rs.getString("service_type"));
 					serviceProfile.setRatePlan(rs.getString("rate_plan"));
