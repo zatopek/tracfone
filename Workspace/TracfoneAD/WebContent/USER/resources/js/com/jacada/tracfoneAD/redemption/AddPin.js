@@ -37,14 +37,14 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.AddPin', {
                 me.unmask();
             }).catch(function () {
                 Ext.Msg.alert('ERROR', 'Sorry, the airtime pin that you enntered could not be found.');
-                me.disableButtons();
+                //me.disableButtons();
                 me.down('#addAirtimeResponse').setValue('');
                 //me.changePromoCodeButton();
                 me.unmask();
             });
         }
         else {
-            me.disableButtons();
+            //me.disableButtons();
             me.down('#addAirtimeResponse').setValue('');
         }
         //  me.changePromoCodeButton();
@@ -152,7 +152,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.AddPin', {
                                 {
                                     xtype: 'button',
                                     margin: "0 0 0 10",
-                                    disabled: true,
+                                    disabled: false,
                                     text: 'Add Now',
                                     itemId: 'addNowBtn',
                                     handler: function () {
