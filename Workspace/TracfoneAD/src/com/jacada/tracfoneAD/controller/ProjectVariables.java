@@ -20,6 +20,8 @@ public class ProjectVariables {
 	private String redemptionUrl;
 	@Value("${jas.unableUnable.url}")
 	private String unableUnableUrl;
+	@Value("${tas.url}")
+	private String tasUrl;
 	
 	@RequestMapping(method = RequestMethod.POST)
 	public Response<Map<String, String>> all(
@@ -35,6 +37,7 @@ public class ProjectVariables {
 		Map<String, String> variables = new HashMap<String, String>();
 		variables.put("redemptionUrl", redemptionUrl);
 		variables.put("unableUnableUrl", unableUnableUrl);
+		variables.put("tasUrl", tasUrl);
 		return new Gson().toJson(variables);
 	}	
 }

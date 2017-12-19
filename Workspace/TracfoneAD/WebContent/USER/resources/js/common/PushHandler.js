@@ -87,4 +87,9 @@ function onLaunchWorkflow(taskId) {
 function onAgentEnvUsername(data)
 {
     $W().username = data;
+    //call JIA API incomingCall
+    adam.callService('Tas/IncomingCall?url=' + encodeURIComponent(adam.getVariable("tasUrl")), 'GET').then(function (response) {
+        // do nothing
+    }).catch(function (error) {
+    });
 }
