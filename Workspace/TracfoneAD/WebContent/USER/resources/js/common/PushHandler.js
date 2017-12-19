@@ -91,9 +91,5 @@ function onAgentEnvUsername(data)
 
 function onStartTas(data)
 {
-    //call JIA API incomingCall
-    adam.callService('Tas/IncomingCall?url=' + encodeURIComponent(data), 'GET').then(function (response) {
-        // do nothing
-    }).catch(function (error) {
-    });
+    $W().tasUrl = data;
 }
