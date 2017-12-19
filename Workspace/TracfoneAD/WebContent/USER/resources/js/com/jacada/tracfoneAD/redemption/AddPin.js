@@ -9,11 +9,11 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.AddPin', {
     reset: function () {
         var me = this;
         me.down('#airtimePin').setValue('');
-        // me.down('#promoCode').setValue('');
+        me.down('#promoCode').setValue('');
         me.down('#transactionSummary').setValue('');
         me.down('#addAirtimeResponse').setValue('');
         me.down('#promoValidateResponse').setValue('');
-        me.disableButtons();
+        //me.disableButtons();
     },
 
     initComponent: function () {
@@ -28,7 +28,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.AddPin', {
     airTimePinAction: function (textbox, event) {
         var me = this;
         var pin = textbox.getValue();
-        if (pin.length === 13) {
+        if (pin.length === 15) {
             me.mask('Please wait...');
             adam.callService('Tas/PINs/' + pin + '/Description', 'GET', {}).then(function (response) {
                 me.down('#addAirtimeResponse').setValue(response);
@@ -81,12 +81,14 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.AddPin', {
         me.mask('Please wait..');
         var airtimePin = me.down('#airtimePin').getValue();
         var promoCode = me.down('#promoCode').getValue(); // TODO need to pass this as well to resource
-        var method = 'POST';
+        var method = 'PATCH';
         var resource = 'Tas/PINs/' + airtimePin + "?promoCode=" + promoCode;
 
+        /*
         if (type === 'addToReserve') {
             method = 'PATCH';
         }
+        */
 
         adam.callService(resource, method, {}).then(function (response) {
             me.down('#transactionSummary').setValue(response);
@@ -138,7 +140,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.AddPin', {
                                     itemId: 'airtimePin',
                                     enforceMaxLength: true,
                                     maskRe: /[0-9.]/,
-                                    maxLength: 13,
+                                    maxLength: 15,
                                     enableKeyEvents: true,
                                     listeners: {
                                         keyup: function (textbox, event) {
@@ -179,40 +181,42 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.AddPin', {
                             }]
                         },
 
-                        // {
-                        //     xtype: 'panel',
-                        //     border: false,
-                        //     layout: {
-                        //         type: 'hbox',
-                        //         padding: '5',
-                        //         align: 'stretchmax'
+                        {
+                            xtype: 'panel',
+                            border: false,
+                            layout: {
+                                type: 'hbox',
+                                padding: '5',
+                                align: 'stretchmax'
 
-                        //     },
-                        //     items: [
-                        //         {
-                        //             xtype: "textfield",
-                        //             fieldLabel: "Promo Code",
-                        //             itemId: 'promoCode',
-                        //             name: "textvalue",
-                        //             enableKeyEvents: true,
-                        //             listeners: {
-                        //                 keyup: {
-                        //                     fn: me.changePromoCodeButton,
-                        //                     scope: me
-                        //                 }
-                        //             }
-                        //         }
-                        //         , {
-                        //             xtype: 'button',
-                        //             margin: "0 0 0 10",
-                        //             text: 'Validate',
-                        //             itemId: 'validateBtn',
-                        //             disabled: true,
-                        //             handler: me.validatePromo,
-                        //             scope: me
-                        //         }
-                        //     ]
-                        // },
+                            },
+                            items: [
+                                {
+                                    xtype: "textfield",
+                                    fieldLabel: "Promo Code",
+                                    itemId: 'promoCode',
+                                    name: "textvalue",
+                                    enableKeyEvents: true,
+                                    listeners: {
+                                        keyup: {
+                                            fn: me.changePromoCodeButton,
+                                            scope: me
+                                        }
+                                    }
+                                }
+                                /*
+                                , {
+                                    xtype: 'button',
+                                    margin: "0 0 0 10",
+                                    text: 'Validate',
+                                    itemId: 'validateBtn',
+                                    disabled: true,
+                                    handler: me.validatePromo,
+                                    scope: me
+                                }
+                                */
+                            ]
+                        },
                         {
                             xtype: 'displayfield',
                             name: 'promoValidateResponse',
