@@ -40,12 +40,11 @@ public class DefaultCallHandlingController extends WorkspaceController {
 		this.manager = manager;
 	}
 
-	@RequestMapping(value = "incoming", method = RequestMethod.GET, produces = "application/json")
+	@RequestMapping(value = "incomingCall/{agentId}", method = RequestMethod.GET, produces = "application/json")
 	public @ResponseBody
-	void incoming(HttpServletRequest request) throws Exception {
-		Map <String, String[]> params = request.getParameterMap();
-		
+	void incoming(@PathVariable String agentId, HttpServletRequest request) throws Exception {
 		/*
+		Map <String, String[]> params = request.getParameterMap();
 		JSONObject obj = new JSONObject();
 		for (Map.Entry<String, String[]> entry : params.entrySet())
 		{
@@ -53,16 +52,26 @@ public class DefaultCallHandlingController extends WorkspaceController {
 		}
 		PushHelper.pushMessage(request, "IncomingCallParamObj", obj);
 		*/
-		String esn = request.getParameter("esn");
-		String task_id = request.getParameter("task_id");
-		String agentName = request.getParameter("agentName");
+		String esn = "";
+		String task_id = "";
+		String url = request.getParameter("url");
+		StringTokenizer st = new StringTokenizer(url, "&");
+		while (st.hasMoreTokens()) {
+			String token = st.nextToken();
+			if(token.startsWith("esn")){
+				esn = token.substring(4);
+			}
+			else if(token.startsWith("task_id")){
+				task_id = token.substring(8);
+			}			
+		};
 
-		PushHelper.publishMessageToAgent(agentName, "IncomingCallQueryString", request.getQueryString());
+		//PushHelper.publishMessageToAgent(agentId, "IncomingCallQueryString", request.getQueryString());
 		
 		CustomerServiceProfile customerServiceProfile = customerServiceProfileManager.getCustomerServiceProfile(esn);
-		PushHelper.pushMessage(request, "CustomerServiceProfile", customerServiceProfile);
+		PushHelper.publishMessageToAgent(agentId, "CustomerServiceProfile", customerServiceProfile);
 		//PushHelper.publishMessageToAgent(agentName, "CustomerServiceProfile", new CustomerServiceProfile());
-		PushHelper.publishMessageToAgent(agentName, "LaunchWorkflow", task_id);
+		PushHelper.publishMessageToAgent(agentId, "LaunchWorkflow", task_id);
 		
 	}
 	
@@ -85,8 +94,7 @@ public class DefaultCallHandlingController extends WorkspaceController {
 		
 		//CustomerServiceProfile customerServiceProfile =  new CustomerServiceProfile();
 		//Comment out for local testing
-		CustomerServiceProfile customerServiceProfile = customerServiceProfileManager.getCustomerServiceProfile(esn);
-		
+		CustomerServiceProfile customerServiceProfile = customerServiceProfileManager.getCustomerServiceProfile(esn);		
 		PushHelper.publishMessageToAgent(agentId, "CustomerServiceProfile", customerServiceProfile);
 		//PushHelper.publishMessageToAgent(agentId, "CustomerServiceProfile", new CustomerServiceProfile());
 		PushHelper.publishMessageToAgent(agentId, "LaunchWorkflow", task_id);
