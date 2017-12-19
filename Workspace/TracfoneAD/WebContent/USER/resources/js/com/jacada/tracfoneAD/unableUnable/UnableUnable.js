@@ -52,7 +52,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.unableUnable.UnableUnable', {
                                 src: '',
                                 allowfullscreen: true,
                                 frameborder: '0',
-                                height: 550,
+                                height: 500,
                                 width: '100%'
                             }
                         },

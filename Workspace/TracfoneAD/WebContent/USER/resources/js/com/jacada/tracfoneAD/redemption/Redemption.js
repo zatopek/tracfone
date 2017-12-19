@@ -102,7 +102,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.Redemption', {
                             src: '',
                             allowfullscreen: true,
                             frameborder: '0',
-                            height: 450,
+                            height: 500,
                             width: '100%'
                         }
                     },

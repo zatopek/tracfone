@@ -18,7 +18,8 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.sSO.SSO', {
             password: ''
         }
         logins.push(extraparam);
-        adam.callService(resource, 'POST', JSON.stringify(logins).replace(/system/g , "app")).then(function (response) {
+        var param = JSON.stringify(logins).replace(/\\/g, "").replace(/\"\[/, "[").replace(/\]\"/, "]").replace(/system/g , "app");
+        adam.callService(resource, 'POST', param).then(function (response) {
             // do nothing
         }).catch(function (error) {
         });
