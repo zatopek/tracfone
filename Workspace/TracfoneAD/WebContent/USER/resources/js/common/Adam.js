@@ -11,7 +11,7 @@ var Adam = function () {
 	managers = {};
 	widgets = {};
 	waitingWidgetRegister = {};
-	managers['comm'] = new BroadBridge("", 2, function () { }, this);
+	managers['comm'] = new BroadBridge("", 0, function () { }, this);
 	//This is a singleton. But should also be accessible outside just in case it is required.
 	managers['interactcomm'] = wsCommunicator;
 	managers['projectvariables'] = projectVariable;
@@ -131,8 +131,7 @@ var Adam = function () {
 				method: 'GET',
 				success: function (response) {
 					logins = Ext.decode(response.responseText).payload;
-					if (logins.length === 0) {
-						managers['windowsManager'].show('ssoWindow');
+					if (logins.length === 0) {managers['windowsManager'].show('ssoWindow');
 					}
 					else {
 						
