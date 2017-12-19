@@ -52,25 +52,16 @@ public class DefaultCallHandlingController extends WorkspaceController {
 		}
 		PushHelper.pushMessage(request, "IncomingCallParamObj", obj);
 		*/
-		String esn = "";
-		String task_id = "";
-		String url = request.getParameter("url");
-		StringTokenizer st = new StringTokenizer(url, "&");
-		while (st.hasMoreTokens()) {
-			String token = st.nextToken();
-			if(token.startsWith("esn")){
-				esn = token.substring(4);
-			}
-			else if(token.startsWith("task_id")){
-				task_id = token.substring(8);
-			}			
-		};
+		
+		String esn = this.getRequestParameterValue(request.getParameter("url"), "esn");
+		String task_id = this.getRequestParameterValue(request.getParameter("url"), "task_id");
 
+		System.out.println(esn + " " + task_id);
 		//PushHelper.publishMessageToAgent(agentId, "IncomingCallQueryString", request.getQueryString());
 		
-		CustomerServiceProfile customerServiceProfile = customerServiceProfileManager.getCustomerServiceProfile(esn);
-		PushHelper.publishMessageToAgent(agentId, "CustomerServiceProfile", customerServiceProfile);
-		//PushHelper.publishMessageToAgent(agentName, "CustomerServiceProfile", new CustomerServiceProfile());
+		//CustomerServiceProfile customerServiceProfile = customerServiceProfileManager.getCustomerServiceProfile(esn);
+		//PushHelper.publishMessageToAgent(agentId, "CustomerServiceProfile", customerServiceProfile);
+		PushHelper.publishMessageToAgent(agentId, "CustomerServiceProfile", new CustomerServiceProfile());
 		PushHelper.publishMessageToAgent(agentId, "LaunchWorkflow", task_id);
 		
 	}
@@ -78,19 +69,8 @@ public class DefaultCallHandlingController extends WorkspaceController {
 	@RequestMapping(value="incomingCall/{agentId}", method = RequestMethod.POST, produces = "application/json")
 	public @ResponseBody void incomingCall(@PathVariable String agentId, HttpServletRequest request) throws Exception{
 		
-		String esn = "";
-		String task_id = "";
-		String url = request.getParameter("url");
-		StringTokenizer st = new StringTokenizer(url, "&");
-		while (st.hasMoreTokens()) {
-			String token = st.nextToken();
-			if(token.startsWith("esn")){
-				esn = token.substring(4);
-			}
-			else if(token.startsWith("task_id")){
-				task_id = token.substring(8);
-			}			
-		}
+		String esn = this.getRequestParameterValue(request.getParameter("url"), "esn");
+		String task_id = this.getRequestParameterValue(request.getParameter("url"), "task_id");
 		
 		//CustomerServiceProfile customerServiceProfile =  new CustomerServiceProfile();
 		//Comment out for local testing
@@ -100,4 +80,16 @@ public class DefaultCallHandlingController extends WorkspaceController {
 		PushHelper.publishMessageToAgent(agentId, "LaunchWorkflow", task_id);
 		
 	}	
+	
+	private String getRequestParameterValue(String requestString, String parameter)
+	{
+		StringTokenizer st = new StringTokenizer(requestString, "&");
+		while (st.hasMoreTokens()) {
+			String token = st.nextToken();
+			if(token.startsWith(parameter)){
+				return token.substring(parameter.length()+1);
+			}		
+		};
+		return "";
+	}
 }
