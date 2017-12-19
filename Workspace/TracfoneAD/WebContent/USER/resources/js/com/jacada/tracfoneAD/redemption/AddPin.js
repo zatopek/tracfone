@@ -52,7 +52,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.AddPin', {
 
     enableButtons: function () {
         var me = this;
-        me.down('#addToReserveBtn').enable();
+        //me.down('#addToReserveBtn').enable();
         me.down('#addNowBtn').enable();
     },
 
