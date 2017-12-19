@@ -20,7 +20,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.sSO.SSO', {
         logins.push(extraparam);
         var param = JSON.stringify(logins).replace(/\\/g, "").replace(/\"\[/, "[").replace(/\]\"/, "]").replace(/system/g , "app");
         adam.callService(resource, 'POST', param).then(function (response) {
-            if($W().startTas){
+            if(!$W().startTas){
                 //call JIA API incomingCall
                 adam.callService('Tas/IncomingCall?url=' + encodeURIComponent($W().tasUrl), 'GET').then(function (response) {
                     $W().startTas = true;
