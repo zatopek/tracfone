@@ -29,18 +29,26 @@ function onLaunchWorkflow(taskId) {
 
     //regenerate carrier value to match with the service parameter
     if(carrier.toLowerCase().indexOf('tmobile')>=0) {
-        carrier = 'TMobile';
+        carrier = 'T-Mobile';
     }
     else if(carrier.toLowerCase().indexOf('verizon')>=0) {
         carrier = 'Verizon';
     }
     else if(carrier.toLowerCase().indexOf('at&t')>=0) {
-        carrier = encodeURIComponent('AT&T'); // TODO need to check if this is the desired value
+        carrier = encodeURIComponent('AT&T');
+    }
+    else if(carrier.toLowerCase().indexOf('sprint')>=0) {
+        carrier = 'Sprint';
+    }
+
+    var brand = pushData.serviceProfile.brand;
+    if(brand.toLowerCase()==='tracfone'){
+        brand = 'TracFone';
     }
 
     if (taskId == '9901') {
         //call JIA API launchAgentSupportSearch('brand', 'Unable Unable');
-        adam.callService('AgentAdvisor/Search/' + pushData.serviceProfile.brand + '?searchTerm=Unable%20Unable', 'GET').then(function (response) {
+        adam.callService('AgentAdvisor/Search/' + brand + '?searchTerm=Unable%20Unable', 'GET').then(function (response) {
             // do nothing
         }).catch(function (error) {
         });
@@ -52,11 +60,17 @@ function onLaunchWorkflow(taskId) {
         });
 
         //call JIA API launchAgentSupportFlowChart('Unable Unable', carrier, deviceType;
-        var brand = pushData.serviceProfile.brand;
-        if(brand.toLowerCase()=='tracfone'){
-            brand = 'TracFone';
+        var phoneType = pushData.deviceProfile.deviceType;
+        if (phoneType.toLowerCase() === 'feature_phone') {
+            phoneType = 'PPE';
         }
-        adam.callService('AgentAdvisor/FlowChart?brand=' + brand + '&flowChart=Unable%2FUnable%20Troubleshooting&carrier=' + carrier + '&phoneType=' + pushData.deviceProfile.deviceType, 'GET').then(function (response) {
+        else if (phoneType.toLowerCase() === 'byop') {
+            phoneType = 'BYOP';
+        }
+        else {
+            phoneType = 'Non%20PPE';
+        }
+        adam.callService('AgentAdvisor/FlowChart?brand=' + brand + '&flowChart=Unable%2FUnable%20Troubleshooting&carrier=' + carrier + '&phoneType=' + phoneType, 'GET').then(function (response) {
             // do nothing
         }).catch(function (error) {
         });
@@ -77,7 +91,7 @@ function onLaunchWorkflow(taskId) {
     //if redemption
     else if (taskId == '9902' || taskId == '9903') {
         //call JIA API launchAgentSupportSearch('Tracfone', 'Redemption');
-        adam.callService('AgentAdvisor/Search/' + pushData.serviceProfile.brand + '?searchTerm=Redemption', 'GET').then(function (response) {
+        adam.callService('AgentAdvisor/Search/' + brand + '?searchTerm=Redemption', 'GET').then(function (response) {
             // do nothing
         }).catch(function (error) {
         });
