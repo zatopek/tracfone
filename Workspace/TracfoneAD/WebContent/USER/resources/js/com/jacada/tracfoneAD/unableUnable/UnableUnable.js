@@ -49,6 +49,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.unableUnable.UnableUnable', {
                             columnWidth: 0.3,
                             autoEl: {
                                 tag: 'iframe',
+                                name: 'unableUnableJasFrame',
                                 src: '',
                                 allowfullscreen: true,
                                 frameborder: '0',

@@ -68,17 +68,23 @@ function onLaunchWorkflow(taskId) {
         });
 
         managers['flowType'] = 'unableUnable'; // to keep track of the flow
+        if(document.unableUnableJasFrame){
+            document.unableUnableJasFrame.location = managers['jasHandler'].getUnableUnableUrl();
+        }
         ShowTabById('CallingIssuesTab');
     }
     //if redemption
     else if (taskId == '9902' || taskId == '9903') {
         //call JIA API launchAgentSupportSearch('Tracfone', 'Redemption');
         adam.callService('AgentAdvisor/Search/' + pushData.serviceProfile.brand + '?searchTerm=Redemption', 'GET').then(function (response) {
-            // do nothing
+            // do nothingdocument.redemptionJasFrame
         }).catch(function (error) {
         });
         //launch JAS redemption flow with parameters ==> handled in JasHandler
         managers['flowType'] = 'redemption'; // to keep track of the flow
+        if(document.redemptionJasFrame){
+            document.redemptionJasFrame.location = managers['jasHandler'].getRedemptionUrl();
+        }
         ShowTabById('RedemptionTab');
     }
 

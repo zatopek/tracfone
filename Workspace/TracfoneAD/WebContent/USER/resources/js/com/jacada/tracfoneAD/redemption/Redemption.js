@@ -99,6 +99,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.Redemption', {
                         columnWidth: 0.3,
                         autoEl: {
                             tag: 'iframe',
+                            name: 'redemptionJasFrame',
                             src: '',
                             allowfullscreen: true,
                             frameborder: '0',
