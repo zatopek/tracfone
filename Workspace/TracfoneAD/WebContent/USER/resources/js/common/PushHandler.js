@@ -52,7 +52,11 @@ function onLaunchWorkflow(taskId) {
         });
 
         //call JIA API launchAgentSupportFlowChart('Unable Unable', carrier, deviceType;
-        adam.callService('AgentAdvisor/FlowChart?brand=' + pushData.serviceProfile.brand + '&flowChart=Unable%20Unable&carrier=' + carrier + '&phoneType=' + pushData.deviceProfile.deviceType, 'GET').then(function (response) {
+        var brand = pushData.serviceProfile.brand;
+        if(brand.toLowerCase()=='tracfone'){
+            brand = 'TracFone';
+        }
+        adam.callService('AgentAdvisor/FlowChart?brand=' + brand + '&flowChart=Unable%2FUnable%20Troubleshooting&carrier=' + carrier + '&phoneType=' + pushData.deviceProfile.deviceType, 'GET').then(function (response) {
             // do nothing
         }).catch(function (error) {
         });
