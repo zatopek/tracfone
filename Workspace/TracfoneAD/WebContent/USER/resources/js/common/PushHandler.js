@@ -28,17 +28,14 @@ function onLaunchWorkflow(taskId) {
     var carrier = pushData.serviceProfile.carrier;
 
     //regenerate carrier value to match with the service parameter
-    switch (carrier.toLowerCase()) {
-        case 'tmobile':
-            carrier = 'TMobile';
-            break;
-        case 'verizon':
-            carrier = 'Verizon';
-            break;
-        case 'at&t':
-            carrier = encodeURIComponent('AT&T'); // TODO need to check if this is the desired value
-            break;
-        default:
+    if(carrier.toLowerCase().indexOf('tmobile')>=0) {
+        carrier = 'TMobile';
+    }
+    else if(carrier.toLowerCase().indexOf('verizon')>=0) {
+        carrier = 'Verizon';
+    }
+    else if(carrier.toLowerCase().indexOf('at&t')>=0) {
+        carrier = encodeURIComponent('AT&T'); // TODO need to check if this is the desired value
     }
 
     if (taskId == '9901') {
