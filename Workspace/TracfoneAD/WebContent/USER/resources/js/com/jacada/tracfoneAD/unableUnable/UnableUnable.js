@@ -13,6 +13,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.unableUnable.UnableUnable', {
             name: 'unableUnable',
             cls: 'unableUnableCls',
             items: [
+                /*
                 { // TODO this first item should be removed when the post message from interaction is complete to load the components on the right main panel
                     xtype: 'panel',
                     layout: 'hbox',
@@ -39,6 +40,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.unableUnable.UnableUnable', {
                         }
                     ]
                 },
+                */
                 {
                     xtype: 'panel',
                     layout: 'column',

@@ -11,15 +11,13 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.PaymentTransaction', {
         var me = this;
         me.mask('Please wait...');
         var min = managers['pushData'].deviceProfile.min;
-        adam.callService('Tas/CreditCards?min=' + min, 'GET', {}).then(function (response) {
+        //adam.callService('Tas/CreditCards?min=' + min, 'GET', {}).then(function (response) {
             // TODO we are getting [{description: "sometext", units: "sometext", price: "sometext", partNumber: "sometext"}] in response.
             // but we need an array of credit cards. So using dummy data for now
             var selectPaymentStore = Ext.create('Ext.data.Store', {
-                fields: ['val', 'name'],
+                fields: ['name', 'value'],
                 data: [
-                    { val: "1234567890", name: "1234567890" },
-                    { val: "1234567890", name: "1234567890" },
-                    { val: "1234567890", name: "1234567890" }
+                    { name: "************5040 11/2025 Visa", value: "5040" }
                 ]
             });
             var combo = me.down('#selectPayment');
@@ -27,10 +25,10 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.PaymentTransaction', {
             combo.setValue(combo.getStore().getAt(0));
             me.unmask();
 
-        }).catch(function () {
+        //}).catch(function () {
             //  Ext.Msg.alert('ERROR', 'Sorry, cards could not be found. Please try again.');
-            me.unmask();
-        })
+         //   me.unmask();
+        //})
     },
 
     reset: function () {
