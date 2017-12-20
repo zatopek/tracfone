@@ -74,7 +74,7 @@ function onLaunchWorkflow(taskId) {
     else if (taskId == '9902' || taskId == '9903') {
         //call JIA API launchAgentSupportSearch('Tracfone', 'Redemption');
         adam.callService('AgentAdvisor/Search/' + pushData.serviceProfile.brand + '?searchTerm=Redemption', 'GET').then(function (response) {
-            // do nothingdocument.redemptionJasFrame
+            // do nothing
         }).catch(function (error) {
         });
         //launch JAS redemption flow with parameters ==> handled in JasHandler
