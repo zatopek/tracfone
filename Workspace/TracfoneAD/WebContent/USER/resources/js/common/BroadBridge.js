@@ -7,7 +7,7 @@ var BroadBridge = function (service, retryCount, cb, scope) {
 	var active = {};
 	var queue = [];
 	var executing = 0;
-	var maxConcurrent = 2; //TODO: Make this configurable
+	var maxConcurrent = 1; //TODO: Make this configurable
 	var checkQueue = function () {
 		if (queue.length > 0) {
 			var request = queue.pop();

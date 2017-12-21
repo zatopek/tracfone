@@ -79,6 +79,7 @@ function onLaunchWorkflow(taskId) {
         //call JIA API launchCarrierBilling
         adam.callService('Billing/' + carrier, 'GET').then(function (response) {
             // do nothing
+            log.info("***** calling billing " + carrier);
         }).catch(function (error) {
         });
 

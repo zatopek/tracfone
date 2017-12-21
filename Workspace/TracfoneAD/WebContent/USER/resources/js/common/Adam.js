@@ -260,4 +260,7 @@ Ext.onReady(function () {
 
 	// hide the portlet
 	widgets['customerServiceProfile'].up().up().hide()
+
+	//change ajax timeout to 90 seconds
+    Ext.Ajax.timeout = 90000;
 });
