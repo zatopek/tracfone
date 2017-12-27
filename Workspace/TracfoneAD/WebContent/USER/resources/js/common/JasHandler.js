@@ -55,7 +55,7 @@ var JasHandler;
 
             var carrierData = pushData.serviceProfile.carrier;
             var carrier = 'Not available'
-            if (carrierData.toLowerCase().indexOf('at&t') > -1)
+            if (carrierData.toLowerCase().indexOf('at&t') > -1 || carrier.toLowerCase().indexOf('cingular') > -1)
                 carrier = 'ATT';
             else if (carrierData.toLowerCase().indexOf('tmobile') > -1)
                 carrier = 'TMOBILE';

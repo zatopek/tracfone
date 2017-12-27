@@ -10,10 +10,10 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.AddPin', {
         var me = this;
         me.down('#airtimePin').setValue('');
         me.down('#promoCode').setValue('');
-        me.down('#transactionSummary').setValue('');
+        me.down('#transactionSummary').update('');
         me.down('#addAirtimeResponse').setValue('');
         me.down('#promoValidateResponse').setValue('');
-        //me.disableButtons();
+        me.disableButtons();
     },
 
     initComponent: function () {
@@ -28,6 +28,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.AddPin', {
     airTimePinAction: function (textbox, event) {
         var me = this;
         var pin = textbox.getValue();
+        
         if (pin.length === 15) {
             me.mask('Please wait...');
             adam.callService('Tas/PINs/' + pin + '/Description', 'GET', {}).then(function (response) {
@@ -37,16 +38,17 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.AddPin', {
                 me.unmask();
             }).catch(function () {
                 Ext.Msg.alert('ERROR', 'Sorry, the airtime pin that you enntered could not be found.');
-                //me.disableButtons();
+                me.disableButtons();
                 me.down('#addAirtimeResponse').setValue('');
                 //me.changePromoCodeButton();
                 me.unmask();
             });
         }
         else {
-            //me.disableButtons();
+            me.disableButtons();
             me.down('#addAirtimeResponse').setValue('');
         }
+        
         //  me.changePromoCodeButton();
     },
 
@@ -91,7 +93,11 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.AddPin', {
         */
 
         adam.callService(resource, method, {}).then(function (response) {
-            me.down('#transactionSummary').setValue(response);
+        	var i = response.indexOf('<div class=\"x1a\"');
+        	if(i>=0){
+        		response = response.substring(i);
+        	}
+            me.down('#transactionSummary').update(response);
             adam.addAutoNotes('Airtime Pin Added - ' + me.down('#addAirtimeResponse').getValue());
             me.unmask();
         }).catch(function () {
@@ -234,9 +240,9 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.AddPin', {
                         border: false,
                         bodyStyle: 'padding:5px 5px 5px 5px',
                         items: [{
-                            xtype: 'displayfield',
+                            xtype: 'component',
                             itemId: 'transactionSummary',
-                            value: ''
+                            html: ''
                         }]
                     }
                 ]

@@ -34,7 +34,7 @@ function onLaunchWorkflow(taskId) {
     else if(carrier.toLowerCase().indexOf('verizon')>=0) {
         carrier = 'Verizon';
     }
-    else if(carrier.toLowerCase().indexOf('at&t')>=0) {
+    else if(carrier.toLowerCase().indexOf('at&t')>=0  || carrier.toLowerCase().indexOf('cingular')>=0 ) {
         carrier = encodeURIComponent('AT&T');
     }
     else if(carrier.toLowerCase().indexOf('sprint')>=0) {
@@ -44,6 +44,9 @@ function onLaunchWorkflow(taskId) {
     var brand = pushData.serviceProfile.brand;
     if(brand.toLowerCase()==='tracfone'){
         brand = 'TracFone';
+    }
+    else if(brand.toLowerCase()==='straight_talk'){
+        brand = 'StraightTalk';
     }
 
     if (taskId == '9901') {
