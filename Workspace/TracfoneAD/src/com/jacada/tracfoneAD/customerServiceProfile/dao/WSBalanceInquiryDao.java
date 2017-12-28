@@ -20,7 +20,6 @@ import com.tracfone.commontypes.LanguageType;
 import com.tracfone.commontypes.TracfoneBrandType;
 import com.tracfone.phonecommontypes.DeviceIdType;
 
-@Component
 public class WSBalanceInquiryDao extends WebServiceGatewaySupport implements BalanceInquiryDao {
 
 	/**

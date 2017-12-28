@@ -9,6 +9,8 @@
 	<bean id="customerServiceProfileManager" class="com.jacada.tracfoneAD.customerServiceProfile.model.DefaultCustomerServiceProfileManager" scope="singleton" >
 		<property name="customerServiceProfile" 
 		ref="customerServiceProfile"/>
+		<property name="balanceInquiryDao" 
+		ref="balanceInquiryDao"/>
 	</bean>
 	<bean id="customerServiceProfile" class="com.jacada.tracfoneAD.customerServiceProfile.dao.CustomerServiceProfileDaoFactoryBean" scope="session" lazy-init="true">
 		<aop:scoped-proxy/>
@@ -20,6 +22,8 @@
 	<bean id="customerServiceProfileDao" class="com.jacada.tracfoneAD.customerServiceProfile.dao.JpaCustomerServiceProfileDao" scope="singleton" >
 	</bean>
 	<bean id="customerServiceProfileDaoStub" class="com.jacada.tracfoneAD.customerServiceProfile.dao.CustomerServiceProfileDaoStub" scope="singleton" >
+	</bean>
+	<bean id="balanceInquiryDao" class="com.jacada.tracfoneAD.customerServiceProfile.dao.WSBalanceInquiryDao" scope="singleton">
 	</bean>
 	
 </beans>
