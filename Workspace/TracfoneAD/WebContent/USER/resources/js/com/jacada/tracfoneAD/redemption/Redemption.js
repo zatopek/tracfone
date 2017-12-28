@@ -119,6 +119,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.Redemption', {
                         columnWidth: 0.7,
                         itemId: 'mainPanel',
                         border: false,
+                        height: 500,
                         items: []
                     }
                 ]
