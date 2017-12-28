@@ -1,7 +1,7 @@
 // TODO replace with real values
 const REASON = {
-    "Redemption": ["Anitime added to be wrong ESN",
-        "Customer purchases wrong airtime card",
+    "Redemption": ["Airtime added to be wrong ESN",
+        "Customer purchased wrong airtime card",
         "Data Add-On",
         "Invalid/Inactive POSA Issue",
         "Promo Issue",
@@ -12,7 +12,7 @@ const REASON = {
     "Unable/Unable": ["Carrier outage",
         "No coverage",
         "OTA pending",
-        "Pending",
+        "Roaming",
         "SIM Issue"],
 };
 const RESULT = ["Call Completed", "Call Transfered", "Hang up/Disconnected", "Case created"]
