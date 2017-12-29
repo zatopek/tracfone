@@ -31,6 +31,11 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.Redemption', {
         Ext.each(container.items.items, function (item) {
             item.hide();
         })
+
+        if(componentName===''){
+            return;
+        }
+
         if (!widgets.hasOwnProperty(widgetName)) { // create component if not exists
             if (componentName === 'InteractionNotes') {
                 component = Ext.create('Jacada.user.com.jacada.tracfoneAD.interactionNotes.InteractionNotes');

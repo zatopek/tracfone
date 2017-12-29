@@ -1,5 +1,4 @@
-function onCustomerServiceProfile(pushData) {
-    //call JIA API getCallInfoFromAIC();
+function onCustomerServiceProfile(pushData) {    //call JIA API getCallInfoFromAIC();
 
     // TODO remove this dummy Data
 
@@ -9,6 +8,31 @@ function onCustomerServiceProfile(pushData) {
         customerProfile: { "customerId": "lksdf9879789", "contactName": "Peter Parer", "zip":"32828" },
         accountBalances: { "phoneStatus": "Pending", "smsBalance": "124", "voiceBalance": "0" }
     }
+
+
+    adam.callService('Avaya/Properties', 'GET').then(function (response) {
+        if(response["Customer Type"]){
+            pushData.customerProfile.customerType = response["Customer Type"];
+        }
+        if(response["Airtime PIN"] && (response["Airtime PIN"] != NA)){
+            pushData.others.airtimePin = response["Airtime PIN"];
+        }
+        if(response["XFER Condition"]){
+            pushData.others.xferCondition = response["XFER Condition"];
+        }
+        if(response["Case ID"]){
+            pushData.customerProfile.caseId = response["Case ID"];
+        }
+        if(response["Flash ID"]){
+            pushData.customerProfileflashId = response["Flash ID"];
+        }
+    }).catch(function (error) {
+        pushData.customerProfile.customerType = '';
+        pushData.others.airtimePin = '';
+        pushData.others.xferCondition = '';
+        pushData.others.caseId = '';
+        pushData.others.flashId = '';
+    });
 
     // save it in managers for now. Need a way to put it in datastore depending on unique Id
     managers['pushData'] = pushData;
@@ -25,27 +49,28 @@ function onCustomerServiceProfile(pushData) {
 function onLaunchWorkflow(taskId) {
     //if unable/unable
     var pushData = managers['pushData'];
-    var carrier = pushData.serviceProfile.carrier;
+    var carrier = pushData.serviceProfile.carrier.toLowerCase();
 
     //regenerate carrier value to match with the service parameter
-    if(carrier.toLowerCase().indexOf('tmobile')>=0) {
+    if(carrier.indexOf('tmobile')>=0 || carrier.indexOf('t-mobile')>=0) {
         carrier = 'T-Mobile';
     }
-    else if(carrier.toLowerCase().indexOf('verizon')>=0) {
+    else if(carrier.indexOf('verizon')>=0) {
         carrier = 'Verizon';
     }
-    else if(carrier.toLowerCase().indexOf('at&t')>=0  || carrier.toLowerCase().indexOf('cingular')>=0 ) {
+    else if(carrier.indexOf('at&t')>=0  || carrier.indexOf('cingular')>=0  || carrier.indexOf('dobson')>=0 ) {
         carrier = encodeURIComponent('AT&T');
     }
-    else if(carrier.toLowerCase().indexOf('sprint')>=0) {
+    else if(carrier.indexOf('sprint')>=0) {
         carrier = 'Sprint';
     }
 
-    var brand = pushData.serviceProfile.brand;
-    if(brand.toLowerCase()==='tracfone'){
+    // mapping brand
+    var brand = pushData.serviceProfile.brand.toLowerCase();
+    if(brand === 'tracfone'){
         brand = 'TracFone';
     }
-    else if(brand.toLowerCase()==='straight_talk'){
+    else if(brand === 'straight_talk'){
         brand = 'StraightTalk';
     }
 
@@ -63,16 +88,17 @@ function onLaunchWorkflow(taskId) {
         });
 
         //call JIA API launchAgentSupportFlowChart('Unable Unable', carrier, deviceType;
-        var phoneType = pushData.deviceProfile.deviceType;
-        if (phoneType.toLowerCase() === 'feature_phone') {
+        var phoneType = pushData.deviceProfile.deviceType.toLowerCase();
+        if (phoneType === 'feature_phone') {
             phoneType = 'PPE';
         }
-        else if (phoneType.toLowerCase() === 'byop') {
+        else if (phoneType === 'byop') {
             phoneType = 'BYOP';
         }
         else {
             phoneType = 'Non%20PPE';
         }
+
         adam.callService('AgentAdvisor/FlowChart?brand=' + brand + '&flowChart=Unable%2FUnable%20Troubleshooting&carrier=' + carrier + '&phoneType=' + phoneType, 'GET').then(function (response) {
             // do nothing
         }).catch(function (error) {
@@ -89,6 +115,7 @@ function onLaunchWorkflow(taskId) {
         managers['flowType'] = 'unableUnable'; // to keep track of the flow
         if(document.unableUnableJasFrame){
             document.unableUnableJasFrame.location = managers['jasHandler'].getUnableUnableUrl();
+            widgets['unableUnable'].loadComponent('', '');
         }
         ShowTabById('CallingIssuesTab');
     }
@@ -103,6 +130,7 @@ function onLaunchWorkflow(taskId) {
         managers['flowType'] = 'redemption'; // to keep track of the flow
         if(document.redemptionJasFrame){
             document.redemptionJasFrame.location = managers['jasHandler'].getRedemptionUrl();
+            widgets['redemption'].loadComponent('', '');
         }
         ShowTabById('RedemptionTab');
     }

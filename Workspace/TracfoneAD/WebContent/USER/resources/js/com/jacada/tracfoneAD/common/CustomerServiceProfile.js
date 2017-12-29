@@ -240,6 +240,15 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.common.CustomerServiceProfile', {
                         }, {
                             fieldLabel: 'LID',
                             name: 'ltd'
+                        }, {
+                            fieldLabel: 'Customer Type',
+                            name: 'customerType'
+                        }, {
+                            fieldLabel: 'Case ID',
+                            name: 'caseId'
+                        }, {
+                            fieldLabel: 'Flash ID',
+                            name: 'flashId'
                         }
                     ]
 

@@ -170,7 +170,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.AddPin', {
                                     margin: "0 0 0 10",
                                     text: 'Add to Reserve',
                                     disabled: true,
-                                    itemId: 'addToReserveBtnaddToReserveBtn',
+                                    itemId: 'addToReserveBtn',
                                     handler: function () {
                                         me.doTransaction('addToReserve');
                                     }

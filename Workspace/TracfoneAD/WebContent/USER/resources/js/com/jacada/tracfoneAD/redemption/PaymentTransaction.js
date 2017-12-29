@@ -39,7 +39,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.PaymentTransaction', {
         me.down('#selectPayment').getStore().loadData([], false);
         me.down('#promoValidateResponse').setValue('');
         me.down('#promoCode').setValue('');
-        me.down('#airtimePurchaseResponse').setValue('');
+        me.down('#airtimePurchaseResponse').update('');
         me.down('#autoFill').setValue(false);
 
         me.down('#cvv').setValue('');
