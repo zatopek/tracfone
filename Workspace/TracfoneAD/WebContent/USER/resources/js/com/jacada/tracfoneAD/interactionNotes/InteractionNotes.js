@@ -15,7 +15,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.interactionNotes.InteractionNotes'
 
     load: function () {
         var me = this;
-        var reason = 'Unable/Unable'
+        var reason = 'Unable /Unable'
         if (managers['flowType'] === 'redemption')
             reason = 'Redemption';
 
