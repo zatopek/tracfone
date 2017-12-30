@@ -53,15 +53,15 @@ var JasHandler;
             var unableUnableParams = '';
             var pushData = managers['pushData'];
 
-            var carrierData = pushData.serviceProfile.carrier;
+            var carrierData = pushData.serviceProfile.carrier.toLowerCase();
             var carrier = 'Not available'
-            if (carrierData.toLowerCase().indexOf('at&t') > -1 || carrier.toLowerCase().indexOf('cingular') > -1)
+            if (carrierData.indexOf('at&t') > -1 || carrierData.indexOf('cingular') > -1 || carrierData.indexOf('dobson') > -1)
                 carrier = 'ATT';
-            else if (carrierData.toLowerCase().indexOf('tmobile') > -1)
+            else if (carrierData.indexOf('tmobile') > -1 || carrierData.indexOf('t-mobile') > -1)
                 carrier = 'TMOBILE';
-            else if (carrierData.toLowerCase().indexOf('verizon') > -1)
+            else if (carrierData.indexOf('verizon') > -1)
                 carrier = 'VERIZON';
-            else if (carrierData.toLowerCase().indexOf('sprint') > -1)
+            else if (carrierData.indexOf('sprint') > -1)
                 carrier = 'SPRINT';
 
             var minStatus = pushData.deviceProfile.minStatus;

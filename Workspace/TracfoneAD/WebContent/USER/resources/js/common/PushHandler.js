@@ -30,8 +30,8 @@ function onCustomerServiceProfile(pushData) {    //call JIA API getCallInfoFromA
         pushData.customerProfile.customerType = '';
         pushData.others.airtimePin = '';
         pushData.others.xferCondition = '';
-        pushData.others.caseId = '';
-        pushData.others.flashId = '';
+        pushData.customerProfile.caseId = '';
+        pushData.customerProfile.flashId = '';
     });
 
     // save it in managers for now. Need a way to put it in datastore depending on unique Id
@@ -96,7 +96,12 @@ function onLaunchWorkflow(taskId) {
             phoneType = 'BYOP';
         }
         else {
-            phoneType = 'Non%20PPE';
+            if(carrier==='Verizon'){
+                phoneType = 'Non-PPE';
+            }
+            else {
+                phoneType = 'Non%20PPE';
+            }
         }
 
         adam.callService('AgentAdvisor/FlowChart?brand=' + brand + '&flowChart=Unable%2FUnable%20Troubleshooting&carrier=' + carrier + '&phoneType=' + phoneType, 'GET').then(function (response) {

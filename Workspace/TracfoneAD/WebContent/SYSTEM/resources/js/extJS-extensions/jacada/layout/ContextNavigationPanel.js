@@ -11,7 +11,7 @@ Ext.define('Jacada.core.layout.ContextNavigationPanel', {
     useArrows: true,
     rootVisible: false,
     bodyStyle : 'border-top-color: white;',
-    width: 163,
+    width: 185,
     activeVoiceNodeId: null,
     activeWorkItemNodeId: null,
     activeCall: null,

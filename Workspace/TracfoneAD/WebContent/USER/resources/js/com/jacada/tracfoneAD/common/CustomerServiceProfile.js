@@ -53,7 +53,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.common.CustomerServiceProfile', {
             cls: 'customerServiceProfileCls',
             items: [
                 {
-                    columnWidth: 0.35,
+                    columnWidth: 0.3,
                     border: true,
                     xtype: 'fieldset',
                     title: 'DEVICE PROFILE',
@@ -126,7 +126,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.common.CustomerServiceProfile', {
                     ]
                 },
                 {
-                    columnWidth: 0.35,
+                    columnWidth: 0.42,
                     border: true,
                     xtype: 'fieldset',
                     title: 'SERVICE PROFILE',
@@ -215,7 +215,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.common.CustomerServiceProfile', {
 
                 }
                 , {
-                    columnWidth: 0.15,
+                    columnWidth: 0.18,
                     border: true,
                     xtype: 'fieldset',
                     title: 'CUSTOMER PROFILE',
@@ -253,7 +253,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.common.CustomerServiceProfile', {
                     ]
 
                 }, {
-                    columnWidth: 0.15,
+                    columnWidth: 0.1,
                     border: true,
                     xtype: 'fieldset',
                     title: 'ACCOUNT BALANCES',

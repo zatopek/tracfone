@@ -59,9 +59,8 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.interactionNotes.InteractionNotes'
         }
 
         adam.callService('Tas/Interactions', 'POST', requestObject).then(function (response) {
-            if(response.toLowerCase()==='true'){
-                response = 'Interaction created successfully.'
-            }
+            // hardcoded the success response as there is no resposne from TAS
+            response = 'Interaction created successfully.';
             me.down('#createInteractioResponse').setValue(response);
             // TODO end the call here ?? 
             //adam.endCall();
