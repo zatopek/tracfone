@@ -11,20 +11,33 @@ function onCustomerServiceProfile(pushData) {    //call JIA API getCallInfoFromA
 
 
     adam.callService('Avaya/Properties', 'GET').then(function (response) {
-        if(response["Customer Type"]){
-            pushData.customerProfile.customerType = response["Customer Type"];
-        }
-        if(response["Airtime PIN"] && (response["Airtime PIN"] != NA)){
-            pushData.others.airtimePin = response["Airtime PIN"];
-        }
-        if(response["XFER Condition"]){
-            pushData.others.xferCondition = response["XFER Condition"];
-        }
-        if(response["Case ID"]){
-            pushData.customerProfile.caseId = response["Case ID"];
-        }
-        if(response["Flash ID"]){
-            pushData.customerProfileflashId = response["Flash ID"];
+        for (i=0; i<response.length; i++){
+            var key = response[i].Key;
+            if(key==="Customer Type"){
+                pushData.customerProfile.customerType = response[i].Value;
+                continue;
+            }
+            if(key==="Airtime PIN"){
+                if(response[i].Value != "NA"){
+                    pushData.others.airtimePin = response[i].Value;
+                }
+                else {
+                    pushData.others.airtimePin = "";
+                }
+                continue;
+            }
+            if(key==="XFER Condition"){
+                pushData.others.xferCondition = response[i].Value;
+                continue;
+            }
+            if(key==="Case ID"){
+                pushData.customerProfile.caseId = response[i].Value;
+                continue;
+            }
+            if(key==="Flash ID"){
+                pushData.customerProfileflashId = response[i].Value;
+                continue;
+            }
         }
     }).catch(function (error) {
         pushData.customerProfile.customerType = '';
