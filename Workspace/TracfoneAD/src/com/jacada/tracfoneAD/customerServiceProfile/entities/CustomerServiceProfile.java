@@ -47,7 +47,6 @@ public class CustomerServiceProfile implements Serializable{
 	public void setServiceProfile(ServiceProfile serviceProfile) {
 		this.serviceProfile = serviceProfile;
 	}
-
 	public CallInfo getCallInfo() {
 		return callInfo;
 	}
