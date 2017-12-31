@@ -12,6 +12,7 @@ public class CustomerServiceProfile implements Serializable{
 	DeviceProfile deviceProfile;
 	AccountBalances	accountBalances;
 	ServiceProfile serviceProfile;
+	CallInfo callInfo;
 	
 	public CustomerServiceProfile() {
 		super();
@@ -19,6 +20,7 @@ public class CustomerServiceProfile implements Serializable{
 		this.deviceProfile = new DeviceProfile();
 		this.accountBalances = new AccountBalances();
 		this.serviceProfile = new ServiceProfile();
+		this.callInfo = new CallInfo();
 	}
 	
 	public CustomerProfile getCustomerProfile() {
@@ -44,6 +46,14 @@ public class CustomerServiceProfile implements Serializable{
 	}
 	public void setServiceProfile(ServiceProfile serviceProfile) {
 		this.serviceProfile = serviceProfile;
+	}
+
+	public CallInfo getCallInfo() {
+		return callInfo;
+	}
+
+	public void setCallInfo(CallInfo callInfo) {
+		this.callInfo = callInfo;
 	}
 	
 	

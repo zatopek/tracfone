@@ -59,7 +59,7 @@ public class DefaultCallHandlingController extends WorkspaceController {
 		System.out.println(esn + " " + task_id);
 		//PushHelper.publishMessageToAgent(agentId, "IncomingCallQueryString", request.getQueryString());
 		
-		//CustomerServiceProfile customerServiceProfile = customerServiceProfileManager.getCustomerServiceProfile(esn);
+		CustomerServiceProfile customerServiceProfile = customerServiceProfileManager.getCustomerServiceProfile(esn);
 		//PushHelper.publishMessageToAgent(agentId, "CustomerServiceProfile", customerServiceProfile);
 		PushHelper.publishMessageToAgent(agentId, "CustomerServiceProfile", new CustomerServiceProfile());
 		PushHelper.publishMessageToAgent(agentId, "LaunchWorkflow", task_id);
