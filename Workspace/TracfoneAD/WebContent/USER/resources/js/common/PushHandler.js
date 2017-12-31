@@ -39,18 +39,18 @@ function onCustomerServiceProfile(pushData) {    //call JIA API getCallInfoFromA
                 continue;
             }
         }
-        setupCustomerServiceProfile();
+        setupCustomerServiceProfile(pushData);
     }).catch(function (error) {
         pushData.customerProfile.customerType = '';
         pushData.callInfo.airtimePin = '';
         pushData.callInfo.xferCondition = '';
         pushData.customerProfile.caseId = '';
         pushData.customerProfile.flashId = '';
-        setupCustomerServiceProfile();
+        setupCustomerServiceProfile(pushData);
     });
 }
 
-function setupCustomerServiceProfile(){
+function setupCustomerServiceProfile(pushData){
     // save it in managers for now. Need a way to put it in datastore depending on unique Id
     managers['pushData'] = pushData;
     // pushData.customerProfile.account = {};
