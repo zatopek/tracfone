@@ -19,15 +19,15 @@ function onCustomerServiceProfile(pushData) {    //call JIA API getCallInfoFromA
             }
             if(key==="Airtime PIN"){
                 if(response[i].Value != "NA"){
-                    pushData.others.airtimePin = response[i].Value;
+                    pushData.callInfo.airtimePin = response[i].Value;
                 }
                 else {
-                    pushData.others.airtimePin = "";
+                    pushData.callInfo.airtimePin = "";
                 }
                 continue;
             }
             if(key==="XFER Condition"){
-                pushData.others.xferCondition = response[i].Value;
+                pushData.callInfo.xferCondition = response[i].Value;
                 continue;
             }
             if(key==="Case ID"){
@@ -41,8 +41,8 @@ function onCustomerServiceProfile(pushData) {    //call JIA API getCallInfoFromA
         }
     }).catch(function (error) {
         pushData.customerProfile.customerType = '';
-        pushData.others.airtimePin = '';
-        pushData.others.xferCondition = '';
+        pushData.callInfo.airtimePin = '';
+        pushData.callInfo.xferCondition = '';
         pushData.customerProfile.caseId = '';
         pushData.customerProfile.flashId = '';
     });
