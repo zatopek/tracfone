@@ -35,7 +35,7 @@ function onCustomerServiceProfile(pushData) {    //call JIA API getCallInfoFromA
                 continue;
             }
             if(key==="Flash ID"){
-                pushData.customerProfileflashId = response[i].Value;
+                pushData.customerProfile.flashId = response[i].Value;
                 continue;
             }
         }
