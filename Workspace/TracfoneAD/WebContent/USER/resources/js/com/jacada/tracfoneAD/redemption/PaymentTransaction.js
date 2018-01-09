@@ -67,6 +67,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.PaymentTransaction', {
         var creditCardNumber = me.down('#selectPayment').getValue();
         var autoFill = me.down('#autoFill').checked;
         me.mask('Please wait...');
+        me.down('#airtimePurchaseResponse').update('');
         adam.callService('Tas/Cards/' + partNumber + '?promocode=' + promoCode, 'POST', {
             number: creditCardNumber,
             cvv: cvv
@@ -123,8 +124,9 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.PaymentTransaction', {
                 {
                     xtype: "panel",
                     layout: "column",
-                    height: 500,
+                    height: 290,
                     border: false,
+					itemCls: 'payment-section',
                     items: [
                         {
                             xtype: "panel",
@@ -134,10 +136,11 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.PaymentTransaction', {
                             items: [{
                                 xtype: 'panel',
                                 border: false,
+								
                                 layout: {
-                                    type: 'hbox',
+                                    type: 'vbox',
                                     padding: '5',
-                                    align: 'stretchmax'
+                                    align: 'stretch'
                                 },
                                 items: [
                                     {
@@ -146,17 +149,19 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.PaymentTransaction', {
                                         name: "selectPayment",
                                         itemId: 'selectPayment',
                                         valueField: 'val',
-                                        displayField: 'name'
+                                        displayField: 'name',
+										layout: 'fit'
                                     }, {
                                         xtype: "textfield",
                                         fieldLabel: "CVV",
-                                        labelAlign: 'right',
+                                        labelAlign: 'left',
                                         name: "cvv",
                                         itemId: 'cvv',
                                         enforceMaxLength: true,
                                         maxLength: 3,
                                         maskRe: /[0-9.]/,
                                         enableKeyEvents: true,
+										layout: 'fit',
                                         listeners: {
                                             keyup: {
                                                 fn: me.changePurchaseButton,
@@ -165,11 +170,12 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.PaymentTransaction', {
                                         },
                                     }, {
                                         xtype: 'button',
-                                        margin: "0 0 0 10",
+                                        margin: "10 0 0 0",
                                         text: 'Purchase',
                                         itemId: 'purchaseBtn',
                                         disabled: true,
                                         handler: me.purchase,
+										cls: 'purchase-btn',
                                         scope: me
                                     }
                                 ]
@@ -180,7 +186,8 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.PaymentTransaction', {
                                 layout: {
                                     type: 'hbox',
                                     padding: '5',
-                                    align: 'stretchmax'
+									margin: '10 0 0 0',
+                                    align: 'stretch'
                                 },
                                 items: [{
                                     xtype: "textfield",

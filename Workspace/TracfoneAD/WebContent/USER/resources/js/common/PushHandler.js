@@ -9,7 +9,7 @@ function onCustomerServiceProfile(pushData) {    //call JIA API getCallInfoFromA
         accountBalances: { "phoneStatus": "Pending", "smsBalance": "124", "voiceBalance": "0" }
     }
 
-
+	/*
     adam.callService('Avaya/Properties', 'GET').then(function (response) {
         for (i=0; i<response.length; i++){
             var key = response[i].Key;
@@ -48,6 +48,8 @@ function onCustomerServiceProfile(pushData) {    //call JIA API getCallInfoFromA
         pushData.customerProfile.flashId = '';
         setupCustomerServiceProfile(pushData);
     });
+    */
+	setupCustomerServiceProfile(pushData);
 }
 
 function setupCustomerServiceProfile(pushData){
@@ -60,8 +62,7 @@ function setupCustomerServiceProfile(pushData){
     widgets['customerServiceProfile'].up().up().show(); // show portlet
     widgets['customerServiceProfile'].load(pushData);
 
-    //    alert(pushData);
-    //Populate Customer Service Profile section with data object
+    onLaunchWorkflow(pushData.callInfo.taskId);
 }
 
 function onLaunchWorkflow(taskId) {
@@ -93,19 +94,7 @@ function onLaunchWorkflow(taskId) {
     }
 
     if (taskId == '9901') {
-        //call JIA API launchAgentSupportSearch('brand', 'Unable Unable');
-        adam.callService('AgentAdvisor/Search/' + brand + '?searchTerm=Unable%20Unable', 'GET').then(function (response) {
-            // do nothing
-        }).catch(function (error) {
-        });
-
-        //call JIA API launchCoverageMap(carrier, zip);
-        adam.callService('CoverageMap/Search/' + carrier + '/' + pushData.customerProfile.zip, 'GET').then(function (response) {
-            // do nothing
-        }).catch(function (error) {
-        });
-
-        //call JIA API launchAgentSupportFlowChart('Unable Unable', carrier, deviceType;
+       
         var phoneType = pushData.deviceProfile.deviceType.toLowerCase();
         if (phoneType === 'feature_phone') {
             phoneType = 'PPE';
@@ -122,18 +111,32 @@ function onLaunchWorkflow(taskId) {
             }
         }
 
-        adam.callService('AgentAdvisor/FlowChart?brand=' + brand + '&flowChart=Unable%2FUnable%20Troubleshooting&carrier=' + carrier + '&phoneType=' + phoneType, 'GET').then(function (response) {
-            // do nothing
+		 //call JIA API launchAgentSupportSearch('brand', 'Unable Unable');
+        adam.callService('AgentAdvisor/Search/' + brand + '?searchTerm=Unable%20Unable', 'GET').then(function (response) {
+			// do nothing
+		}).catch(function(e){
+			
+		});
+		 //call JIA API launchCoverageMap(carrier, zip);
+		adam.callService('CoverageMap/Search/' + carrier + '/' + pushData.customerProfile.zip, 'GET').then(function (response) {
+			
+		}).catch(function(e){
+			
+		});
+		//call JIA API launchAgentSupportFlowChart('Unable Unable', carrier, deviceType;
+		adam.callService('AgentAdvisor/FlowChart?brand=' + brand + '&flowChart=Unable%2FUnable%20Troubleshooting&carrier=' + carrier + '&phoneType=' + phoneType, 'GET').then(function (response) {
+			
+		}).catch(function(e){
+			
+		});
+		//call JIA API launchCarrierBilling
+		adam.callService('Billing/' + carrier, 'GET').then(function (response) {
+			// do nothing
+			log.info("***** calling billing " + carrier);
         }).catch(function (error) {
+			
         });
-
         //launch JAS unable unable main flow with parameters => handled in JasHandler
-        //call JIA API launchCarrierBilling
-        adam.callService('Billing/' + carrier, 'GET').then(function (response) {
-            // do nothing
-            log.info("***** calling billing " + carrier);
-        }).catch(function (error) {
-        });
 
         managers['flowType'] = 'unableUnable'; // to keep track of the flow
         if(document.unableUnableJasFrame){

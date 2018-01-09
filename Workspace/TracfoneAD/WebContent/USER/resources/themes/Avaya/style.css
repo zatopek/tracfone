@@ -1,16 +1,21 @@
 @import url(https://use.fontawesome.com/releases/v5.0.1/css/all.css);
 @import url(https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css);
 @import url(https://s3.amazonaws.com/icomoon.io/103594/Tracfone/style.css?7d2jjg);
+@import url(https://fonts.googleapis.com/css?family=Roboto:300,400,700);
 
 .baseColor{
 	background-color:#F1F1F1;
 }
 
 body{ 
-    FONT-FAMILY:    Tahoma;
+    /*font-family: 'Roboto', sans-serif;*/
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif !important;
     FONT-SIZE:      11px;
     color:          #000000;
     overflow: hidden;
+	text-shadow: 1px 1px 1px rgba(0,0,0,0.004);
+text-rendering: optimizeLegibility !important;
+-webkit-font-smoothing: antialiased !important;
 }
 
 .x-tool-img{
@@ -22,7 +27,6 @@ body{
 	opacity: .7;
 	background-repeat: no-repeat;
 }
-
 
 .x-column-header-inner {
   padding: 4px 5px 3px 10px;
@@ -76,7 +80,7 @@ body{
 	font-size: 10px;
 }
  .x-panel-header-default-horizontal{
-	padding: 2px 8px 2px 8px;
+	padding: 7px 8px 7px 8px;
 }
 
 .x-panel-header-default-horizontal .x-tool-after-title {
@@ -167,16 +171,23 @@ body{
 	font-size: 11px;
 	padding-left: 4px;
 	cursor: pointer;
+	text-transform: uppercase;
+	line-height: .5;
 }
 
 .x-form-item-label{
-	font:  11px/11px helvetica,arial,verdana,sans-serif;
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+	font-size: 11px;
+	line-height: 11px;
 	margin-left: 1px;
 	color: #004DA1;
 }
 
 .x-form-display-field{
-	font: normal 11px/11px helvetica,arial,verdana,sans-serif;
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+	font-size: 11px;
+	line-height: 11px;
+	font-weight: normal;
 	margin-top: 1px;
 	color: #004DA1;
 	font-weight: bold;
@@ -186,14 +197,14 @@ body{
 }
 
 .x-panel-body-default{
-	border-color: silver;
-	border-top: 0px;
+	background: transparent;
+	border-width: 0;
 }
 
 #workspace-menu{
 	background-image: none !important;
 	background-color: #F1F1F1;
-	margin-top: 10px;
+	margin-top: 21px;
 }
 
 .x-tip-default {
@@ -293,7 +304,7 @@ body{
 }
 .contextNavigation .x-grid-cell {
     background: #fff;
-    color: #000;
+    color: #004da1;
 }
 
 .contextNavigation .x-grid-row-selected .x-grid-cell {
@@ -302,6 +313,7 @@ body{
 	background-repeat: repeat-y;
 	background-color: #004da1;
 	color: #fff;
+	position: relative;
 }
 
 .contextNavigation .x-grid-row-over .x-grid-cell {
@@ -345,7 +357,7 @@ body{
 }
 
 .logoutBtn .x-btn-inner {
-	color: #57b1ef;
+	color: rgb(0, 77, 161);
 	cursor: pointer;
 }
 
@@ -376,14 +388,14 @@ body{
 .documentSearchIcon {background-image: url(images/toolbar/documentSearch.gif); height: 28px; width: 28px; background-position:center ;background-color: transparent; background-repeat:no-repeat; }
 
 .corporate-logo {
-	BACKGROUND-IMAGE: url(images/TracFone_Logo_150x53.png);
+	BACKGROUND-IMAGE: url(images/TracFone_Logo_250x89.png);
 	BACKGROUND-REPEAT: no-repeat;
 	border-style: none;
 	background-color: transparent;
     margin-left: 10px;
-	margin-top: 3px;
+	margin-top: 7px;
 	vertical-align: middle  !important;
-	height: 30px !important;
+	height: 50px !important;
 	background-size: contain;
 }
 /*5
@@ -629,11 +641,7 @@ td.emailNodeIcon .x-grid-cell-inner {
 }
 
 .x-window-header-default-top{
-  -moz-border-radius-topleft: 0px;
-  -webkit-border-top-left-radius: 0px;
   border-top-left-radius: 0px;
-  -moz-border-radius-topright: 0px;
-  -webkit-border-top-right-radius: 0px;
   border-top-right-radius: 0px;
 }
 
@@ -747,18 +755,34 @@ body .ux-notification-light {
 }
 
 .x-btn-default-small {
-	background-color: #F47200 !important;
+	background-color: transparent !important;
 	background-image: none;
 	border-style: none;
 	border-style: none;
-	-webkit-border-radius: 4px;
-  -moz-border-radius: 4px;
-  -ms-border-radius: 4px;
-  -o-border-radius: 4px;
-  border-top-left-radius: 4px;
-  border-top-right-radius: 4px;
-  border-bottom-left-radius: 4px;
-  border-bottom-right-radius: 4px;
+	border-radius: 30px;
+	border: 1px solid #F47200 !important;
+	text-transform: uppercase;
+}
+
+.x-btn-default-small:hover {
+	background-color: #F47200 !important;
+}
+
+.x-btn-default-small .x-btn-inner {
+	color: #F47200 !important;
+	font-size: .7em;
+	text-transform: uppercase;
+	line-height: 2;
+}
+
+.x-btn-default-small:hover .x-btn-inner {
+	color: #fff !important;
+}
+
+.x-btn-icon-el {pointer: cursor;}
+
+.x-btn-default-small-disabled {
+	pointer-events: none;
 }
 
 .x-btn-default-small-over {
@@ -874,13 +898,13 @@ body .ux-notification-light {
 }
 
 .x-grid-row-over .x-grid-td{
-	background-color: #6bdb30;
-	color: #fff;
+	background-color: #e4e4e4;
 }
 .x-grid-row-selected .x-grid-td {
-  background-color: #6bdb30;
-	color: #fff;
+	background-color: #e4e4e4;
 }
+
+#gridview-1127 .x-grid-row-selected > td:first-child {border-left: 3px solid #f47200;}
 .x-toolbar-footer{
 	background-color: #F1F1F1 !important;
 }
@@ -926,7 +950,9 @@ a:-webkit-any-link {
 	 color: #004DA1;
 	 cursor: auto;
 	 text-decoration: underline;
-	 font:  11px/11px helvetica,arial,verdana,sans-serif;
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+	font-size: 11px;
+	line-height: 11px;
 	 margin-top: 10px !important;
      margin-left: 10px !important;	 
 }
@@ -935,7 +961,9 @@ a:-webkit-any-link {
 	color: #004DA1;
 	cursor: auto;
 	text-decoration: underline;
-	font:  11px/11px helvetica,arial,verdana,sans-serif;
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+	font-size: 11px;
+	line-height: 11px;
 	margin-top: 10px !important;
     margin-left: 10px !important;	
 }
@@ -943,6 +971,7 @@ a:-webkit-any-link {
 .x-header-text {
 	white-space: nowrap;
 	font-size: 10px;
+	text-shadow: 0px 0px 1px rgba(0,0,0,0.3);
 }
 
 .agentAssitBtn {
@@ -952,7 +981,10 @@ a:-webkit-any-link {
 }
 
 .portletDisplay {
-	font: normal 11px/11px helvetica,arial,verdana,sans-serif;
+	font-weight: normal;
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+	font-size: 11px;
+	line-height: 11px;
 	margin-top: 5px;
 	margin-left: 5px;
 	color: #004DA1;
@@ -962,25 +994,32 @@ a:-webkit-any-link {
 	color: #004DA1;
 	cursor: auto;
 	text-decoration: underline;
-	font:  11px/11px helvetica,arial,verdana,sans-serif;
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+	font-size: 11px;
+	line-height: 11px;
 	margin-top: 5px !important;
 }
 
 .x-form-cb-label {
 	margin-top: 4px;
-	font: normal 11px/11px helvetica,arial,verdana,sans-serif;
+	font-weight: normal;
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+	font-size: 11px;
+	line-height: 11px;
 	margin-left: 10px;
 }
 
 .x-form-item, .x-form-field {
 	color: black;
-	font:  11px/11px helvetica,arial,verdana,sans-serif;
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+	font-size: 11px;
+	line-height: 11px;
 	/*margin-left: 10px;*/
 }
 
 
 .x-autocontainer-form-item, .x-anchor-form-item, .x-vbox-form-item, .x-table-form-item {
-	margin-bottom: 2px;
+	/*margin-bottom: 2px;*/
 }
 
 .interaction_textarea {
@@ -998,7 +1037,7 @@ a:-webkit-any-link {
 }
 
 .x-toolbar-text {
-	color: #6BDB30;
+	color: #f47200;
 }
 
 .x-menu-item{
@@ -1014,7 +1053,10 @@ a:-webkit-any-link {
 }
 
 .x-fieldset-header-text {
-	font: normal 10px/13px helvetica,arial,verdana,sans-serif;
+	font-weight: normal;
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+	font-size: 11px;
+	line-height: 11px;
 	color: black;
 	padding: 1px 0;
 }
@@ -1024,20 +1066,130 @@ a:-webkit-any-link {
 /* C81000 hover red */
 
 /* Customer Service Profile */
-.customerServiceProfileCls .x-form-item-label, .customerServiceProfileCls .x-form-display-field {
-	font:  9px/9px helvetica,arial,verdana,sans-serif;
+div[id*="customerServiceProfile"] {
+	display: -webkit-box !important;
+	display: -ms-flexbox !important;
+	display: flex !important;
+	-ms-flex-pack: distribute;
+	    justify-content: space-around;
+	-webkit-box-align: center;
+	    -ms-flex-align: center;
+	        align-items: center;
 }
+
+div[id*="customerServiceProfile"] legend {
+	background-color: transparent;
+	overflow: visible;
+	position: absolute;
+	top: 10px;
+	left: 10px;
+	padding: 0;
+}
+
+div[id*="customerServiceProfile"] legend .x-component {
+	font-size: 1.15em;
+	font-weight: 400 !important;
+	letter-spacing: .3px;
+}
+
+div[id*="customerServiceProfile"] .x-fieldset-body {-webkit-transform: translateY(25px);transform: translateY(25px);}
+
+div[id*="customerServiceProfile"] .x-form-item-body {text-align: right;}
+
+div[id*="customerServiceProfile"] .x-form-item, 
+div[id*="customerServiceProfile"] .x-form-field {
+	width: 100%;
+}
+
+div[id*="customerServiceProfile"] .x-panel:first-child .x-panel-body .x-panel:first-child .x-field td:last-child {
+	padding-right: 10px;
+	max-width: 100px;
+}
+
+div[id*="customerServiceProfile"] .x-form-item-input-row td {-webkit-transition: all ease-out .3s;transition: all ease-out .3s; cursor: pointer; width: 100% !important;}
+
+div[id*="customerServiceProfile"] .x-form-item-input-row:hover td:first-child {opacity: 0; position: absolute; z-index: -1;}
+
+div[id*="customerServiceProfile"] .x-form-item-input-row:hover td:nth-child(2) .x-form-display-field {
+	text-overflow: initial;
+	overflow: visible;
+	text-align: center;
+	background: rgb(0, 77, 161);
+	color: #fff !important;
+	border-radius: 20px;
+}
+
+div[id*="customerServiceProfile"] .x-panel {
+	border-width: 0;
+}
+
+div[id*="customerServiceProfile"] .x-panel-body
+div[id*="customerServiceProfile"] .x-panel,
+div[id*="customerServiceProfile"].x-panel-default,
+div[id*="customerServiceProfile"] .x-panel-body-default {
+	border-width: 0;
+	background: transparent;
+}
+
+div[id*="customerServiceProfile"] .x-fieldset {
+	margin-right: 5px !important;
+	padding: 10px;
+	background: #fff;
+	-webkit-box-shadow: 0 2px 5px #ccc;
+	        box-shadow: 0 2px 5px #ccc;
+	overflow: hidden;
+	border: 1px solid #c4c4c4;
+	height: 225px !important;
+	-webkit-box-flex: 1;
+	    -ms-flex: 1 0 auto;
+	        flex: 1 0 auto;
+}
+
+.customerServiceProfileCls .x-form-item-label, 
+.customerServiceProfileCls .x-form-display-field {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+	font-size: 10px;
+	line-height: 9px;
+	white-space: nowrap;
+}
+
+.customerServiceProfileCls .x-form-display-field {
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+	
 .customerServiceProfileCls div fieldset:nth-child(3) table tr td:first-child,
 .customerServiceProfileCls div fieldset:nth-child(3) table tr td:first-child label{
-	width: 65px !important;
+	width: 100% !important;
 }
 .customerServiceProfileCls div fieldset:nth-child(4) table tr td:first-child,
 .customerServiceProfileCls div fieldset:nth-child(4) table tr td:first-child label{
-	width: 65px !important;
+	width: 100% !important;
+}
+
+div:not(.mainPanel) td.x-field-label-cell[style],
+div:not(.mainPanel) td.x-field-label-cell label[style] {
+	width: 73px !important;
+	padding-left: 6px;
 }
 /* End Customer Service Profile */
 
 /* login screen */
+
+#ext-gen1018:not(.x-container-default) {
+	background: url(images/login-bg_2.jpg) center center no-repeat !important;
+	background-size: cover !important;
+	height: 100vh;
+}
+
+#loginPanel {
+	-webkit-box-shadow: 0px 10px 28px rgba(0,0,0,0.4);
+	        box-shadow: 0px 10px 28px rgba(0,0,0,0.4);
+}
+
+#loginPanel .x-btn-default-small .x-btn-inner {
+	color: #fff !important;
+}
 
 .login-form-field-user .x-form-text, .login-form-field-password .x-form-text {
 	background-image: none;
@@ -1060,13 +1212,55 @@ a:-webkit-any-link {
 	content: '\e901';
 }
 
-.x-form-trigger {
+#loginPanel .x-form-trigger {
 	background: none;
 }
 
 /* End login screen */
+/* Start logout screen */
+#logoutDialog .btn-ok-big .x-btn-inner {
+	color: #fff !important;
+}
 
-/* Nav */
+#logoutDialog .btn-cancel-big {
+	background-color: transparent !important;
+	border: none !important;
+}
+
+#logoutDialog .x-form-trigger {
+	background: none;
+}
+/* End logout screen */
+
+/* Nav */ 
+/* -- top -- */
+.x-btn-default-toolbar-small .x-btn-arrow-right {
+	padding-right: 17px;
+}
+
+.x-btn-default-toolbar-small .x-btn-inner {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif !important;
+	font-size: .85em;
+	text-transform: uppercase;
+	font-weight: 400;
+}
+
+#gridview-1096-body:empty::before {
+    content: "Message Board is all clear";
+    text-transform: uppercase;
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    width: 200px;
+    text-align: center;
+    margin-left: -100px;
+    font-size: 2em;
+    font-weight: bold;
+    color: #ccc;
+    text-shadow: 1px 1px 3px rgba(255,255,255,0.5), 0px -1px 1px rgba(0,0,0,0.7);
+}
+
+/* -- end top -- */
 
 .x-grid-cell-inner-treecolumn {
 	padding: 10px 10px 9px 6px;
@@ -1074,8 +1268,8 @@ a:-webkit-any-link {
 
 .contextNavigation .x-grid-row-selected .x-grid-cell:before {
 	content: '';
-	width: 5px;
-	height: 28px;
+	width: 3px;
+	height: 100%;
 	display: block;
 	background-color: #6bdb30;
 	position: absolute;
@@ -1103,16 +1297,20 @@ h2 {
 }
 
 .x-grid-cell-inner {
-	padding: 7px 10px 6px 10px;
+	padding: 11px 10px 10px 10px;
+}
+
+.x-grid-tree-node-leaf .x-grid-cell-inner {
+	padding: 11px 0 10px;
 }
 
 .estimatedCostCls {
-	height: 100% !important;
+	/*height: 100% !important;*/
 }
 
 .estimatedCostCls .x-panel-body {
-	 margin: 10px;
-	 height: 90px !important;
+	 margin: 0 0 0 10px;
+	 width: calc(100% - 10px) !important;
 }
 
 .attCallAssistanceCls, .verizonCallAssistanceCls,
@@ -1134,7 +1332,9 @@ h2 {
 	margin-top: 4px;
 	color: #004da1;
 	font-weight: bold;
-	font: normal 11px/11px helvetica,arial,verdana,sans-serif;
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+	font-size: 11px;
+	line-height: 11px;
 	margin-left: 2px;
 	margin-bottom: 6px;
 }
@@ -1149,18 +1349,19 @@ h2 {
 	font-family: icomoon;
 	color: #004da1;
 	position: absolute;
-	left: 30px;
-	font-size: 14px;
+	left: 12px;
+	font-size: 24px;
+	font-weight: 100 !important;
 }
 
-.contextNavigation table tbody tr:nth-child(2) td span:before {
+.contextNavigation table tbody tr[data-recordid="ext-record-2"] td span:before {
+	content: '\e903';
+}
+.contextNavigation table tbody tr[data-recordid="RedemptionTab"] td span:before {
 	content: '\e900';
 }
-.contextNavigation table tbody tr:nth-child(3) td span:before {
+.contextNavigation table tbody tr[data-recordid="CallingIssuesTab"] td span:before {
 	content: '\e904';
-}
-.contextNavigation table tbody tr:nth-child(4) td span:before {
-	content: '\e903';
 }
  /* hover and selected */
 .contextNavigation table tbody tr.x-grid-row-over:nth-child(2) td span:before,
@@ -1170,13 +1371,457 @@ h2 {
 .contextNavigation table tbody tr.x-grid-row-selected:nth-child(3) td span:before,
 .contextNavigation table tbody tr.x-grid-row-selected:nth-child(4) td span:before {
 	color: #fff;
+	font-weight: 100 !important;
 }
 /* hover */
 .contextNavigation table tbody tr.x-grid-row-over:nth-child(2) td span:before,
 .contextNavigation table tbody tr.x-grid-row-over:nth-child(3) td span:before,
 .contextNavigation table tbody tr.x-grid-row-over:nth-child(4) td span:before {
-	font-size: 16px;
+	/*font-size: 16px;*/
 }
 
 /* Icons End */
 
+/* iFrame Height */
+
+.mainPanel,
+iframe {height: 310px !important;}
+
+.mainPanel > .x-panel-header {
+	display: none;
+}
+
+.mainPanel .x-panel-header-default {
+	background: #fff;
+	/*top: 6px !important;*/
+} 
+
+.mainPanel > .x-panel-body {
+	background: #fff;
+	border: 1px solid #ccc !important;
+	-webkit-box-shadow: 0 1px 5px rgba(0,0,0,.3);
+	        box-shadow: 0 1px 5px rgba(0,0,0,.3);
+	height: 93% !important;
+	top: 10px !important;
+	width: calc(100% - 5px) !important;
+	padding-top: 5px;
+}
+
+div.mainPanel td.x-field-label-cell[style],
+div.mainPanel td.x-field-label-cell label[style] {
+	width: 100% !important;
+}
+
+div.mainPanel .attCallAssistanceCls td.x-form-item-body {
+	width: 120px;
+	text-align: right;
+}
+
+#panel-1092 {
+	-webkit-box-shadow: 2px 2px 5px rgba(0,0,0,.3);
+	        box-shadow: 2px 2px 5px rgba(0,0,0,.3);
+}
+
+#panel-1092[style] {
+	width: 185px;
+}
+
+#panel-1092 > .x-panel-header[style] {
+	width: 185px;
+}
+
+#panel-1092 > .x-panel-body[style] {
+	width: 185px;
+}
+
+.mainPanel .x-header-text {
+	color: #000;
+	text-shadow: none;
+	font-size: 1.25em;
+	font-weight: 400;
+	font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif !important;
+	padding-left: 5px;
+	text-transform: uppercase;
+}
+
+/* Add Pin EXT frame */
+#panel-1135 .x-panel-header-default-horizontal {
+	background: transparent;
+	color: #000;
+}
+#panel-1135 .x-panel-body {
+	margin-top: 10px;
+}
+
+.workspaceDialog #panel-1135 .x-panel-body {
+	margin-top: 0px;
+}
+
+/* Transaction Summary Panel */
+#component-1130 > div:first-child {
+	max-width: 100%;
+	margin: 0 !important;
+	padding: 0 7px !important;
+}
+
+#component-1130 > div:first-child > div {
+	overflow-y: scroll;
+	height: 250px;
+}
+
+#component-1130 > div:first-child > div ul {
+	margin-bottom: 40px;
+}
+
+/* Create Interaction */
+
+.interactionNotePanelCls {
+	height: 290px !important;
+}
+
+.create-interaction {
+	margin-top: -20px;
+	height: 270px;
+}
+
+.interactionNotePanelCls > .x-panel-body {
+	height: 255px !important;
+	margin-bottom: 0;
+	padding-bottom: 0;
+}
+
+.create-interaction > .x-panel-body > span > div[id*="-innerCt"] {
+	display: -webkit-box !important;
+	display: -ms-flexbox !important;
+	display: flex !important;
+	-webkit-box-pack: start;
+	    -ms-flex-pack: start;
+	        justify-content: flex-start;
+	-ms-flex-wrap: wrap;
+	    flex-wrap: wrap;
+	margin-bottom: 20px;
+}
+
+.create-interaction > .x-panel-body > span > div[id*="-innerCt"] > div:first-child,
+.create-interaction > .x-panel-body > span > div[id*="-innerCt"] > div:nth-child(2) {
+	width: 49.7% !important;
+}
+
+.create-interaction > .x-panel-body > span > div[id*="-innerCt"] > a {
+	margin: 0 0 0 20px !important;
+}
+
+.create-interaction > .x-panel-body > span > div[id*="-innerCt"] > a + table {
+	left: 0;
+	width: 100%;
+	height: 30px;
+	text-align: center;
+	text-transform: uppercase;
+	pointer-events: none;
+}
+
+.create-interaction > .x-panel-body > span > div[id*="-innerCt"] > a + table .x-form-item-body .x-form-display-field {
+	color: #f47200;
+	font-size: 18px;
+	font-weight: 500;
+}
+
+.create-interaction > .x-panel-body > span > div[id*="-innerCt"] > div:nth-child(2) {
+	background: #f4f4f4;
+	border-radius: 5px;
+	border: 1px solid #ccc;
+	margin-top: 20px;
+}
+
+.create-interaction > .x-panel-body > span > div[id*="-innerCt"] > div:nth-child(2) textarea {
+	filter: alpha(opacity=70);
+	opacity: .7;
+	cursor: not-allowed;
+}
+
+.create-interaction > .x-panel-body > span > div[id*="-innerCt"] > div:nth-child(2) > .x-panel-body,
+.create-interaction > .x-panel-body > span > div[id*="-innerCt"] > div:nth-child(2) > .x-panel-body table {
+	max-width: 100%;
+}
+
+.create-interaction > .x-panel-body > span > div[id*="-innerCt"] > div:nth-child(3) {
+	padding: 0 0 0 10px;
+	margin-top: -30px;
+}
+
+.create-interaction > .x-panel-body > span > div[id*="-innerCt"] > div:nth-child(3) table {
+	width: 100% !important;
+}
+
+.create-interaction > .x-panel-body > span > div[id*="-innerCt"] > div:nth-child(3) textarea {
+	width: 96.5%;
+}
+
+.create-interaction > .x-panel-body,
+.create-interaction > .x-panel-body {
+	padding: 0 5px;
+}
+
+/* Select Airtime Plan 
+#grid-1122 {
+	height: 216px !important;
+	overflow: hidden;
+}*/
+
+#grid-1122 {
+	height: 200px !important;
+	overflow: hidden !important;
+}
+
+#grid-1122 > .x-panel-body {
+	height: 200px !important;
+	overflow-y: scroll;
+	max-width: 100% !important;
+}
+
+.x-grid-header-ct {
+	border: none !important;
+}
+
+.mainPanel .x-column-header-text {
+	text-transform: uppercase;
+	color: #094f9e;
+	font-weight: bold;
+	font-size: 10px;
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif !important;
+}
+
+.mainPanel .x-grid-cell {
+	text-transform: uppercase;
+	color: #000;
+	font-weight: normal;
+	font-size: 11px;
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif !important;
+}
+
+.mainPanel .x-grid-row-selected {
+	background-color: #e4e4e4;
+}
+
+.mainPanel .x-grid-header-ct {
+	border: none !important;
+}
+
+.mainPanel .x-grid-row-selected > td:first-child {
+	border-left: 3px solid #f47200 !important;
+}
+
+.estimatedCost-1129-innerCt {
+	background: #f4f4f4;
+	border-radius: 5px 0 0 5px;
+}
+
+.mainPanel .x-toolbar-default {
+	background: transparent;
+	-webkit-transform: translateY(-10px);
+	        transform: translateY(-10px);
+}
+
+.mainPanel .x-grid-cell-inner {
+	font-size: .8em;
+}
+
+.mainPanel #move-next,
+.mainPanel #move-prev {
+	background: #f47200;
+	color: #fff;
+	border-radius: 20px;
+	padding: 3px 5px;
+}
+
+
+.mainPanel #move-next .x-btn-inner,
+.mainPanel #move-prev .x-btn-inner {
+	color: #fff;
+}
+
+.mainPanel #move-next.x-item-disabled,
+.mainPanel #move-prev.x-item-disabled {
+	border: 1px solid #f47200;
+	background: transparent;
+}
+
+.mainPanel #move-next.x-item-disabled .x-btn-inner,
+.mainPanel #move-prev.x-item-disabled .x-btn-inner {
+	color: #f47200;
+}
+
+/* Payment Selection */
+#panel-1135 {height: 115px !important;}
+
+#panel-1135 .x-form-item-label {
+	text-align: left;
+}
+
+/*#panel-1139 {
+	margin-top: 10px;
+	background: #f4f4f4;
+	border-radius: 5px;
+	width: 95%;
+	margin: 20px auto;
+}*/
+
+.purchase-btn {width: 180px !important; left: 10px !important;}
+
+/* Hidding Tooltips */
+.x-tip {display: none !important;}
+
+/* New Spinning Loader */
+.x-mask-msg-text {
+	background-image: none;
+	margin-top: 40px;
+}
+
+.x-mask-msg-text:before {
+	content: "\f1ce";
+	font-family: fontawesome;
+	color: #0088D2;
+	font-size: 3em;
+	position: absolute;
+    top: 50%;
+    left: 50%;
+    margin:-24px 0 20px -24px;
+    -webkit-animation:spin 2s linear infinite;
+    animation:spin 2s linear infinite;
+}
+@-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
+@keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
+
+.x-mask-msg {
+    background: none!important
+}
+
+/* ATT unable - unable */
+.attCallAssistanceCls .x-header-text {
+	text-transform: uppercase;
+}
+
+.attCallAssistanceCls .callNumber {
+	color: #004DA1;
+}
+
+.attCallAssistanceCls .notify {
+	color: #f47200;
+}
+
+/* Empty State for Redemption */
+.mainPanel.redemption > .x-panel-body > span > div:empty::before {
+	content: '';
+	background: url(images/add-pin--bw.png) center center no-repeat;
+	background-size: contain;
+	position: absolute;
+	top: 40%;
+	left: 50%;
+	width: 200px;
+	height: 130px;
+	-webkit-transform: translate3D(-100px, -65px, 0);
+	        transform: translate3D(-100px, -65px, 0);
+	z-index: 999999;
+	opacity: .3;
+}
+
+.mainPanel.redemption > .x-panel-body > span > div:empty::after {
+	content: 'ADD A PIN or PURCHASE A PIN';
+	white-space: nowrap;
+	position: absolute;
+	top: 70%;
+	left: 50%;
+	width: 400px;
+	margin-left: -130px;
+	font-weight: bold;
+	font-size: 1.3em;
+	opacity: .2;
+}
+
+
+/* Empty State for unable */
+.mainPanel.unable > .x-panel-body > span > div:empty::before {
+	content: '';
+	background: url(images/unable--bw.png) center center no-repeat;
+	background-size: contain;
+	position: absolute;
+	top: 35%;
+	left: 50%;
+	width: 200px;
+	height: 160px;
+	-webkit-transform: translate3D(-100px, -65px, 0);
+	        transform: translate3D(-100px, -65px, 0);
+	z-index: 999999;
+	opacity: .3;
+}
+
+.mainPanel.unable > .x-panel-body > span > div:empty::after {
+	content: 'use troubleshooter to help \A the customer get services working';
+	position: absolute;
+	top: 73%;
+	left: 50%;
+	width: 400px;
+	margin-left: -200px;
+	text-transform: uppercase;
+	font-weight: bold;
+	font-size: 1.3em;
+	opacity: .2;
+	text-align: center;
+}
+
+/* Create Ticket TMO */
+.createTicketResponseCls > tbody > tr > td:first-child label,
+.createTicketResponseCls > tbody > tr > .x-form-item-body > .x-form-display-field {
+	text-align: center;
+	position: absolute;
+	left: 0;
+	right: 0;
+	font-size: 20px;
+	text-transform: uppercase;
+	color: #c65e02;
+	height: 40px;
+	bottom: 0;
+	padding-top: 10px;
+	pointer-events: none;
+}
+
+.createTicketResponseCls > tbody > tr > td:first-child label:before,
+.createTicketResponseCls > tbody > tr > .x-form-item-body > .x-form-display-field:not(:empty):before {
+	content: "\f145";
+	font-family: fontawesome;
+	position: relative;
+	-webkit-animation-name: fadeInRight;
+	        animation-name: fadeInRight;
+	right: 5px;
+	font-size: 22px;
+}
+
+.ticketFormCls a.x-btn {width: 150px !important;}
+
+@-webkit-keyframes fadeInRight {
+  from {
+    opacity: 0;
+    -webkit-transform: translate3d(100%, 0, 0);
+            transform: translate3d(100%, 0, 0);
+  }
+
+  to {
+    opacity: 1;
+    -webkit-transform: none;
+            transform: none;
+  }
+}
+
+@keyframes fadeInRight {
+  from {
+    opacity: 0;
+    -webkit-transform: translate3d(100%, 0, 0);
+            transform: translate3d(100%, 0, 0);
+  }
+
+  to {
+    opacity: 1;
+    -webkit-transform: none;
+            transform: none;
+  }
+}

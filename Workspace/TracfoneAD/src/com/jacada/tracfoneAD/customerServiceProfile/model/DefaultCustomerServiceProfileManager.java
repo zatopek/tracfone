@@ -28,6 +28,7 @@ public class DefaultCustomerServiceProfileManager extends DefaultWorkspaceManage
 	@Autowired
 	private transient com.jacada.tracfoneAD.customerServiceProfile.dao.interfaces.BalanceInquiryDao balanceInquirySoapConnector;
 	
+	private static int iRetry = 3;
 	@Override
 	public CustomerServiceProfile getCustomerServiceProfile(String esn) {
 
@@ -74,7 +75,7 @@ public class DefaultCustomerServiceProfileManager extends DefaultWorkspaceManage
 					serviceProfile.setCardsInReserve(rs.getString("cards_in_queue"));
 					serviceProfile.setWarrantyExchanges(rs.getString("warranty_exchanges"));
 					serviceProfile.setBasicWarrantyFound(rs.getString("basic_warranty"));
-					serviceProfile.setExtendedWarranty(rs.getString("extended_warranty"));
+					serviceProfile.setExtendedWarranty(rs.getString("extended_warranty"));     
 					serviceProfile.setCurrentThrottleStatus(rs.getString("x_policy_description"));
 					serviceProfile.setAutoRefill(rs.getString("sp_script_text"));
 					
@@ -85,12 +86,19 @@ public class DefaultCustomerServiceProfileManager extends DefaultWorkspaceManage
 					customerProfile.setZip(rs.getString("x_zipcode"));
 					customerProfile.setLid(rs.getString("lid"));					
 					
-					accountBalances.setPhoneStatus(rs.getString("phone_status"));					
-					GetBalanceByTransIdResponse response = balanceInquirySoapConnector.getAccountBalances(serviceProfile.getBrand(), esn);
-					if(response !=  null && response.getBalance() != null && response.getBalance().getTotalBenefits() != null) {
-						accountBalances.setSmsBalance(response.getBalance().getTotalBenefits().getText());
-						accountBalances.setVoiceBalance(response.getBalance().getTotalBenefits().getVoice());
-						accountBalances.setDataBalance(response.getBalance().getTotalBenefits().getData().getTotalDataUsage());
+					accountBalances.setPhoneStatus(rs.getString("phone_status"));		
+					// add retry 
+					int iTry = 0; 
+					boolean hasBalance = false;
+					GetBalanceByTransIdResponse response = null;
+					while((iTry++ < iRetry) && !hasBalance){
+						response = balanceInquirySoapConnector.getAccountBalances(serviceProfile.getBrand(), esn);
+						if(response !=  null && response.getBalance() != null && response.getBalance().getTotalBenefits() != null) {
+							hasBalance = true;
+							accountBalances.setSmsBalance(response.getBalance().getTotalBenefits().getText());
+							accountBalances.setVoiceBalance(response.getBalance().getTotalBenefits().getVoice());
+							accountBalances.setDataBalance(response.getBalance().getTotalBenefits().getData().getTotalDataUsage());
+						}						
 					}
 					
 					customerServiceProfile.setDeviceProfile(deviceProfile);

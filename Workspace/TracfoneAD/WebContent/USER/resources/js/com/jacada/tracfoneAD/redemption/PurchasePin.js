@@ -26,40 +26,76 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.PurchasePin', {
         me.down('estimatedCost').reset();
         me.down('paymentTransaction').reset();
     },
-
+    navigate : function(panel, direction){
+        // This routine could contain business logic required to manage the navigation steps.
+        // It would call setActiveItem as needed, manage navigation button state, handle any
+        // branching logic that might be required, handle alternate actions like cancellation
+        // or finalization, etc.  A complete wizard implementation could get pretty
+        // sophisticated depending on the complexity required, and should probably be
+        // done as a subclass of CardLayout in a real-world implementation.
+        var layout = panel.getLayout();
+        layout[direction]();
+        Ext.getCmp('move-prev').setDisabled(!layout.getPrev());
+        Ext.getCmp('move-next').setDisabled(!layout.getNext());
+    },
     createComponent: function () {
+		var me = this;
         return [
             {
                 xtype: 'panel',
                 border: false,
+                height: 290,
+				layout: 'fit',
                 items: [
                     {
                         xtype: 'panel',
                         columnWidth: 0.6,
-                        border: false,
+                        layout: 'card',
+                        border: false,  
+						bbar: [
+								{
+									id: 'move-prev',
+									text: 'Back',
+									handler: function(btn) {
+										me.navigate(btn.up("panel"), "prev");
+									},
+									disabled: true
+								},
+								'->', // greedy spacer so that the buttons are aligned to each side
+								{
+									id: 'move-next',
+									text: 'Next',
+									disabled: true,
+										handler: function(btn) {
+										me.navigate(btn.up("panel"), "next");
+									}
+								}
+							],						
                         items: [
                             {
                                 xtype: "panel",
+								id: 'card-0',
                                 layout: "column",
                                 border: false,
                                 items: [
                                     {
                                         xtype: "airtimePlan",
                                         title: "SELECT AIRTIME PLAN",
-                                        columnWidth: 0.55,
+                                        columnWidth: 0.75,
                                         border: false,
                                         height: 250,
                                     },
                                     {
                                         xtype: "estimatedCost",
                                         title: "ESTIMATED COST",
-                                        columnWidth: 0.45,
+                                        columnWidth: 0.25,
                                         border: false,
                                     }
                                 ]
                             },
                             {
-                                xtype: 'paymentTransaction'
+                                id: 'card-1',
+								xtype: 'paymentTransaction'
                             }
                         ]
                     }

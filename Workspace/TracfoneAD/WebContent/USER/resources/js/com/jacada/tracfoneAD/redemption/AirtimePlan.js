@@ -1,7 +1,7 @@
 Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.AirtimePlan', {
     extend: 'Jacada.user.com.jacada.tracfoneAD.baseComponents.BaseView',
     xtype: 'airtimePlan',
-    lyout: 'fit',
+    layout: 'fit',
     autoScroll: true,
     listeners: {
         afterrender: function () {
@@ -31,6 +31,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.AirtimePlan', {
             estimatedCostComponent.load(response);
             me.up().up().up().down('paymentTransaction').changePurchaseButton();
             me.up().up().up().down('paymentTransaction').changePromoCodeButton();
+            Ext.getCmp('move-next').setDisabled(false);
             estimatedCostComponent.unmask();
         }).catch(function () {
             Ext.Msg.alert('ERROR', 'Sorry, estimated cost could not be calculated. Please try again.');
@@ -86,23 +87,22 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.AirtimePlan', {
             store: myStore,
             columns: [{
                 text: "Description",
-                flex: 3,
+                flex: 3.5,
                 dataIndex: 'description'
             }, {
-                text: "Units",
-                flex: 1,
+                text: "Units", 
+                flex: .5,
                 dataIndex: 'units'
             }, {
                 text: "Price",
-                flex: 1,
+                flex: .65,
                 dataIndex: 'price'
             }, {
                 text: "Part Number",
-                flex: 2,
+                flex: 1.5,
                 dataIndex: 'partNumber'
             }
             ],
-            forceFit: true,
             listeners: {
                 selectionchange: me.sendToJia
             }

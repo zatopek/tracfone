@@ -81,6 +81,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.AddPin', {
     doTransaction: function (type) {
         var me = this;
         me.mask('Please wait..');
+        me.down('#transactionSummary').update('');
         var airtimePin = me.down('#airtimePin').getValue();
         var promoCode = me.down('#promoCode').getValue(); // TODO need to pass this as well to resource
         var method = 'PATCH';
@@ -93,6 +94,8 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.AddPin', {
         */
 
         adam.callService(resource, method, {}).then(function (response) {
+        	me.down('#airtimePin').setValue('');
+        	me.down('#promoCode').setValue('');
         	var i = response.indexOf('<div class=\"x1a\"');
         	if(i>=0){
         		response = response.substring(i);
@@ -122,6 +125,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.AddPin', {
             {
                 xtype: 'panel',
                 layout: 'column',
+                autoScroll: true,
                 border: false,
                 items: [
                     {
@@ -235,7 +239,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.AddPin', {
                     {
                         xtype: 'panel',
                         columnWidth: 0.45,
-                        height: 450,
+                        height: 290,
                         title: 'TRANSACTION SUMMARY',
                         border: false,
                         bodyStyle: 'padding:5px 5px 5px 5px',

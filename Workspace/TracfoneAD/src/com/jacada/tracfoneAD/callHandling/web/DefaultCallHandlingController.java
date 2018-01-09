@@ -60,9 +60,10 @@ public class DefaultCallHandlingController extends WorkspaceController {
 		//PushHelper.publishMessageToAgent(agentId, "IncomingCallQueryString", request.getQueryString());
 		
 		CustomerServiceProfile customerServiceProfile = customerServiceProfileManager.getCustomerServiceProfile(esn);
-		//PushHelper.publishMessageToAgent(agentId, "CustomerServiceProfile", customerServiceProfile);
-		PushHelper.publishMessageToAgent(agentId, "CustomerServiceProfile", new CustomerServiceProfile());
-		PushHelper.publishMessageToAgent(agentId, "LaunchWorkflow", task_id);
+		customerServiceProfile.getCallInfo().setTaskId(task_id);
+		PushHelper.publishMessageToAgent(agentId, "CustomerServiceProfile", customerServiceProfile);
+		//PushHelper.publishMessageToAgent(agentId, "CustomerServiceProfile", new CustomerServiceProfile());
+		//PushHelper.publishMessageToAgent(agentId, "LaunchWorkflow", task_id);
 		
 	}
 	
@@ -75,9 +76,10 @@ public class DefaultCallHandlingController extends WorkspaceController {
 		//CustomerServiceProfile customerServiceProfile =  new CustomerServiceProfile();
 		//Comment out for local testing
 		CustomerServiceProfile customerServiceProfile = customerServiceProfileManager.getCustomerServiceProfile(esn);		
+		customerServiceProfile.getCallInfo().setTaskId(task_id);
 		PushHelper.publishMessageToAgent(agentId, "CustomerServiceProfile", customerServiceProfile);
 		//PushHelper.publishMessageToAgent(agentId, "CustomerServiceProfile", new CustomerServiceProfile());
-		PushHelper.publishMessageToAgent(agentId, "LaunchWorkflow", task_id);
+		//PushHelper.publishMessageToAgent(agentId, "LaunchWorkflow", task_id);
 		
 	}	
 	

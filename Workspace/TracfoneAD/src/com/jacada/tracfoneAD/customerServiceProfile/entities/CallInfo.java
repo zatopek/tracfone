@@ -9,6 +9,7 @@ public class CallInfo implements Serializable{
 	private static final long serialVersionUID = 1L;
 	String airtimePin;
 	String xferCondition;
+	String taskId;
 	
 	public String getAirtimePin() {
 		return airtimePin;
@@ -21,6 +22,12 @@ public class CallInfo implements Serializable{
 	}
 	public void setXferCondition(String xferCondition) {
 		this.xferCondition = xferCondition;
+	}
+	public String getTaskId() {
+		return taskId;
+	}
+	public void setTaskId(String taskId) {
+		this.taskId = taskId;
 	}
 
 	

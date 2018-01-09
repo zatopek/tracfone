@@ -55,7 +55,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.unableUnable.UnableUnable', {
                                 src: '',
                                 allowfullscreen: true,
                                 frameborder: '0',
-                                height: 500,
+                                height: 310,
                                 width: '100%'
                             }
                         },
@@ -70,6 +70,8 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.unableUnable.UnableUnable', {
                             xtype: 'panel',
                             columnWidth: 0.7,
                             itemId: 'mainPanel',
+							cls: ['unable', 'mainPanel'],
+							height: 310,
                             border: false,
                             title: ' ',
                             items: []

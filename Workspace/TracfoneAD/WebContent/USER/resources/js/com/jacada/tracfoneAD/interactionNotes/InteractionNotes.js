@@ -24,7 +24,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.interactionNotes.InteractionNotes'
             deviceType: managers['pushData'].deviceProfile.deviceType,
             reason: reason, // select the first element. we might not need this
         }
-        var fields = me.items.items[0].items.items[0].items.items;
+        var fields = me.items.items[0].items.items[0].items.items[0].items.items;
         Ext.each(fields, function (item) {
             if (data[item.name])
                 item.setValue(data[item.name]);
@@ -38,12 +38,13 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.interactionNotes.InteractionNotes'
 
     reset: function () {
         var me = this;
-        var fields = me.items.items[0].items.items[0].items.items;
+        var fields = me.items.items[0].items.items[0].items.items[0].items.items;
         Ext.each(fields, function (item) {
             item.setValue('');
         });
         me.down('#createInteractioResponse').setValue('');
         me.down('#agentNotes').setValue('');
+		me.down('#createInteractionBtn').show();
     },
 
     createInteraction: function () {
@@ -64,6 +65,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.interactionNotes.InteractionNotes'
             me.down('#createInteractioResponse').setValue(response);
             // TODO end the call here ?? 
             //adam.endCall();
+			me.down('#createInteractionBtn').hide();
             me.unmask();
         }).catch(function (e) {
             Ext.Msg.alert('ERROR', 'Sorry, Interaction could not be created. Please try again.');
@@ -73,8 +75,14 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.interactionNotes.InteractionNotes'
     createComponent: function () {
         var me = this;
         return [{
+			xtype: 'panel',
+			border: false,
+			cls: 'create-interaction',
+			items: [
+			{
             xtype: 'panel',
             border: false,
+		
             layout: {
                 type: 'vbox',
                 padding: '5'
@@ -83,6 +91,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.interactionNotes.InteractionNotes'
                 xtype: 'form',
                 itemId: 'interactionInfoForm',
                 border: false,
+				
                 defaults: {
                     xtype: 'displayfield',
                     labelStyle: 'white-space: nowrap;'
@@ -175,6 +184,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.interactionNotes.InteractionNotes'
         },
         {
             xtype: 'button',
+			itemId: 'createInteractionBtn',
             margin: "0 0 0 10",
             text: 'Create Interaction',
             handler: function () {
@@ -185,6 +195,8 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.interactionNotes.InteractionNotes'
             xtype: 'displayfield',
             name: 'response',
             itemId: 'createInteractioResponse'
-        }]
+        }
+			]
+		}]
     }
 });

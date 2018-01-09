@@ -4,7 +4,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.common.CustomerServiceProfile', {
     layout: 'column',
     defaults: {
         margin: '5 10 0 5', //top right bottom left (clockwise) margins of each item/column
-        height: 170
+        height: 200
     },
 
     load: function (data) {
@@ -40,6 +40,15 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.common.CustomerServiceProfile', {
         }
         return value;
     },
+    checkBalanceDataBalance: function (value) {
+        if (value && parseInt(value) <= 0) {
+            value = '<span style="color:#f00">' + value + ' MB</span>';
+        }
+		else if (value && parseInt(value) > 0) {
+            value = value + ' MB';
+        }
+        return value;
+    },
     checkExpired: function (value) {
         if (value && (new Date().getTime() > new Date(value).getTime())) {
             value = '<span style="color:#f00">' + value + '</span>'
@@ -53,7 +62,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.common.CustomerServiceProfile', {
             cls: 'customerServiceProfileCls',
             items: [
                 {
-                    columnWidth: 0.3,
+                    columnWidth: 0.28,
                     border: true,
                     xtype: 'fieldset',
                     title: 'DEVICE PROFILE',
@@ -102,7 +111,8 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.common.CustomerServiceProfile', {
                                     items: [
                                         {
                                             fieldLabel: 'Serial #',
-                                            name: 'serial'
+                                            name: 'serial',
+                                            fieldStyle: 'color: #c65e02'
                                         }, {
                                             fieldLabel: 'Hex Serial #',
                                             name: 'hexSerial'
@@ -126,7 +136,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.common.CustomerServiceProfile', {
                     ]
                 },
                 {
-                    columnWidth: 0.42,
+                    columnWidth: 0.33,
                     border: true,
                     xtype: 'fieldset',
                     title: 'SERVICE PROFILE',
@@ -215,7 +225,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.common.CustomerServiceProfile', {
 
                 }
                 , {
-                    columnWidth: 0.18,
+                    columnWidth: 0.22,
                     border: true,
                     xtype: 'fieldset',
                     title: 'CUSTOMER PROFILE',
@@ -253,7 +263,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.common.CustomerServiceProfile', {
                     ]
 
                 }, {
-                    columnWidth: 0.1,
+                    columnWidth: 0.17,
                     border: true,
                     xtype: 'fieldset',
                     title: 'ACCOUNT BALANCES',
@@ -274,7 +284,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.common.CustomerServiceProfile', {
                         }, {
                             fieldLabel: 'Data Balance',
                             name: 'dataBalance',
-                            valueToRaw: me.checkBalance
+                            valueToRaw: me.checkBalanceDataBalance
                         }
                     ]
                 }

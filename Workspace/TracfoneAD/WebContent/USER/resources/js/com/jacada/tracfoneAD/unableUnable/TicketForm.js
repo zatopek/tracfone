@@ -13,10 +13,11 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.unableUnable.TicketForm', {
                 {
                     xtype: 'form',
                     border: false,
-                    width: 600,
+                    width: 800,
                     layout: {
                         type: 'vbox',
-                        margin: '5'
+                        margin: '5',
+						align: 'stretch'
                     },
                     bodyStyle: 'padding:5px 5px 5px 5px',
                     items: [
@@ -62,8 +63,9 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.unableUnable.TicketForm', {
                         },
                         {
                             xtype: 'button',
-                            margin: "0 0 0 10",
+                            margin: "20 0 0 10",
                             text: 'Create Ticket',
+							itemId: 'createTicketBtn',
                             handler: function () {
                                 if (me.down('form').getForm().isValid())
                                     me.createTicket();
@@ -72,7 +74,9 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.unableUnable.TicketForm', {
                         }, {
                             xtype: 'displayfield',
                             itemId: 'createTicketResponse',
-                            value: ''
+                            value: '',
+                            cls: 'createTicketResponseCls'
+                            
                         }
                     ]
                 }
@@ -92,6 +96,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.unableUnable.TicketForm', {
             status: 'Pending'
         });
         adam.callService('Tas/Tickets', 'POST', data).then(function (response) {
+			me.down('#createTicketBtn').hide();
             me.down('#createTicketResponse').setValue(response);
             adam.addAutoNotes('Ticket added'); // TODO get exact text
             me.unmask();
@@ -118,6 +123,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.unableUnable.TicketForm', {
     },
 
     reset: function () {
-
+		var me = this;
+		me.down('#createTicketBtn').show();
     }
 });
