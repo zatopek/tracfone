@@ -71,7 +71,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.ReservePin', {
         adam.callService('Tas/PINs/' + record.partNumber, 'DELETE').then(function (response) {
             me.down('#transactionSummaryResponse').setValue(response);
             var selectedPin = me.down('#reservePinGrid').getSelectionModel().getSelection()[0];
-            adam.addAutoNotes('Reserved Pin - ' + selectedPin.get('redCode') + ' - ' + selectedPin('snp'));
+            adam.addAutoNotes(RESERVED_AIRTIME_TAG + selectedPin.get('redCode') + ' - ' + selectedPin('snp'));
             me.down('#transactionSummaryContainer').unmask();
         }).catch(function () {
             Ext.Msg.alert('ERROR', 'Sorry, something went wrong while processing your request. Please try again.');

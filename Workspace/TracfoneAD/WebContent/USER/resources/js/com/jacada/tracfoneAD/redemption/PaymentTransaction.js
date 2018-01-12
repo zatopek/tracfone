@@ -78,7 +78,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.PaymentTransaction', {
         	}
             me.down('#airtimePurchaseResponse').update(response);
             var airtimeSelected = me.up().down('airtimePlan').down('#airtimePlanGrid').getSelectionModel().getSelection()[0];
-            adam.addAutoNotes('Pin Purchased - ' + airtimeSelected.get('description'));
+            adam.addAutoNotes(PURCHASE_AIRTIME_TAG + airtimeSelected.get('description'));
             me.unmask();
         }).catch(function () {
             Ext.Msg.alert('ERROR', 'Sorry, something went wrong while processing yoru request. Please try again.');

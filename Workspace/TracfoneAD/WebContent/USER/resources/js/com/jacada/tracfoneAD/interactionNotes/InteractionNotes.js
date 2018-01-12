@@ -34,6 +34,13 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.interactionNotes.InteractionNotes'
         //var autoNotes = 'Airtime Pin added - $45 30-Dday UNL TALK/DATA, first 10 GB at High Speeds then at 2G';
         var autoNotes = managers['autoNotes'] || '';
         me.down('#autoNotes').setValue(autoNotes);
+        me.down('#result').setValue('Call Completed');
+        if(autoNotes.indexOf(ADD_AIRTIME_TAG)>=0 ||
+            autoNotes.indexOf(PURCHASE_AIRTIME_TAG)>=0 ||
+            autoNotes.indexOf(RESERVED_AIRTIME_TAG)>=0)
+        {
+            me.down('#detail').setValue('Redemption Successful');
+        }
     },
 
     reset: function () {
@@ -73,6 +80,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.interactionNotes.InteractionNotes'
         });
     },
     createComponent: function () {
+        debugger;
         var me = this;
         return [{
 			xtype: 'panel',
