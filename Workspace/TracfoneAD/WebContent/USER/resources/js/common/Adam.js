@@ -36,6 +36,8 @@ var Adam = function () {
 	});
 	managers['autoNotes'] = '';
 
+    managers['interactionDetails'] = '';
+
 	return {
 		load: function () {
 			for (var manager in managers) {
@@ -67,10 +69,16 @@ var Adam = function () {
 			});
 
 			managers['interactcomm'].register('callJia', this, function (data) {
-				this.callService('Tas/SUI/Launch?min=' + managers['pushData'].deviceProfile.min, 'POST').then(function (response) {
-					// do nothing
-				});
-			});
+                this.callService('Tas/SUI/Launch?min=' + managers['pushData'].deviceProfile.min, 'POST').then(function (response) {
+                    // do nothing
+                });
+            });
+
+            managers['interactcomm'].register('setVars', this, function (data) {
+            	if(data.interactiondetails) {
+                    managers['interactionDetails'] = data.interactiondetails;
+				}
+            });
 		},
 		callService: function (call, method, callObject) {
 			return managers['comm'].send(call, method, callObject);

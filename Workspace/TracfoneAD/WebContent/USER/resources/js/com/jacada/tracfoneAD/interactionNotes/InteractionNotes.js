@@ -41,6 +41,11 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.interactionNotes.InteractionNotes'
         {
             me.down('#detail').setValue('Redemption Successful');
         }
+        else {
+            var interactionDetails = managers['interactionDetails'] || '';
+            me.down('#detail').setValue(interactionDetails);
+        }
+        me.down('#result').setValue('Call Completed');
     },
 
     reset: function () {
@@ -51,7 +56,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.interactionNotes.InteractionNotes'
         });
         me.down('#createInteractioResponse').setValue('');
         me.down('#agentNotes').setValue('');
-		me.down('#createInteractionBtn').show();
+        me.down('#createInteractionBtn').show();
     },
 
     createInteraction: function () {
@@ -70,9 +75,9 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.interactionNotes.InteractionNotes'
             // hardcoded the success response as there is no resposne from TAS
             response = 'Interaction created successfully.';
             me.down('#createInteractioResponse').setValue(response);
-            // TODO end the call here ?? 
+            // TODO end the call here ??
             //adam.endCall();
-			me.down('#createInteractionBtn').hide();
+            me.down('#createInteractionBtn').hide();
             me.unmask();
         }).catch(function (e) {
             Ext.Msg.alert('ERROR', 'Sorry, Interaction could not be created. Please try again.');
@@ -80,131 +85,130 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.interactionNotes.InteractionNotes'
         });
     },
     createComponent: function () {
-        debugger;
         var me = this;
         return [{
-			xtype: 'panel',
-			border: false,
-			cls: 'create-interaction',
-			items: [
-			{
             xtype: 'panel',
             border: false,
-		
-            layout: {
-                type: 'vbox',
-                padding: '5'
-            },
-            items: [{
-                xtype: 'form',
-                itemId: 'interactionInfoForm',
-                border: false,
-				
-                defaults: {
-                    xtype: 'displayfield',
-                    labelStyle: 'white-space: nowrap;'
-                },
-                items: [{
-                    fieldLabel: 'Brand',
-                    name: 'brand'
-                }, {
-                    fieldLabel: 'Device Type',
-                    name: 'deviceType'
-                }, {
-                    xtype: 'combo', // Consider making this displayfield and load detail combo using the flowtype parameter if there is no need for a change event for this in future
-                    fieldLabel: "Reason",
-                    width: 350,
-                    name: "reason",
-                    itemId: 'reason',
-                    valueField: 'val',
-                    displayField: 'name',
-                    disabled: true,
-                    editable: false,
-                    forceSelection: true,
-                    store: Ext.create('Ext.data.Store', {
-                        fields: ['val', 'name'],
-                        data: Object.keys(REASON).map(function (item, index) { return { "val": item, "name": item } })
-                    }),
-                    listeners: {
-                        change: function (combo, newValue, oldValue) {
-                            if (newValue) {
-                                var detailStore = Ext.create('Ext.data.Store', {
-                                    fields: ['val', 'name'],
-                                    data: REASON[newValue].map(function (item, index) { return { "val": item, "name": item } })
-                                });
-                                var detailCombo = me.down('#detail');
-                                detailCombo.bindStore(detailStore);
+            cls: 'create-interaction',
+            items: [
+                {
+                    xtype: 'panel',
+                    border: false,
+
+                    layout: {
+                        type: 'vbox',
+                        padding: '5'
+                    },
+                    items: [{
+                        xtype: 'form',
+                        itemId: 'interactionInfoForm',
+                        border: false,
+
+                        defaults: {
+                            xtype: 'displayfield',
+                            labelStyle: 'white-space: nowrap;'
+                        },
+                        items: [{
+                            fieldLabel: 'Brand',
+                            name: 'brand'
+                        }, {
+                            fieldLabel: 'Device Type',
+                            name: 'deviceType'
+                        }, {
+                            xtype: 'combo', // Consider making this displayfield and load detail combo using the flowtype parameter if there is no need for a change event for this in future
+                            fieldLabel: "Reason",
+                            width: 350,
+                            name: "reason",
+                            itemId: 'reason',
+                            valueField: 'val',
+                            displayField: 'name',
+                            disabled: true,
+                            editable: false,
+                            forceSelection: true,
+                            store: Ext.create('Ext.data.Store', {
+                                fields: ['val', 'name'],
+                                data: Object.keys(REASON).map(function (item, index) { return { "val": item, "name": item } })
+                            }),
+                            listeners: {
+                                change: function (combo, newValue, oldValue) {
+                                    if (newValue) {
+                                        var detailStore = Ext.create('Ext.data.Store', {
+                                            fields: ['val', 'name'],
+                                            data: REASON[newValue].map(function (item, index) { return { "val": item, "name": item } })
+                                        });
+                                        var detailCombo = me.down('#detail');
+                                        detailCombo.bindStore(detailStore);
+                                    }
+                                }
                             }
-                        }
-                    }
+                        }, {
+                            xtype: 'combo',
+                            name: 'detail',
+                            itemId: 'detail',
+                            fieldLabel: 'Detail',
+                            width: 350,
+                            emptyText: 'Choose an Issue',
+                            editable: false,
+                            valueField: 'val',
+                            displayField: 'name',
+                        }, {
+                            xtype: 'combo',
+                            fieldLabel: 'Result',
+                            name: 'result',
+                            itemId: 'result',
+                            width: 350,
+                            emptyText: 'Choose a Result',
+                            editable: false,
+                            queryMode: 'local',
+                            valueField: 'val',
+                            displayField: 'name',
+                            store: Ext.create('Ext.data.Store', {
+                                fields: ['val', 'name'],
+                                data: RESULT.map(function (item, index) { return { "val": item, "name": item } })
+                            })
+                        }]
+                    }]
                 }, {
-                    xtype: 'combo',
-                    name: 'detail',
-                    itemId: 'detail',
-                    fieldLabel: 'Detail',
-                    width: 350,
-                    emptyText: 'Choose an Issue',
-                    editable: false,
-                    valueField: 'val',
-                    displayField: 'name',
+                    xtype: 'panel',
+                    border: false,
+                    layout: 'fit',
+                    items: [{
+                        xtype: 'textarea',
+                        name: 'autoNotes',
+                        fieldLabel: 'Auto Notes',
+                        itemId: 'autoNotes',
+                        margin: '10 50 10 0',
+                        disabled: true,
+                    }]
+                }
+                , {
+                    xtype: 'panel',
+                    border: false,
+                    layout: 'fit',
+                    items: [{
+                        xtype: 'textarea',
+                        name: 'agentNotes',
+                        fieldLabel: 'Agent Notes',
+                        itemId: 'agentNotes',
+                        margin: "10 50 10 0",
+                        value: ''
+                    }]
+                },
+                {
+                    xtype: 'button',
+                    itemId: 'createInteractionBtn',
+                    margin: "0 0 0 10",
+                    text: 'Create Interaction',
+                    handler: function () {
+                        me.createInteraction()
+                    },
+                    scope: me
                 }, {
-                    xtype: 'combo',
-                    fieldLabel: 'Result',
-                    name: 'result',
-                    itemId: 'result',
-                    width: 350,
-                    emptyText: 'Choose a Result',
-                    editable: false,
-                    queryMode: 'local',
-                    valueField: 'val',
-                    displayField: 'name',
-                    store: Ext.create('Ext.data.Store', {
-                        fields: ['val', 'name'],
-                        data: RESULT.map(function (item, index) { return { "val": item, "name": item } })
-                    })
-                }]
-            }]
-        }, {
-            xtype: 'panel',
-            border: false,
-            layout: 'fit',
-            items: [{
-                xtype: 'textarea',
-                name: 'autoNotes',
-                fieldLabel: 'Auto Notes',
-                itemId: 'autoNotes',
-                margin: '10 50 10 0',
-                disabled: true,
-            }]
-        }
-            , {
-            xtype: 'panel',
-            border: false,
-            layout: 'fit',
-            items: [{
-                xtype: 'textarea',
-                name: 'agentNotes',
-                fieldLabel: 'Agent Notes',
-                itemId: 'agentNotes',
-                margin: "10 50 10 0",
-                value: ''
-            }]
-        },
-        {
-            xtype: 'button',
-			itemId: 'createInteractionBtn',
-            margin: "0 0 0 10",
-            text: 'Create Interaction',
-            handler: function () {
-                me.createInteraction()
-            },
-            scope: me
-        }, {
-            xtype: 'displayfield',
-            name: 'response',
-            itemId: 'createInteractioResponse'
-        }
-			]
-		}]
+                    xtype: 'displayfield',
+                    name: 'response',
+                    itemId: 'createInteractioResponse'
+                }
+            ]
+        }]
     }
 });
