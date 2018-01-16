@@ -176,6 +176,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.common.CustomerServiceProfile', {
                                         }, {
                                             fieldLabel: 'Service End Date',
                                             name: 'serviceEndDate',
+                                            id: 'serviceEndDate',
                                             valueToRaw: me.checkExpired
                                         }, {
                                             fieldLabel: 'Next Charge Date',

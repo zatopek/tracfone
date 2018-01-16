@@ -41,7 +41,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.PaymentTransaction', {
         me.down('#promoCode').setValue('');
         me.down('#airtimePurchaseResponse').update('');
         me.down('#autoFill').setValue(false);
-
+        me.down('#transactionSummaryPanel').setTitle('');
         me.down('#cvv').setValue('');
         me.down('#purchaseBtn').disable();
     },
@@ -72,10 +72,22 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.PaymentTransaction', {
             number: creditCardNumber,
             cvv: cvv
         }).then(function (response) {
+            me.down('#transactionSummaryPanel').setTitle('TRANSACTION SUMMARY');
         	var i = response.indexOf('<div class=\"x1a\"');
         	if(i>=0){
         		response = response.substring(i);
         	}
+            var el = document.createElement( 'html' );
+            el.innerHTML = response;
+            var labels = el.getElementsByTagName('label'){
+                for(i=0; i<labels.length; i++) {
+                    if(labels[i].innerHTML.toLowerCase().indexOf('service end date')>=0) {
+                        if(Ext.getCmp('serviceEndDate')){
+                            Ext.getCmp('serviceEndDate').setValue(labels[i].parentNode.parentNode.children[1].innerHTML);
+                        }
+                    }
+                }
+            }
             me.down('#airtimePurchaseResponse').update(response);
             var airtimeSelected = me.up().down('airtimePlan').down('#airtimePlanGrid').getSelectionModel().getSelection()[0];
             adam.addAutoNotes(PURCHASE_AIRTIME_TAG + airtimeSelected.get('description'));
@@ -229,7 +241,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.PaymentTransaction', {
                         },
                         {
                             xtype: "panel",
-                            title: "TRANSCATION SUMMARY",
+                            title: "",
                             columnWidth: 0.45,
                             itemId: 'transactionSummaryPanel',
                             border: false,

@@ -3,10 +3,10 @@ function onCustomerServiceProfile(pushData) {    //call JIA API getCallInfoFromA
     // TODO remove this dummy Data
 
     pushData = {
-        deviceProfile: { "min":"3219990000", "deviceType": "BYOP", "sim": "123", "minStatus": "ACTIVE", "simStatus": "SIM ACTIVE", "phoneGen": "AD-LTE", "os": "and" },
-        serviceProfile: { "serviceType": "type of service", "brand": "TracFone", "carrier": "VErizon", "serviceEndDate": "12/15/2017", "cardsInReserve": "2" },
+        deviceProfile: { "min":"3219990000", "deviceType": "feature_phone", "sim": "123", "minStatus": "ACTIVE", "simStatus": "SIM ACTIVE", "phoneGen": "AD-LTE", "os": "and" },
+        serviceProfile: { "serviceType": "Paygo", "brand": "TracFone", "carrier": "AT&T", "serviceEndDate": "12/15/2018", "cardsInReserve": "2" },
         customerProfile: { "customerId": "lksdf9879789", "contactName": "Peter Parer", "zip":"32828" },
-        accountBalances: { "phoneStatus": "Pending", "smsBalance": "124", "voiceBalance": "0" },
+        accountBalances: { "phoneStatus": "Active", "smsBalance": "124", "voiceBalance": "100" },
         callInfo: { "airtimePin": "NA", "xferCondition": "NA", "taskId":"9902" }
     }
 
@@ -67,6 +67,8 @@ function setupCustomerServiceProfile(pushData){
 }
 
 function onLaunchWorkflow(taskId) {
+    managers['autoNotes'] = '';
+
     //if unable/unable
     var pushData = managers['pushData'];
     var carrier = pushData.serviceProfile.carrier.toLowerCase();

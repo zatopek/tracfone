@@ -13,6 +13,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.AddPin', {
         me.down('#transactionSummary').update('');
         me.down('#addAirtimeResponse').setValue('');
         me.down('#promoValidateResponse').setValue('');
+        me.down('#transactionSummaryPanel').setTitle('');
         me.disableButtons();
     },
 
@@ -96,10 +97,22 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.AddPin', {
         adam.callService(resource, method, {}).then(function (response) {
         	me.down('#airtimePin').setValue('');
         	me.down('#promoCode').setValue('');
+            me.down('#transactionSummaryPanel').setTitle('TRANSACTION SUMMARY');
         	var i = response.indexOf('<div class=\"x1a\"');
         	if(i>=0){
         		response = response.substring(i);
         	}
+            var el = document.createElement( 'html' );
+            el.innerHTML = response;
+            var labels = el.getElementsByTagName('label'){
+                for(i=0; i<labels.length; i++) {
+                    if(labels[i].innerHTML.toLowerCase().indexOf('service end date')>=0) {
+                        if(Ext.getCmp('serviceEndDate')){
+                            Ext.getCmp('serviceEndDate').setValue(labels[i].parentNode.parentNode.children[1].innerHTML);
+                        }
+                    }
+                }
+            }
             me.down('#transactionSummary').update(response);
             adam.addAutoNotes(ADD_AIRTIME_TAG + me.down('#addAirtimeResponse').getValue());
             me.unmask();
@@ -240,7 +253,8 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.AddPin', {
                         xtype: 'panel',
                         columnWidth: 0.45,
                         height: 290,
-                        title: 'TRANSACTION SUMMARY',
+                        title: '',
+                        itemId: 'transactionSummaryPanel',
                         border: false,
                         bodyStyle: 'padding:5px 5px 5px 5px',
                         items: [{

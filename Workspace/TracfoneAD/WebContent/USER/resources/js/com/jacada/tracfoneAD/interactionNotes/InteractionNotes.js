@@ -62,11 +62,19 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.interactionNotes.InteractionNotes'
     createInteraction: function () {
         var me = this;
         me.mask('Please wait...');
-        var autoNotes = me.down('#autoNotes').getValue()
+        var notes = '';
+        var autoNotes = me.down('#autoNotes').getValue();
         var agentNotes = me.down('#agentNotes').getValue();
+        if (autoNotes && autoNotes.length>0){
+            notes = autoNotes + '\n\n' + agentNotes;
+        }
+        else {
+            notes = agentNotes;
+        }
         var requestObject = {
             reason: me.down('#reason').getValue(),
-            notes: me.down('#agentNotes').getValue(),
+            //notes: me.down('#agentNotes').getValue(),
+            notes: notes,
             detail: me.down('#detail').getValue(),
             result: me.down('#result').getValue()
         }

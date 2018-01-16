@@ -23,7 +23,8 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.ReservePin', {
     reset: function () {
         var me = this;
         me.down('#reservePinGrid').getStore().loadData([], false);
-        me.down('#transactionSummaryResponse').setValue('');
+        me.down('#transactionSummaryResponse').update('');
+        me.down('#transactionSummaryContainer').setTitle('');
     },
 
     initComponent: function () {
@@ -49,13 +50,15 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.ReservePin', {
                         },
                         {
                             xtype: "panel",
-                            title: "TRANSCATION SUMMARY",
+                            title: "",
                             columnWidth: 0.45,
                             itemId: 'transactionSummaryContainer',
                             border: false,
                             bodyStyle: 'padding:5px 5px 5px 5px',
                             items: [{
-                                xtype: 'displayfield',
+                                xtype: 'component',
+                                cls: 'airtimePurchaseResponseCls',
+                                name: 'airtimePurchaseResponse',
                                 itemId: 'transactionSummaryResponse'
 
                             }]
@@ -69,7 +72,23 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.ReservePin', {
         var me = this;
         me.down('#transactionSummaryContainer').mask('Please wait..');
         adam.callService('Tas/PINs/' + record.partNumber, 'DELETE').then(function (response) {
-            me.down('#transactionSummaryResponse').setValue(response);
+            me.down('#transactionSummaryContainer').setTitle('TRANSACTION SUMMARY');
+            var i = response.indexOf('<div class=\"x1a\"');
+            if(i>=0){
+                response = response.substring(i);
+            }
+            var el = document.createElement( 'html' );
+            el.innerHTML = response;
+            var labels = el.getElementsByTagName('label'){
+                for(i=0; i<labels.length; i++) {
+                    if(labels[i].innerHTML.toLowerCase().indexOf('service end date')>=0) {
+                        if(Ext.getCmp('serviceEndDate')){
+                            Ext.getCmp('serviceEndDate').setValue(labels[i].parentNode.parentNode.children[1].innerHTML);
+                        }
+                    }
+                }
+            }
+            me.down('#transactionSummaryResponse').update(response);
             var selectedPin = me.down('#reservePinGrid').getSelectionModel().getSelection()[0];
             adam.addAutoNotes(RESERVED_AIRTIME_TAG + selectedPin.get('redCode') + ' - ' + selectedPin('snp'));
             me.down('#transactionSummaryContainer').unmask();
