@@ -74,17 +74,16 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.ReservePin', {
         adam.callService('Tas/PINs/' + record.partNumber, 'DELETE').then(function (response) {
             me.down('#transactionSummaryContainer').setTitle('TRANSACTION SUMMARY');
             var i = response.indexOf('<div class=\"x1a\"');
-            if(i>=0){
+            if (i >= 0) {
                 response = response.substring(i);
             }
-            var el = document.createElement( 'html' );
+            var el = document.createElement('html');
             el.innerHTML = response;
-            var labels = el.getElementsByTagName('label'){
-                for(i=0; i<labels.length; i++) {
-                    if(labels[i].innerHTML.toLowerCase().indexOf('service end date')>=0) {
-                        if(Ext.getCmp('serviceEndDate')){
-                            Ext.getCmp('serviceEndDate').setValue(labels[i].parentNode.parentNode.children[1].innerHTML);
-                        }
+            var labels = el.getElementsByTagName('label')
+            for (i = 0; i < labels.length; i++) {
+                if (labels[i].innerHTML.toLowerCase().indexOf('service end date') >= 0) {
+                    if (Ext.getCmp('serviceEndDate')) {
+                        Ext.getCmp('serviceEndDate').setValue(labels[i].parentNode.parentNode.children[1].innerHTML);
                     }
                 }
             }

@@ -73,18 +73,17 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.PaymentTransaction', {
             cvv: cvv
         }).then(function (response) {
             me.down('#transactionSummaryPanel').setTitle('TRANSACTION SUMMARY');
-        	var i = response.indexOf('<div class=\"x1a\"');
-        	if(i>=0){
-        		response = response.substring(i);
-        	}
-            var el = document.createElement( 'html' );
+            var i = response.indexOf('<div class=\"x1a\"');
+            if (i >= 0) {
+                response = response.substring(i);
+            }
+            var el = document.createElement('html');
             el.innerHTML = response;
-            var labels = el.getElementsByTagName('label'){
-                for(i=0; i<labels.length; i++) {
-                    if(labels[i].innerHTML.toLowerCase().indexOf('service end date')>=0) {
-                        if(Ext.getCmp('serviceEndDate')){
-                            Ext.getCmp('serviceEndDate').setValue(labels[i].parentNode.parentNode.children[1].innerHTML);
-                        }
+            var labels = el.getElementsByTagName('label')
+            for (i = 0; i < labels.length; i++) {
+                if (labels[i].innerHTML.toLowerCase().indexOf('service end date') >= 0) {
+                    if (Ext.getCmp('serviceEndDate')) {
+                        Ext.getCmp('serviceEndDate').setValue(labels[i].parentNode.parentNode.children[1].innerHTML);
                     }
                 }
             }
@@ -138,7 +137,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.PaymentTransaction', {
                     layout: "column",
                     height: 290,
                     border: false,
-					itemCls: 'payment-section',
+                    itemCls: 'payment-section',
                     items: [
                         {
                             xtype: "panel",
@@ -148,7 +147,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.PaymentTransaction', {
                             items: [{
                                 xtype: 'panel',
                                 border: false,
-								
+
                                 layout: {
                                     type: 'vbox',
                                     padding: '5',
@@ -162,7 +161,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.PaymentTransaction', {
                                         itemId: 'selectPayment',
                                         valueField: 'val',
                                         displayField: 'name',
-										layout: 'fit'
+                                        layout: 'fit'
                                     }, {
                                         xtype: "textfield",
                                         fieldLabel: "CVV",
@@ -173,70 +172,71 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.PaymentTransaction', {
                                         maxLength: 3,
                                         maskRe: /[0-9.]/,
                                         enableKeyEvents: true,
-										layout: 'fit',
+                                        layout: 'fit',
                                         listeners: {
                                             keyup: {
                                                 fn: me.changePurchaseButton,
                                                 scope: me
                                             }
                                         },
-                                    }, {
-                                        xtype: 'button',
-                                        margin: "10 0 0 0",
-                                        text: 'Purchase',
-                                        itemId: 'purchaseBtn',
-                                        disabled: true,
-                                        handler: me.purchase,
-										cls: 'purchase-btn',
-                                        scope: me
                                     }
                                 ]
                             },
-                            {
-                                xtype: 'panel',
-                                border: false,
-                                layout: {
-                                    type: 'hbox',
-                                    padding: '5',
-									margin: '10 0 0 0',
-                                    align: 'stretch'
-                                },
-                                items: [{
-                                    xtype: "textfield",
-                                    fieldLabel: "Promo Code",
-                                    itemId: 'promoCode',
-                                    name: "promoCode",
-                                    enableKeyEvents: true,
-                                    listeners: {
-                                        keyup: {
-                                            fn: me.changePromoCodeButton,
-                                            scope: me
+                                {
+                                    xtype: 'panel',
+                                    border: false,
+                                    layout: {
+                                        type: 'hbox',
+                                        padding: '5',
+                                        margin: '10 0 0 0',
+                                        align: 'stretch'
+                                    },
+                                    items: [{
+                                        xtype: "textfield",
+                                        fieldLabel: "Promo Code",
+                                        itemId: 'promoCode',
+                                        name: "promoCode",
+                                        enableKeyEvents: true,
+                                        listeners: {
+                                            keyup: {
+                                                fn: me.changePromoCodeButton,
+                                                scope: me
+                                            }
                                         }
-                                    }
-                                }, {
+                                    }, {
+                                        xtype: 'button',
+                                        margin: "0 0 0 10",
+                                        text: 'Validate',
+                                        itemId: 'validateBtn',
+                                        disabled: true,
+                                        handler: me.validatePromo,
+                                        scope: me
+                                    }, {
+                                        xtype: "checkbox",
+                                        boxLabel: "Auto-Refill",
+                                        itemId: 'autoFill',
+                                        name: "checkbox",
+                                        inputValue: ""
+                                    }]
+                                },
+                                {
+                                    xtype: 'displayfield',
+                                    name: 'promoValidateResponse',
+                                    itemId: 'promoValidateResponse',
+                                    margin: '0 0 0 25',
+                                    style: 'color: green',
+                                    value: ''
+                                },
+                                {
                                     xtype: 'button',
-                                    margin: "0 0 0 10",
-                                    text: 'Validate',
-                                    itemId: 'validateBtn',
+                                    margin: "10 0 0 0",
+                                    text: 'Purchase',
+                                    itemId: 'purchaseBtn',
                                     disabled: true,
-                                    handler: me.validatePromo,
+                                    handler: me.purchase,
+                                    cls: 'purchase-btn',
                                     scope: me
-                                }, {
-                                    xtype: "checkbox",
-                                    boxLabel: "Auto-Refill",
-                                    itemId: 'autoFill',
-                                    name: "checkbox",
-                                    inputValue: ""
-                                }]
-                            },
-                            {
-                                xtype: 'displayfield',
-                                name: 'promoValidateResponse',
-                                itemId: 'promoValidateResponse',
-                                margin: '0 0 0 25',
-                                style: 'color: green',
-                                value: ''
-                            }
+                                }
                             ]
                         },
                         {
