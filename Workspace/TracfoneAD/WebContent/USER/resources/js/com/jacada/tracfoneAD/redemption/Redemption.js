@@ -65,7 +65,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.Redemption', {
     createComponent: function () {
         var me = this;
         return [
-            
+            /*
             { // TODO this first iten should be removed when the post message from interaction is complete to load the component
                 xtype: 'panel',
                 layout: 'hbox',
@@ -92,7 +92,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.Redemption', {
                     }
                 ]
             },
-            
+            */
             {
                 xtype: 'panel',
                 layout: 'column',

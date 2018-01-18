@@ -40,7 +40,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.PaymentTransaction', {
         me.down('#promoValidateResponse').setValue('');
         me.down('#promoCode').setValue('');
         me.down('#airtimePurchaseResponse').update('');
-        me.down('#autoFill').setValue(false);
+        //me.down('#autoFill').setValue(false);
         me.down('#transactionSummaryPanel').setTitle('');
         me.down('#cvv').setValue('');
         me.down('#purchaseBtn').disable();
@@ -65,7 +65,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.PaymentTransaction', {
         var partNumber = me.up().down('airtimePlan').down('#airtimePlanGrid').getSelectionModel().getSelection()[0].get('partNumber');
         var cvv = me.down('#cvv').getValue();
         var creditCardNumber = me.down('#selectPayment').getValue();
-        var autoFill = me.down('#autoFill').checked;
+        //var autoFill = me.down('#autoFill').checked;
         me.mask('Please wait...');
         me.down('#airtimePurchaseResponse').update('');
         adam.callService('Tas/Cards/' + partNumber + '?promocode=' + promoCode, 'POST', {
@@ -211,13 +211,15 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.PaymentTransaction', {
                                         disabled: true,
                                         handler: me.validatePromo,
                                         scope: me
-                                    }, {
+                                    }
+									/*, {
                                         xtype: "checkbox",
                                         boxLabel: "Auto-Refill",
                                         itemId: 'autoFill',
                                         name: "checkbox",
                                         inputValue: ""
-                                    }]
+                                    }*/
+									]
                                 },
                                 {
                                     xtype: 'displayfield',

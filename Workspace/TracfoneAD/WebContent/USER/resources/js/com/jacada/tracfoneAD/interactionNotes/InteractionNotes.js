@@ -76,7 +76,8 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.interactionNotes.InteractionNotes'
             //notes: me.down('#agentNotes').getValue(),
             notes: notes,
             detail: me.down('#detail').getValue(),
-            result: me.down('#result').getValue()
+            result: me.down('#result').getValue(),
+			      surveyQuestion: managers['surveyQuestion'] || ''
         }
 
         adam.callService('Tas/Interactions', 'POST', requestObject).then(function (response) {
