@@ -65,6 +65,10 @@ var Adam = function () {
 						ticketType: data.tickettype
 					};
 				}
+				if (data.surveyquestion) {
+					managers['surveyQuestion'] = data.surveyquestion;
+				}
+					
 				widgets[component].loadComponent(className, params);
 			});
 

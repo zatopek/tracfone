@@ -44,6 +44,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.PaymentTransaction', {
         me.down('#transactionSummaryPanel').setTitle('');
         me.down('#cvv').setValue('');
         me.down('#purchaseBtn').disable();
+		    me.down('#sendEmailBtn').hide();
     },
 
     validatePromo: function () {
@@ -59,12 +60,23 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.PaymentTransaction', {
         })
     },
 
+	 sendEmail: function () {		 
+        adam.callService('Tas/sendEmail', 'GET', {}).then(function () {
+            // TODO JIA handle response
+        }).catch(function () {
+            Ext.Msg.alert('ERROR', 'Sorry, unable to send email. Please try again.');
+        })
+    },
     purchase: function () {
         var me = this;
         var promoCode = me.down('#promoCode').getValue();
         var partNumber = me.up().down('airtimePlan').down('#airtimePlanGrid').getSelectionModel().getSelection()[0].get('partNumber');
         var cvv = me.down('#cvv').getValue();
         var creditCardNumber = me.down('#selectPayment').getValue();
+    		if	((managers['pushData'].customerProfile.email) &&
+    			(managers['pushData'].customerProfile.email.length > 0) {
+    				me.down('#sendEmailBtn').show();
+    			}		
         //var autoFill = me.down('#autoFill').checked;
         me.mask('Please wait...');
         me.down('#airtimePurchaseResponse').update('');
@@ -249,8 +261,24 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.PaymentTransaction', {
                             border: false,
                             height: '100%',
                             bodyStyle: 'padding:5px 5px 5px 5px',
+              							layout: 
+              							{
+              								type: 'hbox',
+              								padding: '5',
+              								margin: '10 0 0 0',
+              								align: 'stretch'
+              							},
                             items: [
-                                {
+                								{
+                									xtype: 'button',
+                                    margin: "10 0 0 0",
+                                    text: 'Send Email',
+                                    itemId: 'sendEmailBtn',
+                                    hidden: true,
+                                    handler: me.sendEmail,
+                                    scope: me
+								                  }
+                                ,{
                                     xtype: 'component',
                                     cls: 'airtimePurchaseResponseCls',
                                     name: 'airtimePurchaseResponse',
