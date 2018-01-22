@@ -62,8 +62,9 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.PaymentTransaction', {
     },
 
     sendEmail: function () {
-        adam.callService('Tas/sendEmail', 'GET', {}).then(function () {
+        adam.callService('Tas/TasSendEmail', 'GET', {}).then(function () {
             // TODO JIA handle response
+			    Ext.Msg.alert('SUCCESS', 'Email sent.');
         }).catch(function () {
             Ext.Msg.alert('ERROR', 'Sorry, unable to send email. Please try again.');
         })
