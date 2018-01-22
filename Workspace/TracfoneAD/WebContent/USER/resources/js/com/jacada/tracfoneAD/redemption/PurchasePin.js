@@ -66,7 +66,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.PurchasePin', {
 									id: 'move-next',
 									text: 'Next',
 									disabled: true,
-										handler: function(btn) {
+									handler: function(btn) {
 										me.navigate(btn.up("panel"), "next");
 									}
 								}
