@@ -55,6 +55,17 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.common.CustomerServiceProfile', {
         }
         return value;
     },
+    recentTickets: function () {
+        var me = this;
+        // TODO - update API name
+        adam.callService('Tas/RecentTickets', 'GET', {}).then(function () {
+            if(response && response.length>0){
+                Ext.Msg.alert('ERROR', response);
+            }
+        }).catch(function () {
+            Ext.Msg.alert('ERROR', 'Sorry, unable to open recent tickets. Please try again.');
+        })
+    },
     initComponent: function () {
         var me = this;
         Ext.applyIf(me, {
@@ -286,6 +297,13 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.common.CustomerServiceProfile', {
                             fieldLabel: 'Data Balance',
                             name: 'dataBalance',
                             valueToRaw: me.checkBalanceDataBalance
+                        }, {
+                            xtype: 'button',
+                            text: 'Recent Tickets',
+                            name: 'recentTicketBtn',
+                            itemId: 'recentTicketBtn',
+                            handler: me.recentTickets,
+                            scope: me
                         }
                     ]
                 }

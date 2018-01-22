@@ -12,6 +12,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.PaymentTransaction', {
         me.mask('Please wait...');
         var min = managers['pushData'].deviceProfile.min;
         adam.callService('Tas/CreditCards?min=' + min, 'GET', {}).then(function (response) {
+
             var cardData = [];
             Ext.each(response, function (field) {
                 cardData.push({
@@ -44,7 +45,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.PaymentTransaction', {
         me.down('#transactionSummaryPanel').setTitle('');
         me.down('#cvv').setValue('');
         me.down('#purchaseBtn').disable();
-		    me.down('#sendEmailBtn').hide();
+        me.down('#sendEmailBtn').hide();
     },
 
     validatePromo: function () {
@@ -60,7 +61,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.PaymentTransaction', {
         })
     },
 
-	 sendEmail: function () {		 
+    sendEmail: function () {
         adam.callService('Tas/sendEmail', 'GET', {}).then(function () {
             // TODO JIA handle response
         }).catch(function () {
@@ -73,10 +74,10 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.PaymentTransaction', {
         var partNumber = me.up().down('airtimePlan').down('#airtimePlanGrid').getSelectionModel().getSelection()[0].get('partNumber');
         var cvv = me.down('#cvv').getValue();
         var creditCardNumber = me.down('#selectPayment').getValue();
-    		if	((managers['pushData'].customerProfile.email) &&
-    			(managers['pushData'].customerProfile.email.length > 0) {
-    				me.down('#sendEmailBtn').show();
-    			}		
+        if ((managers['pushData'].customerProfile.email) &&
+            (managers['pushData'].customerProfile.email.length > 0)) {
+            me.down('#sendEmailBtn').show();
+        }
         //var autoFill = me.down('#autoFill').checked;
         me.mask('Please wait...');
         me.down('#airtimePurchaseResponse').update('');
@@ -224,14 +225,14 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.PaymentTransaction', {
                                         handler: me.validatePromo,
                                         scope: me
                                     }
-									/*, {
-                                        xtype: "checkbox",
-                                        boxLabel: "Auto-Refill",
-                                        itemId: 'autoFill',
-                                        name: "checkbox",
-                                        inputValue: ""
-                                    }*/
-									]
+                                        /*, {
+                                            xtype: "checkbox",
+                                            boxLabel: "Auto-Refill",
+                                            itemId: 'autoFill',
+                                            name: "checkbox",
+                                            inputValue: ""
+                                        }*/
+                                    ]
                                 },
                                 {
                                     xtype: 'displayfield',
@@ -261,24 +262,24 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.PaymentTransaction', {
                             border: false,
                             height: '100%',
                             bodyStyle: 'padding:5px 5px 5px 5px',
-              							layout: 
-              							{
-              								type: 'hbox',
-              								padding: '5',
-              								margin: '10 0 0 0',
-              								align: 'stretch'
-              							},
+                            layout:
+                                {
+                                    type: 'hbox',
+                                    padding: '5',
+                                    margin: '10 0 0 0',
+                                    align: 'stretch'
+                                },
                             items: [
-                								{
-                									xtype: 'button',
+                                {
+                                    xtype: 'button',
                                     margin: "10 0 0 0",
                                     text: 'Send Email',
                                     itemId: 'sendEmailBtn',
                                     hidden: true,
                                     handler: me.sendEmail,
                                     scope: me
-								                  }
-                                ,{
+                                }
+                                , {
                                     xtype: 'component',
                                     cls: 'airtimePurchaseResponseCls',
                                     name: 'airtimePurchaseResponse',
