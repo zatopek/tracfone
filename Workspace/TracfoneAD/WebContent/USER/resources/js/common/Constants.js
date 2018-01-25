@@ -15,4 +15,12 @@ const REASON = {
         "Roaming",
         "SIM Issue"],
 };
-const RESULT = ["Call Completed", "Call Transfered", "Hang up/Disconnected", "Case created"]
+const RESULT = ["Call Completed", "Call Transfered", "Hang up/Disconnected", "Case created"];
+
+const ADD_AIRTIME_TAG = 'Airtime Pin Added - ';
+
+const PURCHASE_AIRTIME_TAG = 'Pin Purchased - ';
+
+const RESERVED_AIRTIME_TAG = 'Reserved Pin - ';
+
+const CREATE_TICKET_TAG = 'Ticket added';

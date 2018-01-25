@@ -98,7 +98,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.unableUnable.TicketForm', {
         adam.callService('Tas/Tickets', 'POST', data).then(function (response) {
 			me.down('#createTicketBtn').hide();
             me.down('#createTicketResponse').setValue(response);
-            adam.addAutoNotes('Ticket added'); // TODO get exact text
+            adam.addAutoNotes(CREATE_TICKET_TAG); // TODO get exact text
             me.unmask();
         }).catch(function () {
             Ext.Msg.alert('ERROR', 'Sorry, ticket could not be created. Please try again.');
