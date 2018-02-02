@@ -62,7 +62,9 @@ var Adam = function () {
 				if (data.tickettitle) {
 					params = {
 						ticketTitle: data.tickettitle,
-						ticketType: data.tickettype
+						ticketType: data.tickettype,
+						issue: data.ticktetIssue,
+						notes: data.ticketNotes
 					};
 				}
 				if (data.surveyquestion) {
