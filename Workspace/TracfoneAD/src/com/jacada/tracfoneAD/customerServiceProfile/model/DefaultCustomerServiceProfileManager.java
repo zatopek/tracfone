@@ -60,6 +60,7 @@ public class DefaultCustomerServiceProfileManager extends DefaultWorkspaceManage
 					deviceProfile.setSequence(rs.getString("sequence"));
 					deviceProfile.setHexSerial(rs.getString("x_hex_serial_no"));
 					deviceProfile.setOs(getOperatingSystem(deviceProfile.getPartNumber()));
+					deviceProfile.setPhoneStatus(rs.getString("phone_status"));
 					
 					serviceProfile.setServiceType(rs.getString("service_type"));
 					serviceProfile.setRatePlan(rs.getString("rate_plan"));
@@ -84,29 +85,13 @@ public class DefaultCustomerServiceProfileManager extends DefaultWorkspaceManage
 					customerProfile.setEmail(rs.getString("e_mail"));
 					customerProfile.setGroupId(rs.getString("groupid"));
 					customerProfile.setZip(rs.getString("x_zipcode"));
-					customerProfile.setLid(rs.getString("lid"));					
-					
-					accountBalances.setPhoneStatus(rs.getString("phone_status"));		
-					// add retry 
-					int iTry = 0; 
-					boolean hasBalance = false;
-					GetBalanceByTransIdResponse response = null;
-					while((iTry++ < iRetry) && !hasBalance){
-						response = balanceInquirySoapConnector.getAccountBalances(serviceProfile.getBrand(), esn);
-						if(response !=  null && response.getBalance() != null && response.getBalance().getTotalBenefits() != null) {
-							hasBalance = true;
-							accountBalances.setSmsBalance(response.getBalance().getTotalBenefits().getText());
-							accountBalances.setVoiceBalance(response.getBalance().getTotalBenefits().getVoice());
-							accountBalances.setDataBalance(response.getBalance().getTotalBenefits().getData().getTotalDataUsage());
-						}						
-					}
+					customerProfile.setLid(rs.getString("lid"));							
 					
 					customerServiceProfile.setDeviceProfile(deviceProfile);
 					customerServiceProfile.setServiceProfile(serviceProfile);
 					customerServiceProfile.setCustomerProfile(customerProfile);
-					customerServiceProfile.setAccountBalances(accountBalances);
-						
-
+					//customerServiceProfile.setAccountBalances(accountBalances);
+					
 				}
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
@@ -147,6 +132,35 @@ public class DefaultCustomerServiceProfileManager extends DefaultWorkspaceManage
 			}
 		}
 		return os;
+	}
+
+
+	@Override
+	public AccountBalances getAccountBalances(String phoneStatus, String brand, String esn) {
+
+		AccountBalances accountBalances = new AccountBalances();
+		// add retry 
+		int iTry = 0; 
+		boolean hasBalance = false;
+		GetBalanceByTransIdResponse response = null;
+		while((iTry++ < iRetry) && !hasBalance){
+			response = balanceInquirySoapConnector.getAccountBalances(brand, esn);
+			if(response !=  null && response.getBalance() != null && response.getBalance().getTotalBenefits() != null) {
+				hasBalance = true;
+				accountBalances.setSmsBalance(response.getBalance().getTotalBenefits().getText());
+				accountBalances.setVoiceBalance(response.getBalance().getTotalBenefits().getVoice());
+				accountBalances.setDataBalance(response.getBalance().getTotalBenefits().getData().getTotalDataUsage());
+			}	
+			else {
+				try {
+					Thread.sleep(1500);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		return accountBalances;
 	}
 
 

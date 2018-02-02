@@ -63,6 +63,10 @@ public class DefaultCallHandlingController extends WorkspaceController {
 		CustomerServiceProfile customerServiceProfile = new CustomerServiceProfile();
 		customerServiceProfile.getCallInfo().setTaskId(task_id);
 		PushHelper.publishMessageToAgent(agentId, "CustomerServiceProfile", customerServiceProfile);
+		AccountBalances accountBalances= customerServiceProfileManager.getAccountBalances(
+				customerServiceProfile.getDeviceProfile().getPhoneStatus(),
+				customerServiceProfile.getServiceProfile().getBrand(), esn);
+		PushHelper.publishMessageToAgent(agentId, "AccountBalances", accountBalances);
 		//PushHelper.publishMessageToAgent(agentId, "CustomerServiceProfile", new CustomerServiceProfile());
 		//PushHelper.publishMessageToAgent(agentId, "LaunchWorkflow", task_id);
 		
@@ -79,6 +83,10 @@ public class DefaultCallHandlingController extends WorkspaceController {
 		CustomerServiceProfile customerServiceProfile = customerServiceProfileManager.getCustomerServiceProfile(esn);		
 		customerServiceProfile.getCallInfo().setTaskId(task_id);
 		PushHelper.publishMessageToAgent(agentId, "CustomerServiceProfile", customerServiceProfile);
+		AccountBalances accountBalances= customerServiceProfileManager.getAccountBalances(
+				customerServiceProfile.getDeviceProfile().getPhoneStatus(),
+				customerServiceProfile.getServiceProfile().getBrand(), esn);
+		PushHelper.publishMessageToAgent(agentId, "AccountBalances", accountBalances);
 		//PushHelper.publishMessageToAgent(agentId, "CustomerServiceProfile", new CustomerServiceProfile());
 		//PushHelper.publishMessageToAgent(agentId, "LaunchWorkflow", task_id);
 		

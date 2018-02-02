@@ -175,3 +175,17 @@ function onStartTas(data)
 {
     $W().tasUrl = data;
 }
+
+function onAccountBalances(data)
+{
+	pushData = {
+		"accountBalances" : { 
+			"phoneStatus": "Active", 
+			"smsBalance": "124", 
+			"voiceBalance": "100" };
+    };
+	
+    // adam.savePushData(pushData);
+    widgets['customerServiceProfile'].up().up().show(); // show portlet
+    widgets['customerServiceProfile'].load(pushData);
+}

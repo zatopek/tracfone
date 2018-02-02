@@ -21,6 +21,7 @@ public class DeviceProfile implements Serializable{
 	String leaseStatus;
 	String sequence;
 	String os;
+	String phoneStatus;
 	
 	public String getDeviceType() {
 		return deviceType;
@@ -106,7 +107,12 @@ public class DeviceProfile implements Serializable{
 	public void setOs(String os) {
 		this.os = os;
 	}
-	
+	public String getPhoneStatus() {
+		return phoneStatus;
+	}
+	public void setPhoneStatus(String phoneStatus) {
+		this.phoneStatus = phoneStatus;
+	}
 	
 }
 
