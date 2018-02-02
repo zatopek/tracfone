@@ -150,13 +150,14 @@
     <script src="<%=request.getContextPath()%>/USER/resources/js/common/JasHandler.js"></script>
 	<script src="<%=request.getContextPath()%>/USER/resources/js/common/Adam.js"></script>
 	<script>
-        //Project specific event handling
-        Push.registerEventHandler( 'CustomerServiceProfile', onCustomerServiceProfile);
-        //Push.registerEventHandler( 'LaunchWorkflow', onLaunchWorkflow);
-        Push.registerEventHandler( 'AgentEnvUsername', onAgentEnvUsername);
-	Push.registerEventHandler( 'StartTas', onStartTas);
 
-        </script>
+		//Project specific event handling
+        Push.registerEventHandler( 'CustomerServiceProfile', onCustomerServiceProfile);
+        Push.registerEventHandler( 'AccountBalances', onAccountBalances);
+        Push.registerEventHandler( 'AgentEnvUsername', onAgentEnvUsername);
+		Push.registerEventHandler( 'StartTas', onStartTas);
+
+		</script>
 </jacada:body>
 
 </netui:html>

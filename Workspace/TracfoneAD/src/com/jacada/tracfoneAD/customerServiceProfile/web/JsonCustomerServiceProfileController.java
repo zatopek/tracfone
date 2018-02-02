@@ -44,5 +44,4 @@ public class JsonCustomerServiceProfileController extends
 		payload.setMessage("OK");
 		return payload;
 	}
-
 }
