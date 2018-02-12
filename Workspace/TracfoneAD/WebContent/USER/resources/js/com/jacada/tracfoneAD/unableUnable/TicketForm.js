@@ -44,7 +44,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.unableUnable.TicketForm', {
                         }, {
                             xtype: 'textfield',
                             fieldLabel: 'Issue',
-                            name: 'issue',
+                            name: 'ticketIssue',
                             width: 500,
                             value: '',
                             validator: function (val) {
@@ -54,7 +54,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.unableUnable.TicketForm', {
                         {
                             xtype: 'textarea',
                             fieldLabel: 'Notes',
-                            name: 'notes',
+                            name: 'ticketNotes',
                             width: 500,
                             value: '',
                             validator: function (val) {
@@ -92,13 +92,15 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.unableUnable.TicketForm', {
         Ext.apply(data, {
             type: me.ticketType, // from jas to component param
             title: me.ticketTitle, // from jas to component param
-            priority: 'High',
+            issue: me.ticketIssue, // from jas to component param
+            notes: me.ticketNotes, // from jas to component param
+            priority: 'Medium',
             status: 'Pending'
         });
         adam.callService('Tas/Tickets', 'POST', data).then(function (response) {
 			me.down('#createTicketBtn').hide();
-            me.down('#createTicketResponse').setValue(response);
-            adam.addAutoNotes(CREATE_TICKET_TAG); // TODO get exact text
+            me.down('#createTicketResponse').setValue(' Ticket number:' + response);
+            adam.addAutoNotes(CREATE_TICKET_TAG + ' Ticket number:' + response); // TODO get exact text
             me.unmask();
         }).catch(function () {
             Ext.Msg.alert('ERROR', 'Sorry, ticket could not be created. Please try again.');
@@ -112,7 +114,9 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.unableUnable.TicketForm', {
         var response = {
             ticketType: me.ticketType, // from jas to component param
             ticketTitle: me.ticketTitle, // from jas to component param
-            priority: 'High',
+            ticketIssue: me.ticketIssue, // from jas to component param
+            ticketNotes: me.ticketNotes, // from jas to component param
+            priority: 'Medium',
             status: 'Pending'
         };
 
