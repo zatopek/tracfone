@@ -20,4 +20,16 @@ public class CustomerServiceProfileDaoStub implements CustomerServiceProfileDao 
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public ResultSet getRecentPurchases(String esn, String brand) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ResultSet getTicketHistory(String esn) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

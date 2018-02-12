@@ -96,4 +96,90 @@ public class JpaCustomerServiceProfileDao implements CustomerServiceProfileDao {
 		return rs;
 	}
 
+	@Override
+	public ResultSet getRecentPurchases(String esn, String brand) {
+		Connection dbConnection = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet rs = null;
+		
+		String query = "SELECT distinct Objid, Description,Customer_Price, part_number property_display, x_card_type, units, ServicePlanType"
+				+ "FROM table(sa.ADFCRM_VO.getAvailableSpPurchase(?,?,?))"
+				+ "order by x_card_type desc, customer_price asc";
+		
+		try {
+			Class.forName(driverClassName);
+			dbConnection = DriverManager.getConnection(jdbcURL, username,
+					password);
+			preparedStatement = dbConnection.prepareStatement(query);
+			preparedStatement.setString(1, esn);
+			preparedStatement.setString(2, brand);
+			preparedStatement.setString(3, "ENGLISH");
+			
+			rs = preparedStatement.executeQuery();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return rs;	
+	}
+
+	@Override
+	public ResultSet getTicketHistory(String esn) {
+		Connection dbConnection = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet rs = null;
+		
+		String query = "SELECT TableExtactcase.AGE, "
+				+ "TableExtactcase.CLARIFY_STATE,"
+				+ "TableExtactcase.CONDITION,"
+				+ "TableExtactcase.CONTACT_OBJID,"
+				+ "TableExtactcase.CREATION_TIME,"
+				+ "TableExtactcase.ELM_OBJID,"
+				+ "TableExtactcase.FIRST_NAME,"
+				+ "TableExtactcase.ID_NUMBER,"
+				+ "TableExtactcase.IS_SUPERCASE,"
+				+ "TableExtactcase.LAST_NAME,"
+				+ "TableExtactcase.LOCATION_OBJID,"
+				+ "TableExtactcase.LOGIN_NAME,"
+				+ "TableExtactcase.ROWID,"
+				+ "TableExtactcase.S_CONDITION,"
+				+ "TableExtactcase.S_FIRST_NAME,"
+				+ "TableExtactcase.S_LAST_NAME,"
+				+ "TableExtactcase.S_LOGIN_NAME,"
+				+ "TableExtactcase.S_STATUS,"
+				+ "TableExtactcase.S_TITLE,"
+				+ "TableExtactcase.STATUS,"
+				+ "TableExtactcase.TITLE,"
+				+ "TableExtactcase.X_CARRIER_ID,"
+				+ "TableExtactcase.X_CARRIER_NAME,"
+				+ "TableExtactcase.X_CASE_TYPE,"
+				+ "TableExtactcase.X_ESN,"
+				+ "TableExtactcase.X_ICCID,"
+				+ "TableExtactcase.X_MIN,"
+				+ "TableExtactcase.X_PHONE_MODEL,"
+				+ "TableExtactcase.X_REPLACEMENT_UNITS,"
+				+ "TableExtactcase.X_RETAILER_NAME,"
+				+ "TableExtactcase.ISSUE"
+				+ "FROM TABLE_EXTACTCASE TableExtactcase"
+				+ "WHERE TableExtactcase.X_ESN = ?"
+				+ "ORDER BY TableExtactcase.CREATION_TIME";
+		try {
+			Class.forName(driverClassName);
+			dbConnection = DriverManager.getConnection(jdbcURL, username,
+					password);
+			preparedStatement = dbConnection.prepareStatement(query);
+			preparedStatement.setString(1, esn);
+			rs = preparedStatement.executeQuery();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return rs;
+	}
 }

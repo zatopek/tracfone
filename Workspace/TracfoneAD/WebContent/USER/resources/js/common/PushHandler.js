@@ -182,7 +182,7 @@ function onAccountBalances(data)
 		"accountBalances" : { 
 			"phoneStatus": "Active", 
 			"smsBalance": "124", 
-			"voiceBalance": "100" };
+			"voiceBalance": "100" }
     };
 	
     // adam.savePushData(pushData);

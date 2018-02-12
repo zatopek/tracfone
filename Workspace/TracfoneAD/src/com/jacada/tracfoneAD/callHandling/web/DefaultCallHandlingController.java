@@ -1,5 +1,6 @@
 package com.jacada.tracfoneAD.callHandling.web;
 
+import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
 
@@ -23,6 +24,7 @@ import com.jacada.tracfoneAD.customerServiceProfile.entities.CustomerProfile;
 import com.jacada.tracfoneAD.customerServiceProfile.entities.CustomerServiceProfile;
 import com.jacada.tracfoneAD.customerServiceProfile.entities.DeviceProfile;
 import com.jacada.tracfoneAD.customerServiceProfile.entities.ServiceProfile;
+import com.jacada.tracfoneAD.customerServiceProfile.entities.TasTicket;
 import com.jacada.tracfoneAD.customerServiceProfile.model.interfaces.CustomerServiceProfileManager;
 import com.jacada.tracfoneAD.util.JSONPayload;
 
@@ -39,7 +41,22 @@ public class DefaultCallHandlingController extends WorkspaceController {
 	public void setCallHandlingManager(CallHandlingManager manager) {
 		this.manager = manager;
 	}
-
+	@RequestMapping(value = "getLatestPurchaseObjId/{esn}/{brand}", method = RequestMethod.GET, produces = "application/json")
+	public @ResponseBody
+	String getLatestPurchaseObjId(@PathVariable String esn, @PathVariable String brand, HttpServletRequest request) throws Exception {
+		String purchase = customerServiceProfileManager.getLatestPurchaseObjId(esn, brand);
+		return purchase;
+	}
+	
+	@RequestMapping(value = "getOpenedTickets/{esn}", method = RequestMethod.GET, produces = "application/json")
+	public @ResponseBody
+	JSONPayload getOpenedTickets(@PathVariable String esn, HttpServletRequest request) throws Exception {
+		List<TasTicket> openedTickets = customerServiceProfileManager.getOpenedTickets(esn);
+		JSONPayload payload = new JSONPayload();
+		payload.setPayload(openedTickets);
+		return payload;
+	}
+	
 	@RequestMapping(value = "incomingCall/{agentId}", method = RequestMethod.GET, produces = "application/json")
 	public @ResponseBody
 	void incoming(@PathVariable String agentId, HttpServletRequest request) throws Exception {
@@ -63,9 +80,10 @@ public class DefaultCallHandlingController extends WorkspaceController {
 		CustomerServiceProfile customerServiceProfile = new CustomerServiceProfile();
 		customerServiceProfile.getCallInfo().setTaskId(task_id);
 		PushHelper.publishMessageToAgent(agentId, "CustomerServiceProfile", customerServiceProfile);
-		AccountBalances accountBalances= customerServiceProfileManager.getAccountBalances(
+		/*AccountBalances accountBalances= customerServiceProfileManager.getAccountBalances(
 				customerServiceProfile.getDeviceProfile().getPhoneStatus(),
-				customerServiceProfile.getServiceProfile().getBrand(), esn);
+				customerServiceProfile.getServiceProfile().getBrand(), esn);*/
+		AccountBalances accountBalances = new AccountBalances();
 		PushHelper.publishMessageToAgent(agentId, "AccountBalances", accountBalances);
 		//PushHelper.publishMessageToAgent(agentId, "CustomerServiceProfile", new CustomerServiceProfile());
 		//PushHelper.publishMessageToAgent(agentId, "LaunchWorkflow", task_id);
