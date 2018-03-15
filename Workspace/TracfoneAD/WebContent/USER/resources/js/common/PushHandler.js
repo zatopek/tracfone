@@ -1,15 +1,15 @@
-function onCustomerServiceProfile(pushData) {    //call JIA API getCallInfoFromAIC();
+function onCustomerServiceProfile(pushData) {
+    //call JIA API getCallInfoFromAIC();
 
     // TODO remove this dummy Data
-
+	/*
     pushData = {
-        deviceProfile: { "min":"3219990000", "deviceType": "feature_phone", "sim": "123", "minStatus": "ACTIVE", "simStatus": "SIM ACTIVE", "phoneGen": "AD-LTE", "os": "and" },
-        serviceProfile: { "serviceType": "Paygo", "brand": "TracFone", "carrier": "AT&T", "serviceEndDate": "12/15/2018", "cardsInReserve": "2" },
+        deviceProfile: { "min":"3219990000", "deviceType": "BYOP", "sim": "123", "minStatus": "ACTIVE", "simStatus": "SIM ACTIVE", "phoneGen": "AD-LTE", "os": "and" },
+        serviceProfile: { "serviceType": "type of service", "brand": "TracFone", "carrier": "VErizon", "serviceEndDate": "12/15/2017", "cardsInReserve": "2" },
         customerProfile: { "customerId": "lksdf9879789", "contactName": "Peter Parer", "zip":"32828" },
-        accountBalances: { "phoneStatus": "Active", "smsBalance": "124", "voiceBalance": "100" },
-        callInfo: { "airtimePin": "NA", "xferCondition": "NA", "taskId":"9902" }
+        accountBalances: { "phoneStatus": "Pending", "smsBalance": "124", "voiceBalance": "0" }
     }
-
+    */
 	/*
     adam.callService('Avaya/Properties', 'GET').then(function (response) {
         for (i=0; i<response.length; i++){
@@ -50,11 +50,23 @@ function onCustomerServiceProfile(pushData) {    //call JIA API getCallInfoFromA
         setupCustomerServiceProfile(pushData);
     });
     */
+    var win = Ext.WindowManager.getActive();
+    if(win) {
+        win.close();
+    }
 	setupCustomerServiceProfile(pushData);
 }
 
 function setupCustomerServiceProfile(pushData){
     // save it in managers for now. Need a way to put it in datastore depending on unique Id
+    var contactName = pushData.customerProfile.contactName;
+    var carrier = pushData.serviceProfile.carrier;
+    var serial = pushData.deviceProfile.serial;
+
+    if(contactName && contactName.indexOf("null")>=0){
+        contactName = '';
+        pushData.customerProfile.contactName = '';
+    }
     managers['pushData'] = pushData;
     // pushData.customerProfile.account = {};
     // Object.assign(pushData.customerProfile.account, pushData.accountBalances);
@@ -63,7 +75,25 @@ function setupCustomerServiceProfile(pushData){
     widgets['customerServiceProfile'].up().up().show(); // show portlet
     widgets['customerServiceProfile'].load(pushData);
 
-    onLaunchWorkflow(pushData.callInfo.taskId);
+	unloadWorkflow();
+
+    if(!serial || serial.trim()=='') {
+        Ext.MessageBox.alert('ERROR', 'Unable to retrieve customer profile. Please use TAS to continue service the customer.');
+    }
+
+    // check customer name and carrier before loading work flow
+    else if(!contactName || contactName.trim()=='' || !carrier || carrier.trim()=='') {
+        Ext.MessageBox.alert('ERROR', 'Sorry, no carrier and contact information found for ESN. Please use TAS to continue service the customer.');
+    }
+    else {
+        onLaunchWorkflow(pushData.callInfo.taskId);
+    }
+}
+
+function unloadWorkflow() {
+	managers['flowType'] = '';
+	RemoveTabById('CallingIssuesTab');
+	RemoveTabById('RedemptionTab');
 }
 
 function onLaunchWorkflow(taskId) {
@@ -149,7 +179,7 @@ function onLaunchWorkflow(taskId) {
         ShowTabById('CallingIssuesTab');
     }
     //if redemption
-    else if (taskId == '9902' || taskId == '9903') {
+    else if (taskId == '9902' || taskId == '9903' || taskId == '109' /* <-- based on Natalio's email from 3/13*/) {
         //call JIA API launchAgentSupportSearch('Tracfone', 'Redemption');
         adam.callService('AgentAdvisor/Search/' + brand + '?searchTerm=Redemption', 'GET').then(function (response) {
             // do nothing
@@ -163,27 +193,32 @@ function onLaunchWorkflow(taskId) {
         }
         ShowTabById('RedemptionTab');
     }
-
 }
 
 function onAgentEnvUsername(data)
 {
-    $W().username = data;
+    if(data)
+        $W().username = data;
+    else
+        $W().username = '';
 }
 
 function onStartTas(data)
 {
+    $W().startTas = false;
     $W().tasUrl = data;
 }
 
 function onAccountBalances(data)
 {
+    /*
 	pushData = {
 		"accountBalances" : { 
 			"phoneStatus": "Active", 
 			"smsBalance": "124", 
 			"voiceBalance": "100" }
     };
+    */
 	
     // adam.savePushData(pushData);
     widgets['customerServiceProfile'].up().up().show(); // show portlet

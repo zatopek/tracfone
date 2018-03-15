@@ -5,7 +5,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.AirtimePlan', {
     autoScroll: true,
     listeners: {
         afterrender: function () {
-            this.load();
+            //this.load();
         }
     },
     initComponent: function () {
@@ -23,6 +23,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.AirtimePlan', {
     },
 
     sendToJia: function (view, selections, options) {
+        debugger;
         var me = this;
         var estimatedCostComponent = me.up().up().down('estimatedCost');
         estimatedCostComponent.mask('Please wait...');
@@ -33,8 +34,19 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.AirtimePlan', {
             me.up().up().up().down('paymentTransaction').changePromoCodeButton();
             Ext.getCmp('move-next').setDisabled(false);
             estimatedCostComponent.unmask();
-        }).catch(function () {
-            Ext.Msg.alert('ERROR', 'Sorry, estimated cost could not be calculated. Please try again.');
+        }).catch(function (response) {
+            try{
+                var jsonResponse = JSON.parse(response.response.responseText);
+                if(jsonResponse && jsonResponse.message) {
+                    Ext.Msg.alert('ERROR', 'Sorry, estimated cost could not be calculated. ' + jsonResponse.message + ' Please try again.');
+                }
+                else {
+                    Ext.Msg.alert('ERROR', 'Sorry, estimated cost could not be calculated. Please try again.');
+                }
+            }
+            catch(e){
+                Ext.Msg.alert('ERROR', 'Sorry, estimated cost could not be calculated. Please try again.');
+            }
             estimatedCostComponent.unmask();
         })
 
@@ -43,13 +55,37 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.AirtimePlan', {
     load: function () {
         var me = this;
         me.mask('loading...');
-        var min = managers['pushData'].deviceProfile.min;
+        var esn = managers['pushData'].deviceProfile.esn;
+        var brand = managers['pushData'].serviceProfile.brand;
+        /*
         adam.callService('Tas/PINs/Available?min=' + min, 'GET', {}).then(function (response) {
             if (response.length > 0)
                 me.items.items[0].getStore().loadData(response);
             me.unmask();
         }).catch(function () {
             Ext.Msg.alert('ERROR', 'Sorry, available pins could not be found. Please try again.');
+            me.unmask();
+        });
+        */
+        adam.callWsService('call/getProductOfferings/' + esn +'/' + brand, 'GET', {}).then(function (response) {
+            if (response.length > 0)
+            {
+                me.items.items[0].getStore().loadData(response);
+            }
+            me.unmask();
+        }).catch(function (response) {
+            try{
+                var jsonResponse = JSON.parse(response.response.responseText);
+                if(jsonResponse && jsonResponse.message && jsonResponse.message!=''){
+                    Ext.Msg.alert('ERROR', 'Sorry, ' + jsonResponse.message);
+                }
+                else{
+                    Ext.Msg.alert('ERROR', 'Sorry, available pins could not be found. Please try again.');
+                }
+            }
+            catch(e){
+                Ext.Msg.alert('ERROR', 'Sorry, available pins could not be found. Please try again.');
+            }
             me.unmask();
         });
     },
@@ -71,6 +107,9 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.AirtimePlan', {
                 }, {
                     name: 'partNumber',
                     type: 'string'
+                }, {
+                    name: 'recentPurchase',
+                    type: 'boolean'
                 }
             ]
         });
@@ -90,7 +129,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.AirtimePlan', {
                 flex: 3.5,
                 dataIndex: 'description'
             }, {
-                text: "Units", 
+                text: "Units",
                 flex: .5,
                 dataIndex: 'units'
             }, {
@@ -101,10 +140,25 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.AirtimePlan', {
                 text: "Part Number",
                 flex: 1.5,
                 dataIndex: 'partNumber'
+            }, {
+                text: "Recent Purchase",
+                flex: 0,
+                dataIndex: 'recentPurchase',
+                hidden: true
             }
             ],
             listeners: {
-                selectionchange: me.sendToJia
+                selectionchange: me.sendToJia,
+                render : function(grid){
+                    grid.store.on('load', function(store, records, options){
+                        grid.getSelectionModel().selectFirstRow();
+                    });
+                }
+            },
+            viewConfig: {
+                getRowClass: function(record) {
+                    if(record && record.get('recentPurchase')) return 'highlightRowCls';
+                }
             }
         });
         return grid;

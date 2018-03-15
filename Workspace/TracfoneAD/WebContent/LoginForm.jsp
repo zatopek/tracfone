@@ -54,6 +54,7 @@
 	
 	
 	<script  type="text/javascript">
+		$W().username = "";
 		$W().contextPath = "<%=request.getContextPath()%>";
 		loadTheme();
         extPersonalizationInit(document, "${pageContext.request.contextPath}");

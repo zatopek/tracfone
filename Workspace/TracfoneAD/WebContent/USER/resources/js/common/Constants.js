@@ -17,10 +17,10 @@ const REASON = {
 };
 const RESULT = ["Call Completed", "Call Transfered", "Hang up/Disconnected", "Case created"];
 
-const ADD_AIRTIME_TAG = 'Airtime Pin Added - ';
+const ADD_AIRTIME_TAG = 'Added Successfully';
 
-const PURCHASE_AIRTIME_TAG = 'Pin Purchased - ';
+const PURCHASE_AIRTIME_TAG = 'Purchased Successfully';
 
-const RESERVED_AIRTIME_TAG = 'Reserved Pin - ';
+const RESERVED_AIRTIME_TAG = 'Redeemed Successfully';
 
 const CREATE_TICKET_TAG = 'Ticket added';

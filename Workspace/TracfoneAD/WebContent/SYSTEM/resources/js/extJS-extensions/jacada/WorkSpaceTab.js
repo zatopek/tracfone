@@ -20,6 +20,17 @@ Ext.define('Jacada.core.WorkSpaceTab', {
     		    			this.show();
     		    		}
     		    		Jacada.Logger.debug("activating Tab " + tab.itemId);
+						if(tab.itemId == 'messagesTab'){
+							try {
+								widgets['customerServiceProfile'].up().up().hide();
+							} catch(e){}		
+						}
+						else {
+							try {
+								widgets['customerServiceProfile'].up().up().show();
+							} catch(e){}
+						}    
+	
     		            if(!tab.loaded){
     		            	Jacada.Logger.debug("Tab URL: " + tab.actualUrl);
     						//check if we need to load it

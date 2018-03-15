@@ -33,7 +33,7 @@ public class SsoController {
 		
 		List<LoginCredential> loginArray = manager.getAgentSsoLogins(agentId);
 		JSONPayload payload = new JSONPayload();
-		payload.setPayload(loginArray);
+		payload.setResult(loginArray);
 		payload.setStatus("200");
 		payload.setMessage("OK");
 		return payload;
@@ -48,7 +48,7 @@ public class SsoController {
 		List<LoginCredential> loginsList = new ArrayList<LoginCredential>(Arrays.asList(logins));
 		manager.addAgentSsoLogins(agentId, loginsList);
 		JSONPayload payload = new JSONPayload();
-		payload.setPayload("");
+		payload.setResult("");
 		payload.setStatus("200");
 		payload.setMessage("OK");
 		return payload;

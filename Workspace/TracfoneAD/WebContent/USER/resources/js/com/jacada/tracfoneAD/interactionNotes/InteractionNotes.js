@@ -32,8 +32,15 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.interactionNotes.InteractionNotes'
 
         // TODO from where we get this? 
         //var autoNotes = 'Airtime Pin added - $45 30-Dday UNL TALK/DATA, first 10 GB at High Speeds then at 2G';
-        var autoNotes = managers['autoNotes'] || '';
-        me.down('#autoNotes').setValue(autoNotes);
+        var notes = managers['autoNotes'] || '';
+        notes = notes.split(", ");
+        var result = [];
+        for(var i =0; i < notes.length ; i++){
+            if(result.indexOf(notes[i]) == -1) result.push(notes[i]);
+        }
+        result=result.join(", ");
+
+        me.down('#autoNotes').setValue(result);
         me.down('#result').setValue('Call Completed');
         if(autoNotes.indexOf(ADD_AIRTIME_TAG)>=0 ||
             autoNotes.indexOf(PURCHASE_AIRTIME_TAG)>=0 ||
@@ -87,9 +94,27 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.interactionNotes.InteractionNotes'
             // TODO end the call here ??
             //adam.endCall();
             me.down('#createInteractionBtn').hide();
+            var esn = managers['pushData'].deviceProfile.esn;
+            adam.callWsService('call/auditCreateInteractionNotes/' + esn, 'GET', {}).then(function (response) {
+
+            }).catch(function () {
+
+            });
+
             me.unmask();
-        }).catch(function (e) {
-            Ext.Msg.alert('ERROR', 'Sorry, Interaction could not be created. Please try again.');
+        }).catch(function (response) {
+            try{
+                var jsonResponse = JSON.parse(response.response.responseText);
+                if (jsonResponse && jsonResponse.message) {
+                    Ext.Msg.alert('ERROR', 'Sorry, Interaction could not be created. ' + jsonResponse.message + ' Please try again.');
+                }
+                else {
+                    Ext.Msg.alert('ERROR', 'Sorry, Interaction could not be created. Please try again.');
+                }
+            }
+            catch(e){
+                Ext.Msg.alert('ERROR', 'Sorry, Interaction could not be created. Please try again.');
+            }
             me.unmask();
         });
     },

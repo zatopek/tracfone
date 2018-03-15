@@ -3,7 +3,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.PaymentTransaction', {
     xtype: 'paymentTransaction',
     listeners: {
         afterrender: function () {
-            this.load();
+            //this.load();
         }
     },
 
@@ -29,8 +29,8 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.PaymentTransaction', {
             combo.setValue(combo.getStore().getAt(0));
             me.unmask();
 
-        }).catch(function () {
-            //  Ext.Msg.alert('ERROR', 'Sorry, cards could not be found. Please try again.');
+        }).catch(function (response) {
+            Ext.Msg.alert('ERROR', 'Sorry, no credit card can be found on file. Please use TAS to continue service the customer.');
             me.unmask();
         })
     },
@@ -86,6 +86,8 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.PaymentTransaction', {
 			        if ((managers['pushData'].customerProfile.email) &&
             (managers['pushData'].customerProfile.email.length > 0)) {
             me.down('#sendEmailBtn').show();
+            me.down('#purchaseBtn').disable();
+			me.down('#validateBtn').disable();
         }
             var i = response.indexOf('<div class=\"x1a\"');
             if (i >= 0) {
@@ -93,7 +95,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.PaymentTransaction', {
             }
             var el = document.createElement('html');
             el.innerHTML = response;
-            var labels = el.getElementsByTagName('label')
+            var labels = el.getElementsByTagName('label');
             for (i = 0; i < labels.length; i++) {
                 if (labels[i].innerHTML.toLowerCase().indexOf('service end date') >= 0) {
                     if (Ext.getCmp('serviceEndDate')) {
@@ -103,10 +105,27 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.PaymentTransaction', {
             }
             me.down('#airtimePurchaseResponse').update(response);
             var airtimeSelected = me.up().down('airtimePlan').down('#airtimePlanGrid').getSelectionModel().getSelection()[0];
-            adam.addAutoNotes(PURCHASE_AIRTIME_TAG + airtimeSelected.get('description'));
+            adam.addAutoNotes(airtimeSelected.get('description') + " " + PURCHASE_AIRTIME_TAG);
             me.unmask();
-        }).catch(function () {
-            Ext.Msg.alert('ERROR', 'Sorry, something went wrong while processing yoru request. Please try again.');
+            var esn = managers['pushData'].deviceProfile.esn;
+            adam.callWsService('call/auditPurchasePin/' + esn, 'GET', {}).then(function (response) {
+
+            }).catch(function () {
+
+            });
+        }).catch(function (response) {
+            try{
+                var jsonResponse = JSON.parse(response.response.responseText);
+                if (jsonResponse && jsonResponse.message) {
+                    Ext.Msg.alert('ERROR', 'Sorry, adding pin failed. ' + jsonResponse.message + ' Please try again.');
+                }
+                else {
+                    Ext.Msg.alert('ERROR', 'Sorry, something went wrong while processing your request. Please try again.');
+                }
+            }
+            catch(e){
+                Ext.Msg.alert('ERROR', 'Sorry, something went wrong while processing your request. Please try again.');
+            }
             me.unmask();
         })
 
@@ -156,7 +175,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.PaymentTransaction', {
                         {
                             xtype: "panel",
                             title: 'PAYMENT SELECTION',
-                            columnWidth: 0.55,
+                            columnWidth: 0.4,
                             border: false,
                             items: [{
                                 xtype: 'panel',
@@ -258,15 +277,15 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.PaymentTransaction', {
                         {
                             xtype: "panel",
                             title: "",
-                            columnWidth: 0.45,
-                            itemId: 'transactionSummaryPanel',
+                            columnWidth: 0.6,
+                            itemId: 'transactionSummaryPanel',                            
                             border: false,
                             height: '100%',
                             bodyStyle: 'padding:5px 5px 5px 5px',        
-                            items: [
+                            items: [	
                                 {
                                     xtype: 'button',
-                                    margin: "10 0 0 0",
+                                    margin: "0 0 0 0",
                                     text: 'Send Email',
                                     itemId: 'sendEmailBtn',
                                     hidden: true,
@@ -274,11 +293,19 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.PaymentTransaction', {
                                     scope: me
                                 }
                                 , {
-                                    xtype: 'component',
-                                    cls: 'airtimePurchaseResponseCls',
-                                    name: 'airtimePurchaseResponse',
-                                    itemId: 'airtimePurchaseResponse',
-                                    html: ''
+									xtype: "panel",
+									title: "",
+									border: false,
+									height: '100%',									
+									autoScroll: true,
+									layout: 'fit',
+									items: [{						
+										xtype: 'component',
+										cls: 'airtimePurchaseResponseCls',
+										name: 'airtimePurchaseResponse',
+										itemId: 'airtimePurchaseResponse',
+										html: ''
+									}]
                                 }
                             ]
                         }

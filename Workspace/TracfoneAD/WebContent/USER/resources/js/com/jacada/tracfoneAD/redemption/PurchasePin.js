@@ -59,13 +59,13 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.PurchasePin', {
 									handler: function(btn) {
 										me.navigate(btn.up("panel"), "prev");
 									},
-									disabled: true
+									//disabled: true
 								},
 								'->', // greedy spacer so that the buttons are aligned to each side
 								{
 									id: 'move-next',
 									text: 'Next',
-									disabled: true,
+									//disabled: true,
 									handler: function(btn) {
 										me.navigate(btn.up("panel"), "next");
 									}
@@ -87,7 +87,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.PurchasePin', {
                                     },
                                     {
                                         xtype: "estimatedCost",
-                                        title: "ESTIMATED COST",
+                                        title: "PURCHASE SUMMARY",
                                         columnWidth: 0.25,
                                         border: false,
                                     }

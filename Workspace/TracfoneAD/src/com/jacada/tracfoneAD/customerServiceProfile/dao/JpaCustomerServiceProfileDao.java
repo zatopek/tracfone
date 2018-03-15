@@ -6,13 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import com.jacada.tracfoneAD.config.Main;
 import com.jacada.tracfoneAD.customerServiceProfile.dao.interfaces.CustomerServiceProfileDao;
-import com.jacada.tracfoneAD.customerServiceProfile.entities.CustomerServiceProfile;
-
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -43,7 +37,7 @@ public class JpaCustomerServiceProfileDao implements CustomerServiceProfileDao {
 				+ "device_type, sim, sim_status, x_min, min_status, x_msid, phone_gen, part_serial_no, x_hex_serial_no,"
 				+ "part_number, lease_status_flag, lease_status_name, sequence, service_type, rate_plan, service_plan_objid,"
 				+ "carrier, technology, technology_alt, install_date, service_end_dt, x_expire_dt, next_charge_date, brand,"
-				+ "dealer_name, cards_in_queue, warranty_exchanges, basic_warranty, extended_warranty, x_policy_description,"
+				+ "dealer_name, dealer_id, cards_in_queue, warranty_exchanges, basic_warranty, extended_warranty, x_policy_description,"
 				+ "sp_script_text, adf_next_refill_date, customer_id, first_name, last_name, e_mail, groupid, x_zipcode, lid, phone_status"
 				+ " from table(sa.adfcrm_vo.get_service_profile(?,?))";
 
@@ -103,8 +97,8 @@ public class JpaCustomerServiceProfileDao implements CustomerServiceProfileDao {
 		ResultSet rs = null;
 		
 		String query = "SELECT distinct Objid, Description,Customer_Price, part_number property_display, x_card_type, units, ServicePlanType"
-				+ "FROM table(sa.ADFCRM_VO.getAvailableSpPurchase(?,?,?))"
-				+ "order by x_card_type desc, customer_price asc";
+				+ " FROM table(sa.ADFCRM_VO.getAvailableSpPurchase(?,?,?))"
+				+ " order by x_card_type desc, customer_price asc";
 		
 		try {
 			Class.forName(driverClassName);
@@ -112,7 +106,7 @@ public class JpaCustomerServiceProfileDao implements CustomerServiceProfileDao {
 					password);
 			preparedStatement = dbConnection.prepareStatement(query);
 			preparedStatement.setString(1, esn);
-			preparedStatement.setString(2, brand);
+			preparedStatement.setString(2, brand.toUpperCase());
 			preparedStatement.setString(3, "ENGLISH");
 			
 			rs = preparedStatement.executeQuery();
@@ -163,9 +157,9 @@ public class JpaCustomerServiceProfileDao implements CustomerServiceProfileDao {
 				+ "TableExtactcase.X_REPLACEMENT_UNITS,"
 				+ "TableExtactcase.X_RETAILER_NAME,"
 				+ "TableExtactcase.ISSUE"
-				+ "FROM TABLE_EXTACTCASE TableExtactcase"
-				+ "WHERE TableExtactcase.X_ESN = ?"
-				+ "ORDER BY TableExtactcase.CREATION_TIME";
+				+ " FROM TABLE_EXTACTCASE TableExtactcase"
+				+ " WHERE TableExtactcase.X_ESN = ?" 
+				+ " ORDER BY TableExtactcase.CREATION_TIME";
 		try {
 			Class.forName(driverClassName);
 			dbConnection = DriverManager.getConnection(jdbcURL, username,
@@ -181,5 +175,38 @@ public class JpaCustomerServiceProfileDao implements CustomerServiceProfileDao {
 			e.printStackTrace();
 		}
 		return rs;
+	}
+
+	@Override
+	public ResultSet getProductOfferings(String esn, String brand) {
+		Connection dbConnection = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet rs = null;
+		
+		String query = "SELECT distinct Objid, Mkt_Name, Description,Customer_Price, Ivr_Plan_Id, Webcsr_Display_Name,"
+		+ "X_SP2PROGRAM_PARAM, X_Program_Name,"
+		+ "spobjid, value_name, part_number Property_Value, part_number property_display,"
+		+ "x_card_type, units, ServicePlanType, service_plan_group"
+		+ " FROM table(sa.ADFCRM_VO.getAvailableSpPurchase(?,?,?))"
+		+ " order by x_card_type desc, customer_price asc";
+		 
+		try {
+			Class.forName(driverClassName);
+			dbConnection = DriverManager.getConnection(jdbcURL, username,
+					password);
+			preparedStatement = dbConnection.prepareStatement(query);
+			preparedStatement.setString(1, esn);
+			preparedStatement.setString(2, brand.toUpperCase());
+			preparedStatement.setString(3, "ENGLISH");
+			rs = preparedStatement.executeQuery();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return rs;
+
 	}
 }

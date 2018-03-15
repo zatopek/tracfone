@@ -152,7 +152,7 @@
 	<script>
 
 		//Project specific event handling
-        Push.registerEventHandler( 'CustomerServiceProfile', onCustomerServiceProfile);
+		Push.registerEventHandler( 'CustomerServiceProfile', onCustomerServiceProfile);
         Push.registerEventHandler( 'AccountBalances', onAccountBalances);
         Push.registerEventHandler( 'AgentEnvUsername', onAgentEnvUsername);
 		Push.registerEventHandler( 'StartTas', onStartTas);

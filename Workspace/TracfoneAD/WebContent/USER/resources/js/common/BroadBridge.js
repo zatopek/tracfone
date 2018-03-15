@@ -2,12 +2,12 @@
 BroadBridge will connect to a web socket each instance will make a new connection with the backend. Make sure you manage your instances properly.
 Unfortunately Websphere does not support sockets so we will drop down to a traditional ajax implementation here
  **/
-var BroadBridge = function (service, retryCount, cb, scope) {
+var BroadBridge = function (url, service, retryCount, cb, scope) {
 
 	var active = {};
 	var queue = [];
 	var executing = 0;
-	var maxConcurrent = 1; //TODO: Make this configurable
+	var maxConcurrent = 8; //TODO: Make this configurable
 	var checkQueue = function () {
 		if (queue.length > 0) {
 			var request = queue.pop();
@@ -26,7 +26,8 @@ var BroadBridge = function (service, retryCount, cb, scope) {
 			//This must be at load..
 			return;
 		}
-		//See if retry allowed!!
+
+        //See if retry allowed!!
 		if (!active[guuid].retryCount)
 			active[guuid].retryCount = 0;
 
@@ -68,7 +69,7 @@ var BroadBridge = function (service, retryCount, cb, scope) {
 		//make that AJAX call. Use the singleton instead of a new connection here
 		executing += 1;
 		try {
-			var url = 'http://localhost:9002/TracFone/' + $W().username + '/';
+
 			Ext.Ajax.request({
 				url: url + call + (call.indexOf('?') >= 0 ? '&' : '?') + 'dc=' + new Date().getTime(),
 				method: method || 'GET',

@@ -1,6 +1,7 @@
 Ext.define('Jacada.user.com.jacada.tracfoneAD.common.CustomerServiceProfile', {
     extend: 'Jacada.user.com.jacada.tracfoneAD.baseComponents.BaseView',
     xtype: 'customerServiceProfile',
+	id: 'customerServiceProfile',
     layout: 'column',
     defaults: {
         margin: '5 10 0 5', //top right bottom left (clockwise) margins of each item/column
@@ -19,6 +20,19 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.common.CustomerServiceProfile', {
         Ext.each(me.items.items, function (item) {
             loader(item, data[item.name])
         })
+
+        //get recent tickets
+        var esn = managers['pushData'].deviceProfile.esn;
+        adam.callWsService('call/getOpenedTickets/' + esn, 'GET', {}).then(function (response) {
+            managers['recentTickets'] = response;
+            if (response && response.length > 0) {
+                Ext.getCmp('recentTicketsBtn').show();
+            } else {
+                Ext.getCmp('recentTicketsBtn').hide();
+            }
+        }).catch(function () {
+        });
+
     },
 
     reset: function () {
@@ -26,6 +40,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.common.CustomerServiceProfile', {
         Ext.each(me.query('displayfield'), function (field) {
             field.setValue('');
         });
+        Ext.getCmp('recentTicketsBtn').hide();
     },
 
     checkStatus: function (value) {
@@ -40,11 +55,29 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.common.CustomerServiceProfile', {
         }
         return value;
     },
+    checkBalanceSmsBalance: function (value) {
+        if (value && parseInt(value) <= 0) {
+            value = '<span style="color:#f00">' + value + ' Units</span>';
+        }
+        else if (value && parseInt(value) > 0) {
+            value = value + ' Units';
+        }
+        return value;
+    },
+    checkBalanceVoiceBalance: function (value) {
+        if (value && parseInt(value) <= 0) {
+            value = '<span style="color:#f00">' + value + ' Mins</span>';
+        }
+        else if (value && parseInt(value) > 0) {
+            value = value + ' Mins';
+        }
+        return value;
+    },
     checkBalanceDataBalance: function (value) {
         if (value && parseInt(value) <= 0) {
             value = '<span style="color:#f00">' + value + ' MB</span>';
         }
-		else if (value && parseInt(value) > 0) {
+        else if (value && parseInt(value) > 0) {
             value = value + ' MB';
         }
         return value;
@@ -56,15 +89,19 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.common.CustomerServiceProfile', {
         return value;
     },
     recentTickets: function () {
+        managers['windowsManager'].show('recentTicketWindow');
+        /*
         var me = this;
-        // TODO - update API name
-        adam.callService('Tas/RecentTickets', 'GET', {}).then(function () {
-            if(response && response.length>0){
-                Ext.Msg.alert('ERROR', response);
+        var esn = managers['pushData'].deviceProfile.esn;
+
+        adam.callWsService('call/recentTickets/' + esn, 'GET', {}).then(function (response) {
+            if (response && response.length > 0) {
+                me.items.items[0].getStore().loadData(response);
             }
         }).catch(function () {
-            Ext.Msg.alert('ERROR', 'Sorry, unable to open recent tickets. Please try again.');
-        })
+
+        });
+        */
     },
     initComponent: function () {
         var me = this;
@@ -90,8 +127,9 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.common.CustomerServiceProfile', {
                                     border: false,
                                     items: [
                                         {
-                                            fieldLabel: 'Device Type',
-                                            name: 'deviceType'
+                                            fieldLabel: 'Serial #',
+                                            name: 'serial',
+                                            fieldStyle: 'color: #c65e02'
                                         }, {
                                             fieldLabel: 'SIM',
                                             name: 'sim'
@@ -121,9 +159,8 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.common.CustomerServiceProfile', {
                                     border: false,
                                     items: [
                                         {
-                                            fieldLabel: 'Serial #',
-                                            name: 'serial',
-                                            fieldStyle: 'color: #c65e02'
+                                            fieldLabel: 'Device Type',
+                                            name: 'deviceType'
                                         }, {
                                             fieldLabel: 'Hex Serial #',
                                             name: 'hexSerial'
@@ -170,14 +207,15 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.common.CustomerServiceProfile', {
                                             fieldLabel: 'Rate Plan',
                                             name: 'ratePlan'
                                         }, {
-                                            fieldLabel: 'Service Plan ObjId',
+                                            fieldLabel: 'Service Plan Objid',
                                             name: 'servicePlanObjId'
                                         }, {
                                             fieldLabel: 'Carrier',
                                             name: 'carrier'
                                         }, , {
                                             fieldLabel: 'Technology',
-                                            name: 'technology'
+                                            name: 'technology',
+                                            fieldStyle: 'color: #c65e02'
                                         }, {
                                             fieldLabel: 'Activation Date',
                                             name: 'activationDate'
@@ -288,11 +326,11 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.common.CustomerServiceProfile', {
                         }, {
                             fieldLabel: 'Voice Balance',
                             name: 'voiceBalance',
-                            valueToRaw: me.checkBalance
+                            valueToRaw: me.checkBalanceVoiceBalance
                         }, {
                             fieldLabel: 'SMS Balance',
                             name: 'smsBalance',
-                            valueToRaw: me.checkBalance
+                            valueToRaw: me.checkBalanceSmsBalance
                         }, {
                             fieldLabel: 'Data Balance',
                             name: 'dataBalance',
@@ -302,6 +340,8 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.common.CustomerServiceProfile', {
                             text: 'Recent Tickets',
                             name: 'recentTicketBtn',
                             itemId: 'recentTicketBtn',
+                            hidden: true,
+                            id: 'recentTicketsBtn',
                             handler: me.recentTickets,
                             scope: me
                         }

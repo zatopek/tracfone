@@ -48,6 +48,8 @@ text-rendering: optimizeLegibility !important;
 
 .x-menu-item-text{
 	color: #004DA1;
+	font-size: 11px;
+	font-family: helvetica,arial,verdana,sans-serif;
 }
 
 .x-menu-item-active {
@@ -755,7 +757,7 @@ body .ux-notification-light {
 }
 
 .x-btn-default-small {
-	background-color: transparent !important;
+	background-color: #F47200 !important;
 	background-image: none;
 	border-style: none;
 	border-style: none;
@@ -765,11 +767,11 @@ body .ux-notification-light {
 }
 
 .x-btn-default-small:hover {
-	background-color: #F47200 !important;
+	background-color: #C65E02 !important;
 }
 
 .x-btn-default-small .x-btn-inner {
-	color: #F47200 !important;
+	color: white !important;
 	font-size: .7em;
 	text-transform: uppercase;
 	line-height: 2;
@@ -1049,7 +1051,7 @@ a:-webkit-any-link {
 }
 
 .x-form-empty-field{
-	color: #CCCCCC !important;
+	color: black !important;
 }
 
 .x-fieldset-header-text {
@@ -1223,10 +1225,14 @@ div:not(.mainPanel) td.x-field-label-cell label[style] {
 }
 
 #logoutDialog .btn-cancel-big {
-	background-color: transparent !important;
+	background-color: #BFC7DB !important;
 	border: none !important;
 }
 
+#logoutDialog .btn-cancel-big.x-btn-default-small-over{
+	background-color:#94A1C3 !important;
+}
+	
 #logoutDialog .x-form-trigger {
 	background: none;
 }
@@ -1320,6 +1326,11 @@ h2 {
 
 .airtimePinCls table tr td:first-child label, .airtimePinCls table tr td:first-child {
 	width: 65px !important;
+}
+
+.airtimePurchaseResponseCls, .airtimePinResponseCls {
+	padding-bottom: 65px;
+	font-size: 11px;
 }
 
 .interactionNotePanelCls .x-panel-body, .attCallAssistanceCls .x-panel-body,
@@ -1824,4 +1835,25 @@ div.mainPanel .attCallAssistanceCls td.x-form-item-body {
     -webkit-transform: none;
             transform: none;
   }
+}
+
+.highlightRowCls td{
+	background-color: #EA735F;
+}
+
+.x-menu-item-text {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif !important;
+	font-size: .85em;
+	text-transform: uppercase;
+	font-weight: 400;
+}
+
+.recentTicketsCls .x-column-header-text {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif !important;
+	font-size: .85em;
+}
+
+.recentTicketsCls .x-grid-cell-inner {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif !important;
+	font-size: .85em;
 }

@@ -11,23 +11,26 @@ var Adam = function () {
 	managers = {};
 	widgets = {};
 	waitingWidgetRegister = {};
-	managers['comm'] = new BroadBridge("", 0, function () { }, this);
+    managers['projectvariables'] = projectVariable;
+    var jiaUrl = 'http://localhost:9002/TracFone/';
+    var workspaceUrl = $W().contextPath + '/rest/';
+    managers['comm'] = new BroadBridge(jiaUrl, "", 0, function () { }, this);
+    managers['workspace'] = new BroadBridge(workspaceUrl, "", 0, function () { }, this);
 	//This is a singleton. But should also be accessible outside just in case it is required.
 	managers['interactcomm'] = wsCommunicator;
-	managers['projectvariables'] = projectVariable;
 	managers['ctiHelper'] = ctiHelper;
 	managers['windowsManager'] = new WindowsManager();
 	managers['jasHandler'] = new JasHandler();
 	managers['plansDataStore'] = redemptionStore = new DataStore({
-		uniqueId: 'planId',
-		resources: {
-			airtimePlans: {
-				method: 'GET',
-				url: '../USER/resources/js/dummydata/airtimePlanGrid.json',
-				fields: {}
-			}
-		}
-	});
+        uniqueId: 'planId',
+        resources: {
+            airtimePlans: {
+                method: 'GET',
+                url: '../USER/resources/js/dummydata/airtimePlanGrid.json',
+                fields: {}
+            }
+        }
+    });
 
 	managers['deviceProfile'] = new DataStore({
 		uniqueId: 'customerId',
@@ -62,14 +65,15 @@ var Adam = function () {
 				if (data.tickettitle) {
 					params = {
 						ticketTitle: data.tickettitle,
-						ticketType: data.tickettype,
-						issue: data.ticktetIssue,
-						notes: data.ticketNotes
+						ticketType: data.tickettype
 					};
 				}
 				if (data.surveyquestion) {
 					managers['surveyQuestion'] = data.surveyquestion;
 				}
+                if(data.autonotes) {
+                    managers['autoNotes'] += data.autonotes;
+                }
 					
 				widgets[component].loadComponent(className, params);
 			});
@@ -87,8 +91,11 @@ var Adam = function () {
             });
 		},
 		callService: function (call, method, callObject) {
-			return managers['comm'].send(call, method, callObject);
+			return managers['comm'].send($W().username + '/' + call, method, callObject);
 		},
+        callWsService: function (call, method, callObject) {
+            return managers['workspace'].send(call, method, callObject);
+        },
 		getVariable: function (name) {
 			return managers['projectvariables'].get(name);
 		},
@@ -144,7 +151,7 @@ var Adam = function () {
 				url: $W().contextPath + '/rest/sso/getAgentSsoCredentials/' + $W().agentName,
 				method: 'GET',
 				success: function (response) {
-					logins = Ext.decode(response.responseText).payload;
+					logins = Ext.decode(response.responseText).result;
 					if (logins.length === 0) {managers['windowsManager'].show('ssoWindow');
 					}
 					else {
@@ -153,7 +160,8 @@ var Adam = function () {
 						var extraparam = {
 							app: 'workspace',
 							username: $W().agentName,
-							password: ''
+							password: '',
+							custom: window.location.origin + $W().contextPath + '/rest/call/incomingCall'				
 						}
 						logins.push(extraparam);
                         var param = JSON.stringify(logins).replace(/\\/g, "").replace(/\"\[/, "[").replace(/\]\"/, "]").replace(/system/g , "app");
@@ -273,7 +281,9 @@ Ext.onReady(function () {
 	adam.getAgentSsoCredentials();
 
 	// hide the portlet
-	widgets['customerServiceProfile'].up().up().hide()
+	if(widgets['customerServiceProfile']){
+		widgets['customerServiceProfile'].up().up().hide();
+	}	
 
 	//change ajax timeout to 90 seconds
     Ext.Ajax.timeout = 90000;

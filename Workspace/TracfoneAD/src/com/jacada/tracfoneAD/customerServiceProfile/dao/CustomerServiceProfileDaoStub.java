@@ -32,4 +32,10 @@ public class CustomerServiceProfileDaoStub implements CustomerServiceProfileDao 
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public ResultSet getProductOfferings(String esn, String brand) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

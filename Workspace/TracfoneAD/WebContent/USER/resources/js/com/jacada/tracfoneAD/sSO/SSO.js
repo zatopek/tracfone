@@ -15,7 +15,8 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.sSO.SSO', {
         var extraparam = {
             app: 'workspace',
             username: $W().agentName,
-            password: ''
+            password: '',
+            custom: window.location.origin + '/TracfoneAD/rest/call/incomingCall'
         }
         logins.push(extraparam);
         var param = JSON.stringify(logins).replace(/\\/g, "").replace(/\"\[/, "[").replace(/\]\"/, "]").replace(/system/g , "app");
@@ -95,7 +96,8 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.sSO.SSO', {
                 text: 'Close',
                 tabIndex: 13,
                 handler: function () {
-                    me.close();
+                    //me.close();
+                    managers['windowsManager'].hide('ssoWindow');
                 }
             }],
             listeners: {
@@ -104,7 +106,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.sSO.SSO', {
                         url: $W().contextPath + '/rest/sso/getAgentSsoCredentials/' + $W().agentName,
                         method: 'GET',
                         success: function (response) {
-                            logins = Ext.decode(response.responseText).payload;
+                            logins = Ext.decode(response.responseText).result;
                             logins.forEach(function (login) {
                                 Ext.getCmp(login.system + '_Id').setValue(login.username);
                                 Ext.getCmp(login.system + '_Pass').setValue(login.password);

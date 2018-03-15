@@ -33,24 +33,17 @@ public class ExtensionManager implements AbstractManager, FailOverAware {
 	}
 	@Value("${tas.url}")
 	private String tasUrl;
-	@GlobalAction(actionName=GlobalActionNames.LOGIN,order=GlobalActionOrder.AFTER)
+	@GlobalAction(actionName=GlobalActionNames.LOGIN,order=GlobalActionOrder.BEFORE)
 	public void login(HttpServletRequest request){ 
-		
-		//Adding an event listener to the disposition manager.
-		//The default implementation of the listener will audit the 1st disposition code, 
-		//if provided, as the call reason.
-		//To see an example of how you can audit the call type on your own - 
-		//see CallReasonDispositionEventListener.class 
+
 		dispositionManager.addListener(dispositionEventListener);
 		
-		String username = (String) request.getSession().getAttribute("username");
-		
-		String agentName = (String) request.getSession().getAttribute("agentName");
-		
-		if(username==null || username.equals("null")){
+		String username = (String) request.getSession().getAttribute("username");		
+		String agentName = (String) request.getSession().getAttribute("agentName");		
+		if(username==null || username.equals("null") || username.equals("undefined")){
 			username = "";
 		}
-		
+
 		try {
 			PushHelper.pushMessageToAgent(request.getSession(), agentName, "AgentEnvUsername", username);
 			PushHelper.pushMessageToAgent(request.getSession(), agentName, "StartTas", tasUrl);
@@ -58,10 +51,8 @@ public class ExtensionManager implements AbstractManager, FailOverAware {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
 	}
-	
+		
 	public void setDispositionManager(DispositionManager dispositionManager) {
 		this.dispositionManager = dispositionManager;
 	}

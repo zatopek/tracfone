@@ -4,6 +4,7 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import com.jacada.jad.feature.model.DefaultWorkspaceManager;
@@ -12,6 +13,7 @@ import com.jacada.tracfoneAD.customerServiceProfile.entities.AccountBalances;
 import com.jacada.tracfoneAD.customerServiceProfile.entities.CustomerProfile;
 import com.jacada.tracfoneAD.customerServiceProfile.entities.CustomerServiceProfile;
 import com.jacada.tracfoneAD.customerServiceProfile.entities.DeviceProfile;
+import com.jacada.tracfoneAD.customerServiceProfile.entities.ProductOffering;
 import com.jacada.tracfoneAD.customerServiceProfile.entities.ServiceProfile;
 import com.jacada.tracfoneAD.customerServiceProfile.entities.TasTicket;
 import com.jacada.tracfoneAD.customerServiceProfile.model.interfaces.CustomerServiceProfileManager;
@@ -38,6 +40,7 @@ public class DefaultCustomerServiceProfileManager extends DefaultWorkspaceManage
 	@Override
 	public CustomerServiceProfile getCustomerServiceProfile(String esn) {
 
+		System.out.println("getCustomerServiceProfile=>" + esn);
 		CustomerServiceProfile customerServiceProfile = new CustomerServiceProfile();
 
 		if (esn != null && esn.length() > 0) {
@@ -48,8 +51,9 @@ public class DefaultCustomerServiceProfileManager extends DefaultWorkspaceManage
 					CustomerProfile customerProfile = new CustomerProfile();
 					DeviceProfile deviceProfile = new DeviceProfile();
 					ServiceProfile serviceProfile = new ServiceProfile();
-					AccountBalances accountBalances = new AccountBalances();
-
+					//AccountBalances accountBalances = new AccountBalances();
+					
+					deviceProfile.setEsn(esn);
 					deviceProfile.setDeviceType(rs.getString("device_type"));
 					deviceProfile.setSim(rs.getString("sim"));
 					deviceProfile.setSimStatus(rs.getString("sim_status"));
@@ -77,7 +81,7 @@ public class DefaultCustomerServiceProfileManager extends DefaultWorkspaceManage
 					serviceProfile.setServiceEndDate(rs.getString("x_expire_dt"));
 					serviceProfile.setNextChargeDate(rs.getString("next_charge_date"));
 					serviceProfile.setBrand(rs.getString("brand"));
-					serviceProfile.setDealer(rs.getString("dealer_name"));
+					serviceProfile.setDealer(rs.getString("dealer_id") + " " + rs.getString("dealer_name"));
 					serviceProfile.setCardsInReserve(rs.getString("cards_in_queue"));
 					serviceProfile.setWarrantyExchanges(rs.getString("warranty_exchanges"));
 					serviceProfile.setBasicWarrantyFound(rs.getString("basic_warranty"));
@@ -138,26 +142,31 @@ public class DefaultCustomerServiceProfileManager extends DefaultWorkspaceManage
 	@Override
 	public AccountBalances getAccountBalances(String phoneStatus, String brand, String esn) {
 
+		System.out.println("getAccountBalances=>" + phoneStatus + " " + brand + " " + esn);
 		AccountBalances accountBalances = new AccountBalances();
-		boolean hasBalance = false;
-		GetBalanceByTransIdResponse response = null;
-		long startTime = System.currentTimeMillis();
-		long lapsedTime = 0;
-		while ((lapsedTime < MAX_TIME_LAPSE) && !hasBalance) {
-			response = balanceInquirySoapConnector.getAccountBalances(brand, esn);
-			if (response != null && response.getBalance() != null && response.getBalance().getTotalBenefits() != null) {
-				hasBalance = true;
-				accountBalances.setSmsBalance(response.getBalance().getTotalBenefits().getText());
-				accountBalances.setVoiceBalance(response.getBalance().getTotalBenefits().getVoice());
-				accountBalances.setDataBalance(response.getBalance().getTotalBenefits().getData().getTotalDataUsage());
-			} else {
-				try {
-					Thread.sleep(SLEEP_TIME);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+		if(brand != null && esn != null)
+		{		
+			boolean hasBalance = false;
+			GetBalanceByTransIdResponse response = null;
+			long startTime = System.currentTimeMillis();
+			long lapsedTime = 0;
+			while ((lapsedTime < MAX_TIME_LAPSE) && !hasBalance) {
+				System.out.println("getAccountBalances=>lapsedTime=" + lapsedTime);
+				response = balanceInquirySoapConnector.getAccountBalances(brand, esn);
+				if (response != null && response.getBalance() != null && response.getBalance().getTotalBenefits() != null) {
+					hasBalance = true;
+					accountBalances.setSmsBalance(response.getBalance().getTotalBenefits().getText());
+					accountBalances.setVoiceBalance(response.getBalance().getTotalBenefits().getVoice());
+					accountBalances.setDataBalance(response.getBalance().getTotalBenefits().getData().getTotalDataUsage());
+				} else {
+					try {
+						Thread.sleep(SLEEP_TIME);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					lapsedTime = System.currentTimeMillis() - startTime;
 				}
-				lapsedTime = System.currentTimeMillis() - startTime;
 			}
 		}
 		return accountBalances;
@@ -201,5 +210,29 @@ public class DefaultCustomerServiceProfileManager extends DefaultWorkspaceManage
 			e.printStackTrace();
 		}
 		return ticketList;
+	}
+
+	@Override
+	public LinkedHashMap<String, ProductOffering> getProductOfferings(String esn, String brand) {
+		ResultSet rs = customerServiceProfileDao.getProductOfferings(esn, brand);
+		LinkedHashMap<String, ProductOffering> productOfferings = new LinkedHashMap<String, ProductOffering>();
+		try {
+			while (rs.next()) {
+
+					ProductOffering productOffering = new ProductOffering();
+					productOffering.setDescription(rs.getString("Description"));
+					productOffering.setObjectId(rs.getString("OBJID"));
+					productOffering.setPartNumber(rs.getString("PROPERTY_DISPLAY"));
+					productOffering.setPrice(rs.getString("Customer_Price"));
+					productOffering.setUnits(rs.getString("units"));
+					productOfferings.put(rs.getString("OBJID"), productOffering);
+				
+			}
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return productOfferings;
 	}
 }

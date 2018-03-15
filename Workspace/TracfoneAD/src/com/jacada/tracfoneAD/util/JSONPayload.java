@@ -10,7 +10,8 @@ public class JSONPayload implements Serializable {
 	private static final long serialVersionUID = 586766390417905476L;
 	private String message;
 	private String status;
-	private Object payload;
+	private Object result;
+	private boolean success;
 
 	public JSONPayload() {
 		this.message = "";
@@ -33,12 +34,20 @@ public class JSONPayload implements Serializable {
 		this.status = status;
 	}
 
-	public Object getPayload() {
-		return payload;
+	public Object getResult() {
+		return result;
 	}
 
-	public void setPayload(Object payload) {
-		this.payload = payload;
+	public void setResult(Object result) {
+		this.result = result;
+	}
+
+	public boolean isSuccess() {
+		return success;
+	}
+
+	public void setSuccess(boolean success) {
+		this.success = success;
 	}
 
 }

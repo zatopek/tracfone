@@ -9,7 +9,11 @@ var WindowsManager
 		var _internal = {
 			ssoWindow: function () {
 				windows['ssoWindow'] = Ext.create('Jacada.user.com.jacada.tracfoneAD.sSO.SSO');
-			}
+			},
+            recentTicketWindow: function () {
+
+                windows['recentTicketWindow'] = Ext.create('Jacada.user.com.jacada.tracfoneAD.tickets.RecentTickets');
+            }
 		}
 
 		return {

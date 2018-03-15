@@ -22,6 +22,7 @@ public class DeviceProfile implements Serializable{
 	String sequence;
 	String os;
 	String phoneStatus;
+	String esn;
 	
 	public String getDeviceType() {
 		return deviceType;
@@ -112,6 +113,12 @@ public class DeviceProfile implements Serializable{
 	}
 	public void setPhoneStatus(String phoneStatus) {
 		this.phoneStatus = phoneStatus;
+	}
+	public String getEsn() {
+		return esn;
+	}
+	public void setEsn(String esn) {
+		this.esn = esn;
 	}
 	
 }

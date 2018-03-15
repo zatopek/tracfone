@@ -89,7 +89,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.ReservePin', {
             }
             me.down('#transactionSummaryResponse').update(response);
             var selectedPin = me.down('#reservePinGrid').getSelectionModel().getSelection()[0];
-            adam.addAutoNotes(RESERVED_AIRTIME_TAG + selectedPin.get('redCode') + ' - ' + selectedPin('snp'));
+            adam.addAutoNotes(selectedPin.get('snp') + ' - ' + selectedPin('partNumber') + " "  + RESERVED_AIRTIME_TAG);
             me.down('#transactionSummaryContainer').unmask();
         }).catch(function () {
             Ext.Msg.alert('ERROR', 'Sorry, something went wrong while processing your request. Please try again.');

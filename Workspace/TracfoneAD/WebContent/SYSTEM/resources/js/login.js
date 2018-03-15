@@ -35,7 +35,7 @@ function getMainWindow() {
 var mainWindow = getMainWindow();
 var mainDoc = mainWindow.document;
 if (mainDoc != document) {
-    mainWindow.location.href = "<%=request.getContextPath()%>/terminated.jsp";
+    mainWindow.location.href = "<%=request.getContextPath()%>/terminated.jsp&username=" + $W().username;
 }
 
 function enterCloseForm(e) {

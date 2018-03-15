@@ -39,7 +39,7 @@ public class JsonCustomerServiceProfileController extends
 
 		CustomerServiceProfile customerServiceProfile = manager.getCustomerServiceProfile(esn);
 		JSONPayload payload = new JSONPayload();
-		payload.setPayload(customerServiceProfile);
+		payload.setResult(customerServiceProfile);
 		payload.setStatus("200");
 		payload.setMessage("OK");
 		return payload;
