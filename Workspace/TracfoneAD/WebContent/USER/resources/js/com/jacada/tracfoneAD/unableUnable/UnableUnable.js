@@ -110,6 +110,9 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.unableUnable.UnableUnable', {
             if (componentName === 'InteractionNotes') {
                 component = Ext.create('Jacada.user.com.jacada.tracfoneAD.interactionNotes.InteractionNotes');
             }
+            else if (componentName === 'SplashPanel') {
+                component = Ext.create('Jacada.user.com.jacada.tracfoneAD.common.SplashPanel', parameters);
+            }
             else {
                 component = Ext.create('Jacada.user.com.jacada.tracfoneAD.unableUnable.' + componentName);
             }

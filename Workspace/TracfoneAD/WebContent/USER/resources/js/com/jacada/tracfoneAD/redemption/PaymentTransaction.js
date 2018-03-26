@@ -12,7 +12,6 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.PaymentTransaction', {
         me.mask('Please wait...');
         var min = managers['pushData'].deviceProfile.min;
         adam.callService('Tas/CreditCards?min=' + min, 'GET', {}).then(function (response) {
-
             var cardData = [];
             Ext.each(response, function (field) {
                 cardData.push({
@@ -27,10 +26,14 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.PaymentTransaction', {
             var combo = me.down('#selectPayment');
             combo.bindStore(selectPaymentStore);
             combo.setValue(combo.getStore().getAt(0));
+            //if no credit card on file
+            if(cardData.length == 0) {
+                Ext.Msg.alert('ERROR', 'Sorry, no credit card can be found on file. Please use TAS to complete this call.');
+            }
             me.unmask();
 
         }).catch(function (response) {
-            Ext.Msg.alert('ERROR', 'Sorry, no credit card can be found on file. Please use TAS to continue service the customer.');
+            Ext.Msg.alert('ERROR', 'Error retrieving credit card on file. Please use TAS to complete this call.');
             me.unmask();
         })
     },
@@ -61,10 +64,20 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.PaymentTransaction', {
         })
     },
 
-    sendEmail: function () {
-        adam.callService('Tas/TasSendEmail', 'GET', {}).then(function () {
-            // TODO JIA handle response
-			    Ext.Msg.alert('SUCCESS', 'Email sent.');
+    sendEmail: function (response) {
+        adam.callService('Tas/Interactions/SendEmail', 'POST', {}).then(function () {
+            try{
+                var jsonResponse = JSON.parse(response.response.responseText);
+                if (jsonResponse && jsonResponse.message) {
+                    Ext.Msg.alert('SUCCESS', jsonResponse.message);
+                }
+                else {
+                    Ext.Msg.alert('SUCCESS', 'Email sent.');
+                }
+            }
+            catch(e){
+                Ext.Msg.alert('SUCCESS', 'Email sent.');
+            }
         }).catch(function () {
             Ext.Msg.alert('ERROR', 'Sorry, unable to send email. Please try again.');
         })
@@ -149,15 +162,8 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.PaymentTransaction', {
         return rowsSelectedInAirtimeGrid > 0
     },
 
-    changePromoCodeButton: function () {
-        var me = this;
-        if (me.down('#promoCode').getValue().trim().length > 0 && me.isAirtimePlanSelected()) {
-            me.down('#validateBtn').enable();
-        }
-        else {
-            me.down('#validateBtn').disable();
-        }
-
+    addNewPayment: function () {
+        Ext.Msg.alert('ERROR', 'Add payment function is not supported. Please use TAS to complete this call.');
     },
 
     initComponent: function () {
@@ -180,7 +186,6 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.PaymentTransaction', {
                             items: [{
                                 xtype: 'panel',
                                 border: false,
-
                                 layout: {
                                     type: 'vbox',
                                     padding: '5',
@@ -190,28 +195,51 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.PaymentTransaction', {
                                     {
                                         xtype: "combo",
                                         fieldLabel: "Select Payment",
+                                        labelAlign: 'left',
                                         name: "selectPayment",
                                         itemId: 'selectPayment',
                                         valueField: 'val',
                                         displayField: 'name',
-                                        layout: 'fit'
-                                    }, {
-                                        xtype: "textfield",
-                                        fieldLabel: "CVV",
-                                        labelAlign: 'left',
-                                        name: "cvv",
-                                        itemId: 'cvv',
-                                        enforceMaxLength: true,
-                                        maxLength: 3,
-                                        maskRe: /[0-9.]/,
-                                        enableKeyEvents: true,
                                         layout: 'fit',
-                                        listeners: {
-                                            keyup: {
-                                                fn: me.changePurchaseButton,
+                                        labelWidth: 100
+                                    }, {
+                                        xtype: "panel",
+                                        border: false,
+                                        layout: {
+                                            type: 'hbox',
+                                            padding: '0 0 0 0',
+                                            align: 'stretch'
+                                        },
+                                        items: [
+                                            {
+                                                xtype: "textfield",
+                                                fieldLabel: "CVV",
+                                                labelAlign: 'left',
+                                                padding: 0,
+                                                name: "cvv",
+                                                itemId: 'cvv',
+                                                enforceMaxLength: true,
+                                                maxLength: 3,
+                                                maskRe: /[0-9.]/,
+                                                enableKeyEvents: true,
+                                                layout: 'fit',
+                                                labelWidth: 100,
+                                                width: 150,
+                                                listeners: {
+                                                    keyup: {
+                                                        fn: me.changePurchaseButton,
+                                                        scope: me
+                                                    }
+                                                },
+                                            }, {
+                                                xtype: 'button',
+                                                margin: "0 0 0 10",
+                                                text: 'Add New Payment',
+                                                itemId: 'newPaymentBtn',
+                                                handler: me.addNewPayment,
                                                 scope: me
                                             }
-                                        },
+                                        ]
                                     }
                                 ]
                             },
@@ -221,15 +249,18 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.PaymentTransaction', {
                                     layout: {
                                         type: 'hbox',
                                         padding: '5',
-                                        margin: '10 0 0 0',
+                                        //margin: '10 0 0 0',
                                         align: 'stretch'
                                     },
                                     items: [{
                                         xtype: "textfield",
                                         fieldLabel: "Promo Code",
+                                        labelAlign: 'left',
                                         itemId: 'promoCode',
                                         name: "promoCode",
                                         enableKeyEvents: true,
+                                        labelWidth: 100,
+                                        width:230,
                                         listeners: {
                                             keyup: {
                                                 fn: me.changePromoCodeButton,

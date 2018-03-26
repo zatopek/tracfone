@@ -11,7 +11,12 @@ public class AccountBalances implements Serializable{
 	String voiceBalance;
 	String smsBalance;
 	String dataBalance;
-	
+		
+	public AccountBalances() {
+		this.voiceBalance = "Please check TAS";
+		this.smsBalance = "Please check TAS";
+		this.dataBalance = "Please check TAS";
+	}
 	public String getPhoneStatus() {
 		return phoneStatus;
 	}

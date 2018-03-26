@@ -34,13 +34,13 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.interactionNotes.InteractionNotes'
         //var autoNotes = 'Airtime Pin added - $45 30-Dday UNL TALK/DATA, first 10 GB at High Speeds then at 2G';
         var notes = managers['autoNotes'] || '';
         notes = notes.split(", ");
-        var result = [];
+        var autoNotes = [];
         for(var i =0; i < notes.length ; i++){
-            if(result.indexOf(notes[i]) == -1) result.push(notes[i]);
+            if(autoNotes.indexOf(notes[i]) == -1) autoNotes.push(notes[i]);
         }
-        result=result.join(", ");
+        autoNotes=autoNotes.join(", ");
 
-        me.down('#autoNotes').setValue(result);
+        me.down('#autoNotes').setValue(autoNotes);
         me.down('#result').setValue('Call Completed');
         if(autoNotes.indexOf(ADD_AIRTIME_TAG)>=0 ||
             autoNotes.indexOf(PURCHASE_AIRTIME_TAG)>=0 ||
@@ -219,13 +219,15 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.interactionNotes.InteractionNotes'
                     xtype: 'panel',
                     border: false,
                     layout: 'fit',
+                    height: 60,
                     items: [{
                         xtype: 'textarea',
                         name: 'agentNotes',
                         fieldLabel: 'Agent Notes',
                         itemId: 'agentNotes',
                         margin: "10 50 10 0",
-                        value: ''
+                        value: '',
+                        height: 40
                     }]
                 },
                 {

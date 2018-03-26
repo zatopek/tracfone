@@ -1,32 +1,28 @@
 Ext.define('Jacada.user.com.jacada.tracfoneAD.unableUnable.VerizonCallAssistance', {
     extend: 'Jacada.user.com.jacada.tracfoneAD.baseComponents.BaseView',
-    title: 'Contact Verizon',
+    title: '<span class="callNumber">Call Verizon at 1-888-946-4669</span> <span class="notify"> (DO NOT GIVE THIS NUMBER TO CUSTOMER) </span>',
     xtype: 'verizonCallAssistance',
     layout: 'vbox',
     border: false,
     width: '100%',
-    defaults: {
-        margin: '5 10 0 5', //top right bottom left (clockwise) margins of each item/column
-        xtype: 'displayfield',
-        labelStyle: 'white-space: nowrap;',
-        labelWidth: 400
-    },
 
     load: function () {
         var me = this;
-        me.mask('please wait..');
+        me.mask('Please wait..');
         var pushData = managers['pushData'];
         var data = {
-            avayaId: 'NA',
+            avayaId: '',
+            mdn: pushData.deviceProfile.msid,
             min: pushData.deviceProfile.min,
-            meid: pushData.deviceProfile.msid, // check if meid = msid
+            meid: pushData.deviceProfile.hexSerial,
             sim: pushData.deviceProfile.sim,
-            prl: pushData.prl, // check the correct match
-            address: pushData.customerProfile.zip, // we do not have full address
-            makeAndModel: pushData.deviceProfile.deviceType, // check if this is correct match
-            firmware: pushData.deviceProfile.os,
-            signalStrength: '', // not available
-            issue: '' // not available 
+            prl: 'TBD', // check the correct match
+            address: 'Customer zip - ' + pushData.customerProfile.zip, // we do not have full address
+            makeAndModel: pushData.deviceProfile.manufacturer + ' ' + pushData.deviceProfile.deviceType,
+            firmware: pushData.deviceProfile.firmware,
+            software: pushData.deviceProfile.os,
+            signalStrength: '** Obtain information from customer **',
+            issue: '** Obtain information from customer **'
 
         }
         Ext.each(me.query('displayfield'), function (item) {
@@ -50,49 +46,72 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.unableUnable.VerizonCallAssistance
             items: [
                 {
                     xtype: 'panel',
-                    height: 50,
-                    margin: '0 0 0 10',
+                    layout: 'column',
+                    width: '100%',
                     border: false,
+                    defaults: {
+                        defaults: {
+                            xtype: 'displayfield',
+                            labelWidth: 150,
+                            width: 375
+                        }
+                    },
                     items: [
                         {
-                            xtype: 'component',
-                            html: '<h2>Call Verizon at 1-888-946-4669 (DO NOT GIVE THIS NUMBER TO CUSTOMER) </h2>'
+                            xtype: 'panel',
+                            columnWidth: 0.5,
+                            border: false,
+                            autoWidth: true,
+                            items: [
+                                {
+                                    name: 'avayaId',
+                                    fieldLabel: 'Avaya ID'
+                                }, {
+                                    name: 'mdn',
+                                    fieldLabel: 'MDN'
+                                },{
+                                    name: 'min',
+                                    fieldLabel: 'MIN'
+                                }, {
+                                    name: 'meid',
+                                    fieldLabel: 'MEID'
+                                }, {
+                                    name: 'sim',
+                                    fieldLabel: 'SIM'
+                                }, {
+                                    name: 'prl',
+                                    fieldLabel: 'PRL'
+                                }]
+                        },
+                        {
+                            xtype: 'panel',
+                            columnWidth: 0.5,
+                            border: false,
+                            autoWidth: true,
+                            items: [
+                                {
+                                    name: 'address',
+                                    fieldLabel: 'Address'
+                                }, {
+                                    name: 'makeAndModel',
+                                    fieldLabel: 'Make/Model'
+                                }, {
+                                    name: 'firmware',
+                                    fieldLabel: 'Firmware'
+                                }, {
+                                    name: 'software',
+                                    fieldLabel: 'Software'
+                                }, {
+                                    name: 'signalStrength',
+                                    fieldLabel: 'Signal Strength'
+                                }, {
+                                    name: 'issue',
+                                    fieldLabel: 'Brief Description of Issue'
+
+                                }
+                            ]
                         }
                     ]
-                }, {
-                    name: 'avayaId',
-                    fieldLabel: 'Avaya ID'
-                }, {
-                    name: 'min',
-                    fieldLabel: 'MIN'
-                }, {
-                    name: 'meid',
-                    fieldLabel: 'MEID'
-                }, {
-                    name: 'sim',
-                    fieldLabel: 'SIM'
-                }, {
-                    name: 'prl',
-                    fieldLabel: 'PRL'
-                }, {
-                    name: 'address',
-                    fieldLabel: 'Address'
-                }, {
-                    name: 'makeAndModel',
-                    fieldLabel: 'Make/Model'
-                }, {
-                    name: 'firmware',
-                    fieldLabel: 'Firmware'
-                }, {
-                    name: 'software',
-                    fieldLabel: 'Software'
-                }, {
-                    name: 'signalStrength',
-                    fieldLabel: 'Signal Strength'
-                }, {
-                    name: 'issue',
-                    fieldLabel: 'Brief Description of Issue'
-
                 }
             ]
         });

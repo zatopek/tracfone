@@ -115,24 +115,22 @@ public class DefaultCallHandlingController extends WorkspaceController {
 		
 		String esn = this.getRequestParameterValue(request.getParameter("url"), "esn");
 		String task_id = this.getRequestParameterValue(request.getParameter("url"), "task_id");
-
+		String flash_id = this.getRequestParameterValue(request.getParameter("url"), "flash_id");
+		String case_id = this.getRequestParameterValue(request.getParameter("url"), "case_id");
+		
 		System.out.println(esn + " " + task_id);
 		//PushHelper.publishMessageToAgent(agentId, "IncomingCallQueryString", request.getQueryString());
 		
 		CustomerServiceProfile customerServiceProfile = customerServiceProfileManager.getCustomerServiceProfile(esn);
 		//CustomerServiceProfile customerServiceProfile = new CustomerServiceProfile();
 		customerServiceProfile.getCallInfo().setTaskId(task_id);
+		customerServiceProfile.getCustomerProfile().setCaseId(case_id);
+		customerServiceProfile.getCustomerProfile().setFlashId(flash_id);
 		PushHelper.publishMessageToAgent(agentId, "CustomerServiceProfile", customerServiceProfile);
 		AccountBalances accountBalances= customerServiceProfileManager.getAccountBalances(
 				customerServiceProfile.getDeviceProfile().getPhoneStatus(),
 				customerServiceProfile.getServiceProfile().getBrand(), esn);
-		//AccountBalances accountBalances = new AccountBalances();
 		PushHelper.publishMessageToAgent(agentId, "AccountBalances", accountBalances);
-		//PushHelper.publishMessageToAgent(agentId, "CustomerServiceProfile", new CustomerServiceProfile());
-		//PushHelper.publishMessageToAgent(agentId, "LaunchWorkflow", task_id);
-		
-		System.out.println("GET incomingCall->end");
-		
 	}
 	
 	@RequestMapping(value="incomingCall/{agentId}", method = RequestMethod.POST, produces = "application/json")
@@ -142,25 +140,23 @@ public class DefaultCallHandlingController extends WorkspaceController {
 		
 		String esn = this.getRequestParameterValue(request.getParameter("url"), "esn");
 		String task_id = this.getRequestParameterValue(request.getParameter("url"), "task_id");
+		String flash_id = this.getRequestParameterValue(request.getParameter("url"), "flash_id");
+		String case_id = this.getRequestParameterValue(request.getParameter("url"), "case_id");
 				
 		//CustomerServiceProfile customerServiceProfile =  new CustomerServiceProfile();
 		//Comment out for local testing
 		CustomerServiceProfile customerServiceProfile = customerServiceProfileManager.getCustomerServiceProfile(esn);		
 		customerServiceProfile.getCallInfo().setTaskId(task_id);
-		System.out.println("POST incomingCall->push 1");
+		customerServiceProfile.getCustomerProfile().setCaseId(case_id);
+		customerServiceProfile.getCustomerProfile().setFlashId(flash_id);
 		PushHelper.publishMessageToAgent(agentId, "CustomerServiceProfile", customerServiceProfile);
 		AccountBalances accountBalances= customerServiceProfileManager.getAccountBalances(
 				customerServiceProfile.getDeviceProfile().getPhoneStatus(),
 				customerServiceProfile.getServiceProfile().getBrand(), esn);
-		System.out.println("POST incomingCall->push 2");
 		PushHelper.publishMessageToAgent(agentId, "AccountBalances", accountBalances);
-		//PushHelper.publishMessageToAgent(agentId, "CustomerServiceProfile", new CustomerServiceProfile());
-		//PushHelper.publishMessageToAgent(agentId, "LaunchWorkflow", task_id);
 		
 		// Audit screen pop
 		manager.auditScreenPop(esn, task_id);
-		
-		System.out.println("POST incomingCall->end");
 	}	
 	
 	@RequestMapping(value="auditCreateInteractionNotes/{esn}", method = RequestMethod.GET, produces = "application/json")

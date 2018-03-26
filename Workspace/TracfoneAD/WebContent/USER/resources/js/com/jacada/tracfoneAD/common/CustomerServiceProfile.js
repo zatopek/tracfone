@@ -56,28 +56,34 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.common.CustomerServiceProfile', {
         return value;
     },
     checkBalanceSmsBalance: function (value) {
+        /*
         if (value && parseInt(value) <= 0) {
             value = '<span style="color:#f00">' + value + ' Units</span>';
         }
-        else if (value && parseInt(value) > 0) {
+        */
+        if (value && parseInt(value) > 0) {
             value = value + ' Units';
         }
         return value;
     },
     checkBalanceVoiceBalance: function (value) {
+        /*
         if (value && parseInt(value) <= 0) {
             value = '<span style="color:#f00">' + value + ' Mins</span>';
         }
-        else if (value && parseInt(value) > 0) {
+        */
+        if (value && parseInt(value) > 0) {
             value = value + ' Mins';
         }
         return value;
     },
     checkBalanceDataBalance: function (value) {
+        /*
         if (value && parseInt(value) <= 0) {
             value = '<span style="color:#f00">' + value + ' MB</span>';
         }
-        else if (value && parseInt(value) > 0) {
+        */
+        if (value && parseInt(value) > 0) {
             value = value + ' MB';
         }
         return value;
@@ -247,7 +253,8 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.common.CustomerServiceProfile', {
                                         }, {
                                             fieldLabel: 'Cards in Reserve',
                                             name: 'cardsInReserve',
-                                            valueToRaw: me.checkBalance
+                                            //valueToRaw: me.checkBalance,
+                                            fieldStyle: 'color: green'
                                         }, {
                                             fieldLabel: 'Warranty Exchanges',
                                             name: 'warrantyExchanges'
@@ -326,15 +333,21 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.common.CustomerServiceProfile', {
                         }, {
                             fieldLabel: 'Voice Balance',
                             name: 'voiceBalance',
-                            valueToRaw: me.checkBalanceVoiceBalance
+                            value: 'Retrieving ...',
+                            valueToRaw: me.checkBalanceVoiceBalance,
+                            fieldStyle: 'color: #c65e02'
                         }, {
                             fieldLabel: 'SMS Balance',
                             name: 'smsBalance',
-                            valueToRaw: me.checkBalanceSmsBalance
+                            value: 'Retrieving ...',
+                            valueToRaw: me.checkBalanceSmsBalance,
+                            fieldStyle: 'color: #c65e02'
                         }, {
                             fieldLabel: 'Data Balance',
                             name: 'dataBalance',
-                            valueToRaw: me.checkBalanceDataBalance
+                            value: 'Retrieving ...',
+                            valueToRaw: me.checkBalanceDataBalance,
+                            fieldStyle: 'color: #c65e02'
                         }, {
                             xtype: 'button',
                             text: 'Recent Tickets',

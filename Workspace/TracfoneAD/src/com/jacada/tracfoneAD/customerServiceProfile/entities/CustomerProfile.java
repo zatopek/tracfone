@@ -13,6 +13,8 @@ public class CustomerProfile implements Serializable {
 	String groupId;
 	String zip;
 	String lid;
+	String caseId;
+	String flashId;
 	
 	public String getCustomerId() {
 		return customerId;
@@ -49,6 +51,18 @@ public class CustomerProfile implements Serializable {
 	}
 	public void setLid(String lid) {
 		this.lid = lid;
+	}
+	public String getCaseId() {
+		return caseId;
+	}
+	public void setCaseId(String caseId) {
+		this.caseId = caseId;
+	}
+	public String getFlashId() {
+		return flashId;
+	}
+	public void setFlashId(String flashId) {
+		this.flashId = flashId;
 	}
 	
 	

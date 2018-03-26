@@ -1197,6 +1197,10 @@ div:not(.mainPanel) td.x-field-label-cell label[style] {
 	background-image: none;
 }
 
+.login-form-field-user .x-form-empty-field, .login-form-field-password .x-form-empty-field {
+	color: gray !important;
+}
+
 .login-form-field-user:before, .login-form-field-password:before {
 	position: absolute;
 	right: 10px;
@@ -1329,8 +1333,12 @@ h2 {
 }
 
 .airtimePurchaseResponseCls, .airtimePinResponseCls {
-	padding-bottom: 65px;
-	font-size: 11px;
+	padding-bottom: 175px;
+	font-size: 10px;
+}
+
+.x1a{
+	width: 450px !important;
 }
 
 .interactionNotePanelCls .x-panel-body, .attCallAssistanceCls .x-panel-body,
@@ -1396,7 +1404,7 @@ h2 {
 /* iFrame Height */
 
 .mainPanel,
-iframe {height: 310px !important;}
+iframe {height: 265px !important;}
 
 .mainPanel > .x-panel-header {
 	display: none;
@@ -1628,6 +1636,7 @@ div.mainPanel .attCallAssistanceCls td.x-form-item-body {
 }
 
 .mainPanel .x-toolbar-default {
+	top:215px !important;
 	background: transparent;
 	-webkit-transform: translateY(-10px);
 	        transform: translateY(-10px);
@@ -1721,7 +1730,8 @@ div.mainPanel .attCallAssistanceCls td.x-form-item-body {
 }
 
 /* Empty State for Redemption */
-.mainPanel.redemption > .x-panel-body > span > div:empty::before {
+.mainPanel.redemption > .x-panel-body > span > div:empty::before,
+.splashPanelCls.redemption > .x-panel-body > span > div:empty::before{
 	content: '';
 	background: url(images/add-pin--bw.png) center center no-repeat;
 	background-size: contain;
@@ -1736,7 +1746,8 @@ div.mainPanel .attCallAssistanceCls td.x-form-item-body {
 	opacity: .3;
 }
 
-.mainPanel.redemption > .x-panel-body > span > div:empty::after {
+.mainPanel.redemption > .x-panel-body > span > div:empty::after,
+.splashPanelCls.redemption >  .x-panel-body > span > div:empty::after{
 	content: 'ADD A PIN or PURCHASE A PIN';
 	white-space: nowrap;
 	position: absolute;
@@ -1751,7 +1762,8 @@ div.mainPanel .attCallAssistanceCls td.x-form-item-body {
 
 
 /* Empty State for unable */
-.mainPanel.unable > .x-panel-body > span > div:empty::before {
+.mainPanel.unable > .x-panel-body > span > div:empty::before,
+.splashPanelCls.unable > .x-panel-body > span > div:empty::before{
 	content: '';
 	background: url(images/unable--bw.png) center center no-repeat;
 	background-size: contain;
@@ -1766,7 +1778,8 @@ div.mainPanel .attCallAssistanceCls td.x-form-item-body {
 	opacity: .3;
 }
 
-.mainPanel.unable > .x-panel-body > span > div:empty::after {
+.mainPanel.unable > .x-panel-body > span > div:empty::after,
+.splashPanelCls.unable > .x-panel-body > span > div:empty::after{
 	content: 'use troubleshooter to help \A the customer get services working';
 	position: absolute;
 	top: 73%;
@@ -1838,7 +1851,7 @@ div.mainPanel .attCallAssistanceCls td.x-form-item-body {
 }
 
 .highlightRowCls td{
-	background-color: #EA735F;
+	background-color: #c65e02;
 }
 
 .x-menu-item-text {
@@ -1856,4 +1869,19 @@ div.mainPanel .attCallAssistanceCls td.x-form-item-body {
 .recentTicketsCls .x-grid-cell-inner {
 	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif !important;
 	font-size: .85em;
+}
+
+.mainPanel .x-item-disabled#move-next, .mainPanel .x-item-disabled#move-prev {
+    border: 1px solid #FFC47B;
+    background: #fff;
+    color: #FFC47B;
+    opacity: 1;
+}
+
+.x-btn-default-toolbar-small-icon .x-btn-inner, .x-btn-default-toolbar-small-noicon .x-btn-inner {
+    line-height: 1.4;
+}
+
+.airtimePlanCls .x-grid-cell-inner {
+	padding: 5px 10px 5px 10px;
 }

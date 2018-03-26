@@ -23,6 +23,8 @@ public class DeviceProfile implements Serializable{
 	String os;
 	String phoneStatus;
 	String esn;
+	String manufacturer;
+	String firmware;
 	
 	public String getDeviceType() {
 		return deviceType;
@@ -119,6 +121,18 @@ public class DeviceProfile implements Serializable{
 	}
 	public void setEsn(String esn) {
 		this.esn = esn;
+	}
+	public String getManufacturer() {
+		return manufacturer;
+	}
+	public void setManufacturer(String manufacturer) {
+		this.manufacturer = manufacturer;
+	}
+	public String getFirmware() {
+		return firmware;
+	}
+	public void setFirmware(String firmware) {
+		this.firmware = firmware;
 	}
 	
 }

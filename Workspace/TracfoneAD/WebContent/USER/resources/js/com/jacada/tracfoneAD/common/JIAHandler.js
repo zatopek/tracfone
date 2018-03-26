@@ -322,7 +322,7 @@ Ext.onReady(function () {
         url : $W().contextPath + '/rest/sso/getAgentSsoCredentials/' + $W().agentName,
 		method : 'GET',
         success:function(response){
-            logins = Ext.decode(response.responseText).payload;
+            logins = Ext.decode(response.responseText).result;
             this.credentialList = logins;
             JIAHandler.init();
         },

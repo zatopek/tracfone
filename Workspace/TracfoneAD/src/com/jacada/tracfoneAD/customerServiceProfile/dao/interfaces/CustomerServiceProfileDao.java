@@ -7,7 +7,7 @@ import com.jacada.tracfoneAD.customerServiceProfile.entities.CustomerServiceProf
 
 public interface CustomerServiceProfileDao extends Serializable {
 	public ResultSet getCustomerServiceProfile(String esn);
-	public ResultSet getOperatingSystem(String partNumber);
+	public ResultSet getDeviceInformationFromPartNumber(String partNumber);
 	public ResultSet getRecentPurchases(String esn, String brand);
 	public ResultSet getTicketHistory(String esn);
 	public ResultSet getProductOfferings(String esn, String brand);

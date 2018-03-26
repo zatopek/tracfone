@@ -13,7 +13,7 @@ var Adam = function () {
 	waitingWidgetRegister = {};
     managers['projectvariables'] = projectVariable;
     var jiaUrl = 'http://localhost:9002/TracFone/';
-    var workspaceUrl = $W().contextPath + '/rest/';
+    var workspaceUrl = window.location.origin + $W().contextPath + '/rest/';
     managers['comm'] = new BroadBridge(jiaUrl, "", 0, function () { }, this);
     managers['workspace'] = new BroadBridge(workspaceUrl, "", 0, function () { }, this);
 	//This is a singleton. But should also be accessible outside just in case it is required.
@@ -286,5 +286,5 @@ Ext.onReady(function () {
 	}	
 
 	//change ajax timeout to 90 seconds
-    Ext.Ajax.timeout = 90000;
+    Ext.Ajax.timeout = 120000;
 });

@@ -78,12 +78,12 @@ function setupCustomerServiceProfile(pushData){
 	unloadWorkflow();
 
     if(!serial || serial.trim()=='') {
-        Ext.MessageBox.alert('ERROR', 'Unable to retrieve customer profile. Please use TAS to continue service the customer.');
+        Ext.MessageBox.alert('ERROR', 'ESN not active. Please use TAS to complete this call.');
     }
 
     // check customer name and carrier before loading work flow
     else if(!contactName || contactName.trim()=='' || !carrier || carrier.trim()=='') {
-        Ext.MessageBox.alert('ERROR', 'Sorry, no carrier and contact information found for ESN. Please use TAS to continue service the customer.');
+        Ext.MessageBox.alert('ERROR', 'ESN not active. Please use TAS to complete this call.');
     }
     else {
         onLaunchWorkflow(pushData.callInfo.taskId);
@@ -102,6 +102,7 @@ function onLaunchWorkflow(taskId) {
     //if unable/unable
     var pushData = managers['pushData'];
     var carrier = pushData.serviceProfile.carrier.toLowerCase();
+    var carrierAtt = 'Att';
 
     //regenerate carrier value to match with the service parameter
     if(carrier.indexOf('tmobile')>=0 || carrier.indexOf('t-mobile')>=0) {
@@ -122,9 +123,15 @@ function onLaunchWorkflow(taskId) {
     if(brand === 'tracfone'){
         brand = 'TracFone';
     }
+    // unsupported task id
+    else {
+            Ext.MessageBox.alert('ERROR', 'Only TracFone brand is supported in this release. Please use TAS to complete this call.');
+    }
+    /*
     else if(brand === 'straight_talk'){
         brand = 'StraightTalk';
     }
+    */
 
     if (taskId == '9901') {
        
@@ -150,22 +157,24 @@ function onLaunchWorkflow(taskId) {
 		}).catch(function(e){
 			
 		});
-		 //call JIA API launchCoverageMap(carrier, zip);
-		adam.callService('CoverageMap/Search/' + carrier + '/' + pushData.customerProfile.zip, 'GET').then(function (response) {
-			
-		}).catch(function(e){
-			
-		});
 		//call JIA API launchAgentSupportFlowChart('Unable Unable', carrier, deviceType;
 		adam.callService('AgentAdvisor/FlowChart?brand=' + brand + '&flowChart=Unable%2FUnable%20Troubleshooting&carrier=' + carrier + '&phoneType=' + phoneType, 'GET').then(function (response) {
 			
 		}).catch(function(e){
 			
 		});
+        //call JIA API launchCoverageMap(carrier, zip);
+        if(carrier.toLowerCase().startsWith("at"))
+        {
+            carrier = carrierAtt;
+        }
+        adam.callService('CoverageMap/Search/' + carrier + '/' + pushData.customerProfile.zip, 'GET').then(function (response) {
+			
+		}).catch(function(e){
+			
+		});
 		//call JIA API launchCarrierBilling
 		adam.callService('Billing/' + carrier, 'GET').then(function (response) {
-			// do nothing
-			log.info("***** calling billing " + carrier);
         }).catch(function (error) {
 			
         });
@@ -174,7 +183,7 @@ function onLaunchWorkflow(taskId) {
         managers['flowType'] = 'unableUnable'; // to keep track of the flow
         if(document.unableUnableJasFrame){
             document.unableUnableJasFrame.location = managers['jasHandler'].getUnableUnableUrl();
-            widgets['unableUnable'].loadComponent('', '');
+            widgets['unableUnable'].loadComponent('SplashPanel', 'unable');
         }
         ShowTabById('CallingIssuesTab');
     }
@@ -189,9 +198,13 @@ function onLaunchWorkflow(taskId) {
         managers['flowType'] = 'redemption'; // to keep track of the flow
         if(document.redemptionJasFrame){
             document.redemptionJasFrame.location = managers['jasHandler'].getRedemptionUrl();
-            widgets['redemption'].loadComponent('', '');
+            widgets['redemption'].loadComponent('SplashPanel', 'redemption');
         }
         ShowTabById('RedemptionTab');
+    }
+    // unsupported task id
+    else{
+        Ext.MessageBox.alert('ERROR', 'Call flow not supported. Please use TAS to complete this call.');
     }
 }
 
@@ -211,16 +224,7 @@ function onStartTas(data)
 
 function onAccountBalances(data)
 {
-    /*
-	pushData = {
-		"accountBalances" : { 
-			"phoneStatus": "Active", 
-			"smsBalance": "124", 
-			"voiceBalance": "100" }
-    };
-    */
-	
     // adam.savePushData(pushData);
     widgets['customerServiceProfile'].up().up().show(); // show portlet
-    widgets['customerServiceProfile'].load(pushData);
+    widgets['customerServiceProfile'].load(data);
 }

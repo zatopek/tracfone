@@ -238,6 +238,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.AddPin', {
                                         enforceMaxLength: true,
                                         maskRe: /[0-9.]/,
                                         maxLength: 15,
+                                        height: 20,
                                         enableKeyEvents: true,
                                         listeners: {
                                             keyup: function (textbox, event) {
@@ -263,6 +264,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.AddPin', {
                                         enforceMaxLength: true,
                                         maskRe: /[0-9.]/,
                                         maxLength: 15,
+                                        height: 20,
                                         enableKeyEvents: true,
                                         listeners: {
                                             keyup: function (textbox, event) {
@@ -288,6 +290,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.AddPin', {
                                         enforceMaxLength: true,
                                         maskRe: /[0-9.]/,
                                         maxLength: 15,
+                                        height: 20,
                                         enableKeyEvents: true,
                                         listeners: {
                                             keyup: function (textbox, event) {
@@ -313,6 +316,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.AddPin', {
                                         enforceMaxLength: true,
                                         maskRe: /[0-9.]/,
                                         maxLength: 15,
+                                        height: 20,
                                         enableKeyEvents: true,
                                         listeners: {
                                             keyup: function (textbox, event) {
@@ -338,6 +342,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.AddPin', {
                                         enforceMaxLength: true,
                                         maskRe: /[0-9.]/,
                                         maxLength: 15,
+                                        height: 20,
                                         enableKeyEvents: true,
                                         listeners: {
                                             keyup: function (textbox, event) {
@@ -391,7 +396,8 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.AddPin', {
                                 //margin: '5 5 5 10',
                                 items: [{
                                     xtype: "displayfield",
-                                    itemId: "addAirtimeResponse"
+                                    itemId: "addAirtimeResponse",
+                                    value: ""
                                 }]
                             },
 
@@ -400,7 +406,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.AddPin', {
                                 border: false,
                                 layout: {
                                     type: 'hbox',
-                                    padding: '5',
+                                    //padding: '5',
                                     align: 'stretchmax'
 
                                 },
@@ -450,7 +456,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.AddPin', {
                         border: false,
 						            autoScroll: true,
 						            layout: 'fit',
-                        bodyStyle: 'padding:5px 5px 5px 5px',
+                        //bodyStyle: 'padding:5px 0px 5px 5px',
                         items: [{
                             xtype: 'component',
 							              cls: 'airtimePinResponseCls',

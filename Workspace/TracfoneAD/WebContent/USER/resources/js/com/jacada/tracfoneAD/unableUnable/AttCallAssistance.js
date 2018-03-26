@@ -1,36 +1,51 @@
 Ext.define('Jacada.user.com.jacada.tracfoneAD.unableUnable.AttCallAssistance', {
     extend: 'Jacada.user.com.jacada.tracfoneAD.baseComponents.BaseView',
     xtype: 'attCallAssitance',
-    title: 'Contact AT&T',
+    title: '<span class="callNumber">Call AT&T at 1-877-252-7716</span> <span class="notify"> (DO NOT GIVE THIS NUMBER TO CUSTOMER)</span>',
     layout: 'vbox',
     border: false,
     width: '100%',
 
     load: function () {
         var me = this;
-        me.mask('please wait..');
+        me.mask('Please wait..');
         var pushData = managers['pushData'];
         var data = {
             agentName: $W().agentName,
-            avayaId: 'NA',
+            avayaId: '',
             min: pushData.deviceProfile.min,
-            imei: 'NA',
+            imei: this.getImei(pushData),
             sim: pushData.deviceProfile.sim,
-            makeAndModel: 'NA',
-            numberOfSignalBar: 'NA',
+            makeAndModel: pushData.deviceProfile.manufacturer + ' ' + pushData.deviceProfile.deviceType,
+            numberOfSignalBar: '** Obtain information from customer **',
             customerName: pushData.customerProfile.contactName,
-            address: pushData.customerProfile.zip,
-            issue: 'NA',
-            message: 'NA',
-            steps: 'NA',
-            when: 'NA',
-            location: 'NA'
+            address: 'Customer zip - ' + pushData.customerProfile.zip,
+            issue: '** Obtain information from customer **',
+            message:'** Obtain information from customer **',
+            steps: '** Obtain information from customer **',
+            when: '** Obtain information from customer **',
+            location: '** Obtain information from customer **'
         }
 
         Ext.each(me.query('displayfield'), function (item) {
             item.setValue(data[item.name]);
         });
         me.unmask();
+    },
+
+    getImei: function(pushData) {
+        if(pushData.deviceProfile.deviceType.toLowerCase() === 'byop') {
+            var sim = pushData.deviceProfile.sim;
+            if(sim.length >= 15){
+                return sim.substring(sim.length - 15);
+            }
+            else {
+                return sim;
+            }
+        }
+        else{
+            return pushData.deviceProfile.esn;
+        }
     },
 
     reset: function () {
@@ -48,25 +63,14 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.unableUnable.AttCallAssistance', {
             items: [
                 {
                     xtype: 'panel',
-                    height: 50,
-                    border: false,
-                    margin: '0 0 0 10',
-                    items: [
-                        {
-                            xtype: 'component',
-                            html: '<h2 class="callNumber">Call AT&T at 1-877-252-7716 <span class="notify">(DO NOT GIVE THIS NUMBER TO CUSTOMER)</span> </h2>'
-                        }
-                    ]
-                },
-                {
-                    xtype: 'panel',
                     layout: 'column',
                     width: '100%',
                     border: false,
                     defaults: {
                         defaults: {
                             xtype: 'displayfield',
-                            labelWidth: 300
+                            labelWidth: 150,
+                            width: 375
                         }
                     },
                     items: [
@@ -74,6 +78,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.unableUnable.AttCallAssistance', {
                             xtype: 'panel',
                             columnWidth: 0.5,
                             border: false,
+                            autoWidth: true,
                             items: [
                                 {
                                     name: 'agentName',
@@ -96,13 +101,14 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.unableUnable.AttCallAssistance', {
                                 }, {
                                     name: 'numberOfSignalBar',
                                     fieldLabel: 'Number of Signal Bars'
-                                },
+                                }
                             ]
                         },
                         {
                             xtype: 'panel',
                             columnWidth: 0.5,
                             border: false,
+                            autoWidth: true,
                             items: [
                                 {
                                     name: 'customerName',

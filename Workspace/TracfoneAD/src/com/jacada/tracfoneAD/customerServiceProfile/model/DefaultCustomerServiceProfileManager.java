@@ -4,8 +4,10 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.jacada.jad.feature.model.DefaultWorkspaceManager;
 import com.jacada.jad.feature.annotations.FeatureManager;
@@ -36,6 +38,10 @@ public class DefaultCustomerServiceProfileManager extends DefaultWorkspaceManage
 	private static int SLEEP_TIME = 2000;
 	// 30 seconds max time to allow account balance service
 	private static int MAX_TIME_LAPSE = 30000;
+	
+	private static final String OS = "OS";
+	private static final String FIRMWARE = "FIRMWARE";
+	private static final String MANUFACTURER = "MANUFACTURER";
 
 	@Override
 	public CustomerServiceProfile getCustomerServiceProfile(String esn) {
@@ -52,7 +58,7 @@ public class DefaultCustomerServiceProfileManager extends DefaultWorkspaceManage
 					DeviceProfile deviceProfile = new DeviceProfile();
 					ServiceProfile serviceProfile = new ServiceProfile();
 					//AccountBalances accountBalances = new AccountBalances();
-					
+					System.out.println("esn:" + esn);
 					deviceProfile.setEsn(esn);
 					deviceProfile.setDeviceType(rs.getString("device_type"));
 					deviceProfile.setSim(rs.getString("sim"));
@@ -67,8 +73,11 @@ public class DefaultCustomerServiceProfileManager extends DefaultWorkspaceManage
 					deviceProfile.setLeaseStatus(rs.getString("lease_status_name"));
 					deviceProfile.setSequence(rs.getString("sequence"));
 					deviceProfile.setHexSerial(rs.getString("x_hex_serial_no"));
-					deviceProfile.setOs(getOperatingSystem(deviceProfile.getPartNumber()));
 					deviceProfile.setPhoneStatus(rs.getString("phone_status"));
+					Map<String, String> deviceOsInformation = getDeviceOsInformation(deviceProfile.getPartNumber());
+					deviceProfile.setOs(deviceOsInformation.get(OS));
+					deviceProfile.setFirmware(deviceOsInformation.get(FIRMWARE));
+					deviceProfile.setManufacturer(deviceOsInformation.get(MANUFACTURER));
 
 					serviceProfile.setServiceType(rs.getString("service_type"));
 					serviceProfile.setRatePlan(rs.getString("rate_plan"));
@@ -112,16 +121,29 @@ public class DefaultCustomerServiceProfileManager extends DefaultWorkspaceManage
 	}
 
 	@Override
-	public String getOperatingSystem(String partNumber) {
+	public Map<String, String> getDeviceOsInformation(String partNumber) {
 		String os = "";
+		String manufacturer;
+		String firmware;
+		Map<String, String> deviceOsInformation = new HashMap<String, String>();
+		
 		if (partNumber != null && partNumber.length() > 0) {
-			ResultSet rs = customerServiceProfileDao.getOperatingSystem(partNumber);
+			ResultSet rs = customerServiceProfileDao.getDeviceInformationFromPartNumber(partNumber);
 
 			try {
 				while (rs.next()) {
 					String parameter = rs.getString("PARAMETER");
 					if (parameter.equals("OPERATING_SYSTEM")) {
 						os = rs.getString("VALUE");
+						deviceOsInformation.put(OS, os);
+					}
+					else if (parameter.equals("MANUFACTURER")) {
+						manufacturer = rs.getString("VALUE");
+						deviceOsInformation.put(MANUFACTURER, manufacturer);
+					}
+					else if (parameter.equals("FIRMWARE")) {
+						firmware = rs.getString("VALUE");
+						deviceOsInformation.put(FIRMWARE, firmware);
 					}
 				}
 				/*
@@ -136,13 +158,12 @@ public class DefaultCustomerServiceProfileManager extends DefaultWorkspaceManage
 				e.printStackTrace();
 			}
 		}
-		return os;
+		return deviceOsInformation;
 	}
 
 	@Override
 	public AccountBalances getAccountBalances(String phoneStatus, String brand, String esn) {
-
-		System.out.println("getAccountBalances=>" + phoneStatus + " " + brand + " " + esn);
+		
 		AccountBalances accountBalances = new AccountBalances();
 		if(brand != null && esn != null)
 		{		

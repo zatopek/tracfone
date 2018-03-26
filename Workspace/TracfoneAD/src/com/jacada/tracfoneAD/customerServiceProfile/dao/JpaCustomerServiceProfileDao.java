@@ -60,7 +60,7 @@ public class JpaCustomerServiceProfileDao implements CustomerServiceProfileDao {
 	}
 
 	@Override
-	public ResultSet getOperatingSystem(String partNumber) {
+	public ResultSet getDeviceInformationFromPartNumber(String partNumber) {
 		Connection dbConnection = null;
 		PreparedStatement preparedStatement = null;
 		ResultSet rs = null;
@@ -69,7 +69,7 @@ public class JpaCustomerServiceProfileDao implements CustomerServiceProfileDao {
 				+ " From Table_X_Part_Class_Values ,Table_X_Part_Class_Params, Table_Part_Class, table_part_num"
 				+ " WHERE value2part_class = table_part_class.objid"
 				+ " And Value2class_Param= Table_X_Part_Class_Params.Objid"
-				+ " and x_param_name in ( 'MANUFACTURER', 'OPERATING_SYSTEM','DEVICE_TYPE' )"
+				+ " and x_param_name in ( 'MANUFACTURER', 'OPERATING_SYSTEM','DEVICE_TYPE', 'FIRMWARE' )"
 				+ " and part_num2part_class = table_part_class.objid and part_number = ?"
 				+ " order by name, x_param_name";
 				

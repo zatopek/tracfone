@@ -31,7 +31,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.AirtimePlan', {
         adam.callService('Tas/Cards/' + partNumber + '/Cost/Estimated').then(function (response) {
             estimatedCostComponent.load(response);
             me.up().up().up().down('paymentTransaction').changePurchaseButton();
-            me.up().up().up().down('paymentTransaction').changePromoCodeButton();
+            //me.up().up().up().down('paymentTransaction').changePromoCodeButton();
             Ext.getCmp('move-next').setDisabled(false);
             estimatedCostComponent.unmask();
         }).catch(function (response) {
@@ -124,9 +124,10 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.AirtimePlan', {
             xtype: 'airtimePlanGrid',
             itemId: 'airtimePlanGrid',
             store: myStore,
+            cls: 'airtimePlanCls',
             columns: [{
                 text: "Description",
-                flex: 3.5,
+                flex: 4,
                 dataIndex: 'description'
             }, {
                 text: "Units",
@@ -138,7 +139,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.AirtimePlan', {
                 dataIndex: 'price'
             }, {
                 text: "Part Number",
-                flex: 1.5,
+                flex: 1.2,
                 dataIndex: 'partNumber'
             }, {
                 text: "Recent Purchase",

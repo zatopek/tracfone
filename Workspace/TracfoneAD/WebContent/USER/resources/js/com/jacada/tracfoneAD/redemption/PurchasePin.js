@@ -7,6 +7,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.PurchasePin', {
         'Jacada.user.com.jacada.tracfoneAD.redemption.PaymentTransaction'
     ],
     initComponent: function () {
+        debugger
         var me = this;
         Ext.applyIf(me, {
             name: 'purchasePin',
@@ -18,13 +19,15 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.PurchasePin', {
         var me = this;
         me.down('airtimePlan').load();
         me.down('paymentTransaction').load();
-
     },
     reset: function () {
         var me = this;
         me.down('airtimePlan').reset();
         me.down('estimatedCost').reset();
         me.down('paymentTransaction').reset();
+        Ext.getCmp('cardPanel').getLayout().setActiveItem(0);
+        Ext.getCmp('move-prev').setDisabled(true);
+        Ext.getCmp('move-next').setDisabled(true);
     },
     navigate : function(panel, direction){
         // This routine could contain business logic required to manage the navigation steps.
@@ -51,7 +54,8 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.PurchasePin', {
                         xtype: 'panel',
                         columnWidth: 0.6,
                         layout: 'card',
-                        border: false,  
+                        border: false,
+                        id: 'cardPanel',
 						bbar: [
 								{
 									id: 'move-prev',
@@ -59,13 +63,13 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.PurchasePin', {
 									handler: function(btn) {
 										me.navigate(btn.up("panel"), "prev");
 									},
-									//disabled: true
+									disabled: true
 								},
 								'->', // greedy spacer so that the buttons are aligned to each side
 								{
 									id: 'move-next',
 									text: 'Next',
-									//disabled: true,
+									disabled: true,
 									handler: function(btn) {
 										me.navigate(btn.up("panel"), "next");
 									}
@@ -83,7 +87,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.PurchasePin', {
                                         title: "SELECT AIRTIME PLAN",
                                         columnWidth: 0.75,
                                         border: false,
-                                        height: 250,
+                                        height: 210,
                                     },
                                     {
                                         xtype: "estimatedCost",

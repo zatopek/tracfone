@@ -22,7 +22,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.Redemption', {
         }
     },
 
-    loadComponent: function (componentName) {
+    loadComponent: function (componentName, parameters) {
         var me = this;
         var component = null;
         var widgetName = me.getWidgetName(componentName); // component name comes up as ClassName. change it to className
@@ -40,10 +40,13 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.Redemption', {
             if (componentName === 'InteractionNotes') {
                 component = Ext.create('Jacada.user.com.jacada.tracfoneAD.interactionNotes.InteractionNotes');
             }
+            else if (componentName === 'SplashPanel') {
+                component = Ext.create('Jacada.user.com.jacada.tracfoneAD.common.SplashPanel', parameters);
+            }
             else {
                 component = Ext.create('Jacada.user.com.jacada.tracfoneAD.redemption.' + componentName);
             }
-            container.add(component)
+            container.add(component);
         }
         else {
             component = widgets[widgetName];
@@ -123,6 +126,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.Redemption', {
                         xtype: 'panel',
                         columnWidth: 0.7,
                         itemId: 'mainPanel',
+                        id: 'redemptionMainPanel',
 						cls: ['redemption', 'mainPanel'],
                         border: false,
                         height: 310,
