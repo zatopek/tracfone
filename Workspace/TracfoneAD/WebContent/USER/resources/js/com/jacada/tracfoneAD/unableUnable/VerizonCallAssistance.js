@@ -21,8 +21,8 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.unableUnable.VerizonCallAssistance
             makeAndModel: pushData.deviceProfile.manufacturer + ' ' + pushData.deviceProfile.deviceType,
             firmware: pushData.deviceProfile.firmware,
             software: pushData.deviceProfile.os,
-            signalStrength: '** Obtain information from customer **',
-            issue: '** Obtain information from customer **'
+            signalStrength: '',
+            issue: ''
 
         }
         Ext.each(me.query('displayfield'), function (item) {
@@ -49,6 +49,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.unableUnable.VerizonCallAssistance
                     layout: 'column',
                     width: '100%',
                     border: false,
+                    title: 'Obtain the following (or appropriate) information from the customer',
                     defaults: {
                         defaults: {
                             xtype: 'displayfield',

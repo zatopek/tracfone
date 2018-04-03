@@ -57,16 +57,52 @@ public class DefaultCallHandlingManager extends DefaultWorkspaceManager implemen
 	}
 
 	private void auditAction(String esn, String action) {
+		System.out.println("auditAction starts");
 		AuditApplication auditApplication = auditingManager.getAuditApplication();
+		System.out.println("auditAction app:" + auditApplication.getProjectId());
 		Process incomingCallProcess = auditApplication.addProcess(TracFoneAudior.PROCESS_INCOMING_CALL);
+		System.out.println("auditAction add process");
 		Action auditAction = incomingCallProcess.addAction(action);
+		System.out.println("auditAction add action");
 		auditAction.addActionParam("esn", esn);
+		System.out.println("auditAction esn:" +esn);
 		try {
 			auditingManager.audit(auditAction);
+			System.out.println("audit action");
 		} catch (AuditingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}	
+		try {
+			auditingManager.audit(incomingCallProcess);
+			System.out.println("audit process");
+		} catch (AuditingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}		
+	}
+
+	@Override
+	public void auditInvalidTask(String task_id) {
+		AuditApplication auditApplication = auditingManager.getAuditApplication();
+		Process incomingCallProcess = auditApplication.addProcess(TracFoneAudior.PROCESS_INCOMING_CALL);
+		Action auditAction = incomingCallProcess.addAction(TracFoneAudior.ACTION_INVALID_TASK);
+		auditAction.addActionParam("task_id", task_id);
+		try {
+			auditingManager.audit(auditAction);
+			System.out.println("audit action");
+		} catch (AuditingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	
+		try {
+			auditingManager.audit(incomingCallProcess);
+			System.out.println("audit process");
+		} catch (AuditingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}		
+		
 	}
 
 }

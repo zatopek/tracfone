@@ -2,6 +2,7 @@ package com.jacada.tracfoneAD.sSO.dao;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import com.jacada.tracfoneAD.sSO.dao.interfaces.SSODao;
@@ -16,13 +17,16 @@ public class DefaultSSODao implements SSODao {
 	 */
 	private static final long serialVersionUID = 1L;
 	private SQLiteJDBCDriverConnection sQLiteJDBCDriverConnection;
+	
+	@Value("${sso.sqllite.location}")
+	private String ssoSqliteLocation;
 
 	
 	@Override
 	public List<LoginCredential> getUserSsoCredentials(String agentId) {
 		
 		if(sQLiteJDBCDriverConnection == null){
-			sQLiteJDBCDriverConnection = new SQLiteJDBCDriverConnection();
+			sQLiteJDBCDriverConnection = new SQLiteJDBCDriverConnection(ssoSqliteLocation);
 		}
 		return sQLiteJDBCDriverConnection.getAgentLogins(agentId);
 	}
@@ -48,7 +52,7 @@ public class DefaultSSODao implements SSODao {
 	@Override
 	public void deleteUserSsoCredentials(String agentId) {
 		if(sQLiteJDBCDriverConnection == null){
-			sQLiteJDBCDriverConnection = new SQLiteJDBCDriverConnection();
+			sQLiteJDBCDriverConnection = new SQLiteJDBCDriverConnection(ssoSqliteLocation);
 		}
 		sQLiteJDBCDriverConnection.delete(agentId);
 		
@@ -59,7 +63,7 @@ public class DefaultSSODao implements SSODao {
 			List<LoginCredential> loginCredentials, boolean add) {
 		
 		if(sQLiteJDBCDriverConnection == null){
-			sQLiteJDBCDriverConnection = new SQLiteJDBCDriverConnection();
+			sQLiteJDBCDriverConnection = new SQLiteJDBCDriverConnection(ssoSqliteLocation);
 		}
 		
 		if(add)

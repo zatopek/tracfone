@@ -124,7 +124,7 @@
 					{
 					    name: 'j_username',
 						emptyText: 'Username',
-					    value: 'workspace',
+					    value: '',
 					    padding: '10 0 18 0',
 					    hideLabel: true,
 					    cls: 'login-form-field-user',
@@ -141,7 +141,7 @@
 					},{
 					    name: 'j_password',
 						emptyText: 'Password',
-					    value: 'workspace',
+					    value: '',
 					    inputType: 'password',
 					    hideLabel: true,
 					    padding: '0 0 21 0',

@@ -36,6 +36,7 @@ public class SsoController {
 		payload.setResult(loginArray);
 		payload.setStatus("200");
 		payload.setMessage("OK");
+		payload.setSuccess(true);
 		return payload;
 	}
 	
@@ -51,6 +52,19 @@ public class SsoController {
 		payload.setResult("");
 		payload.setStatus("200");
 		payload.setMessage("OK");
+		payload.setSuccess(true);
 		return payload;
-	}	
+	}
+	
+	@RequestMapping(value="deleteAgentSsoCredentials/{agentId}", method = RequestMethod.GET, produces = "application/json")
+	public @ResponseBody JSONPayload deleteAgentSsoCredentials(@PathVariable String agentId, HttpServletRequest request) throws Exception{
+		
+		manager.deleteAgentSsoLogins(agentId);
+		JSONPayload payload = new JSONPayload();
+		payload.setResult("");
+		payload.setStatus("200");
+		payload.setMessage("OK");
+		payload.setSuccess(true);
+		return payload;
+	}
 }

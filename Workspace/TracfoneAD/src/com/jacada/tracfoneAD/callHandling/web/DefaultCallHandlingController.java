@@ -19,6 +19,7 @@ import com.jacada.jad.push.PushHelper;
 import com.jacada.tracfoneAD.callHandling.model.interfaces.CallHandlingManager;
 import com.jacada.tracfoneAD.customerServiceProfile.entities.AccountBalances;
 import com.jacada.tracfoneAD.customerServiceProfile.entities.CustomerServiceProfile;
+import com.jacada.tracfoneAD.customerServiceProfile.entities.Flash;
 import com.jacada.tracfoneAD.customerServiceProfile.entities.ProductOffering;
 import com.jacada.tracfoneAD.customerServiceProfile.entities.TasTicket;
 import com.jacada.tracfoneAD.customerServiceProfile.model.interfaces.CustomerServiceProfileManager;
@@ -97,7 +98,26 @@ public class DefaultCallHandlingController extends WorkspaceController {
 		}
 		return payload;
 	}
-	
+
+	@RequestMapping(value = "getActiveFlashes/{esn}", method = RequestMethod.GET, produces = "application/json")
+	public @ResponseBody
+	JSONPayload getActiveFlashes(@PathVariable String esn, HttpServletRequest request){
+		JSONPayload payload = new JSONPayload();
+		try{
+			List<Flash> activeFlashes = customerServiceProfileManager.getActiveFlashes(esn);
+			payload.setStatus("200");
+			payload.setSuccess(true);
+			payload.setResult(activeFlashes);
+
+		}
+		catch(Exception e){
+			payload.setStatus("500");
+			payload.setSuccess(false);
+			payload.setMessage(e.getLocalizedMessage());
+		}
+		return payload;
+	}
+
 	@RequestMapping(value = "incomingCall/{agentId}", method = RequestMethod.GET, produces = "application/json")
 	public @ResponseBody
 	void incoming(@PathVariable String agentId, HttpServletRequest request) throws Exception {
@@ -115,8 +135,8 @@ public class DefaultCallHandlingController extends WorkspaceController {
 		
 		String esn = this.getRequestParameterValue(request.getParameter("url"), "esn");
 		String task_id = this.getRequestParameterValue(request.getParameter("url"), "task_id");
-		String flash_id = this.getRequestParameterValue(request.getParameter("url"), "flash_id");
-		String case_id = this.getRequestParameterValue(request.getParameter("url"), "case_id");
+		//String flash_id = this.getRequestParameterValue(request.getParameter("url"), "flash_id");
+		//String case_id = this.getRequestParameterValue(request.getParameter("url"), "case_id");
 		
 		System.out.println(esn + " " + task_id);
 		//PushHelper.publishMessageToAgent(agentId, "IncomingCallQueryString", request.getQueryString());
@@ -124,40 +144,19 @@ public class DefaultCallHandlingController extends WorkspaceController {
 		CustomerServiceProfile customerServiceProfile = customerServiceProfileManager.getCustomerServiceProfile(esn);
 		//CustomerServiceProfile customerServiceProfile = new CustomerServiceProfile();
 		customerServiceProfile.getCallInfo().setTaskId(task_id);
-		customerServiceProfile.getCustomerProfile().setCaseId(case_id);
-		customerServiceProfile.getCustomerProfile().setFlashId(flash_id);
+		//customerServiceProfile.getCustomerProfile().setCaseId(case_id);
+		//customerServiceProfile.getCustomerProfile().setFlashId(flash_id);
 		PushHelper.publishMessageToAgent(agentId, "CustomerServiceProfile", customerServiceProfile);
-		AccountBalances accountBalances= customerServiceProfileManager.getAccountBalances(
-				customerServiceProfile.getDeviceProfile().getPhoneStatus(),
-				customerServiceProfile.getServiceProfile().getBrand(), esn);
-		PushHelper.publishMessageToAgent(agentId, "AccountBalances", accountBalances);
-	}
-	
-	@RequestMapping(value="incomingCall/{agentId}", method = RequestMethod.POST, produces = "application/json")
-	public @ResponseBody void incomingCall(@PathVariable String agentId, HttpServletRequest request) throws Exception{
-
-		System.out.println("POST incomingCall->start");
-		
-		String esn = this.getRequestParameterValue(request.getParameter("url"), "esn");
-		String task_id = this.getRequestParameterValue(request.getParameter("url"), "task_id");
-		String flash_id = this.getRequestParameterValue(request.getParameter("url"), "flash_id");
-		String case_id = this.getRequestParameterValue(request.getParameter("url"), "case_id");
-				
-		//CustomerServiceProfile customerServiceProfile =  new CustomerServiceProfile();
-		//Comment out for local testing
-		CustomerServiceProfile customerServiceProfile = customerServiceProfileManager.getCustomerServiceProfile(esn);		
-		customerServiceProfile.getCallInfo().setTaskId(task_id);
-		customerServiceProfile.getCustomerProfile().setCaseId(case_id);
-		customerServiceProfile.getCustomerProfile().setFlashId(flash_id);
-		PushHelper.publishMessageToAgent(agentId, "CustomerServiceProfile", customerServiceProfile);
-		AccountBalances accountBalances= customerServiceProfileManager.getAccountBalances(
-				customerServiceProfile.getDeviceProfile().getPhoneStatus(),
-				customerServiceProfile.getServiceProfile().getBrand(), esn);
-		PushHelper.publishMessageToAgent(agentId, "AccountBalances", accountBalances);
-		
 		// Audit screen pop
-		manager.auditScreenPop(esn, task_id);
-	}	
+		// manager.auditScreenPop(esn, task_id);
+		
+		//creating thread
+		AccountBalancesThread accountBalancesThread = new AccountBalancesThread(customerServiceProfileManager,
+				agentId, esn, 
+				customerServiceProfile.getServiceProfile().getBrand(),
+				customerServiceProfile.getDeviceProfile().getPhoneStatus());
+		accountBalancesThread.start();		
+	}
 	
 	@RequestMapping(value="auditCreateInteractionNotes/{esn}", method = RequestMethod.GET, produces = "application/json")
 	public @ResponseBody void audit(@PathVariable String esn, HttpServletRequest request) throws Exception{
@@ -173,6 +172,11 @@ public class DefaultCallHandlingController extends WorkspaceController {
 	public @ResponseBody void auditPurchasePin(@PathVariable String esn, HttpServletRequest request) throws Exception{
 		manager.auditPurchasePin(esn);
 	}	
+	
+	@RequestMapping(value="auditInvalidTask/{task_id}", method = RequestMethod.GET, produces = "application/json")
+	public @ResponseBody void auditInvalidTask(@PathVariable String task_id, HttpServletRequest request) throws Exception{
+		manager.auditInvalidTask(task_id);
+	}
 	
 	private String getRequestParameterValue(String requestString, String parameter)
 	{

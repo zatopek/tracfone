@@ -144,7 +144,13 @@ var Adam = function () {
 			return managers['plansDataStore'].get(planId);
 		},
 		addAutoNotes: function (notes) {
-			managers['autoNotes'] += notes;
+			if(managers['autoNotes'] && managers['autoNotes'].length > 0) {
+                managers['autoNotes'] = managers['autoNotes'] + '. ' + notes;
+			}
+			else {
+                managers['autoNotes'] = notes;
+			}
+
 		},
 		getAgentSsoCredentials: function () {
 			Ext.Ajax.request({

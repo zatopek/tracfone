@@ -15,7 +15,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.AddPin', {
         me.down('#airtimePin5').setValue('');
         me.down('#promoCode').setValue('');
         me.down('#transactionSummary').update('');
-        me.down('#addAirtimeResponse').setValue('');
+        //me.down('#addAirtimeResponse').setValue('');
         me.down('#promoValidateResponse').setValue('');
         me.down('#transactionSummaryPanel').setTitle('');
         //me.disableButtons();
@@ -106,6 +106,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.AddPin', {
     },
     */
     doTransaction: function (type) {
+        debugger
         var me = this;
         me.mask('Please wait..');
         me.down('#transactionSummary').update('');
@@ -114,7 +115,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.AddPin', {
         var airtimePin3 = me.down('#airtimePin3').getValue();
         var airtimePin4 = me.down('#airtimePin4').getValue();
         var airtimePin5 = me.down('#airtimePin5').getValue();
-        var promoCode = me.down('#promoCode').getValue(); // TODO need to pass this as well to resource
+        var promoCode = me.down('#promoCode').getValue();
         var method = 'PATCH';
         var pins = [];
         if (airtimePin1.trim() != '') pins.push(airtimePin1);
@@ -122,11 +123,6 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.AddPin', {
         if (airtimePin3.trim() != '') pins.push(airtimePin3);
         if (airtimePin4.trim() != '') pins.push(airtimePin4);
         if (airtimePin5.trim() != '') pins.push(airtimePin5);
-
-        var params = {
-            pins: pins,
-            promoCode : promoCode.trim()
-        };
 
         var resource = 'Tas/PINs';
 
@@ -137,14 +133,17 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.AddPin', {
         }
         */
 
-        adam.callService(resource, method, JSON.stringify(params)).then(function (response) {
+        adam.callService(resource, method, {
+            pins: pins,
+            promoCode : promoCode.trim()
+        }).then(function (response) {
             me.down('#airtimePin1').setValue('');
             me.down('#airtimePin2').setValue('');
             me.down('#airtimePin3').setValue('');
             me.down('#airtimePin4').setValue('');
             me.down('#airtimePin5').setValue('');
             me.down('#promoCode').setValue('');
-			      me.disableButtons();
+            me.disableButtons();
             me.down('#transactionSummaryPanel').setTitle('TRANSACTION SUMMARY');
             var i = response.indexOf('<div class=\"x1a\"');
             if (i >= 0) {
@@ -153,7 +152,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.AddPin', {
             var el = document.createElement('html');
             el.innerHTML = response;
             var labels = el.getElementsByTagName('label');
-            var ratePlan = "Airtime Plan ";
+            var ratePlan = "Airtime Plan";
             for (i = 0; i < labels.length; i++) {
                 if (labels[i].innerHTML.toLowerCase().indexOf('service end date') >= 0) {
                     if (Ext.getCmp('serviceEndDate')) {
@@ -161,25 +160,33 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.AddPin', {
                     }
                 }
                 else if (labels[i].innerHTML.toLowerCase().indexOf('rate plan') >= 0) {
-                    ratePlan = labels[i].parentNode.parentNode.children[1].innerHTML;
-                    ratePlan =+ " ";
+                    if(labels[i].parentNode.parentNode.children[1].innerHTML.trim().length > 1)
+                    {
+                        ratePlan = labels[i].parentNode.parentNode.children[1].innerHTML;
+                    }
                 }
             }
 
             me.down('#transactionSummary').update(response);
-            adam.addAutoNotes(ratePlan + ADD_AIRTIME_TAG);
+            adam.addAutoNotes(ratePlan + " " + ADD_AIRTIME_TAG);
             me.unmask();
+            /*
             var esn = managers['pushData'].deviceProfile.esn;
             adam.callWsService('call/auditAddPin/' + esn, 'GET', {}).then(function (response) {
 
             }).catch(function () {
 
             });
+            */
         }).catch(function (response) {
             try {
                 var jsonResponse = JSON.parse(response.response.responseText);
                 if (jsonResponse && jsonResponse.message) {
-                    Ext.Msg.alert('ERROR', 'Sorry, adding pin failed. ' + jsonResponse.message + ' Please try again.');
+                    if(jsonResponse.message.toLowerCase().indexOf('object') >= 0) {
+                        Ext.Msg.alert('ERROR', 'Sorry, something went wrong. Please try again.');
+                    } else {
+                        Ext.Msg.alert('ERROR', 'Sorry, adding pin failed. ' + jsonResponse.message + ' Please try again.');
+                    }
                 }
                 else {
                     Ext.Msg.alert('ERROR', 'Sorry, adding pin failed. Please try again.');
@@ -365,6 +372,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.AddPin', {
                                     xtype: 'panel',
                                     border: false,
                                     columnWidth: 0.2,
+                                    padding: '2',
                                     items:[
                                         {
                                             xtype: 'button',
@@ -390,6 +398,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.AddPin', {
                                 }
                             ]
                         },
+                            /*
                             {
                                 xtype: 'panel',
                                 border: false,
@@ -400,6 +409,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.AddPin', {
                                     value: ""
                                 }]
                             },
+                            */
 
                             {
                                 xtype: 'panel',

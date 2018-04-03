@@ -7,4 +7,5 @@ public interface CallHandlingManager extends WorkspaceManager {
 	public void auditCreateInteractionNotes(String esn);
 	public void auditAddPin(String esn);
 	public void auditPurchasePin(String esn);
+	public void auditInvalidTask(String task_id);
 }

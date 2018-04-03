@@ -17,14 +17,14 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.unableUnable.AttCallAssistance', {
             imei: this.getImei(pushData),
             sim: pushData.deviceProfile.sim,
             makeAndModel: pushData.deviceProfile.manufacturer + ' ' + pushData.deviceProfile.deviceType,
-            numberOfSignalBar: '** Obtain information from customer **',
+            numberOfSignalBar: '',
             customerName: pushData.customerProfile.contactName,
             address: 'Customer zip - ' + pushData.customerProfile.zip,
-            issue: '** Obtain information from customer **',
-            message:'** Obtain information from customer **',
-            steps: '** Obtain information from customer **',
-            when: '** Obtain information from customer **',
-            location: '** Obtain information from customer **'
+            issue: '',
+            message:'',
+            steps: '',
+            when: '',
+            location: ''
         }
 
         Ext.each(me.query('displayfield'), function (item) {
@@ -66,6 +66,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.unableUnable.AttCallAssistance', {
                     layout: 'column',
                     width: '100%',
                     border: false,
+                    title: 'Obtain the following (or appropriate) information from the customer',
                     defaults: {
                         defaults: {
                             xtype: 'displayfield',

@@ -7,22 +7,12 @@ public class AccountBalances implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	String phoneStatus;
+	public static final String DATA_NOT_AVAILABLE =  "Please check TAS";
 	String voiceBalance;
 	String smsBalance;
 	String dataBalance;
+	String phoneStatus;
 		
-	public AccountBalances() {
-		this.voiceBalance = "Please check TAS";
-		this.smsBalance = "Please check TAS";
-		this.dataBalance = "Please check TAS";
-	}
-	public String getPhoneStatus() {
-		return phoneStatus;
-	}
-	public void setPhoneStatus(String phoneStatus) {
-		this.phoneStatus = phoneStatus;
-	}
 	public String getVoiceBalance() {
 		return voiceBalance;
 	}
@@ -40,6 +30,12 @@ public class AccountBalances implements Serializable{
 	}
 	public void setDataBalance(String dataBalance) {
 		this.dataBalance = dataBalance;
+	}
+	public String getPhoneStatus() {
+		return phoneStatus;
+	}
+	public void setPhoneStatus(String phoneStatus) {
+		this.phoneStatus = phoneStatus;
 	}
 	
 	

@@ -120,8 +120,10 @@ function onLaunchWorkflow(taskId) {
 
     // mapping brand
     var brand = pushData.serviceProfile.brand.toLowerCase();
-    if(brand === 'tracfone'){
-        brand = 'TracFone';
+    if(brand) {
+        if(brand === 'tracfone'){
+            brand = 'TracFone';
+        }
     }
     // unsupported task id
     else {
@@ -136,18 +138,20 @@ function onLaunchWorkflow(taskId) {
     if (taskId == '9901') {
        
         var phoneType = pushData.deviceProfile.deviceType.toLowerCase();
-        if (phoneType === 'feature_phone') {
-            phoneType = 'PPE';
-        }
-        else if (phoneType === 'byop') {
-            phoneType = 'BYOP';
-        }
-        else {
-            if(carrier==='Verizon'){
-                phoneType = 'Non-PPE';
+        if(phoneType){
+            if (phoneType === 'feature_phone') {
+                phoneType = 'PPE';
+            }
+            else if (phoneType === 'byop') {
+                phoneType = 'BYOP';
             }
             else {
-                phoneType = 'Non%20PPE';
+                if(carrier==='Verizon'){
+                    phoneType = 'Non-PPE';
+                }
+                else {
+                    phoneType = 'Non%20PPE';
+                }
             }
         }
 
@@ -183,7 +187,8 @@ function onLaunchWorkflow(taskId) {
         managers['flowType'] = 'unableUnable'; // to keep track of the flow
         if(document.unableUnableJasFrame){
             document.unableUnableJasFrame.location = managers['jasHandler'].getUnableUnableUrl();
-            widgets['unableUnable'].loadComponent('SplashPanel', 'unable');
+            //widgets['unableUnable'].loadComponent('SplashPanel', '');
+            widgets['unableUnable'].loadComponent('', '');
         }
         ShowTabById('CallingIssuesTab');
     }
@@ -198,12 +203,20 @@ function onLaunchWorkflow(taskId) {
         managers['flowType'] = 'redemption'; // to keep track of the flow
         if(document.redemptionJasFrame){
             document.redemptionJasFrame.location = managers['jasHandler'].getRedemptionUrl();
-            widgets['redemption'].loadComponent('SplashPanel', 'redemption');
+            //widgets['redemption'].loadComponent('SplashPanel', '');
+            widgets['redemption'].loadComponent('', '');
         }
         ShowTabById('RedemptionTab');
     }
     // unsupported task id
     else{
+        /*
+        adam.callWsService('call/auditInvalidTask/' + taskId, 'GET', {}).then(function (response) {
+
+        }).catch(function () {
+
+        });
+        */
         Ext.MessageBox.alert('ERROR', 'Call flow not supported. Please use TAS to complete this call.');
     }
 }
@@ -226,5 +239,5 @@ function onAccountBalances(data)
 {
     // adam.savePushData(pushData);
     widgets['customerServiceProfile'].up().up().show(); // show portlet
-    widgets['customerServiceProfile'].load(data);
+    widgets['customerServiceProfile'].loadAccountBalances(data);
 }

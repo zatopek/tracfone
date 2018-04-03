@@ -33,6 +33,32 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.common.CustomerServiceProfile', {
         }).catch(function () {
         });
 
+        //get active flashes
+        adam.callWsService('call/getActiveFlashes/' + esn, 'GET', {}).then(function (response) {
+            managers['activeFlashes'] = response;
+            if (response && response.length > 0) {
+                Ext.getCmp('activeFlashesBtn').show();
+            } else {
+                Ext.getCmp('activeFlashesBtn').hide();
+            }
+        }).catch(function () {
+        });
+
+    },
+    loadAccountBalances: function (data) {
+        var me = this;
+        var loader = function (component, componentData) {
+            var fields = component.query('displayfield');
+            Ext.each(fields, function (field) {
+                field.setValue(componentData[field.name]);
+            })
+        }
+
+        Ext.each(me.items.items, function (item) {
+            if (item.name == 'accountBalances'){
+                loader(item, data[item.name])
+            }
+        })
     },
 
     reset: function () {
@@ -41,17 +67,18 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.common.CustomerServiceProfile', {
             field.setValue('');
         });
         Ext.getCmp('recentTicketsBtn').hide();
+        Ext.getCmp('activeFlashesBtn').hide();
     },
 
     checkStatus: function (value) {
         if (value && value.toLowerCase().indexOf('inactive') >= 0) {
-            value = '<span style="color:#f00">' + value + '</span>';
+            value = '<span style="color:#c65e02">' + value + '</span>';
         }
         return value;
     },
     checkBalance: function (value) {
         if (value && parseInt(value) <= 0) {
-            value = '<span style="color:#f00">' + value + '</span>';
+            value = '<span style="color:#c65e02">' + value + '</span>';
         }
         return value;
     },
@@ -90,24 +117,15 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.common.CustomerServiceProfile', {
     },
     checkExpired: function (value) {
         if (value && (new Date().getTime() > new Date(value).getTime())) {
-            value = '<span style="color:#f00">' + value + '</span>'
+            value = '<span style="color:#c65e02">' + value + '</span>'
         }
         return value;
     },
     recentTickets: function () {
         managers['windowsManager'].show('recentTicketWindow');
-        /*
-        var me = this;
-        var esn = managers['pushData'].deviceProfile.esn;
-
-        adam.callWsService('call/recentTickets/' + esn, 'GET', {}).then(function (response) {
-            if (response && response.length > 0) {
-                me.items.items[0].getStore().loadData(response);
-            }
-        }).catch(function () {
-
-        });
-        */
+    },
+    activeFlashes: function () {
+        managers['windowsManager'].show('activeFlashesWindow');
     },
     initComponent: function () {
         var me = this;
@@ -310,12 +328,20 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.common.CustomerServiceProfile', {
                         }, {
                             fieldLabel: 'Customer Type',
                             name: 'customerType'
-                        }, {
+                        },
+                        /*{
                             fieldLabel: 'Case ID',
                             name: 'caseId'
-                        }, {
-                            fieldLabel: 'Flash ID',
-                            name: 'flashId'
+                        }, */
+                        {
+                            xtype: 'button',
+                            text: 'Flash',
+                            name: 'activeFlashesBtn',
+                            itemId: 'activeFlashesBtn',
+                            hidden: true,
+                            id: 'activeFlashesBtn',
+                            handler: me.activeFlashes,
+                            scope: me
                         }
                     ]
 
@@ -333,19 +359,19 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.common.CustomerServiceProfile', {
                         }, {
                             fieldLabel: 'Voice Balance',
                             name: 'voiceBalance',
-                            value: 'Retrieving ...',
+                            value: '',
                             valueToRaw: me.checkBalanceVoiceBalance,
                             fieldStyle: 'color: #c65e02'
                         }, {
                             fieldLabel: 'SMS Balance',
                             name: 'smsBalance',
-                            value: 'Retrieving ...',
+                            value: '',
                             valueToRaw: me.checkBalanceSmsBalance,
                             fieldStyle: 'color: #c65e02'
                         }, {
                             fieldLabel: 'Data Balance',
                             name: 'dataBalance',
-                            value: 'Retrieving ...',
+                            value: '',
                             valueToRaw: me.checkBalanceDataBalance,
                             fieldStyle: 'color: #c65e02'
                         }, {

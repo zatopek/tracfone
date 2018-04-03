@@ -1500,13 +1500,14 @@ div.mainPanel .attCallAssistanceCls td.x-form-item-body {
 
 .create-interaction {
 	margin-top: -20px;
-	height: 270px;
+	height: 270px !important;
 }
 
 .interactionNotePanelCls > .x-panel-body {
 	height: 255px !important;
 	margin-bottom: 0;
 	padding-bottom: 0;
+    /*z-index: 9999;*/
 }
 
 .create-interaction > .x-panel-body > span > div[id*="-innerCt"] {
@@ -1672,7 +1673,7 @@ div.mainPanel .attCallAssistanceCls td.x-form-item-body {
 }
 
 /* Payment Selection */
-#panel-1135 {height: 115px !important;}
+#panel-1135 {height: 45px !important;}
 
 #panel-1135 .x-form-item-label {
 	text-align: left;
@@ -1730,8 +1731,7 @@ div.mainPanel .attCallAssistanceCls td.x-form-item-body {
 }
 
 /* Empty State for Redemption */
-.mainPanel.redemption > .x-panel-body > span > div:empty::before,
-.splashPanelCls.redemption > .x-panel-body > span > div:empty::before{
+.mainPanel.redemption > .x-panel-body > span > div:empty::before {
 	content: '';
 	background: url(images/add-pin--bw.png) center center no-repeat;
 	background-size: contain;
@@ -1742,12 +1742,11 @@ div.mainPanel .attCallAssistanceCls td.x-form-item-body {
 	height: 130px;
 	-webkit-transform: translate3D(-100px, -65px, 0);
 	        transform: translate3D(-100px, -65px, 0);
-	z-index: 999999;
+	/*z-index: 999999;*/
 	opacity: .3;
 }
 
-.mainPanel.redemption > .x-panel-body > span > div:empty::after,
-.splashPanelCls.redemption >  .x-panel-body > span > div:empty::after{
+.mainPanel.redemption > .x-panel-body > span > div:empty::after {
 	content: 'ADD A PIN or PURCHASE A PIN';
 	white-space: nowrap;
 	position: absolute;
@@ -1762,8 +1761,7 @@ div.mainPanel .attCallAssistanceCls td.x-form-item-body {
 
 
 /* Empty State for unable */
-.mainPanel.unable > .x-panel-body > span > div:empty::before,
-.splashPanelCls.unable > .x-panel-body > span > div:empty::before{
+.mainPanel.unable > .x-panel-body > span > div:empty::before {
 	content: '';
 	background: url(images/unable--bw.png) center center no-repeat;
 	background-size: contain;
@@ -1774,12 +1772,11 @@ div.mainPanel .attCallAssistanceCls td.x-form-item-body {
 	height: 160px;
 	-webkit-transform: translate3D(-100px, -65px, 0);
 	        transform: translate3D(-100px, -65px, 0);
-	z-index: 999999;
+	/*z-index: 999999;*/
 	opacity: .3;
 }
 
-.mainPanel.unable > .x-panel-body > span > div:empty::after,
-.splashPanelCls.unable > .x-panel-body > span > div:empty::after{
+.mainPanel.unable > .x-panel-body > span > div:empty::after {
 	content: 'use troubleshooter to help \A the customer get services working';
 	position: absolute;
 	top: 73%;

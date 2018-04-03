@@ -27,18 +27,24 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.AirtimePlan', {
         var me = this;
         var estimatedCostComponent = me.up().up().down('estimatedCost');
         estimatedCostComponent.mask('Please wait...');
+        me.mask('Please wait...');
         var partNumber = selections[0].getData().partNumber;
         adam.callService('Tas/Cards/' + partNumber + '/Cost/Estimated').then(function (response) {
             estimatedCostComponent.load(response);
             me.up().up().up().down('paymentTransaction').changePurchaseButton();
-            //me.up().up().up().down('paymentTransaction').changePromoCodeButton();
             Ext.getCmp('move-next').setDisabled(false);
+            //me.up().up().up().down('paymentTransaction').changePromoCodeButton();
             estimatedCostComponent.unmask();
+            me.unmask();
         }).catch(function (response) {
             try{
                 var jsonResponse = JSON.parse(response.response.responseText);
                 if(jsonResponse && jsonResponse.message) {
-                    Ext.Msg.alert('ERROR', 'Sorry, estimated cost could not be calculated. ' + jsonResponse.message + ' Please try again.');
+                    if(jsonResponse.message.toLowerCase().indexOf('object') >= 0) {
+                        Ext.Msg.alert('ERROR', 'Sorry, something went wrong. Please try again.');
+                    } else {
+                        Ext.Msg.alert('ERROR', 'Sorry, estimated cost could not be calculated. ' + jsonResponse.message + ' Please try again.');
+                    }
                 }
                 else {
                     Ext.Msg.alert('ERROR', 'Sorry, estimated cost could not be calculated. Please try again.');
@@ -48,6 +54,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.AirtimePlan', {
                 Ext.Msg.alert('ERROR', 'Sorry, estimated cost could not be calculated. Please try again.');
             }
             estimatedCostComponent.unmask();
+            me.unmask();
         })
 
     },

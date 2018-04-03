@@ -7,14 +7,16 @@ import java.util.Map;
 import com.jacada.jad.feature.model.WorkspaceManager;
 import com.jacada.tracfoneAD.customerServiceProfile.entities.AccountBalances;
 import com.jacada.tracfoneAD.customerServiceProfile.entities.CustomerServiceProfile;
+import com.jacada.tracfoneAD.customerServiceProfile.entities.Flash;
 import com.jacada.tracfoneAD.customerServiceProfile.entities.ProductOffering;
 import com.jacada.tracfoneAD.customerServiceProfile.entities.TasTicket;
 
 public interface CustomerServiceProfileManager extends WorkspaceManager {
 	CustomerServiceProfile getCustomerServiceProfile(String esn);
-	AccountBalances getAccountBalances(String phoeStatus, String brand, String esn);
+	AccountBalances getAccountBalances(String brand, String esn);
 	Map<String, String> getDeviceOsInformation(String partNumber);
 	String getLatestPurchaseObjId(String esn, String brand);
 	List<TasTicket> getOpenedTickets(String esn);
+	List<Flash> getActiveFlashes(String esn);
 	LinkedHashMap<String, ProductOffering>getProductOfferings(String esn, String brand);
 }

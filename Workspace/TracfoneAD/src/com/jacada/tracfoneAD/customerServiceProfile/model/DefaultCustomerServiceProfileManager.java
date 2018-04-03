@@ -1,7 +1,6 @@
 package com.jacada.tracfoneAD.customerServiceProfile.model;
 
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,6 +14,7 @@ import com.jacada.tracfoneAD.customerServiceProfile.entities.AccountBalances;
 import com.jacada.tracfoneAD.customerServiceProfile.entities.CustomerProfile;
 import com.jacada.tracfoneAD.customerServiceProfile.entities.CustomerServiceProfile;
 import com.jacada.tracfoneAD.customerServiceProfile.entities.DeviceProfile;
+import com.jacada.tracfoneAD.customerServiceProfile.entities.Flash;
 import com.jacada.tracfoneAD.customerServiceProfile.entities.ProductOffering;
 import com.jacada.tracfoneAD.customerServiceProfile.entities.ServiceProfile;
 import com.jacada.tracfoneAD.customerServiceProfile.entities.TasTicket;
@@ -57,8 +57,8 @@ public class DefaultCustomerServiceProfileManager extends DefaultWorkspaceManage
 					CustomerProfile customerProfile = new CustomerProfile();
 					DeviceProfile deviceProfile = new DeviceProfile();
 					ServiceProfile serviceProfile = new ServiceProfile();
-					//AccountBalances accountBalances = new AccountBalances();
-					System.out.println("esn:" + esn);
+					AccountBalances accountBalances = new AccountBalances();
+					
 					deviceProfile.setEsn(esn);
 					deviceProfile.setDeviceType(rs.getString("device_type"));
 					deviceProfile.setSim(rs.getString("sim"));
@@ -105,10 +105,11 @@ public class DefaultCustomerServiceProfileManager extends DefaultWorkspaceManage
 					customerProfile.setZip(rs.getString("x_zipcode"));
 					customerProfile.setLid(rs.getString("lid"));
 
+					accountBalances.setPhoneStatus(deviceProfile.getPhoneStatus());
 					customerServiceProfile.setDeviceProfile(deviceProfile);
 					customerServiceProfile.setServiceProfile(serviceProfile);
 					customerServiceProfile.setCustomerProfile(customerProfile);
-					// customerServiceProfile.setAccountBalances(accountBalances);
+					customerServiceProfile.setAccountBalances(accountBalances);
 
 				}
 			} catch (SQLException e) {
@@ -162,9 +163,13 @@ public class DefaultCustomerServiceProfileManager extends DefaultWorkspaceManage
 	}
 
 	@Override
-	public AccountBalances getAccountBalances(String phoneStatus, String brand, String esn) {
+	public AccountBalances getAccountBalances(String brand, String esn) {
 		
 		AccountBalances accountBalances = new AccountBalances();
+		accountBalances.setDataBalance(AccountBalances.DATA_NOT_AVAILABLE);
+		accountBalances.setSmsBalance(AccountBalances.DATA_NOT_AVAILABLE);
+		accountBalances.setVoiceBalance(AccountBalances.DATA_NOT_AVAILABLE);
+		
 		if(brand != null && esn != null)
 		{		
 			boolean hasBalance = false;
@@ -231,6 +236,29 @@ public class DefaultCustomerServiceProfileManager extends DefaultWorkspaceManage
 			e.printStackTrace();
 		}
 		return ticketList;
+	}
+
+	@Override
+	public List<Flash> getActiveFlashes(String esn) {
+		ResultSet rs = customerServiceProfileDao.getActiveFlashes(esn);
+		List<Flash> flashList = new ArrayList<Flash>();		
+		try {
+			while (rs.next()) {
+				Flash flash = new Flash();
+				flash.setId(rs.getString("OBJID"));
+				flash.setType(rs.getString("TYPE"));
+				flash.setAlertText(rs.getString("ALERT_TEXT"));
+				flash.setStartDate(rs.getString("START_DATE"));
+				flash.setEndDate(rs.getString("END_DATE"));
+				flash.setTitle(rs.getString("TITLE"));
+				flashList.add(flash);
+			}
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return flashList;
 	}
 
 	@Override

@@ -7,14 +7,16 @@ var WindowsManager
 		var windows = {};
 
 		var _internal = {
-			ssoWindow: function () {
-				windows['ssoWindow'] = Ext.create('Jacada.user.com.jacada.tracfoneAD.sSO.SSO');
-			},
+            ssoWindow: function () {
+                windows['ssoWindow'] = Ext.create('Jacada.user.com.jacada.tracfoneAD.sSO.SSO');
+            },
             recentTicketWindow: function () {
-
                 windows['recentTicketWindow'] = Ext.create('Jacada.user.com.jacada.tracfoneAD.tickets.RecentTickets');
+            },
+            activeFlashesWindow: function () {
+                windows['activeFlashesWindow'] = Ext.create('Jacada.user.com.jacada.tracfoneAD.common.ActiveFlashes');
             }
-		}
+        }
 
 		return {
 			show: function (name, data, forceCreate) {

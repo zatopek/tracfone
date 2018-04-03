@@ -81,7 +81,7 @@ var JasHandler;
 
             var serviceEndDate = new Date(pushData.serviceProfile.serviceEndDate).toLocaleDateString("en-US", { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
 
-            var serviceExpiredFlag = new Date().getTime() > new Date(serviceEndDate).getTime();
+            var serviceExpiredFlag = new Date().getTime() > new Date(pushData.serviceProfile.serviceEndDate).getTime();
 
             unableUnableParams += 'TF_Carrier=' + carrier + '&TF_MINStatus=' + minStatus + '&TF_PPE_Flag=' + ppeFlag + '&TF_ServiceEndDate=' + serviceEndDate + '&TF_BYOP_Flag=' + byopFlag + '&TF_iPhone_Flag=' + iPhoneFlag +
                 '&TF_LTE_Flag=' + lteFlag + '&TF_SIMStatus=' + simStatus + '&TF_VoiceBalance_Flag=' + voiceBalanceFlag + '&TF_ServiceExpiredFlag=' + serviceExpiredFlag;

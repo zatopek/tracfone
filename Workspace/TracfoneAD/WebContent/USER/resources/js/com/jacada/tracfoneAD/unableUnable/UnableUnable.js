@@ -1,4 +1,5 @@
 // var ticketFormPanel = Ext.create('Jacada.user.com.jacada.tracfoneAD.unableUnable.TicketForm');
+// var ticketFormPanel = Ext.create('Jacada.user.com.jacada.tracfoneAD.unableUnable.TicketForm');
 // var interactionNotesPanel = Ext.create('Jacada.user.com.jacada.tracfoneAD.interactionNotes.InteractionNotes');
 // var attCallAssistancePanel = Ext.create('Jacada.user.com.jacada.tracfoneAD.unableUnable.AttCallAssistance');
 // var verizonCallAssistancePanel = Ext.create('Jacada.user.com.jacada.tracfoneAD.unableUnable.VerizonCallAssistance');
@@ -111,7 +112,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.unableUnable.UnableUnable', {
                 component = Ext.create('Jacada.user.com.jacada.tracfoneAD.interactionNotes.InteractionNotes');
             }
             else if (componentName === 'SplashPanel') {
-                component = Ext.create('Jacada.user.com.jacada.tracfoneAD.common.SplashPanel', parameters);
+                component = Ext.create('Jacada.user.com.jacada.tracfoneAD.common.SplashPanelUnable');
             }
             else {
                 component = Ext.create('Jacada.user.com.jacada.tracfoneAD.unableUnable.' + componentName);

@@ -207,6 +207,40 @@ public class JpaCustomerServiceProfileDao implements CustomerServiceProfileDao {
 			e.printStackTrace();
 		}
 		return rs;
-
 	}
+	
+	@Override
+	public ResultSet getActiveFlashes(String esn) {
+		Connection dbConnection = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet rs = null;
+		
+		String query = "select al.* from sa.table_alert al, sa.table_part_inst pi"
+				+ " where (alert2contract = pi.objid or alert2contact = pi.x_part_inst2contact)"
+				+ " and pi.part_serial_no = :your_esn"
+				+ " and pi.x_domain = 'PHONES'"
+				+ " and al.active > 0"
+				+ " and al.start_date <= sysdate"
+				+ " and al.end_date >= sysdate"
+				+ " order by al.start_date";
+		 
+		try {
+			Class.forName(driverClassName);
+			dbConnection = DriverManager.getConnection(jdbcURL, username,
+					password);
+			preparedStatement = dbConnection.prepareStatement(query);
+			preparedStatement.setString(1, esn);
+			rs = preparedStatement.executeQuery();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return rs;
+
+	}	
+	
+	
 }

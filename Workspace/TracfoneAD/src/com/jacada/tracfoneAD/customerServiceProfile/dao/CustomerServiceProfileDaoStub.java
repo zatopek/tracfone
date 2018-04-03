@@ -14,13 +14,7 @@ public class CustomerServiceProfileDaoStub implements CustomerServiceProfileDao 
 		// TODO Auto-generated method stub
 		return null;
 	}
-
-	@Override
-	public ResultSet getOperatingSystem(String partNumber) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
+	
 	@Override
 	public ResultSet getRecentPurchases(String esn, String brand) {
 		// TODO Auto-generated method stub
@@ -35,6 +29,18 @@ public class CustomerServiceProfileDaoStub implements CustomerServiceProfileDao 
 
 	@Override
 	public ResultSet getProductOfferings(String esn, String brand) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ResultSet getDeviceInformationFromPartNumber(String partNumber) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ResultSet getActiveFlashes(String esn) {
 		// TODO Auto-generated method stub
 		return null;
 	}

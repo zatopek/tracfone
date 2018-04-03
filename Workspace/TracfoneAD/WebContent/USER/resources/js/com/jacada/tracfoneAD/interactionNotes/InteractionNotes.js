@@ -61,13 +61,14 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.interactionNotes.InteractionNotes'
         Ext.each(fields, function (item) {
             item.setValue('');
         });
-        me.down('#createInteractioResponse').setValue('');
+        me.down('#createInteractionResponse').setValue('');
         me.down('#agentNotes').setValue('');
         me.down('#createInteractionBtn').show();
     },
 
     createInteraction: function () {
         var me = this;
+        //Ext.getBody().mask().dom.style.zIndex = '9999999';
         me.mask('Please wait...');
         var notes = '';
         var autoNotes = me.down('#autoNotes').getValue();
@@ -90,30 +91,35 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.interactionNotes.InteractionNotes'
         adam.callService('Tas/Interactions', 'POST', requestObject).then(function (response) {
             // hardcoded the success response as there is no resposne from TAS
             response = 'Interaction created successfully.';
-            me.down('#createInteractioResponse').setValue(response);
+            me.down('#createInteractionResponse').setValue(response);
             // TODO end the call here ??
             //adam.endCall();
             me.down('#createInteractionBtn').hide();
+            /*
             var esn = managers['pushData'].deviceProfile.esn;
             adam.callWsService('call/auditCreateInteractionNotes/' + esn, 'GET', {}).then(function (response) {
 
             }).catch(function () {
 
             });
-
+            */
             me.unmask();
         }).catch(function (response) {
             try{
                 var jsonResponse = JSON.parse(response.response.responseText);
                 if (jsonResponse && jsonResponse.message) {
-                    Ext.Msg.alert('ERROR', 'Sorry, Interaction could not be created. ' + jsonResponse.message + ' Please try again.');
+                    if(jsonResponse.message.toLowerCase().indexOf('object') >= 0) {
+                        Ext.Msg.alert('ERROR', 'Sorry, something went wrong. Please try again.');
+                    } else {
+                        Ext.Msg.alert('ERROR', 'Sorry, Interaction could not be created. ' + jsonResponse.message + ' Please try again.');
+                    }
                 }
                 else {
                     Ext.Msg.alert('ERROR', 'Sorry, Interaction could not be created. Please try again.');
                 }
             }
             catch(e){
-                Ext.Msg.alert('ERROR', 'Sorry, Interaction could not be created. Please try again.');
+                Ext.Msg.alert('ERROR', 'Sorry, something went wrong. Interaction could not be created. Please try again.');
             }
             me.unmask();
         });
@@ -242,7 +248,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.interactionNotes.InteractionNotes'
                 }, {
                     xtype: 'displayfield',
                     name: 'response',
-                    itemId: 'createInteractioResponse'
+                    itemId: 'createInteractionResponse'
                 }
             ]
         }]

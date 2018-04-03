@@ -8,8 +8,10 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.sSO.SSO', {
     border: true,
     shadow: false,
     modal: true,
-    title: 'Manage System Credentials',
+    title: 'MANAGE SYSTEM CREDENTIALS',
     closeAction: 'hide',
+    layout: 'fit',
+    autoScroll: true,
     sendCredentialstoJIA: function (logins) {
         var resource = 'Credentials';
         var extraparam = {
@@ -71,9 +73,10 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.sSO.SSO', {
                         success: function (response) {
                             // Received response from the server
                             me.sendCredentialstoJIA(me.logins);
+                            success = Ext.decode(response.responseText).status;
                             status = Ext.decode(response.responseText).status;
                             msg = Ext.decode(response.responseText).message;
-                            if (status == '200') {
+                            if (success) {
                                 Ext.Msg.show({
                                     title: 'Update Success'
                                     , msg: 'Credentials Updated.'

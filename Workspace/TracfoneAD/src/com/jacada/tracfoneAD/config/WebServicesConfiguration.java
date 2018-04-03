@@ -30,8 +30,6 @@ public class WebServicesConfiguration {
 	private String balanceInquiryPath;
 	@Value("${tracfone.balancesInquiry.host}")
 	private String balanceInquiryHost;
-	@Value("${tracfone.balancesInquiry.port}")
-	private String balanceInquiryPort;
 	@Value("${tracfone.balancesInquiry.username}")
 	private String balanceInquiryUsername;
 	@Value("${tracfone.balancesInquiry.password}")
@@ -43,8 +41,7 @@ public class WebServicesConfiguration {
 
 		WSBalanceInquiryDao wSBalanceInquiryDao = new WSBalanceInquiryDao();
 		wSBalanceInquiryDao.setDefaultUri(balanceInquiryProtocol
-				+ "://" + balanceInquiryHost + ":"
-				+ balanceInquiryPort + balanceInquiryPath);
+				+ "://" + balanceInquiryHost + balanceInquiryPath);
 		wSBalanceInquiryDao.setMarshaller(marshaller);
 		wSBalanceInquiryDao.setUnmarshaller(marshaller);
 
