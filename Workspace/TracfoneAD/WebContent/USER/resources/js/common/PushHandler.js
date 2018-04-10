@@ -82,8 +82,12 @@ function setupCustomerServiceProfile(pushData){
     }
 
     // check customer name and carrier before loading work flow
-    else if(!contactName || contactName.trim()=='' || !carrier || carrier.trim()=='') {
+    else if(!contactName || contactName.trim()=='' ){
         Ext.MessageBox.alert('ERROR', 'ESN not active. Please use TAS to complete this call.');
+    }
+
+    else if(!carrier || carrier.trim()=='') {
+        Ext.MessageBox.alert('ERROR', 'Carrier information not found. Please use TAS to complete this call.');
     }
     else {
         onLaunchWorkflow(pushData.callInfo.taskId);
@@ -116,6 +120,9 @@ function onLaunchWorkflow(taskId) {
     }
     else if(carrier.indexOf('sprint')>=0) {
         carrier = 'Sprint';
+    } else {
+        Ext.MessageBox.alert('ERROR', 'Carrier ' + carrier + ' unknown. Please use TAS to complete this call.');
+        return;
     }
 
     // mapping brand
@@ -127,7 +134,8 @@ function onLaunchWorkflow(taskId) {
     }
     // unsupported task id
     else {
-            Ext.MessageBox.alert('ERROR', 'Only TracFone brand is supported in this release. Please use TAS to complete this call.');
+        Ext.MessageBox.alert('ERROR', 'Only TracFone brand is supported in this release. Please use TAS to complete this call.');
+        return;
     }
     /*
     else if(brand === 'straight_talk'){
@@ -238,6 +246,7 @@ function onStartTas(data)
 function onAccountBalances(data)
 {
     // adam.savePushData(pushData);
+    managers['pushData'].accountBalances = data.accountBalances;
     widgets['customerServiceProfile'].up().up().show(); // show portlet
     widgets['customerServiceProfile'].loadAccountBalances(data);
 }

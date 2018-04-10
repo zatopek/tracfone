@@ -467,9 +467,10 @@
 			/WEB-INF/applicationContext-menus.xml		
 			/WEB-INF/applicationContext-favorites.xml
 			/WEB-INF/applicationContext-b4pTaskManager.xml
-			
-	/WEB-INF/applicationContext-tomcat.xml
-	/WEB-INF/applicationContext-ws-TracfoneAD.xml</param-value>
+			/WEB-INF/USER/tracfone/include.xml
+			/WEB-INF/applicationContext-tomcat.xml
+			/WEB-INF/applicationContext-ws-TracfoneAD.xml
+			</param-value>
 		<!--
 			Add this xml to list of contextConfigLocation to enable SMT
             recording: /WEB-INF/applicationContext-tests.xml

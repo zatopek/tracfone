@@ -40,18 +40,19 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.AirtimePlan', {
             try{
                 var jsonResponse = JSON.parse(response.response.responseText);
                 if(jsonResponse && jsonResponse.message) {
-                    if(jsonResponse.message.toLowerCase().indexOf('object') >= 0) {
-                        Ext.Msg.alert('ERROR', 'Sorry, something went wrong. Please try again.');
+                    if((jsonResponse.message.toLowerCase().indexOf('object') >= 0)||
+                        (jsonResponse.message.toLowerCase().indexOf('control') >= 0)){
+                        Ext.Msg.alert('ERROR', REQ_ERROR_MSG);
                     } else {
-                        Ext.Msg.alert('ERROR', 'Sorry, estimated cost could not be calculated. ' + jsonResponse.message + ' Please try again.');
+                        Ext.Msg.alert('ERROR', 'Sorry, estimated cost could not be calculated. ' + jsonResponse.message);
                     }
                 }
                 else {
-                    Ext.Msg.alert('ERROR', 'Sorry, estimated cost could not be calculated. Please try again.');
+                    Ext.Msg.alert('ERROR', REQ_ERROR_MSG);
                 }
             }
             catch(e){
-                Ext.Msg.alert('ERROR', 'Sorry, estimated cost could not be calculated. Please try again.');
+                Ext.Msg.alert('ERROR', REQ_ERROR_MSG);
             }
             estimatedCostComponent.unmask();
             me.unmask();
@@ -87,11 +88,11 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.AirtimePlan', {
                     Ext.Msg.alert('ERROR', 'Sorry, ' + jsonResponse.message);
                 }
                 else{
-                    Ext.Msg.alert('ERROR', 'Sorry, available pins could not be found. Please try again.');
+                    Ext.Msg.alert('ERROR', 'Sorry, available pins could not be found.');
                 }
             }
             catch(e){
-                Ext.Msg.alert('ERROR', 'Sorry, available pins could not be found. Please try again.');
+                Ext.Msg.alert('ERROR', 'Sorry, available pins could not be found.');
             }
             me.unmask();
         });

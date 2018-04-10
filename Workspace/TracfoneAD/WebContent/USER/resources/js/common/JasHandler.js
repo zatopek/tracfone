@@ -36,6 +36,29 @@ var JasHandler;
         //     byopFlag = false;
         //     ppeFlag = false;
         // }
+
+        var getReportingParams = function () {
+            var reportingParams = '';
+            var pushData = managers['pushData'];
+            var citrixUsername = $W().username;
+            var callCenterId = '';
+            var agentId = '';
+            var callId = '';
+            if (pushData) {
+                callId = pushData.callInfo.callId;
+            }
+            if(citrixUsername) {
+                if (citrixUsername.length > 6 && parseInt(citrixUsername.charAt(3)) > 0) {
+                    callCenterId = citrixUsername.substring(0, 3);
+                    agentId = citrixUsername.substring(4);
+                } else {
+                    agentId = citrixUsername;
+                }
+            }
+            reportingParams += 'TF_CallId=' + callId + '&TF_CallCenterId=' + callCenterId + '&TF_AgentId=' +agentId;
+            return reportingParams;
+        }
+
         var getRedemptionParams = function () {
             var redemptionParams = '';
             var pushData = managers['pushData'];
@@ -95,11 +118,11 @@ var JasHandler;
             },
 
             getRedemptionUrl: function () {
-                return adam.getVariable("redemptionUrl") + '&' + encodeURI(getRedemptionParams());
+                return adam.getVariable("redemptionUrl") + '&' + encodeURI(getRedemptionParams()) + '&' + encodeURI(getReportingParams());
             },
 
             getUnableUnableUrl: function () {
-                return adam.getVariable("unableUnableUrl") + '&' + encodeURI(getUnableUnableParams()) + '&' + encodeURI(getRedemptionParams());
+                return adam.getVariable("unableUnableUrl") + '&' + encodeURI(getUnableUnableParams()) + '&' + encodeURI(getRedemptionParams()) + '&' + encodeURI(getReportingParams());
             },
         };
     }

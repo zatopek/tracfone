@@ -28,8 +28,10 @@ var wsCommunicator = null;
 			sendData: function(data) {
 				console.trace('WSCommunicator: Sending data: ' + JSON.stringify(data));
 				for(var window in windows) {
-					windows[window].postMessage(JSON.stringify(data), '*');
-				}
+                    if (windows[window].postMessage) {
+                    	windows[window].postMessage(JSON.stringify(data), '*');
+                    }
+                }
 			},
 			register: function(eventname, scope, callback) {
 				console.trace('WSCommunicator: Registering handler for: ' + eventname);

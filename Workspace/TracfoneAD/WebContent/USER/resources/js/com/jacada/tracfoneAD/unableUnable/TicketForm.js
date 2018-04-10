@@ -103,7 +103,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.unableUnable.TicketForm', {
             adam.addAutoNotes(CREATE_TICKET_TAG + ' Ticket number:' + response); // TODO get exact text
             me.unmask();
         }).catch(function () {
-            Ext.Msg.alert('ERROR', 'Sorry, ticket could not be created. Please try again.');
+            Ext.Msg.alert('ERROR', 'Sorry, ticket could not be created.');
             me.unmask();
         });
     },

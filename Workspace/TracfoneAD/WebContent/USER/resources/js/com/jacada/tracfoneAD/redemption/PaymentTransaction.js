@@ -83,7 +83,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.PaymentTransaction', {
                 me.unmask();
             }
         }).catch(function () {
-            Ext.Msg.alert('ERROR', 'Sorry, unable to send email. Please try again.');
+            Ext.Msg.alert('ERROR', 'Sorry, unable to send email.');
             me.unmask();
         })
     },
@@ -138,18 +138,19 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.PaymentTransaction', {
             try{
                 var jsonResponse = JSON.parse(response.response.responseText);
                 if (jsonResponse && jsonResponse.message) {
-                    if(jsonResponse.message.toLowerCase().indexOf('object') >= 0) {
-                        Ext.Msg.alert('ERROR', 'Sorry, something went wrong. Please try again.');
+                    if((jsonResponse.message.toLowerCase().indexOf('object') >= 0) ||
+                        (jsonResponse.message.toLowerCase().indexOf('control') >= 0)){
+                        Ext.Msg.alert('ERROR', REQ_ERROR_MSG);
                     } else {
-                        Ext.Msg.alert('ERROR', 'Sorry, adding pin failed. ' + jsonResponse.message + ' Please try again.');
+                        Ext.Msg.alert('ERROR', 'Sorry, purchase pin failed. ' + jsonResponse.message);
                     }
                 }
                 else {
-                    Ext.Msg.alert('ERROR', 'Sorry, something went wrong while processing your request. Please try again.');
+                    Ext.Msg.alert('ERROR', REQ_ERROR_MSG);
                 }
             }
             catch(e){
-                Ext.Msg.alert('ERROR', 'Sorry, something went wrong while processing your request. Please try again.');
+                Ext.Msg.alert('ERROR', REQ_ERROR_MSG);
             }
             me.unmask();
         })

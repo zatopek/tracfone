@@ -24,3 +24,5 @@ const PURCHASE_AIRTIME_TAG = 'Purchased Successfully';
 const RESERVED_AIRTIME_TAG = 'Redeemed Successfully';
 
 const CREATE_TICKET_TAG = 'Ticket added';
+
+const REQ_ERROR_MSG = 'Sorry, something went wrong while processing your request.';

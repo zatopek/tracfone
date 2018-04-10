@@ -10,7 +10,14 @@ public class CallInfo implements Serializable{
 	String airtimePin;
 	String xferCondition;
 	String taskId;
+	String callId;
 	
+	public String getCallId() {
+		return callId;
+	}
+	public void setCallId(String callId) {
+		this.callId = callId;
+	}
 	public String getAirtimePin() {
 		return airtimePin;
 	}

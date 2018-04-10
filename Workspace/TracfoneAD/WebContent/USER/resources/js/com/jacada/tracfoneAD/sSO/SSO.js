@@ -18,7 +18,8 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.sSO.SSO', {
             app: 'workspace',
             username: $W().agentName,
             password: '',
-            custom: window.location.origin + $W().contextPath + '/rest/call/incomingCall'
+            //custom: window.location.origin + $W().contextPath + '/rest/call/incomingCall'
+            custom: $W().wsSessionId
         }
         logins.push(extraparam);
         var param = JSON.stringify(logins).replace(/\\/g, "").replace(/\"\[/, "[").replace(/\]\"/, "]").replace(/system/g , "app");

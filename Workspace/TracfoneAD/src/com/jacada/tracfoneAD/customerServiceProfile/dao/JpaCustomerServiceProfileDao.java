@@ -1,13 +1,29 @@
 package com.jacada.tracfoneAD.customerServiceProfile.dao;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.sql.DataSource;
 
 import com.jacada.tracfoneAD.customerServiceProfile.dao.interfaces.CustomerServiceProfileDao;
-import org.springframework.beans.factory.annotation.Value;
+import com.jacada.tracfoneAD.customerServiceProfile.entities.AccountBalances;
+import com.jacada.tracfoneAD.customerServiceProfile.entities.CustomerProfile;
+import com.jacada.tracfoneAD.customerServiceProfile.entities.CustomerServiceProfile;
+import com.jacada.tracfoneAD.customerServiceProfile.entities.DeviceProfile;
+import com.jacada.tracfoneAD.customerServiceProfile.entities.Flash;
+import com.jacada.tracfoneAD.customerServiceProfile.entities.ProductOffering;
+import com.jacada.tracfoneAD.customerServiceProfile.entities.ServiceProfile;
+import com.jacada.tracfoneAD.customerServiceProfile.entities.TasTicket;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,22 +32,21 @@ import org.springframework.transaction.annotation.Transactional;
 public class JpaCustomerServiceProfileDao implements CustomerServiceProfileDao {
 
 	private static final long serialVersionUID = 1L;
+	@Autowired
+	@Qualifier("tasDataSource")
+	private DataSource tasDataSource;
 
-	@Value("${jdbc.driverClassName}")
-	private String driverClassName;
-	@Value("${jdbc.url}")
-	private String jdbcURL;
-	@Value("${jdbc.username}")
-	private String username;
-	@Value("${jdbc.password}")
-	private String password;
+	private static final String OS = "OS";
+	private static final String FIRMWARE = "FIRMWARE";
+	private static final String MANUFACTURER = "MANUFACTURER";
 
 	@Override
-	public ResultSet getCustomerServiceProfile(String esn) {
+	public CustomerServiceProfile getCustomerServiceProfile(String esn) {
 
 		Connection dbConnection = null;
 		PreparedStatement preparedStatement = null;
 		ResultSet rs = null;
+		CustomerServiceProfile customerServiceProfile = new CustomerServiceProfile();
 
 		String query = "select "
 				+ "device_type, sim, sim_status, x_min, min_status, x_msid, phone_gen, part_serial_no, x_hex_serial_no,"
@@ -42,28 +57,102 @@ public class JpaCustomerServiceProfileDao implements CustomerServiceProfileDao {
 				+ " from table(sa.adfcrm_vo.get_service_profile(?,?))";
 
 		try {
-			Class.forName(driverClassName);
-			dbConnection = DriverManager.getConnection(jdbcURL, username,
-					password);
+			dbConnection = tasDataSource.getConnection();
 			preparedStatement = dbConnection.prepareStatement(query);
 			preparedStatement.setString(1, esn);
 			preparedStatement.setString(2, null);
 			rs = preparedStatement.executeQuery();
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+
+			if (rs.next()) {
+
+				CustomerProfile customerProfile = new CustomerProfile();
+				DeviceProfile deviceProfile = new DeviceProfile();
+				ServiceProfile serviceProfile = new ServiceProfile();
+				AccountBalances accountBalances = new AccountBalances();
+
+				deviceProfile.setEsn(esn);
+				deviceProfile.setDeviceType(rs.getString("device_type"));
+				deviceProfile.setSim(rs.getString("sim"));
+				deviceProfile.setSimStatus(rs.getString("sim_status"));
+				deviceProfile.setMin(rs.getString("x_min"));
+				deviceProfile.setMinStatus(rs.getString("min_status"));
+				deviceProfile.setMsid(rs.getString("x_msid"));
+				deviceProfile.setPhoneGen(rs.getString("phone_gen"));
+				deviceProfile.setSerial(rs.getString("part_serial_no"));
+				deviceProfile.setPartNumber(rs.getString("part_number"));
+				deviceProfile.setLeasedToFinance(rs.getString("lease_status_flag"));
+				deviceProfile.setLeaseStatus(rs.getString("lease_status_name"));
+				deviceProfile.setSequence(rs.getString("sequence"));
+				deviceProfile.setHexSerial(rs.getString("x_hex_serial_no"));
+				deviceProfile.setPhoneStatus(rs.getString("phone_status"));
+				Map<String, String> deviceOsInformation = this.getDeviceInformationFromPartNumber(deviceProfile.getPartNumber());
+				deviceProfile.setOs(deviceOsInformation.get(OS));
+				deviceProfile.setFirmware(deviceOsInformation.get(FIRMWARE));
+				deviceProfile.setManufacturer(deviceOsInformation.get(MANUFACTURER));
+
+				serviceProfile.setServiceType(rs.getString("service_type"));
+				serviceProfile.setRatePlan(rs.getString("rate_plan"));
+				serviceProfile.setServicePlanObjId(rs.getString("service_plan_objid"));
+				serviceProfile.setCarrier(rs.getString("carrier"));
+				serviceProfile
+				.setTechnology(rs.getString("technology") + "(" + rs.getString("technology_alt") + ")");
+				serviceProfile.setActivationDate(rs.getString("install_date"));
+				serviceProfile.setDeactDate(rs.getString("service_end_dt"));
+				serviceProfile.setServiceEndDate(rs.getString("x_expire_dt"));
+				serviceProfile.setNextChargeDate(rs.getString("next_charge_date"));
+				serviceProfile.setBrand(rs.getString("brand"));
+				serviceProfile.setDealer(rs.getString("dealer_id") + " " + rs.getString("dealer_name"));
+				serviceProfile.setCardsInReserve(rs.getString("cards_in_queue"));
+				serviceProfile.setWarrantyExchanges(rs.getString("warranty_exchanges"));
+				serviceProfile.setBasicWarrantyFound(rs.getString("basic_warranty"));
+				serviceProfile.setExtendedWarranty(rs.getString("extended_warranty"));
+				serviceProfile.setCurrentThrottleStatus(rs.getString("x_policy_description"));
+				serviceProfile.setAutoRefill(rs.getString("sp_script_text"));
+
+				customerProfile.setCustomerId(rs.getString("customer_id"));
+				customerProfile.setContactName(rs.getString("first_name") + " " + rs.getString("last_name"));
+				customerProfile.setEmail(rs.getString("e_mail"));
+				customerProfile.setGroupId(rs.getString("groupid"));
+				customerProfile.setZip(rs.getString("x_zipcode"));
+				customerProfile.setLid(rs.getString("lid"));
+
+				accountBalances.setPhoneStatus(deviceProfile.getPhoneStatus());
+				customerServiceProfile.setDeviceProfile(deviceProfile);
+				customerServiceProfile.setServiceProfile(serviceProfile);
+				customerServiceProfile.setCustomerProfile(customerProfile);
+				customerServiceProfile.setAccountBalances(accountBalances);
+
+			}
+
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
-		return rs;
+		} finally {			
+			try {
+				if (rs != null) {
+					rs.close();
+				}
+				if (preparedStatement != null) {
+					preparedStatement.close();
+				}
+				if (dbConnection != null) {
+					dbConnection.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}		
+		return customerServiceProfile;
 	}
 
 	@Override
-	public ResultSet getDeviceInformationFromPartNumber(String partNumber) {
+	public Map<String, String> getDeviceInformationFromPartNumber(String partNumber) {
 		Connection dbConnection = null;
 		PreparedStatement preparedStatement = null;
 		ResultSet rs = null;
+		String os = "";
+		String manufacturer;
+		String firmware;
+		Map<String, String> deviceOsInformation = new HashMap<String, String>();
 
 		String query = "select name model,  x_param_name parameter,x_param_value value"
 				+ " From Table_X_Part_Class_Values ,Table_X_Part_Class_Params, Table_Part_Class, table_part_num"
@@ -72,60 +161,98 @@ public class JpaCustomerServiceProfileDao implements CustomerServiceProfileDao {
 				+ " and x_param_name in ( 'MANUFACTURER', 'OPERATING_SYSTEM','DEVICE_TYPE', 'FIRMWARE' )"
 				+ " and part_num2part_class = table_part_class.objid and part_number = ?"
 				+ " order by name, x_param_name";
-				
+
 		try {
-			Class.forName(driverClassName);
-			dbConnection = DriverManager.getConnection(jdbcURL, username,
-					password);
+			dbConnection = tasDataSource.getConnection();
 			preparedStatement = dbConnection.prepareStatement(query);
 			preparedStatement.setString(1, partNumber);
 			rs = preparedStatement.executeQuery();
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			while (rs.next()) {
+				String parameter = rs.getString("PARAMETER");
+				if (parameter.equals("OPERATING_SYSTEM")) {
+					os = rs.getString("VALUE");
+					deviceOsInformation.put(OS, os);
+				}
+				else if (parameter.equals("MANUFACTURER")) {
+					manufacturer = rs.getString("VALUE");
+					deviceOsInformation.put(MANUFACTURER, manufacturer);
+				}
+				else if (parameter.equals("FIRMWARE")) {
+					firmware = rs.getString("VALUE");
+					deviceOsInformation.put(FIRMWARE, firmware);
+				}
+			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+
 			e.printStackTrace();
 		}
-		return rs;
+		finally {			
+			try {
+				if (rs != null) {
+					rs.close();
+				}
+				if (preparedStatement != null) {
+					preparedStatement.close();
+				}
+				if (dbConnection != null) {
+					dbConnection.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return deviceOsInformation;
 	}
 
 	@Override
-	public ResultSet getRecentPurchases(String esn, String brand) {
+	public String getRecentPurchases(String esn, String brand) {
 		Connection dbConnection = null;
 		PreparedStatement preparedStatement = null;
 		ResultSet rs = null;
-		
+		String recentPurchase = "";
+
 		String query = "SELECT distinct Objid, Description,Customer_Price, part_number property_display, x_card_type, units, ServicePlanType"
 				+ " FROM table(sa.ADFCRM_VO.getAvailableSpPurchase(?,?,?))"
 				+ " order by x_card_type desc, customer_price asc";
-		
+
 		try {
-			Class.forName(driverClassName);
-			dbConnection = DriverManager.getConnection(jdbcURL, username,
-					password);
+			dbConnection = tasDataSource.getConnection();
 			preparedStatement = dbConnection.prepareStatement(query);
 			preparedStatement.setString(1, esn);
 			preparedStatement.setString(2, brand.toUpperCase());
 			preparedStatement.setString(3, "ENGLISH");
-			
+
 			rs = preparedStatement.executeQuery();
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
+			while (rs.next()) {
+				recentPurchase = rs.getString("OBJID");
+			}
+		} catch (SQLException e) {		
 			e.printStackTrace();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		}finally {			
+			try {
+				if (rs != null) {
+					rs.close();
+				}
+				if (preparedStatement != null) {
+					preparedStatement.close();
+				}
+				if (dbConnection != null) {
+					dbConnection.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
-		return rs;	
+		return recentPurchase;	
 	}
 
 	@Override
-	public ResultSet getTicketHistory(String esn) {
+	public List<TasTicket> getTicketHistory(String esn) {
 		Connection dbConnection = null;
 		PreparedStatement preparedStatement = null;
 		ResultSet rs = null;
-		
+		List<TasTicket> ticketList = new ArrayList<TasTicket>();
+
 		String query = "SELECT TableExtactcase.AGE, "
 				+ "TableExtactcase.CLARIFY_STATE,"
 				+ "TableExtactcase.CONDITION,"
@@ -161,60 +288,101 @@ public class JpaCustomerServiceProfileDao implements CustomerServiceProfileDao {
 				+ " WHERE TableExtactcase.X_ESN = ?" 
 				+ " ORDER BY TableExtactcase.CREATION_TIME";
 		try {
-			Class.forName(driverClassName);
-			dbConnection = DriverManager.getConnection(jdbcURL, username,
-					password);
+			dbConnection = tasDataSource.getConnection();
 			preparedStatement = dbConnection.prepareStatement(query);
 			preparedStatement.setString(1, esn);
 			rs = preparedStatement.executeQuery();
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			while (rs.next()) {
+				String status = rs.getString("STATUS");
+				if (!status.toLowerCase().equals("closed")) {
+					TasTicket ticket = new TasTicket();
+					ticket.setId(rs.getString("ID_NUMBER"));
+					ticket.setCreationTime(rs.getString("CREATION_TIME"));
+					ticket.setIssue(rs.getString("ISSUE"));
+					ticket.setStatus(rs.getString("STATUS"));
+					ticket.setTitle(rs.getString("TITLE"));
+					ticketList.add(ticket);
+				}
+			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}finally {			
+			try {
+				if (rs != null) {
+					rs.close();
+				}
+				if (preparedStatement != null) {
+					preparedStatement.close();
+				}
+				if (dbConnection != null) {
+					dbConnection.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
-		return rs;
+		return ticketList;
 	}
 
 	@Override
-	public ResultSet getProductOfferings(String esn, String brand) {
+	public LinkedHashMap<String, ProductOffering> getProductOfferings(String esn, String brand) {
 		Connection dbConnection = null;
 		PreparedStatement preparedStatement = null;
 		ResultSet rs = null;
-		
+		LinkedHashMap<String, ProductOffering> productOfferings = new LinkedHashMap<String, ProductOffering>();
+
 		String query = "SELECT distinct Objid, Mkt_Name, Description,Customer_Price, Ivr_Plan_Id, Webcsr_Display_Name,"
-		+ "X_SP2PROGRAM_PARAM, X_Program_Name,"
-		+ "spobjid, value_name, part_number Property_Value, part_number property_display,"
-		+ "x_card_type, units, ServicePlanType, service_plan_group"
-		+ " FROM table(sa.ADFCRM_VO.getAvailableSpPurchase(?,?,?))"
-		+ " order by x_card_type desc, customer_price asc";
-		 
+				+ "X_SP2PROGRAM_PARAM, X_Program_Name,"
+				+ "spobjid, value_name, part_number Property_Value, part_number property_display,"
+				+ "x_card_type, units, ServicePlanType, service_plan_group"
+				+ " FROM table(sa.ADFCRM_VO.getAvailableSpPurchase(?,?,?))"
+				+ " order by x_card_type desc, customer_price asc";
+
 		try {
-			Class.forName(driverClassName);
-			dbConnection = DriverManager.getConnection(jdbcURL, username,
-					password);
+			dbConnection = tasDataSource.getConnection();
 			preparedStatement = dbConnection.prepareStatement(query);
 			preparedStatement.setString(1, esn);
 			preparedStatement.setString(2, brand.toUpperCase());
 			preparedStatement.setString(3, "ENGLISH");
 			rs = preparedStatement.executeQuery();
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			while (rs.next()) {
+
+				ProductOffering productOffering = new ProductOffering();
+				productOffering.setDescription(rs.getString("Description"));
+				productOffering.setObjectId(rs.getString("OBJID"));
+				productOffering.setPartNumber(rs.getString("PROPERTY_DISPLAY"));
+				productOffering.setPrice(rs.getString("Customer_Price"));
+				productOffering.setUnits(rs.getString("units"));
+				productOfferings.put(rs.getString("OBJID"), productOffering);
+
+			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}finally {			
+			try {
+				if (rs != null) {
+					rs.close();
+				}
+				if (preparedStatement != null) {
+					preparedStatement.close();
+				}
+				if (dbConnection != null) {
+					dbConnection.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
-		return rs;
+		return productOfferings;
 	}
-	
+
 	@Override
-	public ResultSet getActiveFlashes(String esn) {
+	public List<Flash> getActiveFlashes(String esn) {
 		Connection dbConnection = null;
 		PreparedStatement preparedStatement = null;
 		ResultSet rs = null;
-		
+		List<Flash> flashList = new ArrayList<Flash>();	
+
 		String query = "select al.* from sa.table_alert al, sa.table_part_inst pi"
 				+ " where (alert2contract = pi.objid or alert2contact = pi.x_part_inst2contact)"
 				+ " and pi.part_serial_no = :your_esn"
@@ -223,24 +391,39 @@ public class JpaCustomerServiceProfileDao implements CustomerServiceProfileDao {
 				+ " and al.start_date <= sysdate"
 				+ " and al.end_date >= sysdate"
 				+ " order by al.start_date";
-		 
+
 		try {
-			Class.forName(driverClassName);
-			dbConnection = DriverManager.getConnection(jdbcURL, username,
-					password);
+			dbConnection = tasDataSource.getConnection();
 			preparedStatement = dbConnection.prepareStatement(query);
 			preparedStatement.setString(1, esn);
 			rs = preparedStatement.executeQuery();
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			while (rs.next()) {
+				Flash flash = new Flash();
+				flash.setId(rs.getString("OBJID"));
+				flash.setType(rs.getString("TYPE"));
+				flash.setAlertText(rs.getString("ALERT_TEXT"));
+				flash.setStartDate(rs.getString("START_DATE"));
+				flash.setEndDate(rs.getString("END_DATE"));
+				flash.setTitle(rs.getString("TITLE"));
+				flashList.add(flash);
+			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}finally {			
+			try {
+				if (rs != null) {
+					rs.close();
+				}
+				if (preparedStatement != null) {
+					preparedStatement.close();
+				}
+				if (dbConnection != null) {
+					dbConnection.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
-		return rs;
-
+		return flashList;
 	}	
-	
-	
 }

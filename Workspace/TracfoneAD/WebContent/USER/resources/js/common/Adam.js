@@ -167,7 +167,8 @@ var Adam = function () {
 							app: 'workspace',
 							username: $W().agentName,
 							password: '',
-							custom: window.location.origin + $W().contextPath + '/rest/call/incomingCall'				
+							//custom: window.location.origin + $W().contextPath + '/rest/call/incomingCall'
+                            custom: $W().wsSessionId
 						}
 						logins.push(extraparam);
                         var param = JSON.stringify(logins).replace(/\\/g, "").replace(/\"\[/, "[").replace(/\]\"/, "]").replace(/system/g , "app");
@@ -195,19 +196,12 @@ var Adam = function () {
 			//First get the attached data
 		},
 		endCall: function () {
-			// reset all widgets
-			// for (var key in widgets) {
-			// 	if (widgets[key].reset) {
-			// 		try {
-			// 			widgets[key].reset();
-			// 		} catch (e) {
-			// 			console.err('Failed to reset - ' + key);
-			// 		}
-			// 	}
-			// }
-
-			// debugger;
-
+            managers['interactcomm'].sendData({
+                type: 'object',
+                eventName: 'endCall',
+                name: 'endCall',
+                value: ''
+            });
 		},
 		endDisposition: function () {
 			//The reset should take care of clearing everything.

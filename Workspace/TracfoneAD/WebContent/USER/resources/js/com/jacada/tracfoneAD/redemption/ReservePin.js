@@ -92,7 +92,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.ReservePin', {
             adam.addAutoNotes(selectedPin.get('snp') + ' - ' + selectedPin('partNumber') + " "  + RESERVED_AIRTIME_TAG);
             me.down('#transactionSummaryContainer').unmask();
         }).catch(function () {
-            Ext.Msg.alert('ERROR', 'Sorry, something went wrong while processing your request. Please try again.');
+            Ext.Msg.alert('ERROR', REQ_ERROR_MSG);
             me.down('#transactionSummaryContainer').unmask();
         })
     },
