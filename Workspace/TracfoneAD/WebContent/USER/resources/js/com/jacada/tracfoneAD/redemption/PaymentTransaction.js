@@ -106,7 +106,9 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.PaymentTransaction', {
                 me.down('#sendEmailBtn').show();
                 me.down('#purchaseBtn').disable();
                 //me.down('#validateBtn').disable();
-                Ext.getCmp('move-prev').setDisabled(true);
+                //Ext.getCmp('move-prev').setDisabled(true);
+                Ext.getCmp('move-prev').hide();
+                Ext.getCmp('move-next').hide();
             }
             var i = response.indexOf('<div class=\"x1a\"');
             if (i >= 0) {

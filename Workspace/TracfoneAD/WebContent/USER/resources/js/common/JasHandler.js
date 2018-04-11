@@ -36,11 +36,16 @@ var JasHandler;
         //     byopFlag = false;
         //     ppeFlag = false;
         // }
-
         var getReportingParams = function () {
+            debugger;
             var reportingParams = '';
             var pushData = managers['pushData'];
-            var citrixUsername = $W().username;
+            //var citrixUsername = $W().username;
+            var citrixUsername = '';
+            var username = this.getCookieVal('username');
+            if(username && username.length>0) {
+                citrixUsername = username.substring(username.indexOf("=") + 1);
+            }
             var callCenterId = '';
             var agentId = '';
             var callId = '';

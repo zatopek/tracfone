@@ -26,6 +26,8 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.PurchasePin', {
         me.down('estimatedCost').reset();
         me.down('paymentTransaction').reset();
         Ext.getCmp('cardPanel').getLayout().setActiveItem(0);
+        Ext.getCmp('move-prev').show();
+        Ext.getCmp('move-next').show();
         Ext.getCmp('move-prev').setDisabled(true);
         Ext.getCmp('move-next').setDisabled(true);
     },

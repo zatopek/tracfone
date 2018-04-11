@@ -91,7 +91,20 @@ var Adam = function () {
             });
 		},
 		callService: function (call, method, callObject) {
-			return managers['comm'].send($W().username + '/' + call, method, callObject);
+            var envUsername = '';
+            var name = "username=";
+            var decodedCookie = decodeURIComponent(document.cookie);
+            var ca = decodedCookie.split(';');
+            for(var i = 0; i <ca.length; i++) {
+                var c = ca[i];
+                while (c.charAt(0) == ' ') {
+                    c = c.substring(1);
+                }
+                if (c.indexOf(name) == 0) {
+                    envUsername = c.substring(name.length, c.length);
+                }
+            }
+			return managers['comm'].send(envUsername + '/' + call, method, callObject);
 		},
         callWsService: function (call, method, callObject) {
             return managers['workspace'].send(call, method, callObject);
