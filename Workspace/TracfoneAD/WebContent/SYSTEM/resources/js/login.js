@@ -31,11 +31,16 @@ function getMainWindow() {
     return w;
 }
 
+function getCookie(name) {
+    var value = "; " + document.cookie;
+    var parts = value.split("; " + name + "=");
+    if (parts.length == 2) return parts.pop().split(";").shift();
+}
 
 var mainWindow = getMainWindow();
 var mainDoc = mainWindow.document;
 if (mainDoc != document) {
-    mainWindow.location.href = "<%=request.getContextPath()%>/terminated.jsp&username=" + $W().username;
+    mainWindow.location.href = "<%=request.getContextPath()%>/terminated.jsp&username=" + this.getCookie('username');
 }
 
 function enterCloseForm(e) {

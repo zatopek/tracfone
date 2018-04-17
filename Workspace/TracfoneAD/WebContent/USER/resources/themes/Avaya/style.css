@@ -1882,3 +1882,7 @@ div.mainPanel .attCallAssistanceCls td.x-form-item-body {
 .airtimePlanCls .x-grid-cell-inner {
 	padding: 5px 10px 5px 10px;
 }
+
+.chooseCls {
+	color: #f47200;
+}

@@ -78,6 +78,8 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.sSO.SSO', {
                             status = Ext.decode(response.responseText).status;
                             msg = Ext.decode(response.responseText).message;
                             if (success) {
+                                debugger
+                                managers['logins'] = me.logins;
                                 Ext.Msg.show({
                                     title: 'Update Success'
                                     , msg: 'Credentials Updated.'

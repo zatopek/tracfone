@@ -1,7 +1,7 @@
 Ext.define('Jacada.user.com.jacada.tracfoneAD.unableUnable.AttCallAssistance', {
     extend: 'Jacada.user.com.jacada.tracfoneAD.baseComponents.BaseView',
     xtype: 'attCallAssitance',
-    title: '<span class="callNumber">Call AT&T at 1-877-252-7716</span> <span class="notify"> (DO NOT GIVE THIS NUMBER TO CUSTOMER)</span>',
+    title: '',
     layout: 'vbox',
     border: false,
     width: '100%',

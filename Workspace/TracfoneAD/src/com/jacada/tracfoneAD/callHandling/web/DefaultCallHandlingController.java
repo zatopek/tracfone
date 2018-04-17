@@ -20,6 +20,8 @@ import com.jacada.tracfoneAD.callHandling.model.interfaces.CallHandlingManager;
 import com.jacada.tracfoneAD.customerServiceProfile.entities.AccountBalances;
 import com.jacada.tracfoneAD.customerServiceProfile.entities.CustomerServiceProfile;
 import com.jacada.tracfoneAD.customerServiceProfile.entities.Flash;
+import com.jacada.tracfoneAD.customerServiceProfile.entities.InteractionDetail;
+import com.jacada.tracfoneAD.customerServiceProfile.entities.InteractionReason;
 import com.jacada.tracfoneAD.customerServiceProfile.entities.ProductOffering;
 import com.jacada.tracfoneAD.customerServiceProfile.entities.TasTicket;
 import com.jacada.tracfoneAD.customerServiceProfile.model.interfaces.CustomerServiceProfileManager;
@@ -47,6 +49,63 @@ public class DefaultCallHandlingController extends WorkspaceController {
 			payload.setStatus("200");
 			payload.setSuccess(true);
 			payload.setResult(purchase);			
+		}
+		catch(Exception e){
+			payload.setStatus("500");
+			payload.setSuccess(false);
+			payload.setMessage(e.getLocalizedMessage());
+		}
+		return payload;
+	}
+	
+	@RequestMapping(value = "getInteractionDetails/{reasonObjId}", method = RequestMethod.GET, produces = "application/json")
+	public @ResponseBody
+	JSONPayload getInteractionDetails(@PathVariable String reasonObjId, HttpServletRequest request) {
+		JSONPayload payload = new JSONPayload();
+		try{			
+			List<InteractionDetail> details = customerServiceProfileManager.getInteractionDetails(reasonObjId);	
+			payload.setStatus("200");
+			payload.setSuccess(true);
+			payload.setResult(details);
+			
+		}
+		catch(Exception e){
+			payload.setStatus("500");
+			payload.setSuccess(false);
+			payload.setMessage(e.getLocalizedMessage());
+		}
+		return payload;
+	}
+	
+	@RequestMapping(value = "getInteractionReasons", method = RequestMethod.GET, produces = "application/json")
+	public @ResponseBody
+	JSONPayload getInteractionReasons(HttpServletRequest request) {
+		JSONPayload payload = new JSONPayload();
+		try{
+			List<InteractionReason> reasons = customerServiceProfileManager.getInteractionReasons();			
+			payload.setStatus("200");
+			payload.setSuccess(true);
+			payload.setResult(reasons);
+			
+		}
+		catch(Exception e){
+			payload.setStatus("500");
+			payload.setSuccess(false);
+			payload.setMessage(e.getLocalizedMessage());
+		}
+		return payload;
+	}
+	
+	@RequestMapping(value = "getInteractionResults", method = RequestMethod.GET, produces = "application/json")
+	public @ResponseBody
+	JSONPayload getInteractionResults(HttpServletRequest request) {
+		JSONPayload payload = new JSONPayload();
+		try{
+			List<InteractionReason> results = customerServiceProfileManager.getResults();			
+			payload.setStatus("200");
+			payload.setSuccess(true);
+			payload.setResult(results);
+			
 		}
 		catch(Exception e){
 			payload.setStatus("500");

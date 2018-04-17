@@ -14,15 +14,131 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.interactionNotes.InteractionNotes'
     },
 
     load: function () {
+        debugger;
         var me = this;
-        var reason = 'Unable /Unable'
-        if (managers['flowType'] === 'redemption')
-            reason = 'Redemption';
+
+        // populate results combo box
+        adam.callWsService('call/getInteractionResults', 'GET', {}).then(function (response) {
+            var results = [];
+            Ext.each(response, function (field) {
+                results.push({
+                    val: field.objId,
+                    name: field.title
+                })
+            })
+            var interactionResultsStore = Ext.create('Ext.data.Store', {
+                fields: ['val', 'name'],
+                data: results
+            });
+            var combo = me.down('#result');
+
+            combo.bindStore(interactionResultsStore);
+            var recordIndex = interactionResultsStore.findBy(
+                function(record, id){
+                    if(record.get('name').toLowerCase().indexOf('completed') >=0){
+                        return id;
+                    }
+                    return 0;
+                }
+            );
+            combo.setValue(combo.getStore().getAt(recordIndex));
+            //combo.setValue(combo.getStore().getAt(0));
+            //me.down('#result').setValue('Call Completed');
+        }).catch(function (response) {
+
+        })
+
+        // populate reasons combo box
+        adam.callWsService('call/getInteractionReasons', 'GET', {}).then(function (response) {
+            var reasonSelected = '';
+            var reasons = [];
+            Ext.each(response, function (field) {
+                reasons.push({
+                    val: field.objId,
+                    name: field.title
+                })
+            })
+            var interactionReasonsStore = Ext.create('Ext.data.Store', {
+                fields: ['val', 'name'],
+                data: reasons
+            });
+
+            var combo = me.down('#reason');
+            combo.bindStore(interactionReasonsStore);
+            var recordIndex = interactionReasonsStore.findBy(
+                function(record, id){
+                    if (managers['flowType'] === 'redemption'){
+                        if(record.get('name').toLowerCase().indexOf('redemption') >=0) {
+                            reasonSelected = record.get('val');
+                            return id;
+                        }
+                    } else {
+                        if(record.get('name').toLowerCase().indexOf('unable') >=0) {
+                            reasonSelected = record.get('val');
+                            return id;
+                        }
+                    }
+                }
+            );
+            combo.setValue(combo.getStore().getAt(recordIndex));
+
+            // populate details combo box based on reason selected
+            adam.callWsService('call/getInteractionDetails/' + reasonSelected, 'GET', {}).then(function (response) {
+                var details = [];
+                Ext.each(response, function (field) {
+                    details.push({
+                        val: field.detailObjId,
+                        name: field.title
+                    })
+                })
+                var interactionDetailsStore = Ext.create('Ext.data.Store', {
+                    fields: ['val', 'name'],
+                    data: details
+                });
+                var combo = me.down('#detail');
+                combo.bindStore(interactionDetailsStore);
+
+                if(autoNotes.indexOf(ADD_AIRTIME_TAG)>=0 ||
+                    autoNotes.indexOf(PURCHASE_AIRTIME_TAG)>=0 ||
+                    autoNotes.indexOf(RESERVED_AIRTIME_TAG)>=0)
+                {
+                    //me.down('#detail').setValue('Redemption Successful');
+                    var recordIndex = combo.getStore().findBy(
+                        function(record, id){
+                            if(record.get('name').toLowerCase().indexOf('successful') >=0) {
+                                return id;
+                            }
+                        }
+                    );
+                    combo.setValue(combo.getStore().getAt(recordIndex));
+                }
+                else {
+                    var interactionDetails = managers['interactionDetails'] || '';
+                    if (interactionDetails != '') {
+                        var recordIndex = combo.getStore().findBy(
+                            function (record, id) {
+                                if (record.get('name').toLowerCase().indexOf(interactionDetails) >= 0) {
+                                    return id;
+                                }
+                            }
+                        );
+                        combo.setValue(combo.getStore().getAt(recordIndex));
+                    } else {
+                        combo.setValue(combo.getStore().getAt(0));
+                    }
+                }
+
+            }).catch(function (response) {
+
+            })
+        }).catch(function (response) {
+
+        })
+
 
         var data = {
             brand: managers['pushData'].serviceProfile.brand,
-            deviceType: managers['pushData'].deviceProfile.deviceType,
-            reason: reason, // select the first element. we might not need this
+            deviceType: managers['pushData'].deviceProfile.deviceType
         }
         var fields = me.items.items[0].items.items[0].items.items[0].items.items;
         Ext.each(fields, function (item) {
@@ -30,8 +146,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.interactionNotes.InteractionNotes'
                 item.setValue(data[item.name]);
         })
 
-        // TODO from where we get this? 
-        //var autoNotes = 'Airtime Pin added - $45 30-Dday UNL TALK/DATA, first 10 GB at High Speeds then at 2G';
+
         var notes = managers['autoNotes'] || '';
         notes = notes.split(", ");
         var autoNotes = [];
@@ -39,21 +154,28 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.interactionNotes.InteractionNotes'
             if(autoNotes.indexOf(notes[i]) == -1) autoNotes.push(notes[i]);
         }
         autoNotes=autoNotes.join(", ");
-
+        if(autoNotes.indexOf(", ")==0){
+            autoNotes = autoNotes.substring(2);
+        }
         me.down('#autoNotes').setValue(autoNotes);
-        me.down('#result').setValue('Call Completed');
+        //me.down('#result').setValue('Call Completed');
 
-        if(autoNotes.indexOf(ADD_AIRTIME_TAG)>=0 ||
-            autoNotes.indexOf(PURCHASE_AIRTIME_TAG)>=0 ||
-            autoNotes.indexOf(RESERVED_AIRTIME_TAG)>=0)
+        // disable create button if reason or detail has not been selected
+        if(me.down('#result').getDisplayValue().toLowerCase().indexOf('choose') == -1 &&
+            me.down('#detail').getDisplayValue().toLowerCase().indexOf('choose') == -1)
         {
-            me.down('#detail').setValue('Redemption Successful');
+            me.down('#createInteractionBtn').enable();
+        } else {
+            me.down('#createInteractionBtn').disable();
         }
-        else {
-            var interactionDetails = managers['interactionDetails'] || '';
-            me.down('#detail').setValue(interactionDetails);
+
+        if(me.down('#result').getDisplayValue().toLowerCase().indexOf('choose') == -1) {
+            me.down('#result').inputEl.addCls('chooseCls');
         }
-        me.down('#result').setValue('Call Completed');
+
+        if(me.down('#detail').getDisplayValue().toLowerCase().indexOf('choose') == -1) {
+            me.down('#detail').inputEl.addCls('chooseCls');
+        }
     },
 
     reset: function () {
@@ -80,11 +202,11 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.interactionNotes.InteractionNotes'
             notes = agentNotes;
         }
         var requestObject = {
-            reason: me.down('#reason').getValue(),
+            reason: me.down('#reason').getDisplayValue(),
             //notes: me.down('#agentNotes').getValue(),
             notes: notes,
-            detail: me.down('#detail').getValue(),
-            result: me.down('#result').getValue(),
+            detail: me.down('#detail').getDisplayValue(),
+            result: me.down('#result').getDisplayValue(),
             surveyQuestion: managers['surveyQuestion'] || ''
         }
 
@@ -154,12 +276,15 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.interactionNotes.InteractionNotes'
                             disabled: true,
                             editable: false,
                             forceSelection: true,
+                            /*
                             store: Ext.create('Ext.data.Store', {
                                 fields: ['val', 'name'],
                                 data: Object.keys(REASON).map(function (item, index) { return { "val": item, "name": item } })
                             }),
+                            */
                             listeners: {
                                 change: function (combo, newValue, oldValue) {
+                                    /*
                                     if (newValue) {
                                         var detailStore = Ext.create('Ext.data.Store', {
                                             fields: ['val', 'name'],
@@ -168,6 +293,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.interactionNotes.InteractionNotes'
                                         var detailCombo = me.down('#detail');
                                         detailCombo.bindStore(detailStore);
                                     }
+                                    */
                                 }
                             }
                         }, {
@@ -180,6 +306,32 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.interactionNotes.InteractionNotes'
                             editable: false,
                             valueField: 'val',
                             displayField: 'name',
+                            listeners: {
+                                change: function (combo, newValue, oldValue) {
+                                    /*
+                                    if (newValue) {
+                                        var detailStore = Ext.create('Ext.data.Store', {
+                                            fields: ['val', 'name'],
+                                            data: REASON[newValue].map(function (item, index) { return { "val": item, "name": item } })
+                                        });
+                                        var detailCombo = me.down('#detail');
+                                        detailCombo.bindStore(detailStore);
+                                    }
+                                    */
+                                    if (combo.getDisplayValue().toLowerCase().indexOf('choose') >= 0) {
+                                        combo.inputEl.addCls('chooseCls');
+                                    } else {
+                                        combo.inputEl.removeCls('chooseCls');
+                                    }
+
+                                    if (combo.getDisplayValue().toLowerCase().indexOf('choose') == -1 &&
+                                        me.down('#result').getDisplayValue().toLowerCase().indexOf('choose') == -1) {
+                                        me.down('#createInteractionBtn').enable();
+                                    } else {
+                                        me.down('#createInteractionBtn').disable();
+                                    }
+                                }
+                            }
                         }, {
                             xtype: 'combo',
                             fieldLabel: 'Result',
@@ -191,10 +343,30 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.interactionNotes.InteractionNotes'
                             queryMode: 'local',
                             valueField: 'val',
                             displayField: 'name',
+                            listeners: {
+                                change: function (combo, newValue, oldValue) {
+                                    if (combo.getDisplayValue().toLowerCase().indexOf('choose') >= 0) {
+                                        combo.inputEl.addCls('chooseCls');
+                                    } else {
+                                        combo.inputEl.removeCls('chooseCls');
+                                    }
+
+                                    if (combo.getDisplayValue().toLowerCase().indexOf('choose') ==-1 &&
+                                        me.down('#detail').getDisplayValue().toLowerCase().indexOf('choose') == -1) {
+                                        me.down('#createInteractionBtn').enable();
+                                    }
+                                    else {
+                                        me.down('#createInteractionBtn').disable();
+                                    }
+                                }
+                            }
+                            /*
                             store: Ext.create('Ext.data.Store', {
                                 fields: ['val', 'name'],
-                                data: RESULT.map(function (item, index) { return { "val": item, "name": item } })
+                                //data: RESULT.map(function (item, index) { return { "val": item, "name": item } })
+                                data: interactionResults
                             })
+                            */
                         }]
                     }]
                 }, {

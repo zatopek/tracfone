@@ -41,6 +41,8 @@ var Adam = function () {
 
     managers['interactionDetails'] = '';
 
+    managers['logins'] = '';
+
 	return {
 		load: function () {
 			for (var manager in managers) {
@@ -90,26 +92,23 @@ var Adam = function () {
 				}
             });
 		},
+		getCookie: function(name) {
+            var value = "; " + document.cookie;
+            var parts = value.split("; " + name + "=");
+            if (parts.length == 2) return parts.pop().split(";").shift();
+        },
 		callService: function (call, method, callObject) {
-            var envUsername = '';
-            var name = "username=";
-            var decodedCookie = decodeURIComponent(document.cookie);
-            var ca = decodedCookie.split(';');
-            for(var i = 0; i <ca.length; i++) {
-                var c = ca[i];
-                while (c.charAt(0) == ' ') {
-                    c = c.substring(1);
-                }
-                if (c.indexOf(name) == 0) {
-                    envUsername = c.substring(name.length, c.length);
-                }
-            }
-			return managers['comm'].send(envUsername + '/' + call, method, callObject);
+            return managers['comm'].send(this.getCookie('username') + '/' + call, method, callObject);
 		},
         callWsService: function (call, method, callObject) {
             return managers['workspace'].send(call, method, callObject);
         },
 		getVariable: function (name) {
+			//reload variables if not defined
+			if(managers['projectvariables'].get(name) == 'Not Defined')
+			{
+                managers['projectvariables'].load();
+			}
 			return managers['projectvariables'].get(name);
 		},
 		getAttachedData: function () {
@@ -117,7 +116,6 @@ var Adam = function () {
 		},
 		register: function (key, widget) {
 			//Check if this key is not null and a string and widget is not null and an object (should of type JacadaBaseComponent
-
 
 			return new Promise(function (resolve, reject) {
 				if (!key || !widget || typeof key != 'string' || typeof widget != 'object')
@@ -171,6 +169,7 @@ var Adam = function () {
 				method: 'GET',
 				success: function (response) {
 					logins = Ext.decode(response.responseText).result;
+					managers['logins'] = logins;
 					if (logins.length === 0) {managers['windowsManager'].show('ssoWindow');
 					}
 					else {
@@ -280,6 +279,15 @@ var Adam = function () {
 		},
 		getDeviceProfile: function (customerId) {
 			return managers['deviceProfile'].get(customerId || this.callData.customerId);
+		},
+
+		isSystemInLogins: function (system) {
+            for (var login in managers['logins']) {
+                if (login.system == system) {
+                	return true;
+                }
+            }
+            return false;
 		}
 	};
 

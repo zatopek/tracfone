@@ -8,6 +8,8 @@ import com.jacada.jad.feature.model.WorkspaceManager;
 import com.jacada.tracfoneAD.customerServiceProfile.entities.AccountBalances;
 import com.jacada.tracfoneAD.customerServiceProfile.entities.CustomerServiceProfile;
 import com.jacada.tracfoneAD.customerServiceProfile.entities.Flash;
+import com.jacada.tracfoneAD.customerServiceProfile.entities.InteractionDetail;
+import com.jacada.tracfoneAD.customerServiceProfile.entities.InteractionReason;
 import com.jacada.tracfoneAD.customerServiceProfile.entities.ProductOffering;
 import com.jacada.tracfoneAD.customerServiceProfile.entities.TasTicket;
 
@@ -19,4 +21,7 @@ public interface CustomerServiceProfileManager extends WorkspaceManager {
 	List<TasTicket> getOpenedTickets(String esn);
 	List<Flash> getActiveFlashes(String esn);
 	LinkedHashMap<String, ProductOffering>getProductOfferings(String esn, String brand);
+	public List<InteractionReason> getInteractionReasons();
+	public List<InteractionDetail> getInteractionDetails(String reasonObjId);
+	public List<InteractionReason> getResults();	
 }

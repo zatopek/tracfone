@@ -13,6 +13,8 @@ import java.util.Map;
 import javax.sql.DataSource;
 
 import com.jacada.tracfoneAD.customerServiceProfile.dao.interfaces.CustomerServiceProfileDao;
+import com.jacada.tracfoneAD.customerServiceProfile.entities.InteractionDetail;
+import com.jacada.tracfoneAD.customerServiceProfile.entities.InteractionReason;
 import com.jacada.tracfoneAD.customerServiceProfile.entities.AccountBalances;
 import com.jacada.tracfoneAD.customerServiceProfile.entities.CustomerProfile;
 import com.jacada.tracfoneAD.customerServiceProfile.entities.CustomerServiceProfile;
@@ -425,5 +427,188 @@ public class JpaCustomerServiceProfileDao implements CustomerServiceProfileDao {
 			}
 		}
 		return flashList;
+	}
+
+	@Override
+	public List<InteractionReason> getInteractionReasons() {
+		Connection dbConnection = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet rs = null;
+		List<InteractionReason> reasonList = new ArrayList<InteractionReason>();	
+
+		String query = "select reason reason_title, objid reason_objid"
+				+ " from SA.ADFCRM_INTERACTION_REASONS"
+				+ " where  1=1"
+				+ " order by rank,reason";
+
+		try {
+			dbConnection = tasDataSource.getConnection();
+			preparedStatement = dbConnection.prepareStatement(query);
+			rs = preparedStatement.executeQuery();
+			while (rs.next()) {
+				InteractionReason reason = new InteractionReason();
+				reason.setObjId(rs.getString("REASON_OBJID"));
+				reason.setTitle(rs.getString("REASON_TITLE"));
+				reasonList.add(reason);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {			
+			try {
+				if (rs != null) {
+					rs.close();
+				}
+				if (preparedStatement != null) {
+					preparedStatement.close();
+				}
+				if (dbConnection != null) {
+					dbConnection.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return reasonList;
+	}
+
+	@Override
+	public List<InteractionDetail> getInteractionDetails(String reasonObjId) {
+		Connection dbConnection = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet rs = null;
+		List<InteractionDetail> detailList = new ArrayList<InteractionDetail>();	
+
+		String query = "select detail reason_detail_title,"
+				+ " objid reason_detail_objid,"
+				+ " reason_objid"
+				+ " from   ADFCRM_INTERACTION_DETAILS"
+				+ " where  reason_objid = ?"
+				+ " order by rank, detail";
+
+		try {
+			dbConnection = tasDataSource.getConnection();
+			preparedStatement = dbConnection.prepareStatement(query);
+			preparedStatement.setString(1, reasonObjId);
+			rs = preparedStatement.executeQuery();
+			while (rs.next()) {
+				InteractionDetail detail = new InteractionDetail();
+				detail.setDetailObjId(rs.getString("REASON_DETAIL_OBJID"));
+				detail.setObjId(rs.getString("REASON_OBJID"));
+				detail.setTitle(rs.getString("REASON_DETAIL_TITLE"));
+				detailList.add(detail);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {			
+			try {
+				if (rs != null) {
+					rs.close();
+				}
+				if (preparedStatement != null) {
+					preparedStatement.close();
+				}
+				if (dbConnection != null) {
+					dbConnection.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return detailList;
+	}
+
+	@Override
+	public List<InteractionDetail> getInteractionDetails() {
+		Connection dbConnection = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet rs = null;
+		List<InteractionDetail> detailList = new ArrayList<InteractionDetail>();	
+
+		String query = "select detail reason_detail_title,"
+				+ " objid reason_detail_objid,"
+				+ " reason_objid"
+				+ " from  ADFCRM_INTERACTION_DETAILS"
+				+ " where 1=1"
+				+ " order by rank, detail";
+
+		try {
+			dbConnection = tasDataSource.getConnection();
+			preparedStatement = dbConnection.prepareStatement(query);
+			rs = preparedStatement.executeQuery();
+			while (rs.next()) {
+				InteractionDetail detail = new InteractionDetail();
+				detail.setDetailObjId(rs.getString("REASON_DETAIL_OBJID"));
+				detail.setObjId(rs.getString("REASON_OBJID"));
+				detail.setTitle(rs.getString("REASON_DETAIL_TITLE"));
+				detailList.add(detail);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {			
+			try {
+				if (rs != null) {
+					rs.close();
+				}
+				if (preparedStatement != null) {
+					preparedStatement.close();
+				}
+				if (dbConnection != null) {
+					dbConnection.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return detailList;
+	}
+
+	@Override
+	public List<InteractionReason> getResults() {
+		Connection dbConnection = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet rs = null;
+		List<InteractionReason> resultList = new ArrayList<InteractionReason>();	
+
+		String query = "select elm.title, elm.objid"
+				+ " from table_hgbst_elm elm,"
+				+ " table_hgbst_show show,"
+				+ " table_hgbst_lst lst,"
+				+ " mtm_hgbst_elm0_hgbst_show1 mtm"
+				+ " where  1=1"
+				+ " and    show.objid = lst.hgbst_lst2hgbst_show"
+				+ " and    elm.objid  = mtm.hgbst_elm2hgbst_show"
+				+ " and    show.objid = mtm.hgbst_show2hgbst_elm"
+				+ " and    lst.title  = 'x_ddl_Result'"
+				+ " order by elm.rank";
+
+		try {
+			dbConnection = tasDataSource.getConnection();
+			preparedStatement = dbConnection.prepareStatement(query);
+			rs = preparedStatement.executeQuery();
+			while (rs.next()) {
+				InteractionReason result = new InteractionReason();
+				result.setObjId(rs.getString("OBJID"));
+				result.setTitle(rs.getString("TITLE"));
+				resultList.add(result);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {			
+			try {
+				if (rs != null) {
+					rs.close();
+				}
+				if (preparedStatement != null) {
+					preparedStatement.close();
+				}
+				if (dbConnection != null) {
+					dbConnection.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return resultList;
+
 	}	
 }

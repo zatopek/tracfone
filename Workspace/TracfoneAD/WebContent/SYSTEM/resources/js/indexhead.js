@@ -47,7 +47,13 @@ function removeWindow(window) {
     if (index >=0){
     	$W().openWindows.splice(index,1);
     }
-} 
+}
+
+function getCookie(name) {
+    var value = "; " + document.cookie;
+    var parts = value.split("; " + name + "=");
+    if (parts.length == 2) return parts.pop().split(";").shift();
+}
 
 function Unload() {
     if (!logged) {
@@ -57,7 +63,7 @@ function Unload() {
     Push.stop();
     var http = new XMLHttpRequest();
     var contextPath = location.href.substring(0, location.href.lastIndexOf('/'));
-    http.open("GET", contextPath + "/Controller.jpf?logout=true&reason=9999&shouldRegisterSession=false&username=" + $W().username, false);
+    http.open("GET", contextPath + "/Controller.jpf?logout=true&reason=9999&shouldRegisterSession=false&username=" + this.getCookie('username'), false);
     http.send();
 }
 
@@ -73,7 +79,7 @@ function logout(cancel, reason, isNewDepartment)
     Push.stop();
 
     var isNewDepartmentStr = (isNewDepartment == true) ? "newdepartment" :""; 
-    var parametersString = '&reason=' + reason  + '&department=' + isNewDepartmentStr + '&username=' + $W().username;
+    var parametersString = '&reason=' + reason  + '&department=' + isNewDepartmentStr + '&username=' + this.getCookie('username');
     closeAllSubWindows();
     var contextPath = location.href.substring(0, location.href.lastIndexOf('/'));
     location.href= contextPath + "/Controller.jpf?logout=true&shouldRegisterSession=false" + parametersString;
@@ -89,7 +95,7 @@ function resetToDefaults()
  	if (confirm($W().localeManager.getLocalizationValue('application.javascript.message.confirm.resetToDefaults'))) {
 	    //reset the layout
 	    var contextPath = location.href.substring(0, location.href.lastIndexOf('/'));
-	    contextPath += "/Controller.jpf?reset=true&username=" + $W().username;
+	    contextPath += "/Controller.jpf?reset=true&username=" + this.getCookie('username');
 	    var request = new Ajax.Request(contextPath, {method: 'get', asynchronous : false});
 	    if (request.success()) {
 	        onLayoutChanged();
@@ -238,7 +244,7 @@ window.onbeforeunload = function (evt) {
 refresh = function () {
     Push.stop();
     var contextPath = location.href.substring(0, location.href.lastIndexOf('/'));
-    location.href = contextPath + "/Controller.jpf?username=" + + $W().username;
+    location.href = contextPath + "/Controller.jpf?username=" + this.getCookie('username');
 }
 
 refreshMenu = function() {

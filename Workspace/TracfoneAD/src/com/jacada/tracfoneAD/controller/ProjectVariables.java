@@ -16,28 +16,15 @@ import com.jacada.tracfoneAD.util.Response;
 @RestController
 @RequestMapping(value = "variables", produces = "application/json")
 public class ProjectVariables {
-	@Value("${jas.redemption.url}")
-	private String redemptionUrl;
-	@Value("${jas.unableUnable.url}")
-	private String unableUnableUrl;
 	@Value("${tas.url}")
 	private String tasUrl;
+	@Value("${jas.url}")
+	private String jasUrl;
 
-	
-	@RequestMapping(method = RequestMethod.POST)
-	public Response<Map<String, String>> all(
-			@RequestBody Request<String> request) {
-		Map<String, String> variables = new HashMap<String, String>();
-		variables.put("redemptionUrl", redemptionUrl);
-		variables.put("unableUnableUrl", unableUnableUrl);
-		return Response.success(request, variables);
-	}
-	
 	@RequestMapping(value="get", method = RequestMethod.GET, produces = "application/json")
 	public String getVariables() {
 		Map<String, String> variables = new HashMap<String, String>();
-		variables.put("redemptionUrl", redemptionUrl);
-		variables.put("unableUnableUrl", unableUnableUrl);
+		variables.put("jasUrl", jasUrl);
 		variables.put("tasUrl", tasUrl);
 		return new Gson().toJson(variables);
 	}	

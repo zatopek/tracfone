@@ -24,10 +24,10 @@ var projectVariable = null;
                 });
 			},
 			get: function(name) {
-				if (variables[name])
-					return variables[name];
-				return 'Not Defined';
-			}
+                if (variables[name])
+                    return variables[name];
+                return 'Not Defined';
+            }
 		};
 	};
 	projectVariable = new ProjectVariable();

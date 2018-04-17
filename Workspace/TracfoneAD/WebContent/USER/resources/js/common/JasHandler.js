@@ -1,56 +1,50 @@
-
 var JasHandler;
 (function () {
     JasHandler = function () {
-        // TODO get it from project variables (adam.getVariable(redemptionurl))
-        //var redemptionUrl = 'https://gointeract.io/interact/index?interaction=237e6c87c415-d4b64eb5b32cb044-22b8&accountId=azurademo&appkey=6c87bc97-fc7a-4dfe-80b3-d8c43521cb9c';
-        //var unableUnableUrl = 'https://gointeract.io/interact/index?interaction=2471ae2941ee-0cf98cced8706fb9-c170&accountId=azurademo&appkey=6c87bc97-fc7a-4dfe-80b3-d8c43521cb9c';
-        // var d = new Date("11/01/2017");
-        // var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-        // var today = new Date();
 
-        // var carrier = '';
-        // var minStatus = '';
-        // var ppeFlag = '';
-        // var serviceEndDate = d.toLocaleDateString("en-US", options);
-        // // device type = "BYOP"
-        // var byopFlag = '';
-        // // os = "IOS"
-        // var iPhoneFlag = '';
-        // // phoneGen contains "LTE"
-        // var lteFlag = '';
-        // var simStatus = '';
-        // // voiceBalance > 0
-        // var voiceBalanceFlag = '';
-        // var serviceExpiredFlag = (d < today);
+        var getCarrier = function(carrier){
+            if (carrier.indexOf('at&t') >=0 || carrier.indexOf('att')>=0 || carrier.indexOf('cingular') >=0 || carrier.indexOf('dobson') >=0)
+                return 'ATT';
+            else if (carrier.indexOf('tmobile') >=0 || carrier.indexOf('t-mobile') >=0)
+                return 'TMOBILE';
+            else if (carrier.indexOf('verizon') >=0)
+                return 'VERIZON';
+            else if (carrier.indexOf('sprint') >=0)
+                return 'SPRINT';
+            else
+                return carrier;
+        }
 
-        // if (device == 'PPE') {
-        //     byopFlag = false;
-        //     ppeFlag = true;
-        // }
-        // else if (device == 'BYOP') {
-        //     byopFlag = true;
-        //     ppeFlag = false;
-        // }
-        // else {
-        //     byopFlag = false;
-        //     ppeFlag = false;
-        // }
+        var getCookie = function(name) {
+            var value = "; " + document.cookie;
+            var parts = value.split("; " + name + "=");
+            if (parts.length == 2) return parts.pop().split(";").shift();
+        }
+
         var getReportingParams = function () {
             debugger;
             var reportingParams = '';
             var pushData = managers['pushData'];
             //var citrixUsername = $W().username;
             var citrixUsername = '';
-            var username = this.getCookieVal('username');
+            var username = getCookie('username');
             if(username && username.length>0) {
-                citrixUsername = username.substring(username.indexOf("=") + 1);
+                citrixUsername = username;
             }
             var callCenterId = '';
             var agentId = '';
             var callId = '';
+            var esn = '';
+            var brand = '';
+            var carrier = '';
+            var taskId = '';
             if (pushData) {
                 callId = pushData.callInfo.callId;
+                esn = pushData.deviceProfile.esn;
+                brand = pushData.serviceProfile.brand;
+                var carrierData = pushData.serviceProfile.carrier.toLowerCase();
+                carrier = getCarrier(carrierData);
+                taskId = pushData.callInfo.taskId;
             }
             if(citrixUsername) {
                 if (citrixUsername.length > 6 && parseInt(citrixUsername.charAt(3)) > 0) {
@@ -60,7 +54,7 @@ var JasHandler;
                     agentId = citrixUsername;
                 }
             }
-            reportingParams += 'TF_CallId=' + callId + '&TF_CallCenterId=' + callCenterId + '&TF_AgentId=' +agentId;
+            reportingParams += 'TF_CallId=' + callId + '&TF_CallCenterId=' + callCenterId + '&TF_AgentId=' + agentId + '&TF_ESN=' + esn  + '&TF_Brand=' + brand + '&TF_Carrier=' + carrier + '&TF_TaskId=' + taskId ;
             return reportingParams;
         }
 
@@ -81,17 +75,8 @@ var JasHandler;
             var unableUnableParams = '';
             var pushData = managers['pushData'];
 
-            var carrierData = pushData.serviceProfile.carrier.toLowerCase();
-            var carrier = 'Not available'
-            if (carrierData.indexOf('at&t') > -1 || carrierData.indexOf('cingular') > -1 || carrierData.indexOf('dobson') > -1)
-                carrier = 'ATT';
-            else if (carrierData.indexOf('tmobile') > -1 || carrierData.indexOf('t-mobile') > -1)
-                carrier = 'TMOBILE';
-            else if (carrierData.indexOf('verizon') > -1)
-                carrier = 'VERIZON';
-            else if (carrierData.indexOf('sprint') > -1)
-                carrier = 'SPRINT';
-
+            //var carrierData = pushData.serviceProfile.carrier.toLowerCase();
+            //var carrier = getCarrier(carrierData);
             var minStatus = pushData.deviceProfile.minStatus;
             var simStatus = pushData.deviceProfile.simStatus;
             var lteFlag = pushData.deviceProfile.phoneGen.toLowerCase().indexOf('lte') >= 0;
@@ -111,7 +96,8 @@ var JasHandler;
 
             var serviceExpiredFlag = new Date().getTime() > new Date(pushData.serviceProfile.serviceEndDate).getTime();
 
-            unableUnableParams += 'TF_Carrier=' + carrier + '&TF_MINStatus=' + minStatus + '&TF_PPE_Flag=' + ppeFlag + '&TF_ServiceEndDate=' + serviceEndDate + '&TF_BYOP_Flag=' + byopFlag + '&TF_iPhone_Flag=' + iPhoneFlag +
+            //'TF_Carrier=' + carrier +
+            unableUnableParams += '&TF_MINStatus=' + minStatus + '&TF_PPE_Flag=' + ppeFlag + '&TF_ServiceEndDate=' + serviceEndDate + '&TF_BYOP_Flag=' + byopFlag + '&TF_iPhone_Flag=' + iPhoneFlag +
                 '&TF_LTE_Flag=' + lteFlag + '&TF_SIMStatus=' + simStatus + '&TF_VoiceBalance_Flag=' + voiceBalanceFlag + '&TF_ServiceExpiredFlag=' + serviceExpiredFlag;
             return unableUnableParams;
         }
@@ -123,11 +109,15 @@ var JasHandler;
             },
 
             getRedemptionUrl: function () {
-                return adam.getVariable("redemptionUrl") + '&' + encodeURI(getRedemptionParams()) + '&' + encodeURI(getReportingParams());
+                return adam.getVariable("jasUrl") + '&TF_Component=redemption&' + encodeURI(getRedemptionParams()) + '&' + encodeURI(getReportingParams());
             },
 
             getUnableUnableUrl: function () {
-                return adam.getVariable("unableUnableUrl") + '&' + encodeURI(getUnableUnableParams()) + '&' + encodeURI(getRedemptionParams()) + '&' + encodeURI(getReportingParams());
+                return adam.getVariable("jasUrl") + '&TF_Component=unableUnable&' + encodeURI(getUnableUnableParams()) + '&' + encodeURI(getRedemptionParams()) + '&' + encodeURI(getReportingParams());
+            },
+
+            getOtherUrl: function () {
+                return adam.getVariable("jasUrl") + '&TF_Component=other&' + encodeURI(getReportingParams());
             },
         };
     }

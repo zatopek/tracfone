@@ -9,6 +9,8 @@ import com.jacada.jad.feature.annotations.FeatureManager;
 import com.jacada.tracfoneAD.customerServiceProfile.entities.AccountBalances;
 import com.jacada.tracfoneAD.customerServiceProfile.entities.CustomerServiceProfile;
 import com.jacada.tracfoneAD.customerServiceProfile.entities.Flash;
+import com.jacada.tracfoneAD.customerServiceProfile.entities.InteractionDetail;
+import com.jacada.tracfoneAD.customerServiceProfile.entities.InteractionReason;
 import com.jacada.tracfoneAD.customerServiceProfile.entities.ProductOffering;
 import com.jacada.tracfoneAD.customerServiceProfile.entities.TasTicket;
 import com.jacada.tracfoneAD.customerServiceProfile.model.interfaces.CustomerServiceProfileManager;
@@ -100,5 +102,20 @@ public class DefaultCustomerServiceProfileManager extends DefaultWorkspaceManage
 	@Override
 	public LinkedHashMap<String, ProductOffering> getProductOfferings(String esn, String brand) {
 		return customerServiceProfileDao.getProductOfferings(esn, brand);
+	}
+
+	@Override
+	public List<InteractionReason> getInteractionReasons() {
+		return customerServiceProfileDao.getInteractionReasons();
+	}
+
+	@Override
+	public List<InteractionDetail> getInteractionDetails(String reasonObjId) {
+		return customerServiceProfileDao.getInteractionDetails(reasonObjId);
+	}
+
+	@Override
+	public List<InteractionReason> getResults() {
+		return customerServiceProfileDao.getResults();
 	}
 }

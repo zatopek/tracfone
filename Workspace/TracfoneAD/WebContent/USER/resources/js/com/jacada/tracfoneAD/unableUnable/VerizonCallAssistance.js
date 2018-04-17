@@ -1,6 +1,6 @@
 Ext.define('Jacada.user.com.jacada.tracfoneAD.unableUnable.VerizonCallAssistance', {
     extend: 'Jacada.user.com.jacada.tracfoneAD.baseComponents.BaseView',
-    title: '<span class="callNumber">Call Verizon at 1-888-946-4669</span> <span class="notify"> (DO NOT GIVE THIS NUMBER TO CUSTOMER) </span>',
+    title: '',
     xtype: 'verizonCallAssistance',
     layout: 'vbox',
     border: false,
