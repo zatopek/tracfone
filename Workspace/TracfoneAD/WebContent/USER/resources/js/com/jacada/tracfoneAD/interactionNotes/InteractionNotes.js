@@ -38,7 +38,6 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.interactionNotes.InteractionNotes'
                     if(record.get('name').toLowerCase().indexOf('completed') >=0){
                         return id;
                     }
-                    return 0;
                 }
             );
             combo.setValue(combo.getStore().getAt(recordIndex));
