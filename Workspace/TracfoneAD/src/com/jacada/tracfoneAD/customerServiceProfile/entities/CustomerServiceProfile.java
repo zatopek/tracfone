@@ -13,6 +13,7 @@ public class CustomerServiceProfile implements Serializable{
 	AccountBalances	accountBalances;
 	ServiceProfile serviceProfile;
 	CallInfo callInfo;
+	TasInfo tasInfo;
 	
 	public CustomerServiceProfile() {
 		super();
@@ -21,6 +22,7 @@ public class CustomerServiceProfile implements Serializable{
 		this.accountBalances = new AccountBalances();
 		this.serviceProfile = new ServiceProfile();
 		this.callInfo = new CallInfo();
+		this.tasInfo = new TasInfo();
 	}
 	
 	public CustomerProfile getCustomerProfile() {
@@ -54,7 +56,12 @@ public class CustomerServiceProfile implements Serializable{
 	public void setCallInfo(CallInfo callInfo) {
 		this.callInfo = callInfo;
 	}
-	
-	
 
+	public TasInfo getTasInfo() {
+		return tasInfo;
+	}
+
+	public void setTasInfo(TasInfo tasInfo) {
+		this.tasInfo = tasInfo;
+	}
 }

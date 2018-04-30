@@ -2,7 +2,7 @@ function onCustomerServiceProfile(pushData) {
     //call JIA API getCallInfoFromAIC();
 
     // TODO remove this dummy Data
-	/*
+    /*
     pushData = {
         deviceProfile: { "min":"3219990000", "deviceType": "BYOP", "sim": "123", "minStatus": "ACTIVE", "simStatus": "SIM ACTIVE", "phoneGen": "AD-LTE", "os": "and" },
         serviceProfile: { "serviceType": "type of service", "brand": "TracFone", "carrier": "VErizon", "serviceEndDate": "12/15/2017", "cardsInReserve": "2" },
@@ -10,7 +10,7 @@ function onCustomerServiceProfile(pushData) {
         accountBalances: { "phoneStatus": "Pending", "smsBalance": "124", "voiceBalance": "0" }
     }
     */
-	/*
+    /*
     adam.callService('Avaya/Properties', 'GET').then(function (response) {
         for (i=0; i<response.length; i++){
             var key = response[i].Key;
@@ -54,7 +54,7 @@ function onCustomerServiceProfile(pushData) {
     if(win) {
         win.close();
     }
-	setupCustomerServiceProfile(pushData);
+    setupCustomerServiceProfile(pushData);
 }
 
 function setupCustomerServiceProfile(pushData){
@@ -62,14 +62,14 @@ function setupCustomerServiceProfile(pushData){
     managers['pushData'] = pushData;
     widgets['customerServiceProfile'].up().up().show(); // show portlet
     widgets['customerServiceProfile'].load(pushData);
-	unloadWorkflow();
+    unloadWorkflow();
     onLaunchWorkflow(pushData);
 }
 
 function unloadWorkflow() {
-	managers['flowType'] = '';
-	RemoveTabById('CallingIssuesTab');
-	RemoveTabById('RedemptionTab');
+    managers['flowType'] = '';
+    RemoveTabById('CallingIssuesTab');
+    RemoveTabById('RedemptionTab');
 }
 
 function onLaunchWorkflow(pushData) {
@@ -97,171 +97,215 @@ function onLaunchWorkflow(pushData) {
 
     if(!serial || serial.trim()=='') {
         Ext.MessageBox.alert('ERROR', 'ESN not active. Please use TAS to complete this call.');
-        managers['flowType'] = 'other';
+        managers['flowType'] = 'unsupport';
     }
     // check customer name and carrier before loading work flow
     else if(!contactName || contactName.trim()=='' ){
         Ext.MessageBox.alert('ERROR', 'ESN not active. Please use TAS to complete this call.');
-        managers['flowType'] = 'other';
+        managers['flowType'] = 'unsupport';
     }
     else if(!carrier || carrier.trim()=='') {
         Ext.MessageBox.alert('ERROR', 'Carrier information not found. Please use TAS to complete this call.');
-        managers['flowType'] = 'other';
+        managers['flowType'] = 'unsupport';
     }
     else if(!phoneStatus || phoneStatus.trim().toLowerCase()!='active') {
         Ext.MessageBox.alert('ERROR', 'Phone status is not ACTIVE. Please use TAS to complete this call.');
-        managers['flowType'] = 'other';
+        managers['flowType'] = 'unsupport';
     }
     else if(!minStatus || minStatus.trim().toLowerCase()!='active') {
         Ext.MessageBox.alert('ERROR', 'MIN status is not ACTIVE. Please use TAS to complete this call.');
-        managers['flowType'] = 'other';
+        managers['flowType'] = 'unsupport';
     }
 
     managers['autoNotes'] = '';
 
-    var carrier = pushData.serviceProfile.carrier.toLowerCase();
-    var carrierAtt = 'Att';
+    if(managers['flowType'] != 'other' || managers['flowType'] != 'unsupport') {
 
-    //regenerate carrier value to match with the service parameter
-    if(carrier.indexOf('tmobile')>=0 || carrier.indexOf('t-mobile')>=0) {
-        carrier = 'T-Mobile';
-    }
-    else if(carrier.indexOf('verizon')>=0) {
-        carrier = 'Verizon';
-    }
-    else if(carrier.indexOf('at&t')>=0 || carrier.indexOf('att')>=0 || carrier.indexOf('cingular')>=0  || carrier.indexOf('dobson')>=0 ) {
-        carrier = encodeURIComponent('AT&T');
-    }
-    else if(carrier.indexOf('sprint')>=0) {
-        carrier = 'Sprint';
-    } else {
-        Ext.MessageBox.alert('ERROR', 'Carrier ' + carrier + ' unknown. Please use TAS to complete this call.');
-        managers['flowType'] = 'other';
-    }
-
-    // mapping brand
-    var brand = pushData.serviceProfile.brand.toLowerCase();
-    if(brand) {
-        if(brand === 'tracfone'){
-            brand = 'TracFone';
+        var carrier = translateCarrierForUnableApps(pushData.serviceProfile.carrier.toLowerCase());
+        //regenerate carrier value to match with the service parameter
+        if(carrier === 'OTHER') {
+            Ext.MessageBox.alert('ERROR', 'Carrier ' + carrier + ' unknown. Please use TAS to complete this call.');
+            managers['flowType'] = 'other';
         }
-    }
-    else {
-        Ext.MessageBox.alert('ERROR', 'Only TracFone brand is supported in this release. Please use TAS to complete this call.');
-        managers['flowType'] = 'other';
-    }
-    /*
-    else if(brand === 'straight_talk'){
-        brand = 'StraightTalk';
-    }
-    */
 
+        // mapping brand
+        var brand = '';
+        try {
+            brand = translateBrand(pushData.serviceProfile.brand.toLowerCase());
+            if(brand != 'TracFone'){
+                Ext.MessageBox.alert('ERROR', 'Only TracFone brand is supported in this release. Please use TAS to complete this call.');
+                managers['flowType'] = 'other';
+            }
+        } catch(e) {
+            Ext.MessageBox.alert('ERROR', 'Only TracFone brand is supported in this release. Please use TAS to complete this call.');
+            managers['flowType'] = 'other';
+        }
+
+    }
 
     //if unable/unable
     if (managers['flowType'] == 'unableUnable') {
-       
-        var phoneType = pushData.deviceProfile.deviceType.toLowerCase();
-        if(phoneType){
-            if (phoneType === 'feature_phone') {
-                phoneType = 'PPE';
-            }
-            else if (phoneType === 'byop') {
-                phoneType = 'BYOP';
+        launchUnableCallFlow(brand, carrier);
+    }
+    //if redemption
+    else if (managers['flowType'] == 'redemption') {
+        launchRedemptionCallFlow(brand);
+    }
+    else{
+        launchOtherCallFlow();
+    }
+}
+
+function launchCallFlow(callFlow) {
+    // check if customer profile is launched
+    if(widgets['customerServiceProfile'].up().up().isVisible()) {
+        if(callFlow==='redemption') {
+            taskId = '9902';
+        }
+        else if(callFlow==='unable') {
+            taskId = '9901';
+        }
+        else {
+            Ext.MessageBox.alert('ERROR', 'Unsupported call flow. Please use TAS to complete this call.');
+            return;
+        }
+
+        if(managers['flowType'] === 'unsupport') {
+            Ext.MessageBox.alert('ERROR', 'ESN not supported in Cockpit. Please use TAS to complete this call.');
+            return;
+        }
+
+        managers['autoNotes'] = '';
+        var pushData = managers['pushData'];
+        var url = pushData.tasInfo.url;
+        var start = url.indexOf('&task_id=');
+        var end = url.indexOf('&', start + 9);
+        var newUrl = url.substring(0, start) + '&task_id=' + taskId + url.substring(end) + '&skipWSNotification=true';
+        adam.callService('Tas/IncomingCall?url=' + encodeURIComponent(newUrl), 'GET').then(function (response) {
+
+        }).catch(function (error) {
+
+        });
+
+        var brand = translateBrand(pushData.serviceProfile.brand.toLowerCase());
+
+        if(callFlow==='redemption') {
+            unloadWorkflow();
+            launchRedemptionCallFlow(brand);
+        }
+        else if(callFlow==='unable') {
+            unloadWorkflow();
+            var carrier = translateCarrierForUnableApps(pushData.serviceProfile.carrier.toLowerCase());
+            launchUnableCallFlow(brand, carrier);
+        }
+    }
+    else {
+        Ext.MessageBox.alert('ERROR', 'Call flow only available after a customer is identified in Cockpit.');
+    }
+}
+function launchOtherCallFlow() {
+    if(document.redemptionJasFrame){
+        document.redemptionJasFrame.location = managers['jasHandler'].getOtherUrl();
+        //widgets['redemption'].loadComponent('SplashPanel', '');
+        widgets['redemption'].loadComponent('', '');
+    }
+    ShowTabById('RedemptionTab');
+}
+
+function launchRedemptionCallFlow(brand) {
+    //call JIA API launchAgentSupportSearch('Tracfone', 'Redemption');
+    adam.callService('AgentAdvisor/Search/' + brand + '?searchTerm=Redemption', 'GET').then(function (response) {
+        // do nothing
+    }).catch(function (error) {
+    });
+    //launch JAS redemption flow with parameters ==> handled in JasHandler
+
+    if(document.redemptionJasFrame){
+        document.redemptionJasFrame.location = managers['jasHandler'].getRedemptionUrl();
+        //widgets['redemption'].loadComponent('SplashPanel', '');
+        widgets['redemption'].loadComponent('', '');
+    }
+    ShowTabById('RedemptionTab');
+}
+
+function launchUnableCallFlow(brand, carrier) {
+    var pushData = managers['pushData'];
+    var phoneType = pushData.deviceProfile.deviceType.toLowerCase();
+    if(phoneType){
+        if (phoneType === 'feature_phone') {
+            phoneType = 'PPE';
+        }
+        else if (phoneType === 'byop') {
+            phoneType = 'BYOP';
+        }
+        else {
+            if(carrier==='Verizon'){
+                phoneType = 'Non-PPE';
             }
             else {
-                if(carrier==='Verizon'){
-                    phoneType = 'Non-PPE';
-                }
-                else {
-                    phoneType = 'Non%20PPE';
-                }
+                phoneType = 'Non%20PPE';
             }
         }
+    }
 
-		 //call JIA API launchAgentSupportSearch('brand', 'Unable Unable');
-        adam.callService('AgentAdvisor/Search/' + brand + '?searchTerm=Unable%20Unable', 'GET').then(function (response) {
-			// do nothing
-		}).catch(function(e){
-			
-		});
-		//call JIA API launchAgentSupportFlowChart('Unable Unable', carrier, deviceType;
-		adam.callService('AgentAdvisor/FlowChart?brand=' + brand + '&flowChart=Unable%2FUnable%20Troubleshooting&carrier=' + carrier + '&phoneType=' + phoneType, 'GET').then(function (response) {
-			
-		}).catch(function(e){
-			
-		});
-        //call JIA API launchCoverageMap(carrier, zip);
-        if(carrier.toLowerCase().startsWith("at"))
-        {
-            carrier = carrierAtt;
-        }
+    //call JIA API launchAgentSupportSearch('brand', 'Unable Unable');
+    adam.callService('AgentAdvisor/Search/' + brand + '?searchTerm=Unable%20Unable', 'GET').then(function (response) {
+        // do nothing
+    }).catch(function(e){
 
-        // only launch system if login is available
+    });
+    //call JIA API launchAgentSupportFlowChart('Unable Unable', carrier, deviceType;
+    adam.callService('AgentAdvisor/FlowChart?brand=' + brand + '&flowChart=Unable%2FUnable%20Troubleshooting&carrier=' + carrier + '&phoneType=' + phoneType, 'GET').then(function (response) {
 
-        if(carrier == 'Verizon'){
-            if(adam.isSystemInLogins('VerizonCIS')) {
-                adam.callService('CoverageMap/Search/' + carrier + '/' + pushData.customerProfile.zip, 'GET').then(function (response) {
-                }).catch(function(e){
-                });
-            }
-        } else {
+    }).catch(function(e){
+
+    });
+    //call JIA API launchCoverageMap(carrier, zip);
+    if(carrier.toLowerCase().startsWith("at"))
+    {
+        carrier = 'Att';
+    }
+
+    // only launch system if login is available
+
+    if(carrier == 'Verizon'){
+        if(adam.isSystemInLogins('VerizonCIS')) {
             adam.callService('CoverageMap/Search/' + carrier + '/' + pushData.customerProfile.zip, 'GET').then(function (response) {
             }).catch(function(e){
             });
         }
+    } else {
+        adam.callService('CoverageMap/Search/' + carrier + '/' + pushData.customerProfile.zip, 'GET').then(function (response) {
+        }).catch(function(e){
+        });
+    }
 
-		//call JIA API launchCarrierBilling
-        if(carrier == 'Verizon') {
-            if(adam.isSystemInLogins('VerizonRSSX')) {
-                adam.callService('Billing/' + carrier, 'GET').then(function (response) {
-                }).catch(function (error) {
-                });
-            }
-        } else if(carrier == 'Verizon') {
-            if(adam.isSystemInLogins('TMobileWCSM')) {
-                adam.callService('Billing/' + carrier, 'GET').then(function (response) {
-                }).catch(function (error) {
-                });
-            }
-        } else {
+    //call JIA API launchCarrierBilling
+    if(carrier == 'Verizon') {
+        if(adam.isSystemInLogins('VerizonRSSX')) {
             adam.callService('Billing/' + carrier, 'GET').then(function (response) {
             }).catch(function (error) {
             });
         }
-
-        //launch JAS unable unable main flow with parameters => handled in JasHandler
-
-        if(document.unableUnableJasFrame){
-            document.unableUnableJasFrame.location = managers['jasHandler'].getUnableUnableUrl();
-            //widgets['unableUnable'].loadComponent('SplashPanel', '');
-            widgets['unableUnable'].loadComponent('', '');
+    } else if(carrier == 'T-Mobile') {
+        if(adam.isSystemInLogins('TMobileWCSM')) {
+            adam.callService('Billing/' + carrier, 'GET').then(function (response) {
+            }).catch(function (error) {
+            });
         }
-        ShowTabById('CallingIssuesTab');
-    }
-    //if redemption
-    else if (managers['flowType'] == 'redemption') {
-        //call JIA API launchAgentSupportSearch('Tracfone', 'Redemption');
-        adam.callService('AgentAdvisor/Search/' + brand + '?searchTerm=Redemption', 'GET').then(function (response) {
-            // do nothing
+    } else {
+        adam.callService('Billing/' + carrier, 'GET').then(function (response) {
         }).catch(function (error) {
         });
-        //launch JAS redemption flow with parameters ==> handled in JasHandler
+    }
 
-        if(document.redemptionJasFrame){
-            document.redemptionJasFrame.location = managers['jasHandler'].getRedemptionUrl();
-            //widgets['redemption'].loadComponent('SplashPanel', '');
-            widgets['redemption'].loadComponent('', '');
-        }
-        ShowTabById('RedemptionTab');
+    //launch JAS unable unable main flow with parameters => handled in JasHandler
+    if(document.unableUnableJasFrame){
+        document.unableUnableJasFrame.location = managers['jasHandler'].getUnableUnableUrl();
+        //widgets['unableUnable'].loadComponent('SplashPanel', '');
+        widgets['unableUnable'].loadComponent('', '');
     }
-    else{
-        if(document.redemptionJasFrame){
-            document.redemptionJasFrame.location = managers['jasHandler'].getOtherUrl();
-            //widgets['redemption'].loadComponent('SplashPanel', '');
-            widgets['redemption'].loadComponent('', '');
-        }
-        ShowTabById('RedemptionTab');
-    }
+    ShowTabById('CallingIssuesTab');
 }
 
 function onAgentEnvUsername(data)
@@ -284,4 +328,38 @@ function onAccountBalances(data)
     managers['pushData'].accountBalances = data.accountBalances;
     widgets['customerServiceProfile'].up().up().show(); // show portlet
     widgets['customerServiceProfile'].loadAccountBalances(data);
+}
+
+function translateBrand(brand){
+    if(brand && brand.toLowerCase() === 'tracfone'){
+        return 'TracFone';
+    }
+    return brand;
+
+    /*
+    else if(brand === 'straight_talk'){
+        brand = 'StraightTalk';
+    }
+    */
+}
+
+function translateCarrierForUnableApps(carrier) {
+    //regenerate carrier value to match with the service parameter
+    if(carrier) {
+        carier = carrier.toLowerCase();
+        if(carrier.indexOf('tmobile')>=0 || carrier.indexOf('t-mobile')>=0) {
+            return 'T-Mobile';
+        }
+        else if(carrier.indexOf('verizon')>=0) {
+            return 'Verizon';
+        }
+        else if(carrier.indexOf('at&t')>=0 || carrier.indexOf('att')>=0 || carrier.indexOf('cingular')>=0  || carrier.indexOf('dobson')>=0 ) {
+            return encodeURIComponent('AT&T');
+        }
+        else if(carrier.indexOf('sprint')>=0) {
+            return 'Sprint';
+        } else {
+            return 'OTHER';
+        }
+    }
 }

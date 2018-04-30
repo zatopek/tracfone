@@ -5,6 +5,10 @@
         <item accessKey="application.javascript.menuBar.accessKey.manageFavorites" name="application.menuBar.item.manageFavorites" value="openFavoritesDialog();"/>
     </item -->
 
+    <item name="application.menuBar.menu.callFlow" privilege="MenuBarItemHelp">
+        <item accessKey="application.javascript.menuBar.accessKey.callFlow.redemption" name="application.menuBar.item.callFlow.redemption" value="javascript:launchCallFlow('redemption')"/>
+        <item accessKey="application.javascript.menuBar.accessKey.callFlow.unable" name="application.menuBar.item.callFlow.unable" value="javascript:launchCallFlow('unable')"/>
+    </item>
     <item name="application.menuBar.menu.sso" privilege="MenuBarItemHelp">
         <item accessKey="application.javascript.menuBar.accessKey.systemCredentials" name="application.menuBar.item.systemCredentials" value="managers['windowsManager'].show('ssoWindow')"/>
     </item>

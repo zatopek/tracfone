@@ -42,8 +42,13 @@ var JasHandler;
                 callId = pushData.callInfo.callId;
                 esn = pushData.deviceProfile.esn;
                 brand = pushData.serviceProfile.brand;
-                var carrierData = pushData.serviceProfile.carrier.toLowerCase();
-                carrier = getCarrier(carrierData);
+                try {
+                    var carrierData = pushData.serviceProfile.carrier.toLowerCase();
+                    carrier = getCarrier(carrierData);
+                } catch(e) {
+                    carrier = '';
+                }
+
                 taskId = pushData.callInfo.taskId;
             }
             if(citrixUsername) {

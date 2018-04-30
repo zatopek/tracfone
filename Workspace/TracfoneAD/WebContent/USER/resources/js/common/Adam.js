@@ -12,7 +12,7 @@ var Adam = function () {
 	widgets = {};
 	waitingWidgetRegister = {};
     managers['projectvariables'] = projectVariable;
-    var jiaUrl = 'http://localhost:9002/TracFone/';
+    var jiaUrl = 'https://localhost:9003/TracFone/';
     var workspaceUrl = window.location.origin + $W().contextPath + '/rest/';
     managers['comm'] = new BroadBridge(jiaUrl, "", 0, function () { }, this);
     managers['workspace'] = new BroadBridge(workspaceUrl, "", 0, function () { }, this);
@@ -282,8 +282,8 @@ var Adam = function () {
 		},
 
 		isSystemInLogins: function (system) {
-            for (var login in managers['logins']) {
-                if (login.system == system) {
+            for (var i in managers['logins']) {
+                if (managers['logins'][i].system == system) {
                 	return true;
                 }
             }

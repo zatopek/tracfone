@@ -13,6 +13,28 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.interactionNotes.InteractionNotes'
         me.callParent(arguments);
     },
 
+    listeners: {
+        afterrender: function () {
+            var me = this;
+            // disable create button if reason or detail has not been selected
+            if(me.down('#result').getDisplayValue().toLowerCase().indexOf('choose') == -1 &&
+                me.down('#detail').getDisplayValue().toLowerCase().indexOf('choose') == -1)
+            {
+                me.down('#createInteractionBtn').enable();
+            } else {
+                me.down('#createInteractionBtn').disable();
+            }
+
+            if(me.down('#result').getDisplayValue().toLowerCase().indexOf('choose') == -1) {
+                me.down('#result').inputEl.addCls('chooseCls');
+            }
+
+            if(me.down('#detail').getDisplayValue().toLowerCase().indexOf('choose') == -1) {
+                me.down('#detail').inputEl.addCls('chooseCls');
+            }
+        }
+    },
+
     load: function () {
         debugger;
         var me = this;
@@ -33,14 +55,14 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.interactionNotes.InteractionNotes'
             var combo = me.down('#result');
 
             combo.bindStore(interactionResultsStore);
-            var recordIndex = interactionResultsStore.findBy(
+            var resultRecordIndex = interactionResultsStore.findBy(
                 function(record, id){
                     if(record.get('name').toLowerCase().indexOf('completed') >=0){
                         return id;
                     }
                 }
             );
-            combo.setValue(combo.getStore().getAt(recordIndex));
+            combo.setValue(combo.getStore().getAt(resultRecordIndex));
             //combo.setValue(combo.getStore().getAt(0));
             //me.down('#result').setValue('Call Completed');
         }).catch(function (response) {
@@ -64,7 +86,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.interactionNotes.InteractionNotes'
 
             var combo = me.down('#reason');
             combo.bindStore(interactionReasonsStore);
-            var recordIndex = interactionReasonsStore.findBy(
+            var reasonRecordIndex = interactionReasonsStore.findBy(
                 function(record, id){
                     if (managers['flowType'] === 'redemption'){
                         if(record.get('name').toLowerCase().indexOf('redemption') >=0) {
@@ -79,7 +101,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.interactionNotes.InteractionNotes'
                     }
                 }
             );
-            combo.setValue(combo.getStore().getAt(recordIndex));
+            combo.setValue(combo.getStore().getAt(reasonRecordIndex));
 
             // populate details combo box based on reason selected
             adam.callWsService('call/getInteractionDetails/' + reasonSelected, 'GET', {}).then(function (response) {
@@ -114,14 +136,14 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.interactionNotes.InteractionNotes'
                 else {
                     var interactionDetails = managers['interactionDetails'] || '';
                     if (interactionDetails != '') {
-                        var recordIndex = combo.getStore().findBy(
+                        var detailRecordIndex = combo.getStore().findBy(
                             function (record, id) {
                                 if (record.get('name').toLowerCase().indexOf(interactionDetails) >= 0) {
                                     return id;
                                 }
                             }
                         );
-                        combo.setValue(combo.getStore().getAt(recordIndex));
+                        combo.setValue(combo.getStore().getAt(detailRecordIndex));
                     } else {
                         combo.setValue(combo.getStore().getAt(0));
                     }
@@ -159,22 +181,6 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.interactionNotes.InteractionNotes'
         me.down('#autoNotes').setValue(autoNotes);
         //me.down('#result').setValue('Call Completed');
 
-        // disable create button if reason or detail has not been selected
-        if(me.down('#result').getDisplayValue().toLowerCase().indexOf('choose') == -1 &&
-            me.down('#detail').getDisplayValue().toLowerCase().indexOf('choose') == -1)
-        {
-            me.down('#createInteractionBtn').enable();
-        } else {
-            me.down('#createInteractionBtn').disable();
-        }
-
-        if(me.down('#result').getDisplayValue().toLowerCase().indexOf('choose') == -1) {
-            me.down('#result').inputEl.addCls('chooseCls');
-        }
-
-        if(me.down('#detail').getDisplayValue().toLowerCase().indexOf('choose') == -1) {
-            me.down('#detail').inputEl.addCls('chooseCls');
-        }
     },
 
     reset: function () {

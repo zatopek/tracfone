@@ -82,7 +82,8 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.common.ActiveFlashes', {
             xtype: 'activeFlashesGrid',
             itemId: 'activeFlashesGrid',
             store: myStore,
-            columns: [{
+            columns: [
+                /*{
                 text: "ID",
                 flex: 2.0,
                 dataIndex: 'id'
@@ -98,13 +99,14 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.common.ActiveFlashes', {
                 text: "End Date",
                 flex: 2.0,
                 dataIndex: 'endDate'
-            }, {
+            }, */
+                {
                 text: "Title",
-                flex: 3.5,
+                flex: 1,
                 dataIndex: 'title'
             }, {
                 text: "Alert Text",
-                flex: 7.5,
+                flex: 6,
                 dataIndex: 'alertText'
             }
             ],

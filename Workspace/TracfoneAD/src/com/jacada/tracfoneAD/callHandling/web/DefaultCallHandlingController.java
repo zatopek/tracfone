@@ -191,12 +191,12 @@ public class DefaultCallHandlingController extends WorkspaceController {
 		*/
 		
 		System.out.println("GET incomingCall->start");
-		
-		String esn = this.getRequestParameterValue(request.getParameter("url"), "esn");
-		String task_id = this.getRequestParameterValue(request.getParameter("url"), "task_id");
-		String call_id = this.getRequestParameterValue(request.getParameter("url"), "call_id");
-		//String flash_id = this.getRequestParameterValue(request.getParameter("url"), "flash_id");
-		//String case_id = this.getRequestParameterValue(request.getParameter("url"), "case_id");
+		String url = request.getParameter("url");
+		String esn = this.getRequestParameterValue(url, "esn");
+		String task_id = this.getRequestParameterValue(url, "task_id");
+		String call_id = this.getRequestParameterValue(url, "call_id");
+		//String flash_id = this.getRequestParameterValue(url, "flash_id");
+		//String case_id = this.getRequestParameterValue(url, "case_id");
 		
 		System.out.println(esn + " " + task_id + " " + call_id);
 		//PushHelper.publishMessageToAgent(agentId, "IncomingCallQueryString", request.getQueryString());
@@ -205,6 +205,7 @@ public class DefaultCallHandlingController extends WorkspaceController {
 		//CustomerServiceProfile customerServiceProfile = new CustomerServiceProfile();
 		customerServiceProfile.getCallInfo().setTaskId(task_id);
 		customerServiceProfile.getCallInfo().setCallId(call_id);
+		customerServiceProfile.getTasInfo().setUrl(url);
 		//customerServiceProfile.getCustomerProfile().setCaseId(case_id);
 		//customerServiceProfile.getCustomerProfile().setFlashId(flash_id);
 		PushHelper.publishMessageToAgent(agentId, "CustomerServiceProfile", customerServiceProfile);
