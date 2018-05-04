@@ -126,6 +126,13 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.sSO.SSO', {
             }
         });
         me.callParent(arguments);
+    },
+    reset: function () {
+
+    },
+
+    load: function () {
+
     }
 
 });

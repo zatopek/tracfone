@@ -82,6 +82,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.common.ActiveFlashes', {
             xtype: 'activeFlashesGrid',
             itemId: 'activeFlashesGrid',
             store: myStore,
+            hideHeaders: true,
             columns: [
                 /*{
                 text: "ID",

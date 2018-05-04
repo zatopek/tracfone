@@ -1868,6 +1868,10 @@ div.mainPanel .attCallAssistanceCls td.x-form-item-body {
 	font-size: .85em;
 }
 
+.recentTicketsCls .x-grid-cell-inner p {
+	margin-top: -1px;
+}
+
 .mainPanel .x-item-disabled#move-next, .mainPanel .x-item-disabled#move-prev {
     border: 1px solid #FFC47B;
     background: #fff;

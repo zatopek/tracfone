@@ -68,6 +68,8 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.common.CustomerServiceProfile', {
         });
         Ext.getCmp('recentTicketsBtn').hide();
         Ext.getCmp('activeFlashesBtn').hide();
+        managers['recentTickets'] = '';
+        managers['activeFlashes'] = '';
     },
 
     checkStatus: function (value) {

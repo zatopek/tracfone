@@ -68,6 +68,9 @@ function setupCustomerServiceProfile(pushData){
 
 function unloadWorkflow() {
     managers['flowType'] = '';
+    managers['autoNotes'] = '';
+    managers['interactionDetails'] = '';
+    managers['pushData'] = '';
     RemoveTabById('CallingIssuesTab');
     RemoveTabById('RedemptionTab');
 }
@@ -116,8 +119,6 @@ function onLaunchWorkflow(pushData) {
         Ext.MessageBox.alert('ERROR', 'MIN status is not ACTIVE. Please use TAS to complete this call.');
         managers['flowType'] = 'unsupport';
     }
-
-    managers['autoNotes'] = '';
 
     if(managers['flowType'] != 'other' || managers['flowType'] != 'unsupport') {
 

@@ -46,13 +46,13 @@
 	<fmt:setLocale value='<%=localeBean.getDefaultApplicationLocale()%>'/>
 	<fmt:setBundle basename='<%=localeBean.getResourceBundleBaseName()%>' scope="request" var="loginMessages"/>
 	<fmt:requestEncoding value="UTF-8"/>
-	
+
 
 </head>
 	<body style="background: white;">
 	<div id="centeredDiv"></div>
-	
-	
+
+
 	<script  type="text/javascript">
 		$W().username = "";
 		$W().contextPath = "<%=request.getContextPath()%>";
@@ -66,31 +66,12 @@
 
     </script>
 
-	<script>
-	function getParameterByName(name, url) {
-		if (!url) url = window.location.href;
-		name = name.replace(/[\[\]]/g, "\\$&");
-		var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-		results = regex.exec(url);
-		if (!results) return null;
-		if (!results[2]) return '';
-		return decodeURIComponent(results[2].replace(/\+/g, " "));
-	}
 
-	var username = getParameterByName('username');
-	if(username && username.length > 0){
-		document.cookie = "username=" + username;
-	}
-
-
-	</script>
-	
-	
 	<script type="text/javascript" >
-	
+
 		Ext.onReady(function(){
 			Ext.QuickTips.init();
-			
+
 			Ext.create('Ext.panel.Panel', {
 				height: '100%',
 				id: 'loginPanel',
@@ -153,7 +134,9 @@
 		 	        			if(e.getKey() == e.ENTER){
 		 	        				this.up('form').down('button').disable();
 		 	        				var form = this.up('form').getForm();
-							    	form.submit();
+									if(checkPreReqTF()){
+										form.submit();
+									}
 		 	        			}
 		 	        		}
 		 	        	}
@@ -165,13 +148,15 @@
 					    hideLabel: true,
 					    padding: '0 0 21 0',
 					    cls: 'login-form-field-password',
-						enableKeyEvents: true,	
+						enableKeyEvents: true,
 		 	        	listeners: {
 		 	        		keypress: function(textfield, e, eOpts){
 		 	        			if(e.getKey() == e.ENTER){
 		 	        				this.up('form').down('button').disable();
 		 	        				var form = this.up('form').getForm();
-							    	form.submit();
+									if(checkPreReqTF()){
+										form.submit();
+									}
 		 	        			}
 		 	        		}
 		 	        	}
@@ -196,13 +181,16 @@
 					} --%> ,{
 					    xtype: 'button',
 					    itemId: 'btnSubmit',
+						id: 'btnSubmit',
 					    text: '<%=localeBean.getLocalizationValueByAgent("application.loginPage.label.login", null)%>',
 					    height: 44,
 					    cls: 'btn-login',
 					    handler: function() {
 					    	this.disable();
 					    	var form = this.up('form').getForm();
-					    	form.submit();
+							if(checkPreReqTF()){
+								form.submit();
+							}
 					    }
 					}
 			    	  ]
@@ -211,9 +199,9 @@
 			    renderTo: 'centeredDiv'
 			});
 		});
-		
+
 	</script>
-		
+
 	</body>
 
 </html>

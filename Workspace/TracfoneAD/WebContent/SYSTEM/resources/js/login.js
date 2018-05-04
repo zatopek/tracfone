@@ -1,4 +1,5 @@
 var request ;
+
 function sf(){    
     var targetUrl = Ext.getCmp("spring-security-redirect").getValue();
     if (targetUrl == null || targetUrl == "" || targetUrl=="null") {
@@ -40,7 +41,7 @@ function getCookie(name) {
 var mainWindow = getMainWindow();
 var mainDoc = mainWindow.document;
 if (mainDoc != document) {
-    mainWindow.location.href = "<%=request.getContextPath()%>/terminated.jsp&username=" + this.getCookie('username');
+    mainWindow.location.href = "<%=request.getContextPath()%>/terminated.jsp&username=" + this.getCookie('username') + "&jiaUrl=" + this.getCookie('jiaUrl');
 }
 
 function enterCloseForm(e) {
@@ -74,3 +75,33 @@ function closeWindow() {
     
 }
 
+function getParameterByName(name, url) {
+    if (!url) url = window.location.href;
+    name = name.replace(/[\[\]]/g, "\\$&");
+    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, " "));
+}
+
+function checkPreReqTF() {
+    var username = getParameterByName('username');
+    if(username && username.length > 0 && typeof username != 'undefined'){
+        document.cookie = "username=" + username;
+    } else {
+        Ext.MessageBox.alert('ERROR', 'Cannot determine username. Login is disabled.');
+        Ext.getCmp('btnSubmit').disable();
+        return false;
+    }
+
+    var jiaUrl = getParameterByName('jiaUrl');
+    if(jiaUrl && jiaUrl.length > 0 && typeof username != 'undefined'){
+        document.cookie = "jiaUrl=" + jiaUrl;
+    } else {
+        Ext.MessageBox.alert('ERROR', 'Cannot determine JIA endpoint. Login is disabled.');
+        Ext.getCmp('btnSubmit').disable();
+        return false;
+    }
+    return true;
+}

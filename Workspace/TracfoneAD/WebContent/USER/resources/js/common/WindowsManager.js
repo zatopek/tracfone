@@ -31,6 +31,7 @@ var WindowsManager
 				}
 				if (data)
 					windows[name].data = data;
+                windows[name].load();
 				windows[name].show();
 			},
 			hide: function (name) {
