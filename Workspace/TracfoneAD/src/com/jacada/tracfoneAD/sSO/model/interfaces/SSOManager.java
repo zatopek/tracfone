@@ -9,4 +9,5 @@ public interface SSOManager extends WorkspaceManager {
 	public List<LoginCredential> getAgentSsoLogins (String agentId);
 	public void addAgentSsoLogins (String agentId, List<LoginCredential> logins);
 	public void deleteAgentSsoLogins (String agentId);
+	public boolean verifyPassword (String password);
 }

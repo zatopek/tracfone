@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -67,4 +68,24 @@ public class SsoController {
 		payload.setSuccess(true);
 		return payload;
 	}
+		
+	@RequestMapping(value="verifyPassword", method = RequestMethod.POST, produces = "application/json")
+	public @ResponseBody JSONPayload verifyPassword(@RequestBody String password, HttpServletRequest request) throws Exception{
+				
+		JSONPayload payload = new JSONPayload();
+		try{
+			//boolean result = manager.verifyPassword(password);
+			String pwd = (String)request.getSession().getAttribute("cockpitPwd");
+			boolean result = pwd.equals(request.getParameter("password"));
+			payload.setStatus("200");
+			payload.setSuccess(result);
+			payload.setResult(result);
+		}
+		catch(Exception e){
+			payload.setStatus("500");
+			payload.setSuccess(false);
+			payload.setMessage(e.getLocalizedMessage());
+		}
+		return payload;
+	}	
 }

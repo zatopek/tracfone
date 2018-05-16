@@ -7,7 +7,7 @@ Other independent components that need to be managed at app level will have a ma
 
  **/
 var Adam = function () {
-
+	var viewSsoPasswordTime = new Date().getTime();
 	managers = {};
 	widgets = {};
 	waitingWidgetRegister = {};
@@ -43,6 +43,8 @@ var Adam = function () {
     managers['interactionDetails'] = '';
 
     managers['logins'] = '';
+
+    managers['ssoSystems'] = '';
 
 	return {
 		load: function () {
@@ -282,6 +284,11 @@ var Adam = function () {
 			return managers['deviceProfile'].get(customerId || this.callData.customerId);
 		},
 
+		getSsoSystem: function(system) {
+            var ssoSystemVar = system.replace(/[^A-Z0-9]+/ig, "_");
+            return ssoSystemVar;
+		},
+
 		isSystemInLogins: function (system) {
             for (var i in managers['logins']) {
                 if (managers['logins'][i].system == system) {
@@ -289,7 +296,39 @@ var Adam = function () {
                 }
             }
             return false;
+		},
+
+		viewSsoPassword: function () {
+			//60 seconds window, no need to enter password again
+            var now = new Date().getTime();
+            if (now - viewSsoPasswordTime < 60000) {
+            	return true;
+			} else {
+            	//prompt for password
+                var msgbox = Ext.Msg.prompt(
+                    "View Password",
+                    "Please enter your Cockpit login password",
+                    function (btn, inputValue) {
+                    	debugger;
+                        if (btn == "ok") {
+                        	/*
+                            Ext.Ajax.request({
+                                url:'email-database.php?password=' + inputValue
+                            });
+                            */
+                            viewSsoPasswordTime = new Date().getTime();
+                            return true;
+                        }
+                        else {
+                        	return false;
+						}
+                    });
+
+                msgbox.textField.inputEl.dom.type = 'password';
+            }
 		}
+
+
 	};
 
 }
@@ -307,6 +346,6 @@ Ext.onReady(function () {
 		widgets['customerServiceProfile'].up().up().hide();
 	}	
 
-	//change ajax timeout to 90 seconds
+	//change ajax timeout to 120 seconds
     Ext.Ajax.timeout = 120000;
 });

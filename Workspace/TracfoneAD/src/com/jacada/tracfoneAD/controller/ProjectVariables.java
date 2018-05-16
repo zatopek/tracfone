@@ -20,12 +20,15 @@ public class ProjectVariables {
 	private String tasUrl;
 	@Value("${jas.url}")
 	private String jasUrl;
+	@Value("${PW.apps}")
+	private String[] pwApps;  
 
 	@RequestMapping(value="get", method = RequestMethod.GET, produces = "application/json")
 	public String getVariables() {
-		Map<String, String> variables = new HashMap<String, String>();
+		Map<String, Object> variables = new HashMap<String, Object>();
 		variables.put("jasUrl", jasUrl);
 		variables.put("tasUrl", tasUrl);
+		variables.put("pwApps", pwApps);
 		return new Gson().toJson(variables);
 	}	
 }

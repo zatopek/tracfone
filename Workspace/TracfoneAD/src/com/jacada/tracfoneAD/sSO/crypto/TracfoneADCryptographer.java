@@ -1,7 +1,6 @@
 package com.jacada.tracfoneAD.sSO.crypto;
 import java.security.Key;
 
-import java.security.Key;
 import javax.crypto.Cipher;
 import sun.misc.BASE64Encoder;
 import sun.misc.BASE64Decoder;
@@ -11,7 +10,7 @@ public class TracfoneADCryptographer
 {
     private static final String ALGO = "AES";
     private static final byte[] keyValue =
-            new byte[]{'T', 'h', 'e', 'B', 'e', 's', 't', 'S', 'e', 'c', 'r', 'e', 't', 'K', 'e', 'y'};
+            new byte[]{'T','B','S','K','h','e', 'e', 's', 't', 'e', 'c', 'r', 'e', 't', 'e', 'y'};
 
     /**
      * Encrypt a string with AES algorithm.

@@ -465,12 +465,12 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.AddPin', {
                         title: '',
                         itemId: 'transactionSummaryPanel',
                         border: false,
-						            autoScroll: true,
-						            layout: 'fit',
+                        autoScroll: true,
+                        layout: 'fit',
                         //bodyStyle: 'padding:5px 0px 5px 5px',
                         items: [{
                             xtype: 'component',
-							              cls: 'airtimePinResponseCls',
+                            cls: 'airtimePinResponseCls',
                             itemId: 'transactionSummary',
                             html: ''
                         }]

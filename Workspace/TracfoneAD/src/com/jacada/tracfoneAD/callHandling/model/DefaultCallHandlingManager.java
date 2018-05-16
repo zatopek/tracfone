@@ -104,5 +104,4 @@ public class DefaultCallHandlingManager extends DefaultWorkspaceManager implemen
 		}		
 		
 	}
-
 }

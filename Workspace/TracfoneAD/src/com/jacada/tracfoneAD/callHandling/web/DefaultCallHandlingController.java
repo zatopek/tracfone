@@ -7,6 +7,8 @@ import java.util.StringTokenizer;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,7 +19,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.jacada.jad.feature.web.WorkspaceController;
 import com.jacada.jad.push.PushHelper;
 import com.jacada.tracfoneAD.callHandling.model.interfaces.CallHandlingManager;
-import com.jacada.tracfoneAD.customerServiceProfile.entities.AccountBalances;
 import com.jacada.tracfoneAD.customerServiceProfile.entities.CustomerServiceProfile;
 import com.jacada.tracfoneAD.customerServiceProfile.entities.Flash;
 import com.jacada.tracfoneAD.customerServiceProfile.entities.InteractionDetail;
@@ -32,6 +33,8 @@ import com.jacada.tracfoneAD.util.JSONPayload;
 @RequestMapping("/call")
 public class DefaultCallHandlingController extends WorkspaceController {
 
+	private static final Logger LOGGER = LoggerFactory.getLogger(DefaultCallHandlingController.class);
+	
 	@Autowired
 	private CustomerServiceProfileManager customerServiceProfileManager;
 	
@@ -189,8 +192,7 @@ public class DefaultCallHandlingController extends WorkspaceController {
 		}
 		PushHelper.pushMessage(request, "IncomingCallParamObj", obj);
 		*/
-		
-		System.out.println("GET incomingCall->start");
+
 		String url = request.getParameter("url");
 		String esn = this.getRequestParameterValue(url, "esn");
 		String task_id = this.getRequestParameterValue(url, "task_id");
@@ -198,7 +200,7 @@ public class DefaultCallHandlingController extends WorkspaceController {
 		//String flash_id = this.getRequestParameterValue(url, "flash_id");
 		//String case_id = this.getRequestParameterValue(url, "case_id");
 		
-		System.out.println(esn + " " + task_id + " " + call_id);
+		LOGGER.debug("esn=" + esn + " task_id=" + task_id + " call_id=" + call_id);
 		//PushHelper.publishMessageToAgent(agentId, "IncomingCallQueryString", request.getQueryString());
 		
 		CustomerServiceProfile customerServiceProfile = customerServiceProfileManager.getCustomerServiceProfile(esn);
@@ -252,6 +254,7 @@ public class DefaultCallHandlingController extends WorkspaceController {
 		return "";
 	}
 	
+	@SuppressWarnings("unchecked")
 	private LinkedHashMap<String, ProductOffering> findProductOffering(LinkedHashMap<String, ProductOffering> productOfferings, String objectId) {
 		ProductOffering offer = productOfferings.get(objectId);
 		if(offer != null){
@@ -264,4 +267,5 @@ public class DefaultCallHandlingController extends WorkspaceController {
 	    }
 	    return productOfferings;
 	}
+	
 }

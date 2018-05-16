@@ -2,9 +2,12 @@ package com.jacada.tracfoneAD.customerServiceProfile.dao;
 
 import javax.xml.bind.JAXBElement;
 
+import com.jacada.tracfoneAD.callHandling.web.DefaultCallHandlingController;
 import com.jacada.tracfoneAD.customerServiceProfile.dao.interfaces.BalanceInquiryDao;
 import com.jacada.tracfoneAD.customerServiceProfile.entities.AccountBalances;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.ws.client.core.support.WebServiceGatewaySupport;
 import org.springframework.ws.soap.client.core.SoapActionCallback;
@@ -26,10 +29,12 @@ public class WSBalanceInquiryDao extends WebServiceGatewaySupport implements Bal
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	
+	private static final Logger LOGGER = LoggerFactory.getLogger(WSBalanceInquiryDao.class);
 
 	@Override
 	public GetBalanceByTransIdResponse getAccountBalances(String brand, String esn) {
-		System.out.println("WSBalanceInquiryDao");
+		
 		try {
 			GetBalanceResponse getBalanceResponse = this.getTransactionId(brand, esn);
 			
@@ -55,7 +60,6 @@ public class WSBalanceInquiryDao extends WebServiceGatewaySupport implements Bal
 	
 	private GetBalanceResponse getTransactionId(String brand, String esn) throws Exception {
 
-			System.out.println("getTransactionId start");
 			ObjectFactory objectFactory = new ObjectFactory();
 			
 			GetBalanceRequest getBalanceRequest = new GetBalanceRequest();
@@ -72,9 +76,10 @@ public class WSBalanceInquiryDao extends WebServiceGatewaySupport implements Bal
 			
 			@SuppressWarnings("unchecked")
 			JAXBElement<GetBalanceResponse> response = (JAXBElement<GetBalanceResponse>)getWebServiceTemplate().marshalSendAndReceive(request, callback);
-			System.out.println("getTransactionId finished");
+
 			String balanceTransId = response.getValue().getBalanceTransId();
-			System.out.println("getBalanceTransId=>" + balanceTransId);
+			
+			LOGGER.debug("getBalanceTransId=>" + balanceTransId);
 			return response.getValue();
 
 

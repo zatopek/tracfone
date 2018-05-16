@@ -33,7 +33,23 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.PaymentTransaction', {
             me.unmask();
 
         }).catch(function (response) {
-            Ext.Msg.alert('ERROR', 'Error retrieving credit card on file. Please use TAS to complete this call.');
+            try {
+                var jsonResponse = JSON.parse(response.response.responseText);
+                if (jsonResponse && jsonResponse.message) {
+                    if((jsonResponse.message.toLowerCase().indexOf('object') >= 0) ||
+                        (jsonResponse.message.toLowerCase().indexOf('control') >= 0)){
+                        Ext.Msg.alert('ERROR', REQ_ERROR_MSG);
+                    } else {
+                        Ext.Msg.alert('ERROR', 'Sorry, retrieve credit card on file failed. ' + jsonResponse.message);
+                }
+                }
+                else {
+                    Ext.Msg.alert('ERROR', REQ_ERROR_MSG);
+                }
+            }
+            catch(e) {
+                Ext.Msg.alert('ERROR', REQ_ERROR_MSG);
+            }
             me.unmask();
         })
     },
@@ -83,7 +99,23 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.PaymentTransaction', {
                 me.unmask();
             }
         }).catch(function () {
-            Ext.Msg.alert('ERROR', 'Sorry, unable to send email.');
+            try {
+                var jsonResponse = JSON.parse(response.response.responseText);
+                if (jsonResponse && jsonResponse.message) {
+                    if((jsonResponse.message.toLowerCase().indexOf('object') >= 0) ||
+                        (jsonResponse.message.toLowerCase().indexOf('control') >= 0)){
+                        Ext.Msg.alert('ERROR', REQ_ERROR_MSG);
+                    } else {
+                        Ext.Msg.alert('ERROR', 'Sorry, unable to send email. ' + jsonResponse.message);
+                    }
+                }
+                else {
+                    Ext.Msg.alert('ERROR', REQ_ERROR_MSG);
+                }
+            }
+            catch(e) {
+                Ext.Msg.alert('ERROR', REQ_ERROR_MSG);
+            }
             me.unmask();
         })
     },

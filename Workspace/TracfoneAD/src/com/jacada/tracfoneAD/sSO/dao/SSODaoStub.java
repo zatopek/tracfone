@@ -5,7 +5,6 @@ import java.util.List;
 import com.jacada.tracfoneAD.sSO.dao.interfaces.SSODao;
 import com.jacada.tracfoneAD.sSO.entities.ApplicationSourceSystem;
 import com.jacada.tracfoneAD.sSO.entities.LoginCredential;
-import com.jacada.tracfoneAD.sSO.entities.SSOCredential;
 
 public class SSODaoStub implements SSODao {
 
@@ -35,5 +34,11 @@ public class SSODaoStub implements SSODao {
 			List<LoginCredential> loginCredentials, boolean add) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public boolean checkCockpitCredentials(String pwd) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }

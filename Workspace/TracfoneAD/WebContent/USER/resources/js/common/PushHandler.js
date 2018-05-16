@@ -70,7 +70,7 @@ function unloadWorkflow() {
     managers['flowType'] = '';
     managers['autoNotes'] = '';
     managers['interactionDetails'] = '';
-    managers['pushData'] = '';
+    //managers['pushData'] = '';
     RemoveTabById('CallingIssuesTab');
     RemoveTabById('RedemptionTab');
 }
@@ -270,7 +270,7 @@ function launchUnableCallFlow(brand, carrier) {
     // only launch system if login is available
 
     if(carrier == 'Verizon'){
-        if(adam.isSystemInLogins('VerizonCIS')) {
+        if(adam.isSystemInLogins('Verizon CIS')) {
             adam.callService('CoverageMap/Search/' + carrier + '/' + pushData.customerProfile.zip, 'GET').then(function (response) {
             }).catch(function(e){
             });
@@ -283,13 +283,13 @@ function launchUnableCallFlow(brand, carrier) {
 
     //call JIA API launchCarrierBilling
     if(carrier == 'Verizon') {
-        if(adam.isSystemInLogins('VerizonRSSX')) {
+        if(adam.isSystemInLogins('Verizon RSSX')) {
             adam.callService('Billing/' + carrier, 'GET').then(function (response) {
             }).catch(function (error) {
             });
         }
     } else if(carrier == 'T-Mobile') {
-        if(adam.isSystemInLogins('TMobileWCSM')) {
+        if(adam.isSystemInLogins('T-Mobile WCSM')) {
             adam.callService('Billing/' + carrier, 'GET').then(function (response) {
             }).catch(function (error) {
             });

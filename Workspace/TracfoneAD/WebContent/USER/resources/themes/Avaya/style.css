@@ -1332,8 +1332,15 @@ h2 {
 	width: 65px !important;
 }
 
-.airtimePurchaseResponseCls, .airtimePinResponseCls {
+.airtimePinResponseCls {
 	padding-bottom: 175px;
+	padding-right: 15px;
+	font-size: 10px;
+}
+
+.airtimePurchaseResponseCls{
+	padding-bottom: 205px;
+	padding-right: 15px;
 	font-size: 10px;
 }
 

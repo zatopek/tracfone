@@ -9,6 +9,12 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.unableUnable.VerizonCallAssistance
     load: function () {
         var me = this;
         me.mask('Please wait..');
+        //launch chat tool
+        adam.callService('ChatTool/Verizon').then(function (response) {
+        }).catch(function (response) {
+
+        })
+
         var pushData = managers['pushData'];
         var data = {
             avayaId: '',
@@ -23,8 +29,8 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.unableUnable.VerizonCallAssistance
             software: pushData.deviceProfile.os,
             signalStrength: '',
             issue: ''
-
         }
+
         Ext.each(me.query('displayfield'), function (item) {
             item.setValue(data[item.name]);
         });

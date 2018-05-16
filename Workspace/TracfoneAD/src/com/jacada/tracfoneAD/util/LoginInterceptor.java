@@ -22,13 +22,17 @@ public class LoginInterceptor extends
 
 			String username = paramHttpServletRequest
 					.getParameter("username");
-			System.out.println("username==>" + username);
-			
+		
 			paramHttpServletRequest.getSession().setAttribute("username", username);
 			
 			String agentName = paramHttpServletRequest
 					.getParameter("j_username");
+			String password = paramHttpServletRequest
+					.getParameter("j_password");
+			
 			paramHttpServletRequest.getSession().setAttribute("agentName", agentName);
+			// temp solution for view password in PW until LDAP is implemented
+			paramHttpServletRequest.getSession().setAttribute("cockpitPwd", password);
 
 		}
 		return null;

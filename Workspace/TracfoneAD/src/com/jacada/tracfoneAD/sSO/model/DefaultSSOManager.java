@@ -28,7 +28,6 @@ public class DefaultSSOManager extends DefaultWorkspaceManager implements SSOMan
 	}
 	@Override
 	public void addAgentSsoLogins(String agentId, List<LoginCredential> logins) {
-		System.out.println("manager->addAgentSsoCredentials");
 		SSO.deleteUserSsoCredentials(agentId);
 		SSO.addOrUpdateUserSsoCredentials(agentId, logins, true);
 	}
@@ -36,5 +35,11 @@ public class DefaultSSOManager extends DefaultWorkspaceManager implements SSOMan
 	public void deleteAgentSsoLogins(String agentId) {
 		SSO.deleteUserSsoCredentials(agentId);
 		
+	}
+
+	@Override
+	public boolean verifyPassword(String password) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }

@@ -6,6 +6,7 @@ import java.util.Map;
 
 import com.jacada.jad.feature.model.DefaultWorkspaceManager;
 import com.jacada.jad.feature.annotations.FeatureManager;
+import com.jacada.tracfoneAD.customerServiceProfile.dao.WSBalanceInquiryDao;
 import com.jacada.tracfoneAD.customerServiceProfile.entities.AccountBalances;
 import com.jacada.tracfoneAD.customerServiceProfile.entities.CustomerServiceProfile;
 import com.jacada.tracfoneAD.customerServiceProfile.entities.Flash;
@@ -16,6 +17,8 @@ import com.jacada.tracfoneAD.customerServiceProfile.entities.TasTicket;
 import com.jacada.tracfoneAD.customerServiceProfile.model.interfaces.CustomerServiceProfileManager;
 import com.tracfone.b2b.inquiryservices.balanceinquiry.GetBalanceByTransIdResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -25,6 +28,8 @@ public class DefaultCustomerServiceProfileManager extends DefaultWorkspaceManage
 		implements CustomerServiceProfileManager {
 
 	private static final long serialVersionUID = 1L;
+	
+	private static final Logger LOGGER = LoggerFactory.getLogger(DefaultCustomerServiceProfileManager.class);
 	@Autowired
 	private transient com.jacada.tracfoneAD.customerServiceProfile.dao.interfaces.CustomerServiceProfileDao customerServiceProfileDao;
 	@Autowired
@@ -37,7 +42,6 @@ public class DefaultCustomerServiceProfileManager extends DefaultWorkspaceManage
 
 	@Override
 	public CustomerServiceProfile getCustomerServiceProfile(String esn) {
-		System.out.println("getCustomerServiceProfile=>" + esn);
 		return customerServiceProfileDao.getCustomerServiceProfile(esn);
 	}
 
@@ -62,7 +66,7 @@ public class DefaultCustomerServiceProfileManager extends DefaultWorkspaceManage
 				long startTime = System.currentTimeMillis();
 				long lapsedTime = 0;
 				while ((lapsedTime < MAX_TIME_LAPSE) && !hasBalance) {
-					System.out.println("getAccountBalances=>lapsedTime=" + lapsedTime);
+					LOGGER.debug("getAccountBalances=>lapsedTime=" + lapsedTime);
 					response = balanceInquirySoapConnector.getAccountBalances(brand, esn);
 					if (response != null && response.getBalance() != null && response.getBalance().getTotalBenefits() != null) {
 						hasBalance = true;

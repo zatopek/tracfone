@@ -16,7 +16,9 @@ public class DefaultSSODao implements SSODao {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private SQLiteJDBCDriverConnection sQLiteJDBCDriverConnection;
+	//private SQLiteJDBCDriverConnection sQLiteJDBCDriverConnection;
+	private JDBCConnection jdbcConnection = new JDBCConnection();
+	
 	
 	@Value("${sso.sqllite.location}")
 	private String ssoSqliteLocation;
@@ -24,11 +26,7 @@ public class DefaultSSODao implements SSODao {
 	
 	@Override
 	public List<LoginCredential> getUserSsoCredentials(String agentId) {
-		
-		if(sQLiteJDBCDriverConnection == null){
-			sQLiteJDBCDriverConnection = new SQLiteJDBCDriverConnection(ssoSqliteLocation);
-		}
-		return sQLiteJDBCDriverConnection.getAgentLogins(agentId);
+		return jdbcConnection.getAgentLogins(agentId);
 	}
 
 	@Override
@@ -51,36 +49,35 @@ public class DefaultSSODao implements SSODao {
 
 	@Override
 	public void deleteUserSsoCredentials(String agentId) {
-		if(sQLiteJDBCDriverConnection == null){
-			sQLiteJDBCDriverConnection = new SQLiteJDBCDriverConnection(ssoSqliteLocation);
-		}
-		sQLiteJDBCDriverConnection.delete(agentId);
+		jdbcConnection.delete(agentId);
 		
 	}
 
 	@Override
 	public void addOrUpdateUserSsoCredentials(String agentId,
-			List<LoginCredential> loginCredentials, boolean add) {
-		
-		if(sQLiteJDBCDriverConnection == null){
-			sQLiteJDBCDriverConnection = new SQLiteJDBCDriverConnection(ssoSqliteLocation);
-		}
-		
+			List<LoginCredential> loginCredentials, boolean add) 
+	{
 		if(add)
 		{
 			for(LoginCredential login:loginCredentials)
 			{
-				sQLiteJDBCDriverConnection.insertAgentSsoForSystem(agentId, login.getSystem().toString(), login.getUsername(), login.getPassword());			
+				jdbcConnection.insertAgentSsoForSystem(agentId, login.getSystem().toString(), login.getUsername(), login.getPassword());			
 			}
 		}
 		else
 		{
 			for(LoginCredential login:loginCredentials)
 			{
-				sQLiteJDBCDriverConnection.update(agentId, login.getSystem().toString(), login.getUsername(), login.getPassword());			
+				jdbcConnection.update(agentId, login.getSystem().toString(), login.getUsername(), login.getPassword());			
 			}
 		}
 					
+	}
+
+	@Override
+	public boolean checkCockpitCredentials(String pwd) {
+		
+		return false;
 	}
 }
 
