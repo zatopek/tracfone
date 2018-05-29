@@ -186,7 +186,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.AddPin', {
                         (jsonResponse.message.toLowerCase().indexOf('control') >= 0)){
                         Ext.Msg.alert('ERROR', REQ_ERROR_MSG);
                     } else {
-                        Ext.Msg.alert('ERROR', 'Sorry, adding pin failed. ' + jsonResponse.message);
+                        Ext.Msg.alert('ERROR', 'Sorry, add pin failed. ' + jsonResponse.message);
                     }
                 }
                 else {
@@ -220,8 +220,8 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.AddPin', {
                 border: false,
                 items: [
                     {
-                        xtype: 'panel',
                         columnWidth: 0.4,
+                        xtype: 'panel',
                         border: false,
                         bodyStyle: 'padding:5 5 5 5',
                         title: "ADD AIRTIME PIN",

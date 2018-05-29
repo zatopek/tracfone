@@ -58,15 +58,17 @@ public class JDBCConnection {
 
 	public void createNewTable() {
 
-		String chkTableSql = "select 1 from agent_sso limit 1";
+		//String chkTableSql = "select 1 from agent_sso limit 1";
+		String chkTableSql = "select table_name from user_tables where table_name='AGENT_SSO'";
 		// SQL statement for creating a new table
 		String sql = "CREATE TABLE agent_sso (\n"
 				+ "	agentId varchar(255) NOT NULL,\n" + "	system varchar(255) NOT NULL,\n"
 				+ "	username varchar(255) NOT NULL,\n" + "	password varchar(255) NOT NULL,\n"
-				+ " PRIMARY KEY (agentId, system)\n" + ");";
+				+ " CONSTRAINT agent_sso_pk PRIMARY KEY (agentId, system)\n" + ")";
 
 		try (Connection conn = this.getConnection();
 				Statement stmt = conn.createStatement()) {
+			/*
 			try {
 				stmt.execute(chkTableSql);
 			}catch(Exception e){
@@ -74,7 +76,39 @@ public class JDBCConnection {
 					// create a new table
 					stmt.execute(sql);					
 				}
-			}
+			}*/
+			DatabaseMetaData meta = conn.getMetaData();
+		    String productName = meta.getDatabaseProductName();
+		    // if MySQL
+		    if (productName.toLowerCase().indexOf("mysql")>-1){
+		    	chkTableSql = "select 1 from agent_sso limit 1";
+		    	try {
+					stmt.execute(chkTableSql);
+				}catch(Exception e){
+					if(e.getLocalizedMessage().toLowerCase().indexOf("doesn't exist")>=0){
+						// create a new table
+						stmt.execute(sql);					
+					}
+				}
+		    }
+		    // assume oracle if not MySQL
+		    else {
+				try {
+					ResultSet rs = stmt.executeQuery(chkTableSql);
+					System.out.println("after check new table");
+					System.out.println("table exists???");
+					System.out.print(rs.next());
+					if(!rs.next()) {
+						System.out.println("prepare to create new table");
+						System.out.println(sql);	
+						stmt.execute(sql);
+						System.out.println("after create new table");
+					}
+				}catch(Exception e){
+					LOGGER.error(e.getMessage());
+					System.out.println(e.getLocalizedMessage());
+				}		    	
+		    }			
 		} catch (SQLException e) {
 			LOGGER.error(e.getMessage());
 		}

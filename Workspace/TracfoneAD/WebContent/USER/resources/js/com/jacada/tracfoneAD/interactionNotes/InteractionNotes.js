@@ -231,7 +231,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.interactionNotes.InteractionNotes'
                     Ext.Msg.alert('ERROR', REQ_ERROR_MSG);
                 }
                 else {
-                    Ext.Msg.alert('ERROR', 'Sorry, Interaction could not be created. Please try again.');
+                    Ext.Msg.alert('ERROR', 'Sorry, Interaction could not be created. ' +  jsonResponse.message);
                 }
             }
             catch(e){

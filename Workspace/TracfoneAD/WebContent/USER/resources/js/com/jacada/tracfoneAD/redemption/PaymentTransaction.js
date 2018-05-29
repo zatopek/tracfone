@@ -92,32 +92,27 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.PaymentTransaction', {
                 else {
                     Ext.Msg.alert('SUCCESS', 'Email sent to ' + managers['pushData'].customerProfile.email);
                 }
-                me.unmask();
             }
             catch(e){
                 Ext.Msg.alert('SUCCESS', 'Email sent to ' + managers['pushData'].customerProfile.email);
-                me.unmask();
-            }
-        }).catch(function () {
-            try {
-                var jsonResponse = JSON.parse(response.response.responseText);
-                if (jsonResponse && jsonResponse.message) {
-                    if((jsonResponse.message.toLowerCase().indexOf('object') >= 0) ||
-                        (jsonResponse.message.toLowerCase().indexOf('control') >= 0)){
-                        Ext.Msg.alert('ERROR', REQ_ERROR_MSG);
-                    } else {
-                        Ext.Msg.alert('ERROR', 'Sorry, unable to send email. ' + jsonResponse.message);
-                    }
-                }
-                else {
-                    Ext.Msg.alert('ERROR', REQ_ERROR_MSG);
-                }
-            }
-            catch(e) {
-                Ext.Msg.alert('ERROR', REQ_ERROR_MSG);
             }
             me.unmask();
-        })
+        }).catch(function (response) {
+            try{
+                var jsonResponse = JSON.parse(response.response.responseText);
+                if((jsonResponse.message.toLowerCase().indexOf('object') >= 0)||
+                    (jsonResponse.message.toLowerCase().indexOf('control') >= 0)){
+                    Ext.Msg.alert('ERROR', REQ_ERROR_MSG);
+                }
+                else {
+                    Ext.Msg.alert('ERROR', 'Sorry, unable to send email. ' +  jsonResponse.message);
+                }
+            }
+            catch(e){
+                Ext.Msg.alert('ERROR', 'Sorry, Interaction could not be created. Please try again.');
+            }
+            me.unmask();
+        });
     },
     purchase: function () {
         var me = this;
