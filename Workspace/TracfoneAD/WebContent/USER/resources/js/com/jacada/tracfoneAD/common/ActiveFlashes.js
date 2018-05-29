@@ -27,7 +27,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.common.ActiveFlashes', {
                 text: 'Close',
                 tabIndex: 13,
                 handler: function () {
-                   // me.close();
+                    // me.close();
                     managers['windowsManager'].hide('activeFlashesWindow');
                 }
             }]
@@ -43,6 +43,10 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.common.ActiveFlashes', {
     load: function () {
         var me = this;
         me.items.items[0].getStore().loadData(managers['activeFlashes']);
+    },
+
+    columnWrap: function(val) {
+        return '<div style="white-space:normal !important;">'+ val +'</div>';
     },
 
     createContentPanel: function () {
@@ -102,14 +106,17 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.common.ActiveFlashes', {
                 dataIndex: 'endDate'
             }, */
                 {
-                text: "Title",
-                flex: 1,
-                dataIndex: 'title'
-            }, {
-                text: "Alert Text",
-                flex: 6,
-                dataIndex: 'alertText'
-            }
+                    text: "Title",
+                    flex: 1,
+                    dataIndex: 'title',
+                    renderer: this.columnWrap
+
+                }, {
+                    text: "Alert Text",
+                    flex: 6,
+                    dataIndex: 'alertText',
+                    renderer: this.columnWrap
+                }
             ],
             listeners: {
                 //selectionchange: me.sendToJia

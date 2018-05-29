@@ -86,6 +86,24 @@ var Adam = function () {
 			managers['interactcomm'].register('callJia', this, function (data) {
                 this.callService('Tas/SUI/Launch?min=' + managers['pushData'].deviceProfile.min, 'POST').then(function (response) {
                     // do nothing
+                }).catch(function (response) {
+                    try{
+                        var jsonResponse = JSON.parse(response.response.responseText);
+                        if (jsonResponse && jsonResponse.message) {
+                            if((jsonResponse.message.toLowerCase().indexOf('object') >= 0) ||
+                                (jsonResponse.message.toLowerCase().indexOf('control') >= 0)){
+                                Ext.Msg.alert('ERROR', REQ_ERROR_MSG);
+                            } else {
+                                Ext.Msg.alert('ERROR', 'Sorry, Failed to launch SUI. ' + jsonResponse.message);
+                            }
+                        }
+                        else {
+                            Ext.Msg.alert('ERROR', REQ_ERROR_MSG);
+                        }
+                    }
+                    catch(e){
+                        Ext.Msg.alert('ERROR', REQ_ERROR_MSG);
+                    }
                 });
             });
 
@@ -296,38 +314,7 @@ var Adam = function () {
                 }
             }
             return false;
-		},
-
-		viewSsoPassword: function () {
-			//60 seconds window, no need to enter password again
-            var now = new Date().getTime();
-            if (now - viewSsoPasswordTime < 60000) {
-            	return true;
-			} else {
-            	//prompt for password
-                var msgbox = Ext.Msg.prompt(
-                    "View Password",
-                    "Please enter your Cockpit login password",
-                    function (btn, inputValue) {
-                    	debugger;
-                        if (btn == "ok") {
-                        	/*
-                            Ext.Ajax.request({
-                                url:'email-database.php?password=' + inputValue
-                            });
-                            */
-                            viewSsoPasswordTime = new Date().getTime();
-                            return true;
-                        }
-                        else {
-                        	return false;
-						}
-                    });
-
-                msgbox.textField.inputEl.dom.type = 'password';
-            }
 		}
-
 
 	};
 

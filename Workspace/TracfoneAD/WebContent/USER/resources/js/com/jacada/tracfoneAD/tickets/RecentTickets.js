@@ -10,7 +10,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.tickets.RecentTickets', {
     border: true,
     shadow: false,
     modal: true,
-    title: 'Recent Tickets',
+    title: 'RECENT TICKETS',
     closeAction: 'hide',
     layout: 'fit',
     autoScroll: true,
@@ -45,6 +45,10 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.tickets.RecentTickets', {
     load: function () {
         var me = this;
         me.items.items[0].getStore().loadData(managers['recentTickets']);
+    },
+
+    columnWrap: function(val) {
+        return '<div style="white-space:normal !important;">'+ val +'</div>';
     },
 
     createContentPanel: function () {
@@ -96,7 +100,8 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.tickets.RecentTickets', {
             }, {
                 text: "Issue",
                 flex: 3.0,
-                dataIndex: 'issue'
+                dataIndex: 'issue',
+                renderer: this.columnWrap
             }, {
                 text: "Creation Time",
                 flex: 1.5,
