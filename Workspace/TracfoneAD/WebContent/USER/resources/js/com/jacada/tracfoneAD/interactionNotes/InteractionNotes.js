@@ -209,7 +209,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.interactionNotes.InteractionNotes'
         var requestObject = {
             reason: me.down('#reason').getDisplayValue(),
             //notes: me.down('#agentNotes').getValue(),
-            notes: notes,
+            notes: notes.replace(/'/g, "\\'"),
             detail: me.down('#detail').getDisplayValue(),
             result: me.down('#result').getDisplayValue(),
             surveyQuestion: managers['surveyQuestion'] || ''
