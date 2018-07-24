@@ -3,10 +3,19 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.common.CustomerServiceProfile', {
     xtype: 'customerServiceProfile',
 	id: 'customerServiceProfile',
     layout: 'column',
+    /*
     defaults: {
-        margin: '5 10 0 5', //top right bottom left (clockwise) margins of each item/column
-        height: 200
+        margin: '3 10 0 5' //top right bottom left (clockwise) margins of each item/column
+        //height: 200
     },
+    */
+    tools:[{
+        type:'search',
+        tooltip: 'Search customer',
+        handler: function(event, toolEl, panel){
+            searchWin.show();
+        }
+    }],
 
     load: function (data) {
         var me = this;
@@ -21,28 +30,34 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.common.CustomerServiceProfile', {
             loader(item, data[item.name])
         })
 
-        //get recent tickets
-        var esn = managers['pushData'].deviceProfile.esn;
-        adam.callWsService('call/getOpenedTickets/' + esn, 'GET', {}).then(function (response) {
-            managers['recentTickets'] = response;
-            if (response && response.length > 0) {
-                Ext.getCmp('recentTicketsBtn').show();
-            } else {
-                Ext.getCmp('recentTicketsBtn').hide();
-            }
-        }).catch(function () {
-        });
 
-        //get active flashes
-        adam.callWsService('call/getActiveFlashes/' + esn, 'GET', {}).then(function (response) {
-            managers['activeFlashes'] = response;
-            if (response && response.length > 0) {
-                Ext.getCmp('activeFlashesBtn').show();
-            } else {
-                Ext.getCmp('activeFlashesBtn').hide();
-            }
-        }).catch(function () {
-        });
+        Ext.getCmp('recentTicketsBtn').hide();
+        Ext.getCmp('activeFlashesBtn').hide();
+        if(esn && typeof esn != 'undefined') {
+            //get recent tickets
+            var esn = managers['pushData'].deviceProfile.esn;
+            adam.callWsService('call/getOpenedTickets/' + esn, 'GET', {}).then(function (response) {
+                managers['recentTickets'] = response;
+                if (response && response.length > 0) {
+                    Ext.getCmp('recentTicketsBtn').show();
+                } else {
+                    Ext.getCmp('recentTicketsBtn').hide();
+                }
+            }).catch(function () {
+            });
+
+            //get active flashes
+            adam.callWsService('call/getActiveFlashes/' + esn, 'GET', {}).then(function (response) {
+                managers['activeFlashes'] = response;
+                if (response && response.length > 0) {
+                    Ext.getCmp('activeFlashesBtn').show();
+                } else {
+                    Ext.getCmp('activeFlashesBtn').hide();
+                }
+            }).catch(function () {
+            });
+        }
+
 
     },
     loadAccountBalances: function (data) {
@@ -202,6 +217,9 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.common.CustomerServiceProfile', {
                                         }, {
                                             fieldLabel: 'Sequence',
                                             name: 'sequence'
+                                        }, {
+                                            fieldLabel: 'Handset Protection',
+                                            name: 'handsetProtection'
                                         }
                                     ]
                                 }
@@ -326,10 +344,13 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.common.CustomerServiceProfile', {
                             name: 'zip'
                         }, {
                             fieldLabel: 'LID',
-                            name: 'ltd'
+                            name: 'lid'
                         }, {
-                            fieldLabel: 'Customer Type',
-                            name: 'customerType'
+                            fieldLabel: 'LifeLine Status',
+                            name: 'lifeLineStatus'
+                        },{
+                            fieldLabel: 'Program Name',
+                            name: 'programName'
                         },
                         /*{
                             fieldLabel: 'Case ID',
@@ -393,3 +414,87 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.common.CustomerServiceProfile', {
         me.callParent(arguments);
     }
 })
+
+function searchByEsn()
+{
+    var searchText = Ext.getCmp('serialNumberField').value;
+    if(searchText.trim().length == 0){
+        Ext.MessageBox.alert('ERROR', 'Please enter a serial number to start the search. Please try again.');
+        return;
+    }
+    /// TODO put an ajax code to get the search result
+    searchWin.close();
+    widgets['customerServiceProfile'].up().mask('Please wait...');
+    var success = false;
+    adam.callWsService('call/customerSearch/' + $W().agentName + '?esn=' + searchText.trim(), 'GET', {}).then(function (response) {
+        success = true;
+        var url = managers['pushData'].tasInfo.url;
+        var taskId = managers['pushData'].callInfo.taskId;
+        var callId = managers['pushData'].callInfo.callId;
+        //pass call id and task id to new customer
+        response.callInfo.taskId = taskId;
+        response.callInfo.callId = callId;
+        var start = url.indexOf('&esn=');
+        var end = url.indexOf('&', start + 5);
+        var newUrl = url.substring(0, start) + '&esn=' + searchText + url.substring(end) + '&skipWSNotification=true';
+        response.tasInfo.url = newUrl;
+        //load customer profile
+        onCustomerServiceProfile(response);
+        widgets['customerServiceProfile'].up().unmask();
+        //load TAS with esn
+        adam.callService('Tas/IncomingCall?url=' + encodeURIComponent(newUrl), 'GET').then(function (response) {
+
+        }).catch(function (error) {
+
+        });
+
+    }).catch(function (response) {
+        if(!success){
+            Ext.MessageBox.alert('ERROR', 'Unable to search customer with serial number ' + searchText.trim() + '. Please try again.');
+        }
+        widgets['customerServiceProfile'].up().unmask();
+    });
+
+    Ext.getCmp('serialNumberField').setValue('');
+}
+
+var searchWin =  new Ext.Window ({
+    title:'Search Customer',
+    width:300,
+    padding: '10 10 10 10',
+    closeAction:'close',
+    modal: true,
+
+    items: [{
+        xtype : 'textfield',
+        fieldLabel: 'Serial #',
+        name: 'serialNumber',
+        id: 'serialNumberField',
+        enforceMaxLength:true,  //Restrict typing past maxLength: n
+        maxLength: 20,           //Set max length validation
+        maskRe:/[0-9]/,
+        listeners:{
+            scope:this,
+            specialkey: function(f,e){
+                if(e.getKey()==e.ENTER){
+                    searchByEsn();
+                }
+            }
+        }
+    }],
+
+    buttons: [{
+        text: 'Search',
+        id: 'SearchEsnBtn',
+        handler: function(){
+            searchByEsn();
+        }
+    },{
+        text: 'Cancel',
+        handler: function(){
+            Ext.getCmp('serialNumberField').setValue('');
+            searchWin.close();
+        }
+    }],
+    buttonAlign: 'center'
+});

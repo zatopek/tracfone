@@ -108,7 +108,7 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.AddPin', {
     doTransaction: function (type) {
         debugger
         var me = this;
-        me.mask('Please wait..');
+        me.mask('Please wait...');
         me.down('#transactionSummary').update('');
         var airtimePin1 = me.down('#airtimePin1').getValue();
         var airtimePin2 = me.down('#airtimePin2').getValue();

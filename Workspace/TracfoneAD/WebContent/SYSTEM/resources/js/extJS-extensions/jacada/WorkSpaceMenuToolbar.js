@@ -143,7 +143,7 @@ Ext.define('Jacada.core.WorkSpaceMenuToolbar', {
 				cls: 'logoutBtn',
 				text: $W().localeManager.getLocalizationValue('application.javascript.menuBar.label.CTIlogin')
 				},
-				this.getAgentNameConfig(),
+				//this.getAgentNameConfig(),
 				this.getAgentIdConfig(),
 				{
 					id: 'jadLogoutBtn',

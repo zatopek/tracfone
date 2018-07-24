@@ -19,15 +19,36 @@ public class ProjectVariables {
 	@Value("${tas.url}")
 	private String tasUrl;
 	@Value("${jas.url}")
-	private String jasUrl;
+	private String jasUrl;	
+	@Value("${jas.account.menu.url}")
+	private String jasAccountMenuUrl;
+		@Value("${jas.addService.menu.url}")
+		private String jasAddServiceMenuUrl;
+		@Value("${jas.port.menu.url}")
+		private String jasPortMenuUrl;
+		@Value("${jas.sales.menu.url}")
+		private String jasSalesMenuUrl;
+		@Value("${jas.phoneFunctionality.menu.url}")
+		private String jasPhoneFunctionalityMenuUrl;
+		@Value("${jas.hardwareIssues.menu.url}")
+		private String jasHardwareIssuesMenuUrl;
+		@Value("${jas.lifeline.menu.url}")
+		private String jasLifelineMenuUrl;
 	@Value("${PW.apps}")
-	private String[] pwApps;  
+	private String[] pwApps; 
 
 	@RequestMapping(value="get", method = RequestMethod.GET, produces = "application/json")
 	public String getVariables() {
 		Map<String, Object> variables = new HashMap<String, Object>();
-		variables.put("jasUrl", jasUrl);
 		variables.put("tasUrl", tasUrl);
+		variables.put("jasUrl", jasUrl);
+		variables.put("jasAccountMenuUrl", jasAccountMenuUrl);
+		variables.put("jasAddServiceMenuUrl", jasAddServiceMenuUrl);
+		variables.put("jasPortMenuUrl", jasPortMenuUrl);
+		variables.put("jasSalesMenuUrl", jasSalesMenuUrl);
+		variables.put("jasPhoneFunctionalityMenuUrl", jasPhoneFunctionalityMenuUrl);
+		variables.put("jasHardwareIssuesMenuUrl", jasHardwareIssuesMenuUrl);
+		variables.put("jasLifelineMenuUrl", jasLifelineMenuUrl);
 		variables.put("pwApps", pwApps);
 		return new Gson().toJson(variables);
 	}	

@@ -2,6 +2,7 @@
 @import url(https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css);
 @import url(https://s3.amazonaws.com/icomoon.io/103594/Tracfone/style.css?7d2jjg);
 @import url(https://fonts.googleapis.com/css?family=Roboto:300,400,700);
+@import url(https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css);
 
 .baseColor{
 	background-color:#F1F1F1;
@@ -1368,10 +1369,16 @@ h2 {
 /* End bottom section */
 
 /* Icons */
-
+/*
 .contextNavigation table tbody tr:nth-child(2) td span:before,
 .contextNavigation table tbody tr:nth-child(3) td span:before,
-.contextNavigation table tbody tr:nth-child(4) td span:before {
+.contextNavigation table tbody tr:nth-child(4) td span:before,
+.contextNavigation table tbody tr:nth-child(5) td span:before,
+.contextNavigation table tbody tr:nth-child(6) td span:before,
+.contextNavigation table tbody tr:nth-child(7) td span:before,
+.contextNavigation table tbody tr:nth-child(8) td span:before,
+.contextNavigation table tbody tr:nth-child(9) td span:before,
+.contextNavigation table tbody tr:nth-child(10) td span:before {
 	font-family: icomoon;
 	color: #004da1;
 	position: absolute;
@@ -1379,23 +1386,107 @@ h2 {
 	font-size: 24px;
 	font-weight: 100 !important;
 }
+*/
 
 .contextNavigation table tbody tr[data-recordid="ext-record-2"] td span:before {
-	content: '\e903';
+	content: '\f022';
+	display: inline-block;
+	font-family: 'fontawesome';
+	margin-right: 10px;
+	font-size: 2em;
+	vertical-align: middle
 }
 .contextNavigation table tbody tr[data-recordid="RedemptionTab"] td span:before {
-	content: '\e900';
+	content: '\f0c5';
+	display: inline-block;
+	font-family: 'fontawesome';
+	margin-right: 10px;
+	font-size: 2em;
+	vertical-align: middle
 }
 .contextNavigation table tbody tr[data-recordid="CallingIssuesTab"] td span:before {
-	content: '\e904';
+	content: '\f2a0';
+	display: inline-block;
+	font-family: 'fontawesome';
+	margin-right: 10px;
+	font-size: 2em;
+	vertical-align: middle
+}
+.contextNavigation table tbody tr[data-recordid="AccountTab"] td span:before {
+	content: '\f2bd';
+	display: inline-block;
+	font-family: 'fontawesome';
+	margin-right: 10px;
+	font-size: 2em;
+	vertical-align: middle
+}
+.contextNavigation table tbody tr[data-recordid="AddServiceTab"] td span:before {
+	content: '\f055';
+	display: inline-block;
+	font-family: 'fontawesome';
+	margin-right: 10px;
+	font-size: 2em;
+	vertical-align: middle
+}
+.contextNavigation table tbody tr[data-recordid="PortTab"] td span:before {
+	content: '\f0ec';
+	display: inline-block;
+	font-family: 'fontawesome';
+	margin-right: 10px;
+	font-size: 2em;
+	vertical-align: middle
+}
+.contextNavigation table tbody tr[data-recordid="SalesTab"] td span:before {
+	content: '\f0d6';
+	display: inline-block;
+	font-family: 'fontawesome';
+	margin-right: 10px;
+	font-size: 2em;
+	vertical-align: middle
+}
+.contextNavigation table tbody tr[data-recordid="PhoneFunctionalityTab"] td span:before {
+	content: '\f085';
+	display: inline-block;
+	font-family: 'fontawesome';
+	margin-right: 10px;
+	font-size: 2em;
+	vertical-align: middle
+}
+.contextNavigation table tbody tr[data-recordid="HardwareIssuesTab"] td span:before {
+	content: '\f0a0';
+	display: inline-block;
+	font-family: 'fontawesome';
+	margin-right: 10px;
+	font-size: 2em;
+	vertical-align: middle
+}
+.contextNavigation table tbody tr[data-recordid="LifelineTab"] td span:before {
+	content: '\f1cd';
+	display: inline-block;
+	font-family: 'fontawesome';
+	margin-right: 10px;
+	font-size: 2em;
+	vertical-align: middle
 }
  /* hover and selected */
 .contextNavigation table tbody tr.x-grid-row-over:nth-child(2) td span:before,
 .contextNavigation table tbody tr.x-grid-row-over:nth-child(3) td span:before,
 .contextNavigation table tbody tr.x-grid-row-over:nth-child(4) td span:before,
+.contextNavigation table tbody tr.x-grid-row-over:nth-child(5) td span:before,
+.contextNavigation table tbody tr.x-grid-row-over:nth-child(6) td span:before,
+.contextNavigation table tbody tr.x-grid-row-over:nth-child(7) td span:before,
+.contextNavigation table tbody tr.x-grid-row-over:nth-child(8) td span:before,
+.contextNavigation table tbody tr.x-grid-row-over:nth-child(9) td span:before,
+.contextNavigation table tbody tr.x-grid-row-over:nth-child(10) td span:before,
 .contextNavigation table tbody tr.x-grid-row-selected:nth-child(2) td span:before,
 .contextNavigation table tbody tr.x-grid-row-selected:nth-child(3) td span:before,
-.contextNavigation table tbody tr.x-grid-row-selected:nth-child(4) td span:before {
+.contextNavigation table tbody tr.x-grid-row-selected:nth-child(4) td span:before,
+.contextNavigation table tbody tr.x-grid-row-selected:nth-child(5) td span:before,
+.contextNavigation table tbody tr.x-grid-row-selected:nth-child(6) td span:before,
+.contextNavigation table tbody tr.x-grid-row-selected:nth-child(7) td span:before,
+.contextNavigation table tbody tr.x-grid-row-selected:nth-child(8) td span:before,
+.contextNavigation table tbody tr.x-grid-row-selected:nth-child(9) td span:before,
+.contextNavigation table tbody tr.x-grid-row-selected:nth-child(10) td span:before {
 	color: #fff;
 	font-weight: 100 !important;
 }

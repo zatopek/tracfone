@@ -71,6 +71,7 @@ var BroadBridge = function (url, service, retryCount, cb, scope) {
 		try {
 
 			Ext.Ajax.request({
+                headers: { 'JSESSIONID': $W().wsSessionId },
 				url: url + call + (call.indexOf('?') >= 0 ? '&' : '?') + 'dc=' + new Date().getTime(),
 				method: method || 'GET',
 				jsonData: callObject.object, //callObject is already conformed

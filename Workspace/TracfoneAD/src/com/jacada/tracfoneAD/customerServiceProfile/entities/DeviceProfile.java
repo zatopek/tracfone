@@ -25,7 +25,8 @@ public class DeviceProfile implements Serializable{
 	String esn;
 	String manufacturer;
 	String firmware;
-	
+	String handsetProtection;
+    
 	public String getDeviceType() {
 		return deviceType;
 	}
@@ -134,6 +135,11 @@ public class DeviceProfile implements Serializable{
 	public void setFirmware(String firmware) {
 		this.firmware = firmware;
 	}
-	
+	public String getHandsetProtection() {
+		return handsetProtection;
+	}
+	public void setHandsetProtection(String handsetProtection) {
+		this.handsetProtection = handsetProtection;
+	}	
 }
 

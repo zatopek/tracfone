@@ -157,7 +157,7 @@
         Push.registerEventHandler( 'AgentEnvUsername', onAgentEnvUsername);
 		Push.registerEventHandler( 'StartTas', onStartTas);
 		//try to avoid the windows page close confirmation popup
-		window.onbeforeunload = function() { return; };
+		window.onbeforeunload = null;
 		</script>
 </jacada:body>
 

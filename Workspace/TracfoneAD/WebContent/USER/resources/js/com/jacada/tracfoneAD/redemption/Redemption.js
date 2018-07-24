@@ -16,9 +16,6 @@ Ext.define('Jacada.user.com.jacada.tracfoneAD.redemption.Redemption', {
         afterrender: function () {
             var me = this;
             var redemptionUrl = managers['jasHandler'].getRedemptionUrl();
-            if(managers['flowType'] == 'other' || managers['flowType'] == 'unsupport') {
-                redemptionUrl = managers['jasHandler'].getOtherUrl();
-            }
             me.down('#redemptionJasFrame').getEl().set({
                 'src': redemptionUrl
             });

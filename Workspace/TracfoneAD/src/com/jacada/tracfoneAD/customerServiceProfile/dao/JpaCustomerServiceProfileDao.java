@@ -55,7 +55,8 @@ public class JpaCustomerServiceProfileDao implements CustomerServiceProfileDao {
 				+ "part_number, lease_status_flag, lease_status_name, sequence, service_type, rate_plan, service_plan_objid,"
 				+ "carrier, technology, technology_alt, install_date, service_end_dt, x_expire_dt, next_charge_date, brand,"
 				+ "dealer_name, dealer_id, cards_in_queue, warranty_exchanges, basic_warranty, extended_warranty, x_policy_description,"
-				+ "sp_script_text, adf_next_refill_date, customer_id, first_name, last_name, e_mail, groupid, x_zipcode, lid, phone_status"
+				+ "sp_script_text, adf_next_refill_date, customer_id, first_name, last_name, e_mail, groupid, x_zipcode, lid, phone_status,"
+				+ "sl_program_name, sl_lifeline_status"
 				+ " from table(sa.adfcrm_vo.get_service_profile(?,?))";
 
 		try {
@@ -87,6 +88,8 @@ public class JpaCustomerServiceProfileDao implements CustomerServiceProfileDao {
 				deviceProfile.setSequence(rs.getString("sequence"));
 				deviceProfile.setHexSerial(rs.getString("x_hex_serial_no"));
 				deviceProfile.setPhoneStatus(rs.getString("phone_status"));
+				deviceProfile.setHandsetProtection(rs.getString("extended_warranty"));
+				
 				Map<String, String> deviceOsInformation = this.getDeviceInformationFromPartNumber(deviceProfile.getPartNumber());
 				deviceProfile.setOs(deviceOsInformation.get(OS));
 				deviceProfile.setFirmware(deviceOsInformation.get(FIRMWARE));
@@ -110,6 +113,7 @@ public class JpaCustomerServiceProfileDao implements CustomerServiceProfileDao {
 				serviceProfile.setExtendedWarranty(rs.getString("extended_warranty"));
 				serviceProfile.setCurrentThrottleStatus(rs.getString("x_policy_description"));
 				serviceProfile.setAutoRefill(rs.getString("sp_script_text"));
+				serviceProfile.setNextRefillDate(rs.getString("adf_next_refill_date"));				
 
 				customerProfile.setCustomerId(rs.getString("customer_id"));
 				customerProfile.setContactName(rs.getString("first_name") + " " + rs.getString("last_name"));
@@ -117,7 +121,9 @@ public class JpaCustomerServiceProfileDao implements CustomerServiceProfileDao {
 				customerProfile.setGroupId(rs.getString("groupid"));
 				customerProfile.setZip(rs.getString("x_zipcode"));
 				customerProfile.setLid(rs.getString("lid"));
-
+				customerProfile.setLifeLineStatus(rs.getString("sl_lifeline_status"));
+				customerProfile.setProgramName(rs.getString("sl_program_name"));
+				
 				accountBalances.setPhoneStatus(deviceProfile.getPhoneStatus());
 				customerServiceProfile.setDeviceProfile(deviceProfile);
 				customerServiceProfile.setServiceProfile(serviceProfile);

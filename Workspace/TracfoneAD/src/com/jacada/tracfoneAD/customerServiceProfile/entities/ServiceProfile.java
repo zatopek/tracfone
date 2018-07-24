@@ -26,6 +26,7 @@ public class ServiceProfile implements Serializable {
         String extendedWarranty;
         String autoRefill;
         String nextRefillDate;
+
 		public String getCarrier() {
 			return carrier;
 		}
@@ -134,7 +135,4 @@ public class ServiceProfile implements Serializable {
 		public void setNextRefillDate(String nextRefillDate) {
 			this.nextRefillDate = nextRefillDate;
 		}
-        
-        
-
 }

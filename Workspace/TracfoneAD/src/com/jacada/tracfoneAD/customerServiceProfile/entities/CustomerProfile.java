@@ -15,7 +15,9 @@ public class CustomerProfile implements Serializable {
 	String lid;
 	String caseId;
 	String flashId;
-	
+	String lifeLineStatus;
+    String programName;
+    
 	public String getCustomerId() {
 		return customerId;
 	}
@@ -64,6 +66,17 @@ public class CustomerProfile implements Serializable {
 	public void setFlashId(String flashId) {
 		this.flashId = flashId;
 	}
-	
+	public String getLifeLineStatus() {
+		return lifeLineStatus;
+	}
+	public void setLifeLineStatus(String lifeLineStatus) {
+		this.lifeLineStatus = lifeLineStatus;
+	}
+	public String getProgramName() {
+		return programName;
+	}
+	public void setProgramName(String programName) {
+		this.programName = programName;
+	}
 	
 }

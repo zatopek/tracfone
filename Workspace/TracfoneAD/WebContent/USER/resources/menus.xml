@@ -5,12 +5,17 @@
         <item accessKey="application.javascript.menuBar.accessKey.manageFavorites" name="application.menuBar.item.manageFavorites" value="openFavoritesDialog();"/>
     </item -->
 
-    <item name="application.menuBar.menu.callFlow" privilege="MenuBarItemHelp">
+    <!--item name="application.menuBar.menu.callFlow" privilege="MenuBarItemHelp">
         <item accessKey="application.javascript.menuBar.accessKey.callFlow.redemption" name="application.menuBar.item.callFlow.redemption" value="javascript:launchCallFlow('redemption')"/>
         <item accessKey="application.javascript.menuBar.accessKey.callFlow.unable" name="application.menuBar.item.callFlow.unable" value="javascript:launchCallFlow('unable')"/>
-    </item>
+    </item-->
     <item name="application.menuBar.menu.sso" privilege="MenuBarItemHelp">
         <item accessKey="application.javascript.menuBar.accessKey.systemCredentials" name="application.menuBar.item.systemCredentials" value="managers['windowsManager'].show('ssoWindow')"/>
+    </item>
+    <item name="application.menuBar.menu.tools" privilege="MenuBarItemHelp">
+        <item accessKey="application.javascript.menuBar.accessKey.tools.Verizon_CIS" name="application.javascript.menuBar.accessKey.tools.Verizon_CIS" value="adam.launchApp('Verizon CIS')"/>
+        <item accessKey="application.javascript.menuBar.accessKey.tools.T-Mobile_WCSM" name="application.javascript.menuBar.accessKey.tools.T-Mobile_WCSM" value="adam.launchApp('T-Mobile WCSM')"/>
+        <item accessKey="application.javascript.menuBar.accessKey.tools.T-Verizon_RSSX" name="application.javascript.menuBar.accessKey.tools.Verizon_RSSX" value="adam.launchApp('Verizon RSSX')"/>
     </item>
     <item name="application.menuBar.menu.transferGuidelines" privilege="MenuBarItemHelp">
         <item accessKey="application.javascript.menuBar.accessKey.tracfone" name="application.menuBar.item.tracfone" value="javascript:window.open('http://10.248.27.31/transferguidelines/home/brand/TracFone/1')"/>

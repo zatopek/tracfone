@@ -58,6 +58,10 @@ function onCustomerServiceProfile(pushData) {
 }
 
 function setupCustomerServiceProfile(pushData){
+    //remove null from contact name
+    var contactName = pushData.customerProfile.contactName;
+    contactName = contactName.replace(/null/g, '');
+    pushData.customerProfile.contactName = contactName;
 
     managers['pushData'] = pushData;
     widgets['customerServiceProfile'].up().up().show(); // show portlet
@@ -83,49 +87,45 @@ function onLaunchWorkflow(pushData) {
     } else if(taskId == '9902' || taskId == '9903' || taskId == '109' /* <-- based on Natalio's email from 3/13*/) {
         managers['flowType'] = 'redemption';
     } else {
-        Ext.MessageBox.alert('ERROR', 'Unsupported call flow. Please use TAS to complete this call.');
+        //Ext.MessageBox.alert('ERROR', 'Unsupported call flow. Please use TAS to complete this call.');
         managers['flowType'] = 'other';
     }
-
-    var contactName = pushData.customerProfile.contactName;
     var carrier = pushData.serviceProfile.carrier;
     var serial = pushData.deviceProfile.serial;
     var phoneStatus = pushData.deviceProfile.phoneStatus ;
     var minStatus = pushData.deviceProfile.minStatus;
-
-    if(contactName && contactName.indexOf("null")>=0){
-        contactName = '';
-        pushData.customerProfile.contactName = '';
-    }
+    var contactName = pushData.customerProfile.contactName;
 
     if(!serial || serial.trim()=='') {
-        Ext.MessageBox.alert('ERROR', 'ESN not active. Please use TAS to complete this call.');
+        //Ext.MessageBox.alert('ERROR', 'ESN not active. Please use TAS to complete this call.');
         managers['flowType'] = 'unsupport';
     }
     // check customer name and carrier before loading work flow
     else if(!contactName || contactName.trim()=='' ){
-        Ext.MessageBox.alert('ERROR', 'ESN not active. Please use TAS to complete this call.');
+        //Ext.MessageBox.alert('ERROR', 'ESN not active. Please use TAS to complete this call.');
         managers['flowType'] = 'unsupport';
     }
     else if(!carrier || carrier.trim()=='') {
-        Ext.MessageBox.alert('ERROR', 'Carrier information not found. Please use TAS to complete this call.');
+        //Ext.MessageBox.alert('ERROR', 'Carrier information not found. Please use TAS to complete this call.');
         managers['flowType'] = 'unsupport';
     }
     else if(!phoneStatus || phoneStatus.trim().toLowerCase()!='active') {
-        Ext.MessageBox.alert('ERROR', 'Phone status is not ACTIVE. Please use TAS to complete this call.');
+        //Ext.MessageBox.alert('ERROR', 'Phone status is not ACTIVE. Please use TAS to complete this call.');
         managers['flowType'] = 'unsupport';
     }
     else if(!minStatus || minStatus.trim().toLowerCase()!='active') {
-        Ext.MessageBox.alert('ERROR', 'MIN status is not ACTIVE. Please use TAS to complete this call.');
+        //Ext.MessageBox.alert('ERROR', 'MIN status is not ACTIVE. Please use TAS to complete this call.');
         managers['flowType'] = 'unsupport';
     }
 
+
+    /*** disable auto launch by call type feature ***/
     if(managers['flowType'] != 'other' || managers['flowType'] != 'unsupport') {
 
-        var carrier = translateCarrierForUnableApps(pushData.serviceProfile.carrier.toLowerCase());
+        var carrier = translateCarrierForUnableApps(pushData.serviceProfile.carrier);
         //regenerate carrier value to match with the service parameter
         if(carrier === 'OTHER') {
-            Ext.MessageBox.alert('ERROR', 'Carrier ' + carrier + ' unknown. Please use TAS to complete this call.');
+            //Ext.MessageBox.alert('ERROR', 'Carrier ' + carrier + ' unknown. Please use TAS to complete this call.');
             managers['flowType'] = 'other';
         }
 
@@ -134,16 +134,16 @@ function onLaunchWorkflow(pushData) {
         try {
             brand = translateBrand(pushData.serviceProfile.brand.toLowerCase());
             if(brand != 'TracFone'){
-                Ext.MessageBox.alert('ERROR', 'Only TracFone brand is supported in this release. Please use TAS to complete this call.');
+                //Ext.MessageBox.alert('ERROR', 'Only TracFone brand is supported in this release. Please use TAS to complete this call.');
                 managers['flowType'] = 'other';
             }
         } catch(e) {
-            Ext.MessageBox.alert('ERROR', 'Only TracFone brand is supported in this release. Please use TAS to complete this call.');
+            //Ext.MessageBox.alert('ERROR', 'Only TracFone brand is supported in this release. Please use TAS to complete this call.');
             managers['flowType'] = 'other';
         }
-
     }
 
+    launchOtherCallFlow();
     //if unable/unable
     if (managers['flowType'] == 'unableUnable') {
         launchUnableCallFlow(brand, carrier);
@@ -151,9 +151,6 @@ function onLaunchWorkflow(pushData) {
     //if redemption
     else if (managers['flowType'] == 'redemption') {
         launchRedemptionCallFlow(brand);
-    }
-    else{
-        launchOtherCallFlow();
     }
 }
 
@@ -196,7 +193,7 @@ function launchCallFlow(callFlow) {
         }
         else if(callFlow==='unable') {
             unloadWorkflow();
-            var carrier = translateCarrierForUnableApps(pushData.serviceProfile.carrier.toLowerCase());
+            var carrier = translateCarrierForUnableApps(pushData.serviceProfile.carrier);
             launchUnableCallFlow(brand, carrier);
         }
     }
@@ -204,13 +201,48 @@ function launchCallFlow(callFlow) {
         Ext.MessageBox.alert('ERROR', 'Call flow only available after a customer is identified in Cockpit.');
     }
 }
+
 function launchOtherCallFlow() {
+    /*
     if(document.redemptionJasFrame){
-        document.redemptionJasFrame.location = managers['jasHandler'].getOtherUrl();
+
+        //document.redemptionJasFrame.location = managers['jasHandler'].getOtherUrl();
+        document.redemptionJasFrame.location = managers['jasHandler'].getTestUrl();
         //widgets['redemption'].loadComponent('SplashPanel', '');
         widgets['redemption'].loadComponent('', '');
     }
-    ShowTabById('RedemptionTab');
+    */
+    //ShowTabById('RedemptionTab');
+    if(document.accountsJasFrame) {
+        document.accountsJasFrame.location = managers['jasHandler'].getAccountMenuUrl();
+    }
+    if(document.addServiceJasFrame) {
+        document.addServiceJasFrame.location = managers['jasHandler'].getAddServiceMenuUrl();
+    }
+
+    if(document.hardwareIssuesJasFrame) {
+        document.hardwareIssuesJasFrame.location = managers['jasHandler'].getHardwareIssuesMenuUrl();
+    }
+    if(document.lifelineJasFrame) {
+        document.lifelineJasFrame.location = managers['jasHandler'].getLifelineMenuUrl();
+    }
+    if(document.phoneFunctionalityJasFrame) {
+        document.phoneFunctionalityJasFrame.location = managers['jasHandler'].getPhoneFunctionalityMenuUrl();
+    }
+    if(document.portJasFrame) {
+        document.portJasFrame.location = managers['jasHandler'].getPortMenuUrl();
+    }
+    if(document.salesJasFrame) {
+        document.salesJasFrame.location = managers['jasHandler'].getSalesMenuUrl();
+    }
+
+    ShowTabById('AccountTab');
+    ShowTabById('AddServiceTab');
+    ShowTabById('PortTab');
+    ShowTabById('SalesTab');
+    ShowTabById('PhoneFunctionalityTab');
+    ShowTabById('HardwareIssuesTab');
+    ShowTabById('LifelineTab');
 }
 
 function launchRedemptionCallFlow(brand) {
@@ -270,7 +302,7 @@ function launchUnableCallFlow(brand, carrier) {
     // only launch system if login is available
 
     if(carrier == 'Verizon'){
-        if(adam.isSystemInLogins('Verizon CIS')) {
+        if(adam.isSystemInLogins('Verizon_CIS')) {
             adam.callService('CoverageMap/Search/' + carrier + '/' + pushData.customerProfile.zip, 'GET').then(function (response) {
             }).catch(function(e){
             });
@@ -283,13 +315,13 @@ function launchUnableCallFlow(brand, carrier) {
 
     //call JIA API launchCarrierBilling
     if(carrier == 'Verizon') {
-        if(adam.isSystemInLogins('Verizon RSSX')) {
+        if(adam.isSystemInLogins('Verizon_RSSX')) {
             adam.callService('Billing/' + carrier, 'GET').then(function (response) {
             }).catch(function (error) {
             });
         }
     } else if(carrier == 'T-Mobile') {
-        if(adam.isSystemInLogins('T-Mobile WCSM')) {
+        if(adam.isSystemInLogins('T_Mobile_WCSM')) {
             adam.callService('Billing/' + carrier, 'GET').then(function (response) {
             }).catch(function (error) {
             });
@@ -347,7 +379,7 @@ function translateBrand(brand){
 function translateCarrierForUnableApps(carrier) {
     //regenerate carrier value to match with the service parameter
     if(carrier) {
-        carier = carrier.toLowerCase();
+        carrier = carrier.toLowerCase();
         if(carrier.indexOf('tmobile')>=0 || carrier.indexOf('t-mobile')>=0) {
             return 'T-Mobile';
         }
