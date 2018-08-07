@@ -2,15 +2,19 @@ package com.jacada.common.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 /**
- * Configuration for the common elements used by Jacada Workspace implementations.
+ * Configuration for the common elements used by Jacada Workspace
+ * implementations.
+ * 
  * @author Gautam
- *
+ * 
  */
 @Configuration
+@ComponentScan(basePackages = "com.jacada.common.logging")
 public class Common {
 
 	@Value("${common.threadpool.corePoolSize:50}")
@@ -19,9 +23,10 @@ public class Common {
 	private int maxPoolSize;
 	@Value("${common.threadpool.queueCapacity:400}")
 	private int queueCapacity;
-	
+
 	/**
 	 * A pool task executor to handle different pool sizes
+	 * 
 	 * @return {@link ThreadPoolTaskExecutor}
 	 */
 	@Bean

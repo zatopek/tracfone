@@ -42,7 +42,7 @@ public class LoggingAspect {
 	 * 
 	 * @param joinPoint
 	 */
-	@Before("execution(* com.jacada.anico.uad..*.*(..))")
+	@Before("execution(* com.jacada.tracfoneAD..*.*(..))")
 	public void before(JoinPoint joinPoint) {
 		if (LOGGER.isTraceEnabled()) {
 			try {
@@ -68,7 +68,7 @@ public class LoggingAspect {
 	 * @param joinPoint
 	 * @param returnValue
 	 */
-	@AfterReturning(value = "execution(* com.jacada.anico.uad..*.*(..))", returning = "returnValue")
+	@AfterReturning(value = "execution(* com.jacada.tracfoneAD..*.*(..))", returning = "returnValue")
 	public void after(JoinPoint joinPoint, Object returnValue) {
 		if (LOGGER.isTraceEnabled()) {
 			try {
@@ -88,7 +88,7 @@ public class LoggingAspect {
 	 * @param joinPoint
 	 * @param exception
 	 */
-	@AfterThrowing(value = "execution(* com.jacada.anico.uad..*.*(..))", throwing = "exception")
+	@AfterThrowing(value = "execution(* com.jacada.tracfoneAD..*.*(..))", throwing = "exception")
 	public void exception(JoinPoint joinPoint, Exception exception) {
 		LOGGER.error("Exiting {} with exception.", joinPoint.getSignature());
 		LOGGER.error("Exception", exception);
