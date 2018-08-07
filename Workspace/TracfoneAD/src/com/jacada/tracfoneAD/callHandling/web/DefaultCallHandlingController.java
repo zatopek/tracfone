@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,11 +33,13 @@ import com.jacada.tracfoneAD.util.JSONPayload;
 @RequestMapping("/call")
 public class DefaultCallHandlingController extends WorkspaceController {
 
-	private static final Logger LOGGER = LoggerFactory
-			.getLogger(DefaultCallHandlingController.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(DefaultCallHandlingController.class);
 
 	@Autowired
 	private CustomerServiceProfileManager customerServiceProfileManager;
+
+	@Autowired
+	private ThreadPoolTaskExecutor executor;
 
 	private CallHandlingManager manager;
 
@@ -45,13 +48,11 @@ public class DefaultCallHandlingController extends WorkspaceController {
 	}
 
 	@RequestMapping(value = "getLatestPurchaseObjId/{esn}/{brand}", method = RequestMethod.GET, produces = "application/json")
-	public @ResponseBody
-	JSONPayload getLatestPurchaseObjId(@PathVariable String esn,
-			@PathVariable String brand, HttpServletRequest request) {
+	public @ResponseBody JSONPayload getLatestPurchaseObjId(@PathVariable String esn, @PathVariable String brand,
+			HttpServletRequest request) {
 		JSONPayload payload = new JSONPayload();
 		try {
-			String purchase = customerServiceProfileManager
-					.getLatestPurchaseObjId(esn, brand);
+			String purchase = customerServiceProfileManager.getLatestPurchaseObjId(esn, brand);
 			payload.setStatus("200");
 			payload.setSuccess(true);
 			payload.setResult(purchase);
@@ -64,13 +65,11 @@ public class DefaultCallHandlingController extends WorkspaceController {
 	}
 
 	@RequestMapping(value = "getInteractionDetails/{reasonObjId}", method = RequestMethod.GET, produces = "application/json")
-	public @ResponseBody
-	JSONPayload getInteractionDetails(@PathVariable String reasonObjId,
+	public @ResponseBody JSONPayload getInteractionDetails(@PathVariable String reasonObjId,
 			HttpServletRequest request) {
 		JSONPayload payload = new JSONPayload();
 		try {
-			List<InteractionDetail> details = customerServiceProfileManager
-					.getInteractionDetails(reasonObjId);
+			List<InteractionDetail> details = customerServiceProfileManager.getInteractionDetails(reasonObjId);
 			payload.setStatus("200");
 			payload.setSuccess(true);
 			payload.setResult(details);
@@ -84,12 +83,10 @@ public class DefaultCallHandlingController extends WorkspaceController {
 	}
 
 	@RequestMapping(value = "getInteractionReasons", method = RequestMethod.GET, produces = "application/json")
-	public @ResponseBody
-	JSONPayload getInteractionReasons(HttpServletRequest request) {
+	public @ResponseBody JSONPayload getInteractionReasons(HttpServletRequest request) {
 		JSONPayload payload = new JSONPayload();
 		try {
-			List<InteractionReason> reasons = customerServiceProfileManager
-					.getInteractionReasons();
+			List<InteractionReason> reasons = customerServiceProfileManager.getInteractionReasons();
 			payload.setStatus("200");
 			payload.setSuccess(true);
 			payload.setResult(reasons);
@@ -103,12 +100,10 @@ public class DefaultCallHandlingController extends WorkspaceController {
 	}
 
 	@RequestMapping(value = "getInteractionResults", method = RequestMethod.GET, produces = "application/json")
-	public @ResponseBody
-	JSONPayload getInteractionResults(HttpServletRequest request) {
+	public @ResponseBody JSONPayload getInteractionResults(HttpServletRequest request) {
 		JSONPayload payload = new JSONPayload();
 		try {
-			List<InteractionReason> results = customerServiceProfileManager
-					.getResults();
+			List<InteractionReason> results = customerServiceProfileManager.getResults();
 			payload.setStatus("200");
 			payload.setSuccess(true);
 			payload.setResult(results);
@@ -122,17 +117,15 @@ public class DefaultCallHandlingController extends WorkspaceController {
 	}
 
 	@RequestMapping(value = "getProductOfferings/{esn}/{brand}", method = RequestMethod.GET, produces = "application/json")
-	public @ResponseBody
-	JSONPayload getProductOfferings(@PathVariable String esn,
-			@PathVariable String brand, HttpServletRequest request) {
+	public @ResponseBody JSONPayload getProductOfferings(@PathVariable String esn, @PathVariable String brand,
+			HttpServletRequest request) {
 		JSONPayload payload = new JSONPayload();
 		try {
 			LinkedHashMap<String, ProductOffering> productOfferings = customerServiceProfileManager
 					.getProductOfferings(esn, brand);
-			String objectId = customerServiceProfileManager
-					.getLatestPurchaseObjId(esn, brand);
-			LinkedHashMap<String, ProductOffering> newProductOfferings = findProductOffering(
-					productOfferings, objectId);
+			String objectId = customerServiceProfileManager.getLatestPurchaseObjId(esn, brand);
+			LinkedHashMap<String, ProductOffering> newProductOfferings = findProductOffering(productOfferings,
+					objectId);
 			List<ProductOffering> list = new ArrayList<ProductOffering>();
 			list.addAll(newProductOfferings.values());
 
@@ -149,13 +142,10 @@ public class DefaultCallHandlingController extends WorkspaceController {
 	}
 
 	@RequestMapping(value = "getOpenedTickets/{esn}", method = RequestMethod.GET, produces = "application/json")
-	public @ResponseBody
-	JSONPayload getOpenedTickets(@PathVariable String esn,
-			HttpServletRequest request) {
+	public @ResponseBody JSONPayload getOpenedTickets(@PathVariable String esn, HttpServletRequest request) {
 		JSONPayload payload = new JSONPayload();
 		try {
-			List<TasTicket> openedTickets = customerServiceProfileManager
-					.getOpenedTickets(esn);
+			List<TasTicket> openedTickets = customerServiceProfileManager.getOpenedTickets(esn);
 			payload.setStatus("200");
 			payload.setSuccess(true);
 			payload.setResult(openedTickets);
@@ -169,13 +159,10 @@ public class DefaultCallHandlingController extends WorkspaceController {
 	}
 
 	@RequestMapping(value = "getActiveFlashes/{esn}", method = RequestMethod.GET, produces = "application/json")
-	public @ResponseBody
-	JSONPayload getActiveFlashes(@PathVariable String esn,
-			HttpServletRequest request) {
+	public @ResponseBody JSONPayload getActiveFlashes(@PathVariable String esn, HttpServletRequest request) {
 		JSONPayload payload = new JSONPayload();
 		try {
-			List<Flash> activeFlashes = customerServiceProfileManager
-					.getActiveFlashes(esn);
+			List<Flash> activeFlashes = customerServiceProfileManager.getActiveFlashes(esn);
 			payload.setStatus("200");
 			payload.setSuccess(true);
 			payload.setResult(activeFlashes);
@@ -189,33 +176,28 @@ public class DefaultCallHandlingController extends WorkspaceController {
 	}
 
 	@RequestMapping(value = "customerSearch/{agentId}", method = RequestMethod.GET, produces = "application/json")
-	public @ResponseBody
-	JSONPayload customerSearch(@PathVariable String agentId, HttpServletRequest request)
+	public @ResponseBody JSONPayload customerSearch(@PathVariable String agentId, HttpServletRequest request)
 			throws Exception {
-		
+
 		JSONPayload payload = new JSONPayload();
 		try {
 			String esn = request.getParameter("esn");
 
 			LOGGER.debug("esn=" + esn);
-			
+
 			CustomerServiceProfile customerServiceProfile = new CustomerServiceProfile();
-			if(esn!=null && esn.trim().length()>0){
-				customerServiceProfile = customerServiceProfileManager
-						.getCustomerServiceProfile(esn);
-			}			
-			if(customerServiceProfile.getDeviceProfile().getMin()==null){
+			if (esn != null && esn.trim().length() > 0) {
+				customerServiceProfile = customerServiceProfileManager.getCustomerServiceProfile(esn);
+			}
+			if (customerServiceProfile.getDeviceProfile().getMin() == null) {
 				payload.setStatus("500");
 				payload.setSuccess(false);
-			} 
-			else {				
+			} else {
 				payload.setStatus("200");
 				payload.setSuccess(true);
-				AccountBalancesThread accountBalancesThread = new AccountBalancesThread(
-						customerServiceProfileManager, agentId, esn,
+				executor.execute(new AccountBalancesThread(customerServiceProfileManager, agentId, esn,
 						customerServiceProfile.getServiceProfile().getBrand(),
-						customerServiceProfile.getDeviceProfile().getPhoneStatus());
-				accountBalancesThread.start();				
+						customerServiceProfile.getDeviceProfile().getPhoneStatus()));
 			}
 			payload.setResult(customerServiceProfile);
 
@@ -225,22 +207,10 @@ public class DefaultCallHandlingController extends WorkspaceController {
 			payload.setMessage(e.getLocalizedMessage());
 		}
 		return payload;
-/*
-		PushHelper.publishMessageToAgent(agentId, "CustomerServiceProfile",
-				customerServiceProfile);
-
-		AccountBalancesThread accountBalancesThread = new AccountBalancesThread(
-				customerServiceProfileManager, agentId, esn,
-				customerServiceProfile.getServiceProfile().getBrand(),
-				customerServiceProfile.getDeviceProfile().getPhoneStatus());
-		accountBalancesThread.start();
-*/		
 	}
 
 	@RequestMapping(value = "incomingCall/{agentId}", method = RequestMethod.GET, produces = "application/json")
-	public @ResponseBody
-	void incoming(@PathVariable String agentId, HttpServletRequest request)
-			throws Exception {
+	public @ResponseBody void incoming(@PathVariable String agentId, HttpServletRequest request) throws Exception {
 		/*
 		 * Map <String, String[]> params = request.getParameterMap(); JSONObject
 		 * obj = new JSONObject(); for (Map.Entry<String, String[]> entry :
@@ -255,13 +225,11 @@ public class DefaultCallHandlingController extends WorkspaceController {
 		// String flash_id = this.getRequestParameterValue(url, "flash_id");
 		// String case_id = this.getRequestParameterValue(url, "case_id");
 
-		LOGGER.debug("esn=" + esn + " task_id=" + task_id + " call_id="
-				+ call_id);
+		LOGGER.debug("esn=" + esn + " task_id=" + task_id + " call_id=" + call_id);
 		// PushHelper.publishMessageToAgent(agentId, "IncomingCallQueryString",
 		// request.getQueryString());
 
-		CustomerServiceProfile customerServiceProfile = customerServiceProfileManager
-				.getCustomerServiceProfile(esn);
+		CustomerServiceProfile customerServiceProfile = customerServiceProfileManager.getCustomerServiceProfile(esn);
 		// CustomerServiceProfile customerServiceProfile = new
 		// CustomerServiceProfile();
 		customerServiceProfile.getCallInfo().setTaskId(task_id);
@@ -269,49 +237,38 @@ public class DefaultCallHandlingController extends WorkspaceController {
 		customerServiceProfile.getTasInfo().setUrl(url);
 		// customerServiceProfile.getCustomerProfile().setCaseId(case_id);
 		// customerServiceProfile.getCustomerProfile().setFlashId(flash_id);
-		PushHelper.publishMessageToAgent(agentId, "CustomerServiceProfile",
-				customerServiceProfile);
+		PushHelper.publishMessageToAgent(agentId, "CustomerServiceProfile", customerServiceProfile);
 		// Audit screen pop
 		// manager.auditScreenPop(esn, task_id);
 
 		// creating thread
-		AccountBalancesThread accountBalancesThread = new AccountBalancesThread(
-				customerServiceProfileManager, agentId, esn,
+		executor.execute(new AccountBalancesThread(customerServiceProfileManager, agentId, esn,
 				customerServiceProfile.getServiceProfile().getBrand(),
-				customerServiceProfile.getDeviceProfile().getPhoneStatus());
-		accountBalancesThread.start();
+				customerServiceProfile.getDeviceProfile().getPhoneStatus()));
 	}
 
 	@RequestMapping(value = "auditCreateInteractionNotes/{esn}", method = RequestMethod.GET, produces = "application/json")
-	public @ResponseBody
-	void audit(@PathVariable String esn, HttpServletRequest request)
-			throws Exception {
+	public @ResponseBody void audit(@PathVariable String esn, HttpServletRequest request) throws Exception {
 		manager.auditCreateInteractionNotes(esn);
 	}
 
 	@RequestMapping(value = "auditAddPin/{esn}", method = RequestMethod.GET, produces = "application/json")
-	public @ResponseBody
-	void auditAddPin(@PathVariable String esn, HttpServletRequest request)
-			throws Exception {
+	public @ResponseBody void auditAddPin(@PathVariable String esn, HttpServletRequest request) throws Exception {
 		manager.auditAddPin(esn);
 	}
 
 	@RequestMapping(value = "auditPurchasePin/{esn}", method = RequestMethod.GET, produces = "application/json")
-	public @ResponseBody
-	void auditPurchasePin(@PathVariable String esn, HttpServletRequest request)
-			throws Exception {
+	public @ResponseBody void auditPurchasePin(@PathVariable String esn, HttpServletRequest request) throws Exception {
 		manager.auditPurchasePin(esn);
 	}
 
 	@RequestMapping(value = "auditInvalidTask/{task_id}", method = RequestMethod.GET, produces = "application/json")
-	public @ResponseBody
-	void auditInvalidTask(@PathVariable String task_id,
-			HttpServletRequest request) throws Exception {
+	public @ResponseBody void auditInvalidTask(@PathVariable String task_id, HttpServletRequest request)
+			throws Exception {
 		manager.auditInvalidTask(task_id);
 	}
 
-	private String getRequestParameterValue(String requestString,
-			String parameter) {
+	private String getRequestParameterValue(String requestString, String parameter) {
 		StringTokenizer st = new StringTokenizer(requestString, "&");
 		while (st.hasMoreTokens()) {
 			String token = st.nextToken();
@@ -325,8 +282,7 @@ public class DefaultCallHandlingController extends WorkspaceController {
 
 	@SuppressWarnings("unchecked")
 	private LinkedHashMap<String, ProductOffering> findProductOffering(
-			LinkedHashMap<String, ProductOffering> productOfferings,
-			String objectId) {
+			LinkedHashMap<String, ProductOffering> productOfferings, String objectId) {
 		ProductOffering offer = productOfferings.get(objectId);
 		if (offer != null) {
 			productOfferings.remove(objectId);
