@@ -29,16 +29,16 @@ public class WSBalanceInquiryDao extends WebServiceGatewaySupport implements Bal
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	private static final Logger LOGGER = LoggerFactory.getLogger(WSBalanceInquiryDao.class);
 
 	@Override
 	public GetBalanceByTransIdResponse getAccountBalances(String brand, String esn) {
-		
+
 		try {
 			GetBalanceResponse getBalanceResponse = this.getTransactionId(brand, esn);
-			
-			ObjectFactory objectFactory = new ObjectFactory();			
+
+			ObjectFactory objectFactory = new ObjectFactory();
 			GetBalanceByTransIdRequest getBalanceByTransIdRequest = new GetBalanceByTransIdRequest();
 			getBalanceByTransIdRequest.setLanguage(LanguageType.ENG);
 			getBalanceByTransIdRequest.setBrandName(TracfoneBrandType.valueOf(brand.toUpperCase()));
@@ -46,44 +46,46 @@ public class WSBalanceInquiryDao extends WebServiceGatewaySupport implements Bal
 			getBalanceByTransIdRequest.setDataUnitsType(DataUnitsType.MB);
 			getBalanceByTransIdRequest.setBalanceTransId(getBalanceResponse.getBalanceTransId());
 			getBalanceByTransIdRequest.setBalanceTransDateTime(getBalanceResponse.getBalanceTransDateTime());
-			JAXBElement<GetBalanceByTransIdRequest> request = objectFactory.createGetBalanceByTransIdRequest(getBalanceByTransIdRequest);	
-			SoapActionCallback callback = new SoapActionCallback("http://b2b.tracfone.com/InquiryServices/BalanceInquiry/getBalance");
+			JAXBElement<GetBalanceByTransIdRequest> request = objectFactory
+					.createGetBalanceByTransIdRequest(getBalanceByTransIdRequest);
+			SoapActionCallback callback = new SoapActionCallback(
+					"http://b2b.tracfone.com/InquiryServices/BalanceInquiry/getBalance");
 			@SuppressWarnings("unchecked")
-			JAXBElement<GetBalanceByTransIdResponse> response = (JAXBElement<GetBalanceByTransIdResponse>)getWebServiceTemplate().marshalSendAndReceive(request, callback);
+			JAXBElement<GetBalanceByTransIdResponse> response = (JAXBElement<GetBalanceByTransIdResponse>) getWebServiceTemplate()
+					.marshalSendAndReceive(request, callback);
 			return response.getValue();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			LOGGER.error("Exception trying to getAccountBalances", e);
 		}
 		return null;
 	}
-	
+
 	private GetBalanceResponse getTransactionId(String brand, String esn) throws Exception {
 
-			ObjectFactory objectFactory = new ObjectFactory();
-			
-			GetBalanceRequest getBalanceRequest = new GetBalanceRequest();
-			getBalanceRequest.setLanguage(LanguageType.ENG);
-			getBalanceRequest.setBrandName(TracfoneBrandType.valueOf(brand.toUpperCase()));
-			getBalanceRequest.setSourceSystem("TAS");
-			getBalanceRequest.setInquiryType(InquiryType.USAGE);
-			DeviceIdType deviceIdType = new DeviceIdType();
-			deviceIdType.setEsn(esn);
-			getBalanceRequest.setDeviceIdentifier(deviceIdType);
-			
-			JAXBElement<GetBalanceRequest> request = objectFactory.createGetBalanceRequest(getBalanceRequest);			
-			SoapActionCallback callback = new SoapActionCallback("http://b2b.tracfone.com/InquiryServices/BalanceInquiry/getBalance");
-			
-			@SuppressWarnings("unchecked")
-			JAXBElement<GetBalanceResponse> response = (JAXBElement<GetBalanceResponse>)getWebServiceTemplate().marshalSendAndReceive(request, callback);
+		ObjectFactory objectFactory = new ObjectFactory();
 
-			String balanceTransId = response.getValue().getBalanceTransId();
-			
-			LOGGER.debug("getBalanceTransId=>" + balanceTransId);
-			return response.getValue();
+		GetBalanceRequest getBalanceRequest = new GetBalanceRequest();
+		getBalanceRequest.setLanguage(LanguageType.ENG);
+		getBalanceRequest.setBrandName(TracfoneBrandType.valueOf(brand.toUpperCase()));
+		getBalanceRequest.setSourceSystem("TAS");
+		getBalanceRequest.setInquiryType(InquiryType.USAGE);
+		DeviceIdType deviceIdType = new DeviceIdType();
+		deviceIdType.setEsn(esn);
+		getBalanceRequest.setDeviceIdentifier(deviceIdType);
 
+		JAXBElement<GetBalanceRequest> request = objectFactory.createGetBalanceRequest(getBalanceRequest);
+		SoapActionCallback callback = new SoapActionCallback(
+				"http://b2b.tracfone.com/InquiryServices/BalanceInquiry/getBalance");
+
+		@SuppressWarnings("unchecked")
+		JAXBElement<GetBalanceResponse> response = (JAXBElement<GetBalanceResponse>) getWebServiceTemplate()
+				.marshalSendAndReceive(request, callback);
+
+		String balanceTransId = response.getValue().getBalanceTransId();
+
+		LOGGER.debug("getBalanceTransId=>" + balanceTransId);
+		return response.getValue();
 
 	}
-	
-    
+
 }

@@ -3,7 +3,6 @@ package com.jacada.tracfoneAD.customerServiceProfile.dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -12,28 +11,32 @@ import java.util.Map;
 
 import javax.sql.DataSource;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.jacada.tracfoneAD.customerServiceProfile.dao.interfaces.CustomerServiceProfileDao;
-import com.jacada.tracfoneAD.customerServiceProfile.entities.InteractionDetail;
-import com.jacada.tracfoneAD.customerServiceProfile.entities.InteractionReason;
 import com.jacada.tracfoneAD.customerServiceProfile.entities.AccountBalances;
 import com.jacada.tracfoneAD.customerServiceProfile.entities.CustomerProfile;
 import com.jacada.tracfoneAD.customerServiceProfile.entities.CustomerServiceProfile;
 import com.jacada.tracfoneAD.customerServiceProfile.entities.DeviceProfile;
 import com.jacada.tracfoneAD.customerServiceProfile.entities.Flash;
+import com.jacada.tracfoneAD.customerServiceProfile.entities.InteractionDetail;
+import com.jacada.tracfoneAD.customerServiceProfile.entities.InteractionReason;
 import com.jacada.tracfoneAD.customerServiceProfile.entities.ProductOffering;
 import com.jacada.tracfoneAD.customerServiceProfile.entities.ServiceProfile;
 import com.jacada.tracfoneAD.customerServiceProfile.entities.TasTicket;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 @Transactional
 public class JpaCustomerServiceProfileDao implements CustomerServiceProfileDao {
 
 	private static final long serialVersionUID = 1L;
+	private static final Logger LOGGER = LoggerFactory.getLogger(JpaCustomerServiceProfileDao.class);
+
 	@Autowired
 	@Qualifier("tasDataSource")
 	private DataSource tasDataSource;
@@ -56,8 +59,7 @@ public class JpaCustomerServiceProfileDao implements CustomerServiceProfileDao {
 				+ "carrier, technology, technology_alt, install_date, service_end_dt, x_expire_dt, next_charge_date, brand,"
 				+ "dealer_name, dealer_id, cards_in_queue, warranty_exchanges, basic_warranty, extended_warranty, x_policy_description,"
 				+ "sp_script_text, adf_next_refill_date, customer_id, first_name, last_name, e_mail, groupid, x_zipcode, lid, phone_status,"
-				+ "sl_program_name, sl_lifeline_status"
-				+ " from table(sa.adfcrm_vo.get_service_profile(?,?))";
+				+ "sl_program_name, sl_lifeline_status" + " from table(sa.adfcrm_vo.get_service_profile(?,?))";
 
 		try {
 			dbConnection = tasDataSource.getConnection();
@@ -89,8 +91,9 @@ public class JpaCustomerServiceProfileDao implements CustomerServiceProfileDao {
 				deviceProfile.setHexSerial(rs.getString("x_hex_serial_no"));
 				deviceProfile.setPhoneStatus(rs.getString("phone_status"));
 				deviceProfile.setHandsetProtection(rs.getString("extended_warranty"));
-				
-				Map<String, String> deviceOsInformation = this.getDeviceInformationFromPartNumber(deviceProfile.getPartNumber());
+
+				Map<String, String> deviceOsInformation = this
+						.getDeviceInformationFromPartNumber(deviceProfile.getPartNumber());
 				deviceProfile.setOs(deviceOsInformation.get(OS));
 				deviceProfile.setFirmware(deviceOsInformation.get(FIRMWARE));
 				deviceProfile.setManufacturer(deviceOsInformation.get(MANUFACTURER));
@@ -99,8 +102,7 @@ public class JpaCustomerServiceProfileDao implements CustomerServiceProfileDao {
 				serviceProfile.setRatePlan(rs.getString("rate_plan"));
 				serviceProfile.setServicePlanObjId(rs.getString("service_plan_objid"));
 				serviceProfile.setCarrier(rs.getString("carrier"));
-				serviceProfile
-				.setTechnology(rs.getString("technology") + "(" + rs.getString("technology_alt") + ")");
+				serviceProfile.setTechnology(rs.getString("technology") + "(" + rs.getString("technology_alt") + ")");
 				serviceProfile.setActivationDate(rs.getString("install_date"));
 				serviceProfile.setDeactDate(rs.getString("service_end_dt"));
 				serviceProfile.setServiceEndDate(rs.getString("x_expire_dt"));
@@ -113,7 +115,7 @@ public class JpaCustomerServiceProfileDao implements CustomerServiceProfileDao {
 				serviceProfile.setExtendedWarranty(rs.getString("extended_warranty"));
 				serviceProfile.setCurrentThrottleStatus(rs.getString("x_policy_description"));
 				serviceProfile.setAutoRefill(rs.getString("sp_script_text"));
-				serviceProfile.setNextRefillDate(rs.getString("adf_next_refill_date"));				
+				serviceProfile.setNextRefillDate(rs.getString("adf_next_refill_date"));
 
 				customerProfile.setCustomerId(rs.getString("customer_id"));
 				customerProfile.setContactName(rs.getString("first_name") + " " + rs.getString("last_name"));
@@ -123,7 +125,7 @@ public class JpaCustomerServiceProfileDao implements CustomerServiceProfileDao {
 				customerProfile.setLid(rs.getString("lid"));
 				customerProfile.setLifeLineStatus(rs.getString("sl_lifeline_status"));
 				customerProfile.setProgramName(rs.getString("sl_program_name"));
-				
+
 				accountBalances.setPhoneStatus(deviceProfile.getPhoneStatus());
 				customerServiceProfile.setDeviceProfile(deviceProfile);
 				customerServiceProfile.setServiceProfile(serviceProfile);
@@ -132,9 +134,9 @@ public class JpaCustomerServiceProfileDao implements CustomerServiceProfileDao {
 
 			}
 
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {			
+		} catch (Exception e) {
+			LOGGER.error("Failed to get Customer Profile", e);
+		} finally {
 			try {
 				if (rs != null) {
 					rs.close();
@@ -145,10 +147,10 @@ public class JpaCustomerServiceProfileDao implements CustomerServiceProfileDao {
 				if (dbConnection != null) {
 					dbConnection.close();
 				}
-			} catch (SQLException e) {
-				e.printStackTrace();
+			} catch (Exception e) {
+				LOGGER.error("Failed clean up after get Customer Profile", e);
 			}
-		}		
+		}
 		return customerServiceProfile;
 	}
 
@@ -180,21 +182,17 @@ public class JpaCustomerServiceProfileDao implements CustomerServiceProfileDao {
 				if (parameter.equals("OPERATING_SYSTEM")) {
 					os = rs.getString("VALUE");
 					deviceOsInformation.put(OS, os);
-				}
-				else if (parameter.equals("MANUFACTURER")) {
+				} else if (parameter.equals("MANUFACTURER")) {
 					manufacturer = rs.getString("VALUE");
 					deviceOsInformation.put(MANUFACTURER, manufacturer);
-				}
-				else if (parameter.equals("FIRMWARE")) {
+				} else if (parameter.equals("FIRMWARE")) {
 					firmware = rs.getString("VALUE");
 					deviceOsInformation.put(FIRMWARE, firmware);
 				}
 			}
-		} catch (SQLException e) {
-
-			e.printStackTrace();
-		}
-		finally {			
+		} catch (Exception e) {
+			LOGGER.error("Failed to get Device Information from Part Number", e);
+		} finally {
 			try {
 				if (rs != null) {
 					rs.close();
@@ -205,8 +203,8 @@ public class JpaCustomerServiceProfileDao implements CustomerServiceProfileDao {
 				if (dbConnection != null) {
 					dbConnection.close();
 				}
-			} catch (SQLException e) {
-				e.printStackTrace();
+			} catch (Exception e) {
+				LOGGER.error("Failed clean up after get Device Information from Part Number", e);
 			}
 		}
 		return deviceOsInformation;
@@ -234,9 +232,9 @@ public class JpaCustomerServiceProfileDao implements CustomerServiceProfileDao {
 			while (rs.next()) {
 				recentPurchase = rs.getString("OBJID");
 			}
-		} catch (SQLException e) {		
-			e.printStackTrace();
-		}finally {			
+		} catch (Exception e) {
+			LOGGER.error("Failed to get Recent Purchases", e);
+		} finally {
 			try {
 				if (rs != null) {
 					rs.close();
@@ -247,11 +245,11 @@ public class JpaCustomerServiceProfileDao implements CustomerServiceProfileDao {
 				if (dbConnection != null) {
 					dbConnection.close();
 				}
-			} catch (SQLException e) {
-				e.printStackTrace();
+			} catch (Exception e) {
+				LOGGER.error("Failed clean up after get Recent Purchases", e);
 			}
 		}
-		return recentPurchase;	
+		return recentPurchase;
 	}
 
 	@Override
@@ -261,39 +259,18 @@ public class JpaCustomerServiceProfileDao implements CustomerServiceProfileDao {
 		ResultSet rs = null;
 		List<TasTicket> ticketList = new ArrayList<TasTicket>();
 
-		String query = "SELECT TableExtactcase.AGE, "
-				+ "TableExtactcase.CLARIFY_STATE,"
-				+ "TableExtactcase.CONDITION,"
-				+ "TableExtactcase.CONTACT_OBJID,"
-				+ "TableExtactcase.CREATION_TIME,"
-				+ "TableExtactcase.ELM_OBJID,"
-				+ "TableExtactcase.FIRST_NAME,"
-				+ "TableExtactcase.ID_NUMBER,"
-				+ "TableExtactcase.IS_SUPERCASE,"
-				+ "TableExtactcase.LAST_NAME,"
-				+ "TableExtactcase.LOCATION_OBJID,"
-				+ "TableExtactcase.LOGIN_NAME,"
-				+ "TableExtactcase.ROWID,"
-				+ "TableExtactcase.S_CONDITION,"
-				+ "TableExtactcase.S_FIRST_NAME,"
-				+ "TableExtactcase.S_LAST_NAME,"
-				+ "TableExtactcase.S_LOGIN_NAME,"
-				+ "TableExtactcase.S_STATUS,"
-				+ "TableExtactcase.S_TITLE,"
-				+ "TableExtactcase.STATUS,"
-				+ "TableExtactcase.TITLE,"
-				+ "TableExtactcase.X_CARRIER_ID,"
-				+ "TableExtactcase.X_CARRIER_NAME,"
-				+ "TableExtactcase.X_CASE_TYPE,"
-				+ "TableExtactcase.X_ESN,"
-				+ "TableExtactcase.X_ICCID,"
-				+ "TableExtactcase.X_MIN,"
-				+ "TableExtactcase.X_PHONE_MODEL,"
-				+ "TableExtactcase.X_REPLACEMENT_UNITS,"
-				+ "TableExtactcase.X_RETAILER_NAME,"
-				+ "TableExtactcase.ISSUE"
-				+ " FROM TABLE_EXTACTCASE TableExtactcase"
-				+ " WHERE TableExtactcase.X_ESN = ?" 
+		String query = "SELECT TableExtactcase.AGE, " + "TableExtactcase.CLARIFY_STATE," + "TableExtactcase.CONDITION,"
+				+ "TableExtactcase.CONTACT_OBJID," + "TableExtactcase.CREATION_TIME," + "TableExtactcase.ELM_OBJID,"
+				+ "TableExtactcase.FIRST_NAME," + "TableExtactcase.ID_NUMBER," + "TableExtactcase.IS_SUPERCASE,"
+				+ "TableExtactcase.LAST_NAME," + "TableExtactcase.LOCATION_OBJID," + "TableExtactcase.LOGIN_NAME,"
+				+ "TableExtactcase.ROWID," + "TableExtactcase.S_CONDITION," + "TableExtactcase.S_FIRST_NAME,"
+				+ "TableExtactcase.S_LAST_NAME," + "TableExtactcase.S_LOGIN_NAME," + "TableExtactcase.S_STATUS,"
+				+ "TableExtactcase.S_TITLE," + "TableExtactcase.STATUS," + "TableExtactcase.TITLE,"
+				+ "TableExtactcase.X_CARRIER_ID," + "TableExtactcase.X_CARRIER_NAME," + "TableExtactcase.X_CASE_TYPE,"
+				+ "TableExtactcase.X_ESN," + "TableExtactcase.X_ICCID," + "TableExtactcase.X_MIN,"
+				+ "TableExtactcase.X_PHONE_MODEL," + "TableExtactcase.X_REPLACEMENT_UNITS,"
+				+ "TableExtactcase.X_RETAILER_NAME," + "TableExtactcase.ISSUE"
+				+ " FROM TABLE_EXTACTCASE TableExtactcase" + " WHERE TableExtactcase.X_ESN = ?"
 				+ " ORDER BY TableExtactcase.CREATION_TIME";
 		try {
 			dbConnection = tasDataSource.getConnection();
@@ -312,9 +289,9 @@ public class JpaCustomerServiceProfileDao implements CustomerServiceProfileDao {
 					ticketList.add(ticket);
 				}
 			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}finally {			
+		} catch (Exception e) {
+			LOGGER.error("Failed to get Ticket History", e);
+		} finally {
 			try {
 				if (rs != null) {
 					rs.close();
@@ -325,8 +302,8 @@ public class JpaCustomerServiceProfileDao implements CustomerServiceProfileDao {
 				if (dbConnection != null) {
 					dbConnection.close();
 				}
-			} catch (SQLException e) {
-				e.printStackTrace();
+			} catch (Exception e) {
+				LOGGER.error("Failed clean up after get Ticket History", e);
 			}
 		}
 		return ticketList;
@@ -364,9 +341,9 @@ public class JpaCustomerServiceProfileDao implements CustomerServiceProfileDao {
 				productOfferings.put(rs.getString("OBJID"), productOffering);
 
 			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}finally {			
+		} catch (Exception e) {
+			LOGGER.error("Failed to getProductOfferings", e);
+		} finally {
 			try {
 				if (rs != null) {
 					rs.close();
@@ -377,8 +354,8 @@ public class JpaCustomerServiceProfileDao implements CustomerServiceProfileDao {
 				if (dbConnection != null) {
 					dbConnection.close();
 				}
-			} catch (SQLException e) {
-				e.printStackTrace();
+			} catch (Exception e) {
+				LOGGER.error("Failed clean up after getProductOfferings", e);
 			}
 		}
 		return productOfferings;
@@ -389,16 +366,12 @@ public class JpaCustomerServiceProfileDao implements CustomerServiceProfileDao {
 		Connection dbConnection = null;
 		PreparedStatement preparedStatement = null;
 		ResultSet rs = null;
-		List<Flash> flashList = new ArrayList<Flash>();	
+		List<Flash> flashList = new ArrayList<Flash>();
 
 		String query = "select al.* from sa.table_alert al, sa.table_part_inst pi"
 				+ " where (alert2contract = pi.objid or alert2contact = pi.x_part_inst2contact)"
-				+ " and pi.part_serial_no = :your_esn"
-				+ " and pi.x_domain = 'PHONES'"
-				+ " and al.active > 0"
-				+ " and al.start_date <= sysdate"
-				+ " and al.end_date >= sysdate"
-				+ " order by al.start_date";
+				+ " and pi.part_serial_no = :your_esn" + " and pi.x_domain = 'PHONES'" + " and al.active > 0"
+				+ " and al.start_date <= sysdate" + " and al.end_date >= sysdate" + " order by al.start_date";
 
 		try {
 			dbConnection = tasDataSource.getConnection();
@@ -415,9 +388,9 @@ public class JpaCustomerServiceProfileDao implements CustomerServiceProfileDao {
 				flash.setTitle(rs.getString("TITLE"));
 				flashList.add(flash);
 			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}finally {			
+		} catch (Exception e) {
+			LOGGER.error("Failed to getActiveFlashes", e);
+		} finally {
 			try {
 				if (rs != null) {
 					rs.close();
@@ -428,8 +401,8 @@ public class JpaCustomerServiceProfileDao implements CustomerServiceProfileDao {
 				if (dbConnection != null) {
 					dbConnection.close();
 				}
-			} catch (SQLException e) {
-				e.printStackTrace();
+			} catch (Exception e) {
+				LOGGER.error("Failed clean up after getActiveFlashes", e);
 			}
 		}
 		return flashList;
@@ -440,12 +413,10 @@ public class JpaCustomerServiceProfileDao implements CustomerServiceProfileDao {
 		Connection dbConnection = null;
 		PreparedStatement preparedStatement = null;
 		ResultSet rs = null;
-		List<InteractionReason> reasonList = new ArrayList<InteractionReason>();	
+		List<InteractionReason> reasonList = new ArrayList<InteractionReason>();
 
-		String query = "select reason reason_title, objid reason_objid"
-				+ " from SA.ADFCRM_INTERACTION_REASONS"
-				+ " where  1=1"
-				+ " order by rank,reason";
+		String query = "select reason reason_title, objid reason_objid" + " from SA.ADFCRM_INTERACTION_REASONS"
+				+ " where  1=1" + " order by rank,reason";
 
 		try {
 			dbConnection = tasDataSource.getConnection();
@@ -457,9 +428,9 @@ public class JpaCustomerServiceProfileDao implements CustomerServiceProfileDao {
 				reason.setTitle(rs.getString("REASON_TITLE"));
 				reasonList.add(reason);
 			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}finally {			
+		} catch (Exception e) {
+			LOGGER.error("Failed to getInteractionReasons", e);
+		} finally {
 			try {
 				if (rs != null) {
 					rs.close();
@@ -470,8 +441,8 @@ public class JpaCustomerServiceProfileDao implements CustomerServiceProfileDao {
 				if (dbConnection != null) {
 					dbConnection.close();
 				}
-			} catch (SQLException e) {
-				e.printStackTrace();
+			} catch (Exception e) {
+				LOGGER.error("Failed clean up after getInteractionReasons", e);
 			}
 		}
 		return reasonList;
@@ -482,14 +453,10 @@ public class JpaCustomerServiceProfileDao implements CustomerServiceProfileDao {
 		Connection dbConnection = null;
 		PreparedStatement preparedStatement = null;
 		ResultSet rs = null;
-		List<InteractionDetail> detailList = new ArrayList<InteractionDetail>();	
+		List<InteractionDetail> detailList = new ArrayList<InteractionDetail>();
 
-		String query = "select detail reason_detail_title,"
-				+ " objid reason_detail_objid,"
-				+ " reason_objid"
-				+ " from   ADFCRM_INTERACTION_DETAILS"
-				+ " where  reason_objid = ?"
-				+ " order by rank, detail";
+		String query = "select detail reason_detail_title," + " objid reason_detail_objid," + " reason_objid"
+				+ " from   ADFCRM_INTERACTION_DETAILS" + " where  reason_objid = ?" + " order by rank, detail";
 
 		try {
 			dbConnection = tasDataSource.getConnection();
@@ -503,9 +470,9 @@ public class JpaCustomerServiceProfileDao implements CustomerServiceProfileDao {
 				detail.setTitle(rs.getString("REASON_DETAIL_TITLE"));
 				detailList.add(detail);
 			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}finally {			
+		} catch (Exception e) {
+			LOGGER.error("Failed to getInteractionDetails", e);
+		} finally {
 			try {
 				if (rs != null) {
 					rs.close();
@@ -516,8 +483,8 @@ public class JpaCustomerServiceProfileDao implements CustomerServiceProfileDao {
 				if (dbConnection != null) {
 					dbConnection.close();
 				}
-			} catch (SQLException e) {
-				e.printStackTrace();
+			} catch (Exception e) {
+				LOGGER.error("Failed clean up after getInteractionDetails", e);
 			}
 		}
 		return detailList;
@@ -528,14 +495,10 @@ public class JpaCustomerServiceProfileDao implements CustomerServiceProfileDao {
 		Connection dbConnection = null;
 		PreparedStatement preparedStatement = null;
 		ResultSet rs = null;
-		List<InteractionDetail> detailList = new ArrayList<InteractionDetail>();	
+		List<InteractionDetail> detailList = new ArrayList<InteractionDetail>();
 
-		String query = "select detail reason_detail_title,"
-				+ " objid reason_detail_objid,"
-				+ " reason_objid"
-				+ " from  ADFCRM_INTERACTION_DETAILS"
-				+ " where 1=1"
-				+ " order by rank, detail";
+		String query = "select detail reason_detail_title," + " objid reason_detail_objid," + " reason_objid"
+				+ " from  ADFCRM_INTERACTION_DETAILS" + " where 1=1" + " order by rank, detail";
 
 		try {
 			dbConnection = tasDataSource.getConnection();
@@ -548,9 +511,9 @@ public class JpaCustomerServiceProfileDao implements CustomerServiceProfileDao {
 				detail.setTitle(rs.getString("REASON_DETAIL_TITLE"));
 				detailList.add(detail);
 			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}finally {			
+		} catch (Exception e) {
+			LOGGER.error("Failed to getInteractionDetails", e);
+		} finally {
 			try {
 				if (rs != null) {
 					rs.close();
@@ -561,8 +524,8 @@ public class JpaCustomerServiceProfileDao implements CustomerServiceProfileDao {
 				if (dbConnection != null) {
 					dbConnection.close();
 				}
-			} catch (SQLException e) {
-				e.printStackTrace();
+			} catch (Exception e) {
+				LOGGER.error("Failed clean up after getInteractionDetails", e);
 			}
 		}
 		return detailList;
@@ -573,18 +536,12 @@ public class JpaCustomerServiceProfileDao implements CustomerServiceProfileDao {
 		Connection dbConnection = null;
 		PreparedStatement preparedStatement = null;
 		ResultSet rs = null;
-		List<InteractionReason> resultList = new ArrayList<InteractionReason>();	
+		List<InteractionReason> resultList = new ArrayList<InteractionReason>();
 
-		String query = "select elm.title, elm.objid"
-				+ " from table_hgbst_elm elm,"
-				+ " table_hgbst_show show,"
-				+ " table_hgbst_lst lst,"
-				+ " mtm_hgbst_elm0_hgbst_show1 mtm"
-				+ " where  1=1"
-				+ " and    show.objid = lst.hgbst_lst2hgbst_show"
-				+ " and    elm.objid  = mtm.hgbst_elm2hgbst_show"
-				+ " and    show.objid = mtm.hgbst_show2hgbst_elm"
-				+ " and    lst.title  = 'x_ddl_Result'"
+		String query = "select elm.title, elm.objid" + " from table_hgbst_elm elm," + " table_hgbst_show show,"
+				+ " table_hgbst_lst lst," + " mtm_hgbst_elm0_hgbst_show1 mtm" + " where  1=1"
+				+ " and    show.objid = lst.hgbst_lst2hgbst_show" + " and    elm.objid  = mtm.hgbst_elm2hgbst_show"
+				+ " and    show.objid = mtm.hgbst_show2hgbst_elm" + " and    lst.title  = 'x_ddl_Result'"
 				+ " order by elm.rank";
 
 		try {
@@ -597,9 +554,9 @@ public class JpaCustomerServiceProfileDao implements CustomerServiceProfileDao {
 				result.setTitle(rs.getString("TITLE"));
 				resultList.add(result);
 			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}finally {			
+		} catch (Exception e) {
+			LOGGER.error("Failed to getResults", e);
+		} finally {
 			try {
 				if (rs != null) {
 					rs.close();
@@ -610,11 +567,11 @@ public class JpaCustomerServiceProfileDao implements CustomerServiceProfileDao {
 				if (dbConnection != null) {
 					dbConnection.close();
 				}
-			} catch (SQLException e) {
-				e.printStackTrace();
+			} catch (Exception e) {
+				LOGGER.error("Failed clean up after getResults", e);
 			}
 		}
 		return resultList;
 
-	}	
+	}
 }
