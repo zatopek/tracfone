@@ -1,4 +1,4 @@
-package com.jacada.tracfoneAD.config;
+package com.jacada.common.config;
 
 import javax.sql.DataSource;
 
