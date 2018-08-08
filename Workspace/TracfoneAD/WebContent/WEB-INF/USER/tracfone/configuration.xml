@@ -6,7 +6,7 @@
 	 http://www.springframework.org/schema/tx
      http://www.springframework.org/schema/tx/spring-tx.xsd">
 
-	<!-- TAD DB data source. -->
+	<!-- TAD DB data source. 
 	<bean id="tasDataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
 	       destroy-method="close">
 	    <property name="driverClass" value="${jdbc.driverClassName}" />
@@ -18,5 +18,5 @@
 	    <property name="maxStatements" value="${jdbc.maxStatements}" />
 	    <property name="testConnectionOnCheckout" value="${jdbc.testConnection}" />
 	</bean>
-
+	-->
 </beans>
